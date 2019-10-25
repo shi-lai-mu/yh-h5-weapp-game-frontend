@@ -1,4 +1,6 @@
 import { ScreenInterface } from '@/interface/screen.interface';
+// let fullscreen = false
+
 
 // 强制设置界面横屏
 export default {
@@ -50,4 +52,31 @@ export default {
     }
     return landscape;
   },
+
+  // fullScreen: () => {
+  //   const element = document.documentElement;
+  //   if (fullscreen) {
+  //     if (document.exitFullscreen) {
+  //       document.exitFullscreen();
+  //     } else if (document.webkitCancelFullScreen) {
+  //       document.webkitCancelFullScreen();
+  //     } else if (document.mozCancelFullScreen) {
+  //       document.mozCancelFullScreen();
+  //     } else if (document.msExitFullscreen) {
+  //       document.msExitFullscreen();
+  //     }
+  //   } else {
+  //     if (element.requestFullscreen) {
+  //       element.requestFullscreen();
+  //     } else if (element.webkitRequestFullScreen) {
+  //       element.webkitRequestFullScreen();
+  //     } else if (element.mozRequestFullScreen) {
+  //       element.mozRequestFullScreen();
+  //     } else if (element.msRequestFullscreen) {
+  //       element.msRequestFullscreen();
+  //     }
+  //   }
+  //   return (fullscreen = !fullscreen);
+
+  // },
 };
