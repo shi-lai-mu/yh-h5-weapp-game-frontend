@@ -1,6 +1,6 @@
 <template>
   <div :style="home" class="home">
-    <img src="https://yanxuan.nosdn.127.net/14943267735961674.jpg" alt="">
+    <img src="https://yanxuan.nosdn.127.net/14943267735961674.jpg" alt="" @click="fullScreen">
   </div>
 </template>
 
@@ -15,7 +15,27 @@ import { ScreenInterface } from '@/interface/screen.interface';
 })
 export default class Home extends Vue {
   // 根组件样式
-  private home = {};
+  private home: ScreenInterface = {
+    'width': '',
+    'height': '',
+    'top': '',
+    'left': '',
+    'transform': '',
+    'transform-origin': '',
+  };
+  private isFullScreen: boolean = false;
+
+  // 强制设置横屏显示，且添加监听方法
+  private mounted() {
+    const resize: any = landscape.setLandscape();
+    this.home = resize;
+    window.addEventListener('resize', this.renderResize, false);
+  }
+
+  private beforeDestroy() {
+    // 移除监听
+    window.removeEventListener('resize', this.renderResize, false);
+  }
 
   // 监听横竖屏变化的方法
   private renderResize() {
@@ -23,16 +43,33 @@ export default class Home extends Vue {
     this.home = resize;
   }
 
-  // 强制设置横屏显示，且添加监听方法
-  private mounted() {
-    const resize: any = landscape.setLandscape();
-    window.addEventListener('resize', this.renderResize, false);
-    this.home = resize;
-  }
+  // 设置全屏显示
+  private fullScreen() {
+    // 全屏事件
+    const doc: any = document;
+    const element: any = document.documentElement;
+    if (this.isFullScreen) {
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.webkitCancelFullScreen) {
+        doc.webkitCancelFullScreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      }
+    } else {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
 
-  private beforeDestroy() {
-    // 移除监听
-    window.removeEventListener('resize', this.renderResize, false);
   }
 }
 </script>
