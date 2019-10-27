@@ -3,9 +3,21 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import axios from '@/lib/axios';
+import Vant from 'vant';
+import 'vant/lib/index.css';
+import { AxiosInstance } from 'axios';
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $axios: AxiosInstance;
+  }
+}
+
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+
+Vue.use(Vant);
 
 new Vue({
   router,
