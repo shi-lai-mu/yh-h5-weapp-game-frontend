@@ -37,7 +37,7 @@ $axios.interceptors.request.use(
     const data = value.data;
     if (!token) {
     // if (!token && !isServer) {
-      token = JSON.parse(localStorage.getItem('user') || '{}').token;
+      // token = JSON.parse(localStorage.getItem('user') || '{}').token;
     } else {
       value.headers.token = encodeURIComponent(token);
     }
