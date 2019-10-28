@@ -20,7 +20,7 @@
     <div class="input">
       <input type="password" placeholder="请设置登陆密码" v-model="pwd">
     </div>
-    <van-button type="info" :disabled="isDisabled" round>登陆</van-button>
+    <van-button type="info" :disabled="isDisabled" round>注册</van-button>
     <div class="login">
       <router-link to="/login">
         <span>账号登录</span>
