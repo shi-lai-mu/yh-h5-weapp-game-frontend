@@ -13,7 +13,7 @@
       <input type="text" placeholder="请输入邮箱或者手机号" v-model="mark" @blur="checkType">
     </div>
     <div class="input">
-      <input type="text" placeholder="请输入验证码" v-model="authCode">
+      <input type="text" placeholder="请输入验证码" v-model="authCode" @blur="checkAnthCode">
       <span class="code-btn" @click="getAuthCode" v-if="getCodeShow">{{ authText }}</span>
       <span v-else class="time-down">{{ authText }}</span>
     </div>
@@ -41,7 +41,7 @@ export default class Login extends Vue {
   private account: string = '';             // 用户登陆账号
   private userName: string = '';            // 用户名
   private mark: string = '';                // 注册号邮箱或者手机号
-  private authCode: string = '';            // 验证码
+  private authCode: string = '';            // 用户输入的验证码
   private authText: string = '获取验证码';    // 验证码按钮文字
   private isDisabled: boolean = true;       // 注册按钮是否禁用
   private codeType: string = '';            // 注册号类型
@@ -51,7 +51,7 @@ export default class Login extends Vue {
   private msg: string = '';                 // 验证码代码
 
   // 验证输入的是手机号还是邮箱
-  public checkType() {
+  public checkType(): undefined {
     const regTel: any = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     const regEmail: any = /^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
     if (regTel.test(this.mark)) {
@@ -66,62 +66,88 @@ export default class Login extends Vue {
   }
 
   // 获取验证码
-  public getAuthCode() {
-    const that = this;
-    const codeType = that.codeType;
-    const account = that.account;
-    const nickname = that.userName;
-    const recipient = that.mark;
-    const regAccount: any = /^[a-zA-Z0-9@.]{4,16}$/;
-    const regUname: any = /^[a-zA-Z0-9\u4e00-\u9fa5_]{2,16}$/;
-    if (!regAccount.test(account)) {
-      Toast('请检查输入的登陆账号');
-      return;
-    } else if (!regUname.test(nickname)) {
-      Toast('请检查输入的用户名');
-      return;
-    } else if (codeType !== 'sms' && codeType !== 'email') {
-      Toast('输入的邮箱或者手机号不合法');
-      return;
-    }
+  public getAuthCode(): void {
+    const data: any = this.checkInput();
+    if (!data) { return; }
     Toast.loading({
       message: '正在发送验证码',
       forbidClick: true,
     });
-    that.$axios
+    this.$axios
       .api('get_regCode')
       .get({
         params: {
-          codeType,
+          codeType: data.codeType,
         },
         data: {
-          account,
-          nickname,
-          recipient,
+          account: data.account,
+          nickname: data.nickname,
+          recipient: data.recipient,
         },
       }).then( (res: any) => {
         if (res.status) {
           Toast.clear();
           Toast('发送成功');
-          that.getCodeShow = false;
-          // 定时器
+          this.msg = res.msg;
+          this.getCodeShow = false;
+          // 倒计时
           const timer: any = setInterval( () => {
-            const countDown: number = that.countDown;
+            const countDown: number = this.countDown;
             if (countDown === 0) {
               clearInterval(timer);
-              that.getCodeShow = true;
-              that.countDown = 60;
-              that.authText = '获取验证码';
+              this.getCodeShow = true;
+              this.countDown = 60;
+              this.authText = '获取验证码';
               return;
             }
             const RemainingTime: number = countDown - 1;
-            that.authText = RemainingTime + 's后重新获取';
-            that.countDown = RemainingTime;
+            this.authText = RemainingTime + 's后重新获取';
+            this.countDown = RemainingTime;
           }, 1000);
         } else {
           Toast(res.msg);
         }
     });
+  }
+
+  // 检查验证码是否输入正确
+  public checkAnthCode(): void {
+    console.log('a');
+    this.$axios
+      .api('check_code')
+      .get({
+        params: {
+          code: this.msg,
+          inputCode: this.authCode,
+        },
+        data: {},
+      }).then( (res: any) => {
+        if (!res.status) {
+          Toast(res.msg);
+        }
+      });
+  }
+
+  // 公共检测input输入部分
+  public checkInput(): any {
+    const codeType = this.codeType;
+    const account = this.account;
+    const nickname = this.userName;
+    const recipient = this.mark;
+    const regAccount: any = /^[a-zA-Z0-9@.]{4,16}$/;
+    const regUname: any = /^[a-zA-Z0-9\u4e00-\u9fa5_]{2,16}$/;
+    if (!regAccount.test(account)) {
+      Toast('请检查输入的登陆账号');
+      return false;
+    } else if (!regUname.test(nickname)) {
+      Toast('请检查输入的用户名');
+      return false;
+    } else if (codeType !== 'sms' && codeType !== 'email') {
+      Toast('输入的邮箱或者手机号不合法');
+      return false;
+    } else {
+      return {codeType, account, nickname, recipient};
+    }
   }
 }
 </script>
