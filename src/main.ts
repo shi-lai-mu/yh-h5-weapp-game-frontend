@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import store from './store/index';
 import axios from '@/lib/axios';
 import Vant from 'vant';
 import 'vant/lib/index.css';
