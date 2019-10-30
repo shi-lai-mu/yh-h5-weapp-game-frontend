@@ -33,10 +33,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Toast } from 'vant';
 
-@Component({
-  components: {
-  },
-})
+@Component
 export default class Login extends Vue {
   private account: string = '';             // 用户登陆账号
   private userName: string = '';            // 用户名
@@ -171,7 +168,7 @@ export default class Login extends Vue {
             this.$router.push({
               path: '/login',
             });
-          }, 1000);
+          }, 1500);
         } else {
           Toast(res.error);
         }
