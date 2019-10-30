@@ -122,6 +122,7 @@ export default class Login extends Vue {
       }).then( (res: any) => {
         if (!res.status) {
           Toast(res.msg);
+          this.verifyAuthCode = false;
         } else {
           this.verifyAuthCode = true;
         }
@@ -163,7 +164,6 @@ export default class Login extends Vue {
       }).then( (res: any) => {
         Toast.clear();
         if (res.id) {
-          console.log(res);
           Toast('注册成功');
           setTimeout(() => {
             this.$router.push({

@@ -48,10 +48,18 @@ export default class Login extends Vue {
         data: {
           account,
           password,
+          token: false,
         },
       }).then( (res: any) => {
-        console.log(res);
-        if (!res.status) {
+        Toast.clear();
+        if (res.id) {
+          Toast('登陆成功');
+          setTimeout(() => {
+            this.$router.push({
+              name: 'home',
+            });
+          }, 1500);
+        } else {
           Toast(res.msg);
         }
       });
