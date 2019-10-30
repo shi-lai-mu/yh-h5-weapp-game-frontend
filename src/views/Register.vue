@@ -163,6 +163,7 @@ export default class Login extends Vue {
       }).then( (res: any) => {
         Toast.clear();
         if (res.id) {
+          console.log(res);
           Toast('注册成功');
           setTimeout(() => {
             this.$router.push({
