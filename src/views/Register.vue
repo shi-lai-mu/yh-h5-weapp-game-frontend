@@ -40,7 +40,7 @@ export default class Login extends Vue {
   private mark: string = '';                // 注册号邮箱或者手机号
   private authCode: string = '';            // 用户输入的验证码
   private authText: string = '获取验证码';    // 验证码按钮文字
-  private codeType: string = '';            // 注册号类型
+  private sendType: string = '';            // 注册号类型
   private pwd: string = '';                 // 注册密码
   private countDown: number = 60;           // 倒计时
   private getCodeShow: boolean = true;      // 获取验证码按钮是否显示
@@ -52,12 +52,12 @@ export default class Login extends Vue {
     const regTel: any = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     const regEmail: any = /^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
     if (regTel.test(this.mark)) {
-      this.codeType = 'sms';
+      this.sendType = 'sms';
     } else if (regEmail.test(this.mark)) {
-      this.codeType = 'email';
+      this.sendType = 'email';
     } else {
       Toast('输入的邮箱或者手机号不合法！');
-      this.codeType = '';
+      this.sendType = '';
       return;
     }
   }
@@ -74,7 +74,8 @@ export default class Login extends Vue {
       .api('get_regCode')
       .get({
         params: {
-          codeType: data.codeType,
+          sendType: data.sendType,
+          codeType: 'register',
         },
         data: {
           account: data.account,
@@ -180,7 +181,7 @@ export default class Login extends Vue {
 
   // 公共检测input输入部分
   public checkInput(): any {
-    const codeType = this.codeType;
+    const sendType = this.sendType;
     const account = this.account;
     const nickname = this.userName;
     const recipient = this.mark;
@@ -192,11 +193,11 @@ export default class Login extends Vue {
     } else if (!regUname.test(nickname)) {
       Toast('请检查输入的用户名！');
       return false;
-    } else if (codeType !== 'sms' && codeType !== 'email') {
+    } else if (sendType !== 'sms' && sendType !== 'email') {
       Toast('输入的邮箱或者手机号不合法！');
       return false;
     } else {
-      return {codeType, account, nickname, recipient};
+      return {sendType, account, nickname, recipient};
     }
   }
 }
