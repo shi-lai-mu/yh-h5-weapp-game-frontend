@@ -11,7 +11,7 @@
     </div>
     <van-button type="info" round @click="handleLogin">登陆</van-button>
     <div class="reg">
-      <router-link to="/reg">
+      <router-link to="/register">
         <span>没有账号，去注册</span>
         <van-icon name="arrow" />
       </router-link>
