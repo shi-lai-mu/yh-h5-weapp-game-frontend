@@ -35,7 +35,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Toast } from 'vant';
 
 @Component
-export default class Login extends Vue {
+export default class UserAccount extends Vue {
   @Prop(String) private title!: string;
   @Prop(String) private handle!: string;
 
