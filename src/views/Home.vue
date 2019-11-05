@@ -9,10 +9,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import landscape from '@/utils/screen';
 import { ScreenInterface } from '@/interface/screen.interface';
 
-@Component({
-  components: {
-  },
-})
+@Component
 export default class Home extends Vue {
   // 根组件样式
   private home: ScreenInterface = {
@@ -81,6 +78,7 @@ export default class Home extends Vue {
     left: 0;
     width: 100%;
     height: 100%;
+    transition: all 400ms ease-in-out;
   }
   img {
     width: 100%;

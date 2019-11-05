@@ -11,7 +11,7 @@ import userAccount from '@/components/userAccount.vue';
     userAccount,
   },
 })
-export default class Home extends Vue {
+export default class ResetPwd extends Vue {
 }
 </script>
 <style lang="scss" scoped>
