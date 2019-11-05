@@ -1,9 +1,9 @@
 <template>
-  <user-account title="快速登陆注册"  handle="register"/>
+  <user-account title="修改密码" handle="reset_pwd"/>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import userAccount from '@/components/userAccount.vue';
 
 @Component({
