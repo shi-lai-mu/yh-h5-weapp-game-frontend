@@ -43,10 +43,6 @@ export default class Login extends Vue {
       Toast('密码不能为空！');
       return;
     }
-    Toast.loading({
-      message: '正在登陆',
-      forbidClick: true,
-    });
     this.$axios
       .api('login')
       .post({
@@ -56,7 +52,6 @@ export default class Login extends Vue {
           token: false,
         },
       }).then( (res: any) => {
-        Toast.clear();
         if (res.id) {
           Toast('登陆成功');
           setTimeout(() => {
