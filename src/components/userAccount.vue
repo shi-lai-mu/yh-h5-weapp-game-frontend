@@ -4,7 +4,7 @@
       <span>{{ title }}</span>
     </div>
     <div class="input">
-      <input type="text" placeholder="请设置登陆账号(字母+数字)" v-model="account">
+      <input type="text" placeholder="请输入登陆账号" v-model="account">
     </div>
     <div class="input">
       <input type="text" placeholder="请输入用户名" v-model="userName">
@@ -274,9 +274,14 @@ export default class UserAccount extends Vue {
 
     .input {
       display: flex;
+      padding: 8px 0;
+      border-bottom: 1px solid #f6f6f6;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #f6f6f6;
+
+      input {
+        border: 0;
+      }
 
       .code-btn {
         color: #666;

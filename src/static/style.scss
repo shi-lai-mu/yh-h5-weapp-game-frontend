@@ -1,3 +1,6 @@
+body {
+  background: #fff;
+}
 input::-webkit-input-placeholder{
   color: #b7b7b7;
   font-size: 17px;
@@ -17,16 +20,14 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .navigation {
   margin-top: 20px;
   text-align: center;
-
-  a{
-    position: relative;
-    display: inline-block;
-    width: 40%;
-
-    .van-icon-arrow{
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
+}
+.navigation a {
+  position: relative;
+  display: inline-block;
+  width: 40%;
+}
+.navigation a .van-icon-arrow{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
