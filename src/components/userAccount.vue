@@ -54,7 +54,7 @@ export default class UserAccount extends Vue {
   // 修改密码时同步数据
   public created() {
     let user: any = localStorage.getItem('user');
-    if (user) {
+    if (user && this.handle === 'reset_pwd') {
       console.log(user);
       user = JSON.parse(user);
       this.account = user.account;
@@ -290,23 +290,6 @@ export default class UserAccount extends Vue {
     .van-button {
       width: 100%;
       margin-top: 20px;
-    }
-
-    .navigation {
-      margin-top: 20px;
-      text-align: center;
-
-      a{
-        position: relative;
-        display: inline-block;
-        width: 40%;
-
-        .van-icon-arrow{
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-      }
     }
   }
 

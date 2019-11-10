@@ -10,7 +10,7 @@
       <input type="password" placeholder="请输入密码" v-model="pwd">
     </div>
     <van-button type="info" round @click="handleLogin">登陆</van-button>
-    <div class="reg">
+    <div class="navigation">
       <router-link to="/register">
         <span>没有账号，去注册</span>
         <van-icon name="arrow" />
@@ -91,23 +91,6 @@ export default class Login extends Vue {
     .van-button {
       width: 100%;
       margin-top: 20px;
-    }
-
-    .reg {
-      margin-top: 20px;
-      text-align: center;
-
-      a{
-        position: relative;
-        display: inline-block;
-        width: 40%;
-
-        .van-icon-arrow{
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-      }
     }
   }
 </style>

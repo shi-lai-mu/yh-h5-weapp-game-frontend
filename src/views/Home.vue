@@ -78,7 +78,6 @@ export default class Home extends Vue {
     left: 0;
     width: 100%;
     height: 100%;
-    transition: all 400ms ease-in-out;
   }
   img {
     width: 100%;
