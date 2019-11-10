@@ -1,5 +1,5 @@
 <template>
-  <user-account title="修改密码" handle="reset_pwd"/>
+  <user-account title="重置密码" handle="reset_pwd"/>
 </template>
 
 <script lang="ts">
