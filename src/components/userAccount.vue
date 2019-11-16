@@ -71,7 +71,6 @@ export default class UserAccount extends Vue {
   public created() {
     let user: any = localStorage.getItem('user');
     if (user && this.handle === 'reset_pwd') {
-      console.log(user);
       user = JSON.parse(user);
       this.account = user.account;
       this.userName = user.nickname;
