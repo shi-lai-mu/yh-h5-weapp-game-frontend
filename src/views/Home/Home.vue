@@ -42,7 +42,6 @@ export default class Home extends Vue {
 
   // 设置全屏显示
   private fullScreen() {
-    console.log('a');
     // 全屏事件
     const doc: any = document;
     const element: any = document.documentElement;

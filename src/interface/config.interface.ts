@@ -11,5 +11,7 @@ export interface DefaultConfig {
      * 接口
      */
     api: string;
+    timeout: number;
+    children: any;
   };
 }
