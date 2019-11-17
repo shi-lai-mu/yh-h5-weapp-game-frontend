@@ -14,7 +14,7 @@ import { Toast } from 'vant';
 export default class HandleBtn extends Vue {
   @Prop(String) private iconName!: string;
   @Prop(String) private iconClass!: string;
-  @Prop(String) private bottom!: number;
+  @Prop(String) private bottom!: string;
 }
 </script>
 
