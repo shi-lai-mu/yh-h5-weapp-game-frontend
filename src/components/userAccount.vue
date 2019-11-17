@@ -123,7 +123,7 @@ export default class UserAccount extends Vue {
 
   // 校验输入的密码
   public checkPwd() {
-    const regNull = /^\s+$/;
+    const regNull = /^\s*$/;
     if (regNull.test(this.confirmPwd)) {
       Toast('确认密码不能为空！');
       return false;
@@ -147,8 +147,7 @@ export default class UserAccount extends Vue {
       forbidClick: true,
     });
     this.$axios
-      .api('get_regCode')
-      .get({
+      .api('get_regCode', {
         params: {
           sendType: this.sendType,
           codeType,
@@ -195,13 +194,11 @@ export default class UserAccount extends Vue {
   public checkAuthCode() {
     if (this.msg !== '') {
       this.$axios
-      .api('check_code')
-      .get({
+      .api('check_code', {
         params: {
           code: this.msg,
           inputCode: this.authCode,
         },
-        data: {},
       }).then( (res: any) => {
         if (!res.status) {
           Toast(res.msg);
@@ -243,8 +240,7 @@ export default class UserAccount extends Vue {
       forbidClick: true,
     });
     this.$axios
-      .api('user_reg')
-      .post({
+      .api('user_reg', {
         params: {
           registerCode: this.msg,
         },
@@ -281,8 +277,7 @@ export default class UserAccount extends Vue {
       forbidClick: true,
     });
     this.$axios
-      .api('reset_pwd')
-      .put({
+      .api('reset_pwd', {
         params: {
           resetPasswordCode: this.msg,
         },
@@ -291,7 +286,8 @@ export default class UserAccount extends Vue {
           code: this.authCode,
           newPassword: this.pwd,
         },
-      }).then( (res: any) => {
+      })
+      .then( (res: any) => {
         Toast.clear();
         if (res.status) {
           Toast('修改成功');

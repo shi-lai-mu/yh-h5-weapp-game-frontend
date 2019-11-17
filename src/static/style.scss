@@ -32,8 +32,10 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
   transform: translateY(-50%);
 }
 .container{
+  display: flex;
   height: 100vh;
   background: #F3F1F2;
+  flex-direction: column;
 }
 .flex-row {
   display: flex;
