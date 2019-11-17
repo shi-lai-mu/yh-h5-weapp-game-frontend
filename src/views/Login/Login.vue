@@ -44,8 +44,7 @@ export default class Login extends Vue {
       return;
     }
     this.$axios
-      .api('login')
-      .post({
+      .api('login', {
         data: {
           account,
           password,
