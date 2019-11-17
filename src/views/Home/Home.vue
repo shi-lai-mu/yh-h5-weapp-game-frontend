@@ -3,9 +3,9 @@
     <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574008400633&di=229c72076f8bb09383019c1098d5d6db&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F3949d1f84afc0e8f255d3cdf112adbcc0103239230c72-cmXG2V_fw658">
 
     <div class="content fixed-content">
-      <!-- <span @click="fullScreen">全屏</span> -->
-      <handleBtn iconName="客 服" iconClass="kefu" :bottom="60"/>settings
-      <handleBtn iconName="设 置" iconClass="settings" :bottom="45"/>
+      <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
+      <handleBtn iconName="客 服" iconClass="kefu" bottom="45"/>
+      <handleBtn iconName="设 置" iconClass="settings" bottom="30"/>
     </div>
   </div>
 </template>
