@@ -31,3 +31,11 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
   top: 50%;
   transform: translateY(-50%);
 }
+.container{
+  height: 100vh;
+  background: #F3F1F2;
+}
+.flex-row {
+  display: flex;
+  align-items: center;
+}
