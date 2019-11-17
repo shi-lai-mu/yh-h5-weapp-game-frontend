@@ -1,15 +1,26 @@
 <template>
-  <div :style="home" class="home">
-    <img src="https://yanxuan.nosdn.127.net/14943267735961674.jpg" @click="fullScreen">
+  <div :style="home" class="home fixed-content">
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574008400633&di=229c72076f8bb09383019c1098d5d6db&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F3949d1f84afc0e8f255d3cdf112adbcc0103239230c72-cmXG2V_fw658">
+
+    <div class="content fixed-content">
+      <!-- <span @click="fullScreen">全屏</span> -->
+      <handleBtn iconName="客 服" iconClass="kefu" :bottom="60"/>settings
+      <handleBtn iconName="设 置" iconClass="settings" :bottom="45"/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import landscape from '@/utils/screen';
 import { ScreenInterface } from '@/interface/screen.interface';
+import handleBtn from '@/components/handleBtn.vue';
+import landscape from '@/utils/screen';
 
-@Component
+@Component({
+  components: {
+    handleBtn,
+  },
+})
 export default class Home extends Vue {
   // 根组件样式
   private home: ScreenInterface = {
@@ -71,15 +82,22 @@ export default class Home extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-  .home {
+  .fixed-content {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
   }
+  .home {  
+    z-index: 9;
+  }
   img {
     width: 100%;
     height: 100%;
+  }
+  .content {
+    z-index: 10;
+    padding: 15px;
   }
 </style>

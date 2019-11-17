@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'game';  /* project id 1498599 */
-  src: url('//at.alicdn.com/t/font_1498599_zxtbwxbvwpr.eot');
-  src: url('//at.alicdn.com/t/font_1498599_zxtbwxbvwpr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1498599_zxtbwxbvwpr.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1498599_zxtbwxbvwpr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1498599_zxtbwxbvwpr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1498599_zxtbwxbvwpr.svg#game') format('svg');
+  src: url('//at.alicdn.com/t/font_1498599_77kk2v8zmvw.eot');
+  src: url('//at.alicdn.com/t/font_1498599_77kk2v8zmvw.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1498599_77kk2v8zmvw.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1498599_77kk2v8zmvw.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1498599_77kk2v8zmvw.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1498599_77kk2v8zmvw.svg#game') format('svg');
 }
 
 .game, i[class*='game-'] {
@@ -22,7 +22,9 @@
 /* icon class */
 
 
-
+.game-kefu:before {
+  content: "\e68b";
+}
 
 .game-arrow-right:before {
   content: "\e646";
