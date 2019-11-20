@@ -44,8 +44,7 @@ export default class Login extends Vue {
       return;
     }
     this.$axios
-      .api('login')
-      .post({
+      .api('login', {
         data: {
           account,
           password,
@@ -54,6 +53,7 @@ export default class Login extends Vue {
       }).then( (res: any) => {
         if (res.id) {
           Toast('登陆成功');
+          localStorage.setItem('user', JSON.stringify(res));
           setTimeout(() => {
             this.$router.push({
               name: 'home',

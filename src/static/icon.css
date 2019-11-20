@@ -1,0 +1,187 @@
+@font-face {
+  font-family: 'game';  /* project id 1498599 */
+  src: url('//at.alicdn.com/t/font_1498599_qudw6ij1asg.eot');
+  src: url('//at.alicdn.com/t/font_1498599_qudw6ij1asg.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1498599_qudw6ij1asg.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1498599_qudw6ij1asg.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1498599_qudw6ij1asg.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1498599_qudw6ij1asg.svg#game') format('svg');
+}
+
+.game, i[class*='game-'] {
+  display: inline-block;
+  font-family: "game" !important;
+  font-style: normal;
+  font-weight: initial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.game::before, i[class*='game-']::before {
+  vertical-align: initial;
+}
+/* icon class */
+
+
+.game-fangda:before {
+  content: "\e72f";
+}
+
+.game-kefu:before {
+  content: "\e68b";
+}
+
+.game-arrow-right:before {
+  content: "\e646";
+}
+
+.game-daijinquan:before {
+  content: "\e602";
+}
+
+.game-home:before {
+  content: "\e619";
+}
+
+.game-tixian:before {
+  content: "\e628";
+}
+
+.game-shangjiashezhi:before {
+  content: "\e64c";
+}
+
+.game-ruzhu:before {
+  content: "\e612";
+}
+
+.game-qianbao:before {
+  content: "\e60e";
+}
+
+.game-zhanghao:before {
+  content: "\e600";
+}
+
+.game-weixin:before {
+  content: "\e668";
+}
+
+.game-dijiaoshenfenzhengfuyinjian:before {
+  content: "\e604";
+}
+
+.game-mima:before {
+  content: "\e9e0";
+}
+
+.game-ziyuan:before {
+  content: "\e616";
+}
+
+.game-caidan:before {
+  content: "\e77b";
+}
+
+.game-liushuizhangdan-xiugai:before {
+  content: "\e636";
+}
+
+.game-yanzhengma:before {
+  content: "\e65a";
+}
+
+.game-xianliaoshequ:before {
+  content: "\e63d";
+}
+
+.game-renminbi:before {
+  content: "\e614";
+}
+
+.game-renzheng5:before {
+  content: "\e608";
+}
+
+.game-lvguanyetezhonghangyexukezhenghefa:before {
+  content: "\e6c1";
+}
+
+.game-tezhonghangyexukezheng:before {
+  content: "\e6c2";
+}
+
+.game-gongzhangkezhiyetezhonghangyexukezhenghefa:before {
+  content: "\e6c3";
+}
+
+.game-minsunongjialetezhonghangyexukezhenghefa:before {
+  content: "\e6c4";
+}
+
+.game-diandangyetezhonghangyexukezhenghefa:before {
+  content: "\e6c5";
+}
+
+.game-kaihuhang:before {
+  content: "\e609";
+}
+
+.game-liuyan:before {
+  content: "\e7f7";
+}
+
+.game-guanyu:before {
+  content: "\e692";
+}
+
+.game-guanbi:before {
+  content: "\e71d";
+}
+
+.game-area:before {
+  content: "\e705";
+}
+
+.game-yingyezhizhao:before {
+  content: "\e846";
+}
+
+.game-xiangxia:before {
+  content: "\e6a4";
+}
+
+.game-shangjiashezhi1:before {
+  content: "\e6eb";
+}
+
+.game-zhiwen:before {
+  content: "\e63c";
+}
+
+.game-tuichudenglu:before {
+  content: "\e630";
+}
+
+.game-settings:before {
+  content: "\e601";
+}
+
+.game-weishengxuke:before {
+  content: "\e64a";
+}
+
+.game-logo:before {
+  content: "\e603";
+}
+
+.game-logo-y:before {
+  content: "\e605";
+}
+
+.game-logo-txt:before {
+  content: "\e606";
+}
+
+.game-logo-hy:before {
+  content: "\e607";
+}
