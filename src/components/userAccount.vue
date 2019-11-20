@@ -173,7 +173,7 @@ export default class UserAccount extends Vue {
 
   // 倒计时
   public TimeDown( countDown: number ) {
-    if (countDown === 0) {
+    if (countDown <= 0) {
       clearInterval(timer);
       this.getCodeShow = true;
       this.countDown = 60;
