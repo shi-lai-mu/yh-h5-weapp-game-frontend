@@ -27,6 +27,11 @@ export default new Router({
       name: 'resetPwd',
       component: () => import('@/views/Login/ResetPwd.vue'),
     },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      component: () => import('@/views/Home/feedback.vue'),
+    },
   ],
 });
 

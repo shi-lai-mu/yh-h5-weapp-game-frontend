@@ -47,6 +47,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Toast } from 'vant';
+let timer: any;
 
 @Component
 export default class UserAccount extends Vue {
@@ -57,7 +58,7 @@ export default class UserAccount extends Vue {
   private userName: string = '';            // 用户名
   private mark: string = '';                // 注册号邮箱或者手机号
   private authCode: string = '';            // 用户输入的验证码
-  private authText: string = '获取验证码';    // 验证码按钮文字
+  private authText: string = '';            // 验证码按钮文字
   private sendType: string = '';            // 注册号类型
   private pwd: string = '';                 // 注册密码
   private confirmPwd: string = '';          // 确认密码
@@ -70,10 +71,22 @@ export default class UserAccount extends Vue {
   // 修改密码时同步数据
   public created() {
     let user: any = localStorage.getItem('user');
+    let timeDown: any = localStorage.getItem('timeDown');
+    const oldTime: any = localStorage.getItem('dateNow');
+    if (timeDown && oldTime) {
+      const nowTime = Date.now() - oldTime;
+      timeDown = timeDown - Math.ceil(nowTime / 1000);
+      this.countDown = timeDown;
+      this.getCodeShow = false;
+      timer = setInterval( () => {
+        this.TimeDown(this.countDown);
+      }, 1000);
+    } else {
+      this.authText = '获取验证码';
+    }
     if (user && this.handle === 'reset_pwd') {
       user = JSON.parse(user);
       this.account = user.account;
-      this.userName = user.nickname;
     }
   }
 
@@ -110,7 +123,7 @@ export default class UserAccount extends Vue {
 
   // 校验输入的密码
   public checkPwd() {
-    const regNull = /^\s+$/;
+    const regNull = /^\s*$/;
     if (regNull.test(this.confirmPwd)) {
       Toast('确认密码不能为空！');
       return false;
@@ -134,8 +147,7 @@ export default class UserAccount extends Vue {
       forbidClick: true,
     });
     this.$axios
-      .api('get_regCode')
-      .get({
+      .api('get_regCode', {
         params: {
           sendType: this.sendType,
           codeType,
@@ -149,19 +161,8 @@ export default class UserAccount extends Vue {
           Toast('发送成功');
           this.msg = res.msg;
           this.getCodeShow = false;
-          // 倒计时
-          const timer: any = setInterval( () => {
-            const countDown: number = this.countDown;
-            if (countDown === 0) {
-              clearInterval(timer);
-              this.getCodeShow = true;
-              this.countDown = 60;
-              this.authText = '获取验证码';
-              return;
-            }
-            const RemainingTime: number = countDown - 1;
-            this.authText = RemainingTime + 's后重新获取';
-            this.countDown = RemainingTime;
+          timer = setInterval( () => {
+            this.TimeDown(this.countDown);
           }, 1000);
         } else {
           Toast.clear();
@@ -170,17 +171,34 @@ export default class UserAccount extends Vue {
     });
   }
 
+  // 倒计时
+  public TimeDown( countDown: number ) {
+    if (countDown === 0) {
+      clearInterval(timer);
+      this.getCodeShow = true;
+      this.countDown = 60;
+      this.authText = '获取验证码';
+      localStorage.removeItem('dateNow');
+      localStorage.removeItem('timeDown');
+      return;
+    }
+    const RemainingTime: number = countDown - 1;
+    this.authText = RemainingTime + 's后重新获取';
+    this.countDown = RemainingTime;
+    const dateNow: number = Date.now();
+    localStorage.setItem('dateNow', dateNow.toString());
+    localStorage.setItem('timeDown', RemainingTime.toString());
+  }
+
   // 检查验证码是否输入正确
   public checkAuthCode() {
     if (this.msg !== '') {
       this.$axios
-      .api('check_code')
-      .get({
+      .api('check_code', {
         params: {
           code: this.msg,
           inputCode: this.authCode,
         },
-        data: {},
       }).then( (res: any) => {
         if (!res.status) {
           Toast(res.msg);
@@ -222,8 +240,7 @@ export default class UserAccount extends Vue {
       forbidClick: true,
     });
     this.$axios
-      .api('user_reg')
-      .post({
+      .api('user_reg', {
         params: {
           registerCode: this.msg,
         },
@@ -260,8 +277,7 @@ export default class UserAccount extends Vue {
       forbidClick: true,
     });
     this.$axios
-      .api('reset_pwd')
-      .put({
+      .api('reset_pwd', {
         params: {
           resetPasswordCode: this.msg,
         },
@@ -270,7 +286,8 @@ export default class UserAccount extends Vue {
           code: this.authCode,
           newPassword: this.pwd,
         },
-      }).then( (res: any) => {
+      })
+      .then( (res: any) => {
         Toast.clear();
         if (res.status) {
           Toast('修改成功');
