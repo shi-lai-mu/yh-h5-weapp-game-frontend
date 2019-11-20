@@ -10,22 +10,22 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: () => import('@/views/Home.vue'),
+      component: () => import('@/views/Home/Home.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/Register.vue'),
+      component: () => import('@/views/Login/Register.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/Login.vue'),
+      component: () => import('@/views/Login/Login.vue'),
     },
     {
       path: '/resetPwd',
       name: 'resetPwd',
-      component: () => import('@/views/ResetPwd.vue'),
+      component: () => import('@/views/Login/ResetPwd.vue'),
     },
   ],
 });
