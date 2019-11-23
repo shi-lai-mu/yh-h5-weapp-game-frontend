@@ -53,30 +53,35 @@ export default {
     return landscape;
   },
 
-  // fullScreen: () => {
-  //   const element = document.documentElement;
-  //   if (fullscreen) {
-  //     if (document.exitFullscreen) {
-  //       document.exitFullscreen();
-  //     } else if (document.webkitCancelFullScreen) {
-  //       document.webkitCancelFullScreen();
-  //     } else if (document.mozCancelFullScreen) {
-  //       document.mozCancelFullScreen();
-  //     } else if (document.msExitFullscreen) {
-  //       document.msExitFullscreen();
-  //     }
-  //   } else {
-  //     if (element.requestFullscreen) {
-  //       element.requestFullscreen();
-  //     } else if (element.webkitRequestFullScreen) {
-  //       element.webkitRequestFullScreen();
-  //     } else if (element.mozRequestFullScreen) {
-  //       element.mozRequestFullScreen();
-  //     } else if (element.msRequestFullscreen) {
-  //       element.msRequestFullscreen();
-  //     }
-  //   }
-  //   return (fullscreen = !fullscreen);
-
-  // },
+  fullScreen: (isFullScreen: boolean) => {
+    // 全屏事件
+    const doc: any = document;
+    const element: any = document.documentElement;
+    if (isFullScreen) {
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.webkitCancelFullScreen) {
+        doc.webkitCancelFullScreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      }
+    } else {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+    if (isFullScreen) {
+      return false;
+    } else {
+      return true;
+    }
+  },
 };
