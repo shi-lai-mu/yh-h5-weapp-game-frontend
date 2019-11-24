@@ -1,11 +1,34 @@
 <template>
   <div :style="home" class="home">
     <audio ref="bg"></audio>
-    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574008400633&di=229c72076f8bb09383019c1098d5d6db&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F3949d1f84afc0e8f255d3cdf112adbcc0103239230c72-cmXG2V_fw658">
+    <img class="bg-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574008400633&di=229c72076f8bb09383019c1098d5d6db&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F3949d1f84afc0e8f255d3cdf112adbcc0103239230c72-cmXG2V_fw658">
     <div class="content">
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="43" @click.native="suspended"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="audioPlay"/>
+
+      <div class="flex-row">
+        <div class="avatar">
+          <img src="../../static/images/avater.jpeg" alt="">
+        </div>
+
+        <div class="user-info">
+          <div class="row user-name">
+            <span>雨泽</span>
+            <img src="../../static/images/replace.png" alt="">
+          </div>
+          <div class="row">
+            <img src="../../static/images/yuanbao.png" alt="">
+            <span>5000</span>
+            <img src="../../static/images/txadd.png" alt="">
+          </div>
+          <div class="row">
+            <img src="../../static/images/jb.png" alt="">
+            <span>100</span>
+            <img src="../../static/images/txadd.png" alt="">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +66,7 @@ export default class Home extends Vue {
     bg.src = 'https://allselect.oss-cn-hangzhou.aliyuncs.com/mallAdmin/1574218188052.mp3';
     bg.autoplay = 'autoplay';
     bg.loop = 'loop';
+    bg.preload = 'auto';
   }
 
   private suspended() {
@@ -80,7 +104,7 @@ export default class Home extends Vue {
     height: 100%;
     transition: all 550ms ease-in-out;
   }
-  img {
+  .bg-img {
     width: 100%;
     height: 100%;
     transform: translate(-1px, 1px);
@@ -92,5 +116,57 @@ export default class Home extends Vue {
     width: 100%;
     height: 100%;
     padding-left: 30px;
+
+    .flex-row {
+      position: absolute;
+      bottom: 3%;
+
+      .avatar {
+        overflow: hidden;
+        width: 3.5rem;
+        height: 3.5rem;
+        border: 3px solid #FBE3A5;
+        border-radius: 5px;
+        
+        img {
+          width: 3.5rem;
+          height: 3.5rem;
+        }
+      }
+
+      .user-info {
+        margin-left: 10px;
+
+        .row {
+          display: flex;
+          width: 100px;
+          height: 26px;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #b2b2b2;
+
+          img {
+            width: 1.4rem;
+            height: 1.4rem;
+          }
+
+          span {
+            width: 60%;
+            font-weight: bold;
+            font-family: STHupo;
+            color: #F7DE95 !important;
+            letter-spacing: 2px;
+          }
+        }
+        .user-name {
+          span {
+            color: #FCEFD2 !important;
+          }
+          img {
+            border-radius: 50%;
+          }
+        }
+      }
+    }
   }
 </style>
