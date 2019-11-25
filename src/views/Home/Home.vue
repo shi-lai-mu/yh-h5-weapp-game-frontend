@@ -3,6 +3,13 @@
     <audio ref="bg"></audio>
     <img class="bg-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574008400633&di=229c72076f8bb09383019c1098d5d6db&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F3949d1f84afc0e8f255d3cdf112adbcc0103239230c72-cmXG2V_fw658">
     <div class="content">
+      <div class="radio">
+        <i class="game game-radio"></i>
+        <div class="notice">
+          <span>欢迎来到游惠小游戏平台！</span>
+        </div>
+      </div>
+
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="43" @click.native="suspended"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="audioPlay"/>
@@ -15,7 +22,9 @@
         <div class="user-info">
           <div class="row user-name">
             <span>雨泽</span>
-            <img src="../../static/images/replace.png" alt="">
+            <div class="replace">
+              <b>换</b>
+            </div>
           </div>
           <div class="row">
             <img src="../../static/images/yuanbao.png" alt="">
@@ -28,6 +37,7 @@
             <img src="../../static/images/txadd.png" alt="">
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -117,6 +127,51 @@ export default class Home extends Vue {
     height: 100%;
     padding-left: 30px;
 
+    .radio {
+      display: flex;
+      position: absolute;
+      top: 5%;
+      left: 10%;
+      width: 26%;
+      padding-left: 5px;
+      background-color: rgba($color: #000000, $alpha: .3);
+      color: #FEEECF;
+      line-height: 32px;
+      border-radius: 2rem;
+
+      .game-radio {
+        width: 17%;
+        font-size: 20px;
+      }
+
+      .notice {
+        position: relative;
+        top: 2px;
+        overflow-x: hidden;
+        width: 82%;
+        height: 32px;
+        
+
+        span {
+          display: inline-block;
+          overflow: hidden;
+          color: #FEEECF;
+          text-overflow: clip;
+          white-space: nowrap;
+          animation: carousel 7s linear infinite;
+        }
+
+        @keyframes carousel {
+          0% {
+            transform: translateX(100%)
+          }
+          100% {
+            transform: translateX(-100%)
+          }
+        }
+      }
+    }
+
     .flex-row {
       position: absolute;
       bottom: 3%;
@@ -139,7 +194,7 @@ export default class Home extends Vue {
 
         .row {
           display: flex;
-          width: 100px;
+          min-width: 100px;
           height: 26px;
           align-items: center;
           justify-content: space-between;
@@ -152,8 +207,8 @@ export default class Home extends Vue {
 
           span {
             width: 60%;
+            padding-left: 5px;
             font-weight: bold;
-            font-family: STHupo;
             color: #F7DE95 !important;
             letter-spacing: 2px;
           }
@@ -162,8 +217,18 @@ export default class Home extends Vue {
           span {
             color: #FCEFD2 !important;
           }
-          img {
+          .replace {
+            width: 1.2rem;
+            line-height: 1.2rem;
+            color: #A07354;
+            text-align: center;
             border-radius: 50%;
+            background-image: radial-gradient(circle, #FACF9C, #ECD7C2, #fff);
+            
+            b {
+              position: relative;
+              top: 2px;
+            }
           }
         }
       }
