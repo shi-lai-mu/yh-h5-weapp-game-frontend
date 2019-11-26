@@ -147,14 +147,13 @@ export default class Home extends Vue {
       .notice {
         position: relative;
         top: 2px;
-        overflow-x: hidden;
+        overflow: hidden;
         width: 82%;
         height: 32px;
         
 
         span {
           display: inline-block;
-          overflow: hidden;
           color: #FEEECF;
           text-overflow: clip;
           white-space: nowrap;
