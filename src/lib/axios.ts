@@ -9,7 +9,7 @@
  * 
  * 依赖:
  * @/config/api.config.ts
- * @/config/default.configbundleRenderer.renderToStream
+ * @/config/default.config.ts
  * npm install @types/axios @types/qs --save
  * 
  * 全局:
@@ -53,6 +53,8 @@ import config from '@/config/default.config';
 let token = false;
 // 服务器配置
 const serverConfig = config.server;
+// 频繁请求处理
+const requestClock: any = {};
 
 // 创建axios实例
 const $axios: AxiosInstance = axios.create({
@@ -77,7 +79,10 @@ $axios.interceptors.request.use(
     const data = value.data;
 
     if (!token) {
-      token = JSON.parse(localStorage.getItem('user') || '{}').token;
+      token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
+      if (token) {
+        value.headers.token = encodeURIComponent(token);
+      }
     } else {
       value.headers.token = encodeURIComponent(token);
     }
@@ -105,7 +110,7 @@ $axios.interceptors.request.use(
       value.data = {
         ...value.data.data,
       };
-      token && (value.data.token = token);
+      // token && (value.data.token = token);
       delete value.data.api;
     }
 
@@ -136,6 +141,18 @@ $axios.interceptors.request.use(
         }
       }
       value.url = value.url.replace(/^(post|get|put|delete)\./i, '');
+    }
+
+    // 频繁请求拦截
+    const requestKey = (value.method || 'get') + value.url;
+    if (requestKey) {
+      const targetClock = requestClock[requestKey];
+      if (targetClock && targetClock > Date.now()) {
+        return Promise.reject({
+          error: '频繁请求拦截！',
+        });
+      }
+      requestClock[requestKey] = Date.now() + 400;
     }
     return value;
   },
