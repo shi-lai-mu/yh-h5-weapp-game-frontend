@@ -18,11 +18,6 @@ Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
 Vue.use(Vant);
-Vue.directive('load', {
-  inserted(el) {
-    el.click();
-  },
-});
 
 new Vue({
   router,

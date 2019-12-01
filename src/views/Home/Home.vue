@@ -1,7 +1,7 @@
 <template>
   <div :style="home" class="home">
-    <audio ref="bg"></audio>
-    <img class="bg-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574008400633&di=229c72076f8bb09383019c1098d5d6db&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F3949d1f84afc0e8f255d3cdf112adbcc0103239230c72-cmXG2V_fw658">
+
+    <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
     <div class="content">
       <div class="radio">
         <i class="game game-radio"></i>
@@ -40,18 +40,22 @@
 
       </div>
     </div>
+
+    <bgMusic ref="bgMusic"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ScreenInterface } from '@/interface/screen.interface';
+import bgMusic from '@/components/bgMusic.vue';
 import handleBtn from '@/components/handleBtn.vue';
 import landscape from '@/utils/screen';
 
 @Component({
   components: {
     handleBtn,
+    bgMusic,
   },
 })
 export default class Home extends Vue {
@@ -71,12 +75,6 @@ export default class Home extends Vue {
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
-    // 设置背景音乐
-    const bg: any = this.$refs.bg;
-    bg.src = 'https://allselect.oss-cn-hangzhou.aliyuncs.com/mallAdmin/1574218188052.mp3';
-    bg.autoplay = 'autoplay';
-    bg.loop = 'loop';
-    bg.preload = 'auto';
   }
 
   private suspended() {
