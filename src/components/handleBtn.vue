@@ -3,29 +3,29 @@
     <div class="sik"></div>
     <i :class="'game game-' + iconClass"></i>
     <span class="icon-name">{{ iconName }}</span>
-    <audio ref="click"></audio>
+
+    <clickMusic ref="clickMusic"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Toast } from 'vant';
+import clickMusic from './clickMusic.vue';
 
-@Component
+@Component({
+  components: {
+    clickMusic,
+  },
+})
 export default class HandleBtn extends Vue {
   @Prop(String) private iconName!: string;
   @Prop(String) private iconClass!: string;
   @Prop(String) private bottom!: string;
 
-  public mounted() {
-    const click: any = this.$refs.click;
-    click.src = 'https://allselect.oss-cn-hangzhou.aliyuncs.com/mallAdmin/1574517092874.mp3';
-    click.preload = 'auto';
-  }
-
+  // 点击播放
   public handleSound() {
-    const click: any = this.$refs.click;
-    click.play();
+    const click: any = this.$refs.clickMusic;
+    click.sound();
   }
 }
 </script>
