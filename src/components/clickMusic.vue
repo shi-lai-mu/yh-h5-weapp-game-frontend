@@ -11,7 +11,7 @@ export default class BgMusic extends Vue {
   public mounted() {
     // 加载点击音效
     const click: any = this.$refs.click;
-    click.src = 'https://allselect.oss-cn-hangzhou.aliyuncs.com/mallAdmin/1574517092874.mp3';
+    click.src = 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/click.mp3';
     click.preload = 'auto';
   }
 
