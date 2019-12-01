@@ -11,7 +11,7 @@ export default class BgMusic extends Vue {
   public mounted() {
     // 设置背景音乐
     const bg: any = this.$refs.bg;
-    bg.src = 'https://allselect.oss-cn-hangzhou.aliyuncs.com/mallAdmin/1574218188052.mp3';
+    bg.src = 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/bg-music.mp3';
     bg.autoplay = 'autoplay';
     bg.loop = 'loop';
     bg.preload = 'auto';

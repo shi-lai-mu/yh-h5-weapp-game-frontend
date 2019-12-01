@@ -11,8 +11,8 @@
       </div>
 
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
-      <handleBtn iconName="客 服" iconClass="kefu" bottom="43" @click.native="suspended"/>
-      <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="audioPlay"/>
+      <handleBtn iconName="客 服" iconClass="kefu" bottom="43"/>
+      <handleBtn iconName="设 置" iconClass="settings" bottom="26"/>
 
       <div class="flex-row">
         <div class="avatar">
@@ -75,16 +75,6 @@ export default class Home extends Vue {
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
-  }
-
-  private suspended() {
-    const bg: any = this.$refs.bg;
-    bg.pause();
-  }
-
-  private audioPlay() {
-    const bg: any = this.$refs.bg;
-    bg.play();
   }
 
   private beforeDestroy() {
