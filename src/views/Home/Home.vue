@@ -10,6 +10,11 @@
         </div>
       </div>
 
+      <div class="location">
+        <i class="game game-location"></i>
+        <span>{{ location }}</span>
+      </div>
+
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="43"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26"/>
@@ -84,6 +89,7 @@ export default class Home extends Vue {
     'transform-origin': '',
   };
   private isFullScreen: boolean = false; // 判断是否全屏
+  private location: string = '杭州';
   private games: any = [
     {
       url: '#',
@@ -199,6 +205,29 @@ export default class Home extends Vue {
             transform: translateX(-100%)
           }
         }
+      }
+    }
+
+    .location {
+      position: absolute;
+      top: 15%;
+      left: 10%;
+      width: 13%;
+      height: 24px;
+      background-image: linear-gradient(to right, rgba($color: #000000, $alpha: .8), rgba($color: #000000, $alpha: 0));
+      color: #FEEECF;
+      line-height: 24px;
+      border-radius: 2rem;
+
+      .game {
+        position: absolute;
+        left: -5%;
+        top: -10%;
+        font-size: 26px;
+      }
+
+      span {
+        margin-left: 30%;
       }
     }
 
