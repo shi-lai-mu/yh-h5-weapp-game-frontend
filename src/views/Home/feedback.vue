@@ -61,6 +61,7 @@ export default class Feedback extends Vue {
     this.show = true;
   }
 
+  // 提交反馈
   public handleSubmit() {
     const contact: string = this.contact;
     const content: string = this.content;

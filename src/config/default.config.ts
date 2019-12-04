@@ -10,7 +10,7 @@ const config: DefaultConfig =  {
     children: {
       // 测试服务器1
       test1: {
-        host: 'http://47.97.251.131/service/',
+        host: 'http://47.97.251.131/service',
         api: '',
         timeout: 2000,
       },
