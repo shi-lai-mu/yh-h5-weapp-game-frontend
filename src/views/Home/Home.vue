@@ -1,7 +1,7 @@
 <template>
   <div :style="home" class="home">
-
     <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
+
     <div class="content">
       <div class="radio">
         <i class="game game-radio"></i>
@@ -39,6 +39,21 @@
         </div>
 
       </div>
+
+      <div class="games-list">
+
+        <a class="game" v-for="(item, index) of games" :key="index" :href="item.url">
+          <img :src="item.icon">
+          <span>{{ item.name }}</span>
+        </a>
+
+        <div class="game" v-if="games.length === 5">
+          <div class="more-games">
+            <img src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg" alt="">
+          </div>
+          <span>更多游戏</span>
+        </div>
+      </div>
     </div>
 
     <bgMusic ref="bgMusic"/>
@@ -69,6 +84,33 @@ export default class Home extends Vue {
     'transform-origin': '',
   };
   private isFullScreen: boolean = false; // 判断是否全屏
+  private games: any = [
+    {
+      url: '#',
+      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
+      name: '贪吃蛇',
+    },
+    {
+      url: '#',
+      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
+      name: '贪吃蛇',
+    },
+    {
+      url: '#',
+      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
+      name: '贪吃蛇',
+    },
+    {
+      url: '#',
+      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
+      name: '贪吃蛇',
+    },
+    {
+      url: '#',
+      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
+      name: '贪吃蛇',
+    },
+  ];
 
   // 强制设置横屏显示，且添加监听方法
   private mounted() {
@@ -218,6 +260,53 @@ export default class Home extends Vue {
               top: 2px;
             }
           }
+        }
+      }
+    }
+    .games-list {
+      position: absolute;
+      display: flex;
+      top: 50%;
+      right: 5%;
+      width: 45%;
+      max-height: 60%;
+      transform: translateY(-50%);
+      flex-wrap: wrap;
+      justify-content: space-around;
+      background-color: rgba($color: #000000, $alpha: .3);
+      border-radius: 10px;
+
+      .game {
+        display: flex;
+        width: 28%;
+        height: 40%;
+        margin: 4% 0;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        img {
+          width: 5em;
+          height: 5em;
+        }
+
+        .more-games {
+          width: 5em;
+          height: 5em;
+          border: 1px solid rgba($color: #fff, $alpha: .7);
+          background-color: rgba($color: #fff, $alpha: .4);
+          border-radius: 15px;
+
+          img {
+            width: 1.8em;
+            height: 1.8em;
+            margin: 5px;
+          }
+        }
+
+        span {
+          font-size: 14px;
+          color: #fff;
         }
       }
     }
