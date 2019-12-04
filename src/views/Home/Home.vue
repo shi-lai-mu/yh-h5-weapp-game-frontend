@@ -72,6 +72,7 @@ export default class Home extends Vue {
 
   // 强制设置横屏显示，且添加监听方法
   private mounted() {
+    // localStorage.clear()
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);

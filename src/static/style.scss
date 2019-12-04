@@ -2,22 +2,6 @@
   margin:0px; padding:0px;
   box-sizing: border-box;
 }
-body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,
-form,fieldset,legend,button,input,textarea,th,td,section,p,span,font,div{margin:0;padding:0;font-family:"Microsoft yahei";color:#333;}
-body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53;}
-h1,h2,h3,h4,h5,h6{font-size:100%;}
-address,cite,dfn,em,var{font-style:normal;}
-code,kbd,pre,samp{font-family:"Microsoft yahei";}
-small{font-size:12px;}
-ul,ol{list-style:none;}
-a{text-decoration:none;color: #333;}
-a:hover{text-decoration: underline;}
-sup{vertical-align:text-top;}
-sub{vertical-align:text-bottom;}
-legend{color:#000;}
-fieldset,img{border:0;}
-button,input,select,textarea{font-size:100%;}
-table{border-collapse:collapse;border-spacing:0;}
 body {
   background: #fff;
 }
@@ -45,6 +29,7 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
   position: relative;
   display: inline-block;
   width: 40%;
+  font-size: 16px;
 }
 .navigation a .van-icon-arrow{
   position: absolute;
@@ -65,4 +50,7 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+a {
+  text-decoration: none;
 }

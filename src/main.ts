@@ -24,3 +24,18 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+router.beforeEach((to, from, next) => {
+  to.matched.map( (item: any) => {
+    // 路由判断
+    if (item.name === 'home') {
+      const userInfo: any = store.state.userInfo;
+      console.log(userInfo);
+      if (!userInfo.token) {
+        next({ name: 'login' });
+        return;
+      }
+    }
+    next();
+  });
+});

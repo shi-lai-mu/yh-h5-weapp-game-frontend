@@ -25,6 +25,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Action, State } from 'vuex-class';
 import { Toast } from 'vant';
 
 @Component
@@ -32,8 +33,19 @@ export default class Login extends Vue {
   private account: string = '';             // 用户登陆账号
   private pwd: string = '';                 // 注册密码
 
+  @Action private SET_USER!: (data: any) => void;
+  @State private userInfo!: any;
+
+  public created() {
+    if (this.userInfo.token) {
+      this.$router.push({
+        name: 'home',
+      });
+    }
+  }
+
   // 登陆
-  public handleLogin(): void {
+  public handleLogin() {
     const account = this.account;
     const password = this.pwd;
     if (account === '') {
@@ -53,7 +65,7 @@ export default class Login extends Vue {
       }).then( (res: any) => {
         if (res.id) {
           Toast('登陆成功');
-          localStorage.setItem('user', JSON.stringify(res));
+          this.SET_USER(res);
           setTimeout(() => {
             this.$router.push({
               name: 'home',
