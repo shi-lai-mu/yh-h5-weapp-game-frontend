@@ -11,5 +11,6 @@ const api: Api = {
   reset_pwd:         'put./user/password/:resetPasswordCode',       // 重设密码
   get_feedBack:      'get./notice/feedback/type',                   // 获取反馈类型
   user_feedBack:     'post./notice/feedback',                       // 用户反馈
+  get_city:          'test1:get./public/city',                      // 获取城市
 };
 export default api;

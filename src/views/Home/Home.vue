@@ -12,7 +12,7 @@
 
       <div class="location">
         <i class="game game-location"></i>
-        <span>{{ location }}</span>
+        <span>{{ location === null ? '获取失败' : location }}</span>
       </div>
 
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
@@ -89,7 +89,7 @@ export default class Home extends Vue {
     'transform-origin': '',
   };
   private isFullScreen: boolean = false; // 判断是否全屏
-  private location: string = '杭州';
+  private location: string | null = '';
   private games: any = [
     {
       url: '#',
@@ -118,12 +118,32 @@ export default class Home extends Vue {
     },
   ];
 
+  private created() {
+    this.getCity();
+  }
+
   // 强制设置横屏显示，且添加监听方法
   private mounted() {
-    // localStorage.clear()
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
+  }
+
+  // 获取城市信息
+  private getCity() {
+    this.$axios
+      .api('get_city')
+      .then((res: any) => {
+        if (res.data) {
+          this.location = res.data.city;
+        } else {
+          this.location = null;
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.location = null;
+      });
   }
 
   private beforeDestroy() {
