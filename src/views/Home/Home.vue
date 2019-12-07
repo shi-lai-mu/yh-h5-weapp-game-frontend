@@ -92,7 +92,8 @@ export default class Home extends Vue {
     'transform-origin': '',
   };
   private isFullScreen: boolean = false; // 判断是否全屏
-  private location: string | null = '';
+  private location: string | null = ''; // 定位
+  private weather: string | null = ''; // 天气
   private games: any = [
     {
       url: '#',
@@ -124,6 +125,7 @@ export default class Home extends Vue {
   // 获取主页必要的信息
   private created() {
     this.getCity();
+    this.getWeather();
   }
 
   // 强制设置横屏显示，且添加监听方法
@@ -155,6 +157,24 @@ export default class Home extends Vue {
       .catch((err: any) => {
         console.log(err);
         this.location = null;
+      });
+  }
+
+  // 获取天气信息
+  private getWeather() {
+    this.$axios
+      .api('get_weather')
+      .then((res: any) => {
+        console.log(res.data.forecast);
+        if (res.data) {
+          this.weather = res.data.forecast[0];
+        } else {
+          this.location = null;
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.weather = null;
       });
   }
 
