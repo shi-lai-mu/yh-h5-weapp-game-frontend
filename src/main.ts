@@ -4,6 +4,7 @@ import router from './router';
 import store from './store/index';
 import axios from '@/lib/axios';
 import Vant from 'vant';
+import Popup from '@/components/popup.vue';
 import 'vant/lib/index.css';
 import { AxiosInstance } from 'axios';
 
@@ -18,6 +19,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
 Vue.use(Vant);
+Vue.component('popup', Popup);
 
 new Vue({
   router,
