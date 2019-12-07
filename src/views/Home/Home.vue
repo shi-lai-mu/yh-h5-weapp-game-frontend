@@ -1,5 +1,5 @@
 <template>
-  <div :style="home" class="home">
+  <div :style="home" class="home" @click="handleSound">
     <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
 
     <div class="content">
@@ -28,18 +28,18 @@
           <div class="row user-name">
             <span>雨泽</span>
             <div class="replace">
-              <b>换</b>
+              <b data-click="click">换</b>
             </div>
           </div>
           <div class="row">
             <img src="../../static/images/yuanbao.png" alt="">
             <span>5000</span>
-            <img src="../../static/images/txadd.png" alt="">
+            <img src="../../static/images/txadd.png" alt="" data-click="click">
           </div>
           <div class="row">
             <img src="../../static/images/jb.png" alt="">
             <span>100</span>
-            <img src="../../static/images/txadd.png" alt="">
+            <img src="../../static/images/txadd.png" alt="" data-click="click">
           </div>
         </div>
 
@@ -48,20 +48,21 @@
       <div class="games-list">
 
         <a class="game" v-for="(item, index) of games" :key="index" :href="item.url">
-          <img :src="item.icon">
-          <span>{{ item.name }}</span>
+          <img :src="item.icon" data-click="click">
+          <span data-click="click">{{ item.name }}</span>
         </a>
 
-        <div class="game" v-if="games.length === 5">
+        <div class="game" v-if="games.length === 5" data-click="click">
           <div class="more-games">
-            <img src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg" alt="">
+            <img data-click="click" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg" alt="">
           </div>
-          <span>更多游戏</span>
+          <span data-click="click">更多游戏</span>
         </div>
       </div>
     </div>
 
     <bgMusic ref="bgMusic"/>
+    <clickMusic ref="clickMusic"/>
   </div>
 </template>
 
@@ -69,6 +70,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ScreenInterface } from '@/interface/screen.interface';
 import bgMusic from '@/components/bgMusic.vue';
+import clickMusic from '@/components/clickMusic.vue';
 import handleBtn from '@/components/handleBtn.vue';
 import landscape from '@/utils/screen';
 
@@ -76,6 +78,7 @@ import landscape from '@/utils/screen';
   components: {
     handleBtn,
     bgMusic,
+    clickMusic,
   },
 })
 export default class Home extends Vue {
@@ -118,6 +121,7 @@ export default class Home extends Vue {
     },
   ];
 
+  // 获取主页必要的信息
   private created() {
     this.getCity();
   }
@@ -127,6 +131,14 @@ export default class Home extends Vue {
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
+  }
+
+  // 事件委托
+  private handleSound(e: any) {
+    if (e.target.dataset.click === 'click') {
+      const click: any = this.$refs.clickMusic;
+      click.sound();
+    }
   }
 
   // 获取城市信息
