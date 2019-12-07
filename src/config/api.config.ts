@@ -12,5 +12,6 @@ const api: Api = {
   get_feedBack:      'get./notice/feedback/type',                   // 获取反馈类型
   user_feedBack:     'post./notice/feedback',                       // 用户反馈
   get_city:          'test1:get./public/city',                      // 获取城市
+  get_weather:       'test1:get./public/weather',
 };
 export default api;
