@@ -2,6 +2,8 @@
   <div :style="home" class="home" @click="handleSound">
     <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
 
+    <popup title="设 置"></popup>
+
     <div class="content">
       <div class="radio">
         <i class="game game-radio"></i>
