@@ -5,7 +5,7 @@
     </div>
 
     <div class="input">
-      <input type="text" placeholder="请输入登陆账号" v-model="account">
+      <input type="text" placeholder="请输入登陆账号" v-model="account" @blur="checkAccount">
     </div>
     
     <template v-if=" handle === 'register' ">
@@ -90,6 +90,26 @@ export default class UserAccount extends Vue {
     }
   }
 
+  // 检查登陆账号是否已注册过
+  public checkAccount() {
+    if (this.handle === 'register') {
+      this.$axios
+        .api('user_check', {
+          data: {
+            account: this.account,
+          },
+        })
+        .then((res: any) => {
+          if (res.status) {
+            Toast('该账号已被注册，请换一个！');
+            return false;
+          } else {
+            return true;
+          }
+        });
+    }
+  }
+
   // 验证输入的是手机号还是邮箱
   public checkType() {
     const regTel: any = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
@@ -107,6 +127,7 @@ export default class UserAccount extends Vue {
     }
   }
 
+  // 密码长度限制
   public blurPwd() {
     const length = this.pwd.length;
     if (length >= 6 && length <= 20) {
@@ -216,7 +237,9 @@ export default class UserAccount extends Vue {
   public handleSubmit() {
     let data: any = '';
     if (this.handle === 'register') {
+      const checkAccount: any = this.checkAccount();
       data = this.checkInput();
+      if (!checkAccount) { return; }
       if (!data) { return; }
     } else {
       if (this.sendType !== 'sms' && this.sendType !== 'email') {
