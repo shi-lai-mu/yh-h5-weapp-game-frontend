@@ -1,3 +1,6 @@
+/**
+ * 屏幕转换样式接口
+ */
 export interface ScreenInterface {
   'width': string;
   'height': string;

@@ -12,15 +12,18 @@
         </div>
       </div>
 
+      <!-- 定位 -->
       <div class="location">
         <i class="game game-location"></i>
         <span>{{ location === null ? '获取失败' : location }}</span>
       </div>
 
+      <!-- 按钮 -->
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="43"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26"/>
 
+      <!-- 用户信息 -->
       <div class="flex-row">
         <div class="avatar">
           <img src="../../static/images/avater.jpeg" alt="">
@@ -47,18 +50,31 @@
 
       </div>
 
-      <div class="games-list">
+      <!-- 游戏列表 -->
+      <div class="games-list right-games">
 
-        <a class="game" v-for="(item, index) of games" :key="index" :href="item.url">
+        <a class="list" v-for="(item, index) of gamesList" :key="index" :href="item.url">
           <img :src="item.icon" data-click="click">
           <span data-click="click">{{ item.name }}</span>
         </a>
 
-        <div class="game" v-if="games.length === 5" data-click="click">
-          <div class="more-games">
-            <img data-click="click" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg" alt="">
+        <div class="list" v-if="moreGames.length > 0" @click="showMoreMages">
+          <div class="more-games" data-click="click">
+            <img src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg" alt="">
           </div>
           <span data-click="click">更多游戏</span>
+        </div>
+      </div>
+
+      <!-- 更多游戏弹框 -->
+      <div class="popup" v-show="moreGamesPopup">
+        <div class="popup-games games-list vertical-horizontal-center">
+          <i class="game game-solid-close" @click="hiddenPopup"></i>
+
+          <a class="list" v-for="(item, index) of moreGames" :key="index" :href="item.url">
+            <img :src="item.icon" data-click="click">
+            <span data-click="click">{{ item.name }}</span>
+          </a>
         </div>
       </div>
     </div>
@@ -70,6 +86,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ScreenInterface } from '@/interface/screen.interface';
+import { Games } from '@/interface/home.interface';
 import bgMusic from '@/components/public/bgMusic.vue';
 import clickMusic from '@/components/public/clickMusic.vue';
 import handleBtn from '@/components/home/handleBtn.vue';
@@ -94,33 +111,21 @@ export default class Home extends Vue {
   private isFullScreen: boolean = false; // 判断是否全屏
   private location: string | null = ''; // 定位
   private weather: string | null = ''; // 天气
-  private games: any = [
+  private moreGamesPopup: boolean = false; // 更多游戏弹框
+  private moreGames: Games[] = [
     {
       url: '#',
       icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
       name: '贪吃蛇',
     },
+  ]; // 更多游戏列表
+  private gamesList: Games[] = [
     {
       url: '#',
       icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
       name: '贪吃蛇',
     },
-    {
-      url: '#',
-      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
-      name: '贪吃蛇',
-    },
-    {
-      url: '#',
-      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
-      name: '贪吃蛇',
-    },
-    {
-      url: '#',
-      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
-      name: '贪吃蛇',
-    },
-  ];
+  ]; // 游戏列表
 
   // 获取主页必要的信息
   public created() {
@@ -185,6 +190,16 @@ export default class Home extends Vue {
   public fullScreen() {
     const result = landscape.fullScreen(this.isFullScreen);
     this.isFullScreen = result;
+  }
+
+  // 关闭弹框
+  public hiddenPopup() {
+    this.moreGamesPopup = false;
+  }
+
+  // 显示更多游戏弹框
+  public showMoreMages() {
+    this.moreGamesPopup = true;
   }
 }
 </script>
@@ -336,22 +351,23 @@ export default class Home extends Vue {
         }
       }
     }
+
+    .right-games {
+      right: 5%;
+      width: 42%;
+      transform: translateY(-50%);
+    }
     .games-list {
       position: absolute;
-      display: flex;
-      top: 50%;
-      right: 5%;
-      width: 45%;
-      max-height: 60%;
-      transform: translateY(-50%);
-      flex-wrap: wrap;
-      justify-content: space-around;
+      top: 50%;  
+      height: 55%;
       background-color: rgba($color: #000000, $alpha: .3);
       border-radius: 10px;
 
-      .game {
+      .list {
         display: flex;
-        width: 28%;
+        float: left;
+        width: 33%;
         height: 40%;
         margin: 4% 0;
         flex-direction: column;
@@ -361,6 +377,7 @@ export default class Home extends Vue {
         img {
           width: 5em;
           height: 5em;
+          border-radius: 13px;
         }
 
         .more-games {
@@ -381,6 +398,18 @@ export default class Home extends Vue {
           font-size: 14px;
           color: #fff;
         }
+      }
+    }
+
+    .popup-games {
+      position: absolute;
+      z-index: 1000;
+      width: 54%;
+      background-image: linear-gradient(to bottom, rgba($color: #9198A2, $alpha: .8) 0%, rgba($color: #fff, $alpha: .15) 20%);
+
+      .list {
+        width: 25%;
+        margin: 3% 0;
       }
     }
   }
