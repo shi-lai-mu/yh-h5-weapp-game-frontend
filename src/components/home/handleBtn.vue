@@ -1,32 +1,19 @@
 <template>
-  <div class="btn" :style="'bottom:' + bottom + '%;'" @click="handleSound">
-    <div class="sik"></div>
-    <i :class="'game game-' + iconClass"></i>
-    <span class="icon-name">{{ iconName }}</span>
-
-    <clickMusic ref="clickMusic"/>
+  <div class="btn" :style="'bottom:' + bottom + '%;'" data-click="click">
+    <div class="sik" data-click="click"></div>
+    <i :class="'game game-' + iconClass" data-click="click"></i>
+    <span class="icon-name" data-click="click">{{ iconName }}</span>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import clickMusic from './clickMusic.vue';
 
-@Component({
-  components: {
-    clickMusic,
-  },
-})
+@Component
 export default class HandleBtn extends Vue {
   @Prop(String) private iconName!: string;
   @Prop(String) private iconClass!: string;
   @Prop(String) private bottom!: string;
-
-  // 点击播放
-  public handleSound() {
-    const click: any = this.$refs.clickMusic;
-    click.sound();
-  }
 }
 </script>
 

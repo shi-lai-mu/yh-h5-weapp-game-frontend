@@ -4,7 +4,7 @@ import router from './router';
 import store from './store/index';
 import axios from '@/lib/axios';
 import Vant from 'vant';
-import Popup from '@/components/popup.vue';
+import Popup from '@/components/public/popup.vue';
 import 'vant/lib/index.css';
 import { AxiosInstance } from 'axios';
 
