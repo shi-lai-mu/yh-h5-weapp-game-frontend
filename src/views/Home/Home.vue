@@ -1,5 +1,5 @@
 <template>
-  <div :style="home" class="home" @click="handleSound">
+  <div :style="home" class="home">
     <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
 
     <popup title="设 置"></popup>
@@ -64,23 +64,21 @@
     </div>
 
     <bgMusic ref="bgMusic"/>
-    <clickMusic ref="clickMusic"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ScreenInterface } from '@/interface/screen.interface';
-import bgMusic from '@/components/bgMusic.vue';
-import clickMusic from '@/components/clickMusic.vue';
-import handleBtn from '@/components/handleBtn.vue';
+import bgMusic from '@/components/public/bgMusic.vue';
+import clickMusic from '@/components/public/clickMusic.vue';
+import handleBtn from '@/components/home/handleBtn.vue';
 import landscape from '@/utils/screen';
 
 @Component({
   components: {
     handleBtn,
     bgMusic,
-    clickMusic,
   },
 })
 export default class Home extends Vue {
@@ -125,28 +123,20 @@ export default class Home extends Vue {
   ];
 
   // 获取主页必要的信息
-  private created() {
+  public created() {
     this.getCity();
     this.getWeather();
   }
 
   // 强制设置横屏显示，且添加监听方法
-  private mounted() {
+  public mounted() {
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
   }
 
-  // 事件委托
-  private handleSound(e: any) {
-    if (e.target.dataset.click === 'click') {
-      const click: any = this.$refs.clickMusic;
-      click.sound();
-    }
-  }
-
   // 获取城市信息
-  private getCity() {
+  public getCity() {
     this.$axios
       .api('get_city')
       .then((res: any) => {
@@ -163,7 +153,7 @@ export default class Home extends Vue {
   }
 
   // 获取天气信息
-  private getWeather() {
+  public getWeather() {
     this.$axios
       .api('get_weather')
       .then((res: any) => {
@@ -180,19 +170,19 @@ export default class Home extends Vue {
       });
   }
 
-  private beforeDestroy() {
+  public beforeDestroy() {
     // 移除监听
     window.removeEventListener('resize', this.renderResize, false);
   }
 
   // 监听横竖屏变化的方法
-  private renderResize() {
+  public renderResize() {
     const resize: any = landscape.renderResize();
     this.home = resize;
   }
 
   // 设置全屏显示
-  private fullScreen() {
+  public fullScreen() {
     const result = landscape.fullScreen(this.isFullScreen);
     this.isFullScreen = result;
   }
