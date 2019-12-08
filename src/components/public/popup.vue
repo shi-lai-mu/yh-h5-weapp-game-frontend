@@ -51,16 +51,6 @@ export default class Popup extends Vue {
       }
     }
 
-    .game-solid-close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1001;
-      font-size: 27px;
-      color: #FFF4D6;
-      transform: translate(40%, -40%);
-    }
-
     .content {
       height: 200px;
       background-color: #FFF4D6;
