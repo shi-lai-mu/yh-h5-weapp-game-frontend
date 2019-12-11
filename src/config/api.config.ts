@@ -16,6 +16,9 @@ const api: Api = {
   user_feedBack:     'post./notice/feedback',                       // 用户反馈
 
   // 首页
+  get_games_list:    'get./index/gamesList',                        // 获取游戏列表
+
+  // 微服务接口
   get_city:          'test1:get./public/city',                      // 获取城市
   get_weather:       'test1:get./public/weather',                   // 获取天气
 };

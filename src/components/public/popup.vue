@@ -2,7 +2,7 @@
   <div class="popup" v-show="popupShow">
     
     <div class="popup-content vertical-horizontal-center">
-      <i class="game game-solid-close" @click="hiddenPopup"></i>
+      <i class="game game-solid-close" data-click="click" @click="hiddenPopup"></i>
 
       <div class="popup-title">
         <span class="title">{{ title }}</span>

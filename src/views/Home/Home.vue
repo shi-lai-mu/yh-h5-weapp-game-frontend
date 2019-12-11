@@ -1,5 +1,6 @@
 <template>
   <div :style="home" class="home">
+    <!-- 背景图 -->
     <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
 
     <popup title="设 置"></popup>
@@ -60,17 +61,18 @@
 
         <div class="list" v-if="moreGames.length > 0" @click="showMoreMages">
           <div class="more-games" data-click="click">
-            <img src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg" alt="">
+            <img data-click="click" v-for="(item, index) of smallMoreGames" :key="index" :src="item.icon" alt="">
+            <i data-click="click" v-if="moreGames.length > 3" class="game game-ellipsis"></i>
           </div>
           <span data-click="click">更多游戏</span>
         </div>
       </div>
 
       <!-- 更多游戏弹框 -->
-      <div class="popup" v-show="moreGamesPopup">
-        <div class="popup-games games-list vertical-horizontal-center">
-          <i class="game game-solid-close" @click="hiddenPopup"></i>
+      <div class="popup more-games-popup" v-show="moreGamesPopup">
+        <i class="game game-solid-close" data-click="click" @click="hiddenPopup"></i>
 
+        <div class="popup-games games-list vertical-horizontal-center">
           <a class="list" v-for="(item, index) of moreGames" :key="index" :href="item.url">
             <img :src="item.icon" data-click="click">
             <span data-click="click">{{ item.name }}</span>
@@ -112,25 +114,16 @@ export default class Home extends Vue {
   private location: string | null = ''; // 定位
   private weather: string | null = ''; // 天气
   private moreGamesPopup: boolean = false; // 更多游戏弹框
-  private moreGames: Games[] = [
-    {
-      url: '#',
-      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
-      name: '贪吃蛇',
-    },
-  ]; // 更多游戏列表
-  private gamesList: Games[] = [
-    {
-      url: '#',
-      icon: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/tcs.jpg',
-      name: '贪吃蛇',
-    },
-  ]; // 游戏列表
+  private moreGames: Games[] = []; // 更多游戏列表
+  private smallMoreGames: Games[] = []; // 更多列表框游戏iocn
+  private gamesList: Games[] = []; // 游戏列表
 
   // 获取主页必要的信息
   public created() {
+    // localStorage.clear()
     this.getCity();
     this.getWeather();
+    this.getGamesList();
   }
 
   // 强制设置横屏显示，且添加监听方法
@@ -138,6 +131,27 @@ export default class Home extends Vue {
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
+  }
+
+  // 获取游戏列表
+  public getGamesList() {
+    this.$axios
+      .api('get_games_list')
+      .then((res: any) => {
+        let moreGames: Games[] = [];
+        if (res.length > 5) {
+          this.gamesList = res.slice(0, 5);
+          moreGames = res.slice(5);
+          this.moreGames = moreGames;
+          if (moreGames.length > 3) {
+            this.smallMoreGames = moreGames.slice(0, 3);
+          } else {
+            this.smallMoreGames = moreGames;
+          }
+        } else {
+          this.gamesList = res;
+        }
+      });
   }
 
   // 获取城市信息
@@ -390,7 +404,14 @@ export default class Home extends Vue {
           img {
             width: 1.8em;
             height: 1.8em;
-            margin: 5px;
+            margin: 2px 4px;
+          }
+
+          .game-ellipsis {
+            float: right;
+            margin-right: 4px;
+            font-size: 26px;
+            color: #fff;
           }
         }
 
@@ -401,15 +422,26 @@ export default class Home extends Vue {
       }
     }
 
-    .popup-games {
-      position: absolute;
-      z-index: 1000;
-      width: 54%;
-      background-image: linear-gradient(to bottom, rgba($color: #9198A2, $alpha: .8) 0%, rgba($color: #fff, $alpha: .15) 20%);
+    .more-games-popup {
 
-      .list {
-        width: 25%;
-        margin: 3% 0;
+      .game-solid-close {
+        padding: fixed;
+        top: 22.5%;
+        right: 23%;
+      }
+
+      .popup-games {
+        position: absolute;
+        z-index: 1000;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 54%;
+        background-image: linear-gradient(to bottom, rgba($color: #9198A2, $alpha: .8) 0%, rgba($color: #fff, $alpha: .15) 20%);
+
+        .list {
+          width: 25%;
+          margin: 3% 0;
+        }
       }
     }
   }
