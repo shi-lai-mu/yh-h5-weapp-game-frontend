@@ -12,6 +12,7 @@
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "qs": "^6.9.0",
+    "socket.io-client": "^2.3.0",
     "vant": "^2.2.16",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
@@ -21,6 +22,7 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-typescript": "^3.11.0",
     "@vue/cli-service": "^3.11.0",

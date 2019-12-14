@@ -6,17 +6,26 @@ import axios from '@/lib/axios';
 import Vant from 'vant';
 import Popup from '@/components/public/popup.vue';
 import 'vant/lib/index.css';
+import io from 'socket.io-client';
+import obServer from '@/utils/obServer';
+import defaultConfig from '@/config/default.config';
 import { AxiosInstance } from 'axios';
+
+const socket = io(defaultConfig.io.host);
 
 declare module 'vue/types/vue' {
   interface Vue {
     $axios: AxiosInstance;
+    $io: typeof socket;
+    $observer: typeof obServer;
   }
 }
 
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+Vue.prototype.$io = socket;
+Vue.prototype.$observer = obServer;
 
 Vue.use(Vant);
 Vue.component('popup', Popup);

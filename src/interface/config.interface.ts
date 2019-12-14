@@ -35,4 +35,11 @@ export interface DefaultConfig {
       };
     };
   };
+  // IO服务器
+  io: {
+    /**
+     * IP
+     */
+    host: string;
+  };
 }
