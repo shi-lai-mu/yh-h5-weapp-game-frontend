@@ -120,7 +120,6 @@ export default class Home extends Vue {
 
   // 获取主页必要的信息
   public created() {
-    // localStorage.clear()
     this.getCity();
     this.getWeather();
     this.getGamesList();
@@ -128,6 +127,7 @@ export default class Home extends Vue {
 
   // 强制设置横屏显示，且添加监听方法
   public mounted() {
+    this.$io.emit('connect/test', ['aa']);
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);

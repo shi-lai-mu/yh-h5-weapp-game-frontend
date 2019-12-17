@@ -17,7 +17,7 @@ const config: DefaultConfig =  {
     },
   },
   io: {
-    host: 'ws://127.0.0.1:7021',
+    host: 'ws://127.0.0.1:7100',
   },
 };
 export default config;

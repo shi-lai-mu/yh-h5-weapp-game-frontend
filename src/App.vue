@@ -21,10 +21,32 @@ export default class App extends Vue {
 
   private created() {
     // 登陆数据检测并读取
-    const userInfoString = localStorage.getItem('userInfo');
-    if (userInfoString) {
-      const userInfo: any = JSON.parse(userInfoString);
-      this.SET_USER(userInfo);
+    let userInfo: any = localStorage.getItem('userInfo');
+    if (userInfo) {
+      userInfo = JSON.parse(userInfo);
+      const { last_login_time } = userInfo;
+
+      // 身份过期清空
+      if (last_login_time && last_login_time + 86400000 < Date.now()) {
+        let userAccount: any = localStorage.getItem('userAccount');
+        userAccount = JSON.parse(userAccount);
+        const { account, password } = userAccount;
+        // 重新登陆
+        this.$axios
+          .api('login', {
+            data: {
+              account,
+              password,
+              token: false,
+            },
+          }).then( (res: any) => {
+            if (res.id) {
+              this.SET_USER(res);
+            }
+          });
+      } else {
+        this.SET_USER(userInfo);
+      }
     }
   }
 
