@@ -65,6 +65,11 @@ export default class Login extends Vue {
       }).then( (res: any) => {
         if (res.id) {
           Toast('登陆成功');
+          // 保存用户登陆的账号密码
+          localStorage.setItem('userAccount', JSON.stringify({
+            account,
+            password,
+          }));
           this.SET_USER(res);
           setTimeout(() => {
             this.$router.push({

@@ -3,7 +3,7 @@
 /**
  * Axios 二次封装 [未启用加密版]
  * author:  ShiLaiMu
- * version: v1.0.2
+ * version: v1.0.4
  * type:    TypeScript
  * encrypt: false
  * 
@@ -18,9 +18,10 @@
  * 功能:
  * - 全局统一：  请求api配置中的接口，实现一改配置修改全部请求
  * - 统一配置化: 请求信息，分离 [服务器配置文件] 和 [请求配置文件]，实现可配置 [主和子服务器/请求延迟/请求路由/请求方式/请求的目标服务器]
- * - 身份携带：  token自动化加入请求头，及自动更新
+ * - 身份携带：  token自动化加入请求头，读取本地缓存
  * - 请求权重：  调用时指定的请求信息必定覆盖配置内的请求信息
  * - 路由参数：  配置文件中支持路由
+ * - 临时令牌：  如果response header内存在token则会将它作为临时token，下次请求时使用
  * 
  * 调用方法:
  * - 推荐:
@@ -63,17 +64,26 @@ const $axios: AxiosInstance = axios.create({
   // withCredentials: true
 });
 
+
+/**
+ * 响应拦截
+ */
 $axios.interceptors.response.use(
   (res: any) => {
     const { data } = res;
     // token 自动化更新
-    if (data.token) {
-      token = data.token;
+    const headersToken = res.headers.token;
+    if (headersToken) {
+      token = headersToken;
     }
     return data;
   },
 );
 
+
+/**
+ * 请求拦截
+ */
 $axios.interceptors.request.use(
   (value: AxiosRequestConfig) => {
     const data = value.data;
@@ -81,27 +91,17 @@ $axios.interceptors.request.use(
     if (!token) {
       token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
       if (token) {
+        console.log(token);
         value.headers.token = encodeURIComponent(token);
       }
     } else {
       value.headers.token = encodeURIComponent(token);
     }
 
-    if (data) {
-      // RSA 加密处理
-      // const rsa = data.rsa;
-      // delete value.data.rsa;
-      // for (const key in rsa) {
-      //   if (rsa[key] && key in data) {
-      //     throw new Error(`RSA.${key} there is Data in the!`);
-      //   }
-      // }
-
-      // GET 数据处理
-      if (value.method === 'get') {
-        value.url += `?${axiosQs.stringify(data)}`;
-        value.data = undefined;
-      }
+    // GET 数据处理
+    if (data && value.method === 'get') {
+      value.url += `?${axiosQs.stringify(data)}`;
+      value.data = undefined;
     }
 
     // 非 GET 处理
@@ -168,6 +168,10 @@ $axios.interceptors.request.use(
  */
 $axios.api = (api: (string | { data: any; key: string; }), axiosRequest: AxiosRequestConfig = {}) => {
   let URL: string = API[typeof api === 'string' ? api : api.key];
+  // 未知API
+  if (!URL) {
+    throw new Error(`api: 「${api}」在配置内未定义!`);
+  }
 
   // 动态API
   if (typeof api === 'object' && URL) {
