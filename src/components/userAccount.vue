@@ -66,7 +66,8 @@ export default class UserAccount extends Vue {
   private getCodeShow: boolean = true;      // 获取验证码按钮是否显示
   private msg: string = '';                 // 验证码代码
   private verifyAuthCode: boolean = false;  // 验证码是否输入正确
-  private noticePwd: boolean = false;
+  private noticePwd: boolean = false;       // 密码提示
+  private IsRegAccount: boolean = false;    // 判断账号是否注册过
 
   // 修改密码时同步数据
   public created() {
@@ -100,11 +101,12 @@ export default class UserAccount extends Vue {
           },
         })
         .then((res: any) => {
+          console.log(res);
           if (res.status) {
             Toast('该账号已被注册，请换一个！');
-            return false;
+            this.IsRegAccount = true;
           } else {
-            return true;
+            this.IsRegAccount = false;
           }
         });
     }
@@ -237,9 +239,11 @@ export default class UserAccount extends Vue {
   public handleSubmit() {
     let data: any = '';
     if (this.handle === 'register') {
-      const checkAccount: any = this.checkAccount();
+      if (this.IsRegAccount) {
+        Toast('该账号已被注册，请换一个！');
+        return;
+      }
       data = this.checkInput();
-      if (!checkAccount) { return; }
       if (!data) { return; }
     } else {
       if (this.sendType !== 'sms' && this.sendType !== 'email') {
