@@ -20,8 +20,9 @@
       </div>
 
       <!-- 按钮 -->
-      <handleBtn iconName="全 屏" iconClass="fangda" bottom="60" @click.native="fullScreen"/>
-      <handleBtn iconName="客 服" iconClass="kefu" bottom="43"/>
+      <handleBtn iconName="反 馈" iconClass="feadback" bottom="68" @click.native="toFeadback"/>
+      <handleBtn iconName="全 屏" iconClass="fangda" bottom="54" @click.native="fullScreen"/>
+      <handleBtn iconName="客 服" iconClass="kefu" bottom="40"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26"/>
 
       <!-- 用户信息 -->
@@ -127,7 +128,7 @@ export default class Home extends Vue {
 
   // 强制设置横屏显示，且添加监听方法
   public mounted() {
-    this.$io.emit('connect/test', ['aa']);
+    // this.$io.emit('connect/test', ['aa']);
     const resize: any = landscape.setLandscape();
     this.home = resize;
     window.addEventListener('resize', this.renderResize, false);
@@ -214,6 +215,13 @@ export default class Home extends Vue {
   // 显示更多游戏弹框
   public showMoreMages() {
     this.moreGamesPopup = true;
+  }
+
+  // 打开反馈页面
+  public toFeadback() {
+    this.$router.push({
+      name: 'feedback',
+    });
   }
 }
 </script>

@@ -24,6 +24,23 @@ export default {
     }
   },
 
+  setVertical: () => {
+    // 强制设置竖屏显示
+    const width: number = document.documentElement.clientWidth;
+    const height: number = document.documentElement.clientHeight;
+    if (width > height) {
+      const landscape: ScreenInterface = {
+        'width': height + 'px',
+        'height': width + 'px',
+        'top': (height - width) / 2 + 'px',
+        'left': 0 - (height - width) / 2 + 'px',
+        'transform': 'rotate(90deg)',
+        'transform-origin':  '50% 50%',
+      };
+      return landscape;
+    }
+  },
+
   renderResize: (): ScreenInterface => {
     // 判断横竖屏
     let landscape: ScreenInterface;
