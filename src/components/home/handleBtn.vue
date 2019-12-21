@@ -20,8 +20,8 @@ export default class HandleBtn extends Vue {
 <style lang="scss">
   .btn {
     position: absolute;
-    width: 3rem;
-    height: 3rem;
+    width: 2.4rem;
+    height: 2.4rem;
     background-image: radial-gradient(circle, rgba(97, 107, 102, .5), rgba(85, 105, 121, .5));
     border: 1px solid #FBF4E5;
     text-align: center;
@@ -29,10 +29,10 @@ export default class HandleBtn extends Vue {
 
     .sik {
       position: absolute;
-      top: .5em;
-      left: 1em;
-      width: 5px;
-      height: 8px;
+      top: .4em;
+      left: .5em;
+      width: 4px;
+      height: 6px;
       background: #FCFEFF;
       border-radius: 50%;
       transform: rotate(45deg);
@@ -42,7 +42,7 @@ export default class HandleBtn extends Vue {
       position: absolute;
       top: 50%;
       left: 50%;
-      font-size: 27px;
+      font-size: 24px;
       color: #FBF1DE;
       transform: translate(-50%, -50%);
     }
@@ -51,7 +51,7 @@ export default class HandleBtn extends Vue {
       position: absolute;
       bottom: -20%;
       left: 0;
-      width: 40px;
+      width: 36px;
       color: #FBF1DE;
     }
   }

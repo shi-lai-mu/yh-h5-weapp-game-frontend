@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="home">
     <div class="head">
       <div class="title flex-row">
         <i class="game game-logo-y"></i>
@@ -32,6 +32,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Toast } from 'vant';
+import { ScreenInterface } from '@/interface/screen.interface';
+import landscape from '@/utils/screen';
 
 @Component
 export default class Feedback extends Vue {
@@ -40,6 +42,15 @@ export default class Feedback extends Vue {
   private feedBackType: any = [];
   private show: boolean = false;
   private type: string = '请选择';
+  // 根组件样式
+  private home: ScreenInterface = {
+    'width': '',
+    'height': '',
+    'top': '',
+    'left': '',
+    'transform': '',
+    'transform-origin': '',
+  };
 
   // 获取反馈类型
   public created() {
@@ -48,6 +59,11 @@ export default class Feedback extends Vue {
       .then((res: any) => {
         this.feedBackType = res;
       });
+  }
+
+  public mounted() {
+    const resize: any = landscape.setVertical();
+    this.home = resize;
   }
 
   // 选择反馈类型
@@ -90,12 +106,19 @@ export default class Feedback extends Vue {
           Toast(res.msg);
         } else {
           Toast('提交成功');
+          window.history.go(-1);
         }
       });
   }
 }
 </script>
 <style lang="scss" scoped>
+  .container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: all 550ms ease-in-out;
+  }
   .head {
     .title {
       height: 35px;
