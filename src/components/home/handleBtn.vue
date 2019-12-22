@@ -2,7 +2,7 @@
   <div class="btn" :style="'bottom:' + bottom + '%;'" data-click="click">
     <div class="sik" data-click="click"></div>
     <i :class="'game game-' + iconClass" data-click="click"></i>
-    <span class="icon-name" data-click="click">{{ iconName }}</span>
+    <span class="icon-name" data-click="click" v-text="iconName"></span>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default class HandleBtn extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .btn {
     position: absolute;
     width: 2.4rem;
@@ -26,6 +26,7 @@ export default class HandleBtn extends Vue {
     border: 1px solid #FBF4E5;
     text-align: center;
     border-radius: 50%;
+    user-select: none;
 
     .sik {
       position: absolute;
@@ -33,12 +34,12 @@ export default class HandleBtn extends Vue {
       left: .5em;
       width: 4px;
       height: 6px;
-      background: #FCFEFF;
+      background-color: #FCFEFF;
       border-radius: 50%;
       transform: rotate(45deg);
     }
 
-    .game{
+    .game {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -49,10 +50,18 @@ export default class HandleBtn extends Vue {
 
     .icon-name {
       position: absolute;
-      bottom: -20%;
+      bottom: -30%;
       left: 0;
       width: 36px;
+      font-size: .9em;
+      font-weight: bold;
       color: #FBF1DE;
+      -webkit-text-stroke-color: #644605;
+      -webkit-text-stroke-width: .4px;
+    }
+
+    &:active {
+      transform: scale(1.1);
     }
   }
 </style>

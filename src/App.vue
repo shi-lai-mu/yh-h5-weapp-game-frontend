@@ -61,9 +61,18 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+  @import url('./static/style.scss');
+  @import url('./static/icon.css');
+
   #app {
     font-size: 13px;
+    color: #333;
   }
-@import url('./static/style.scss');
-@import url('./static/icon.css');
+
+  // 小分辨率适配
+  @media screen and (max-height: 350px) {
+    #app .content >  * {
+      zoom: .8;
+    }
+  }
 </style>
