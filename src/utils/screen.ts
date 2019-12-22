@@ -3,14 +3,18 @@ import { ScreenInterface } from '@/interface/screen.interface';
 
 
 // 强制设置界面横屏
-export default {
+const screenUtil = {
 
+  /**
+   * 强制设置横屏显示
+   */
   setLandscape: () => {
-    // 强制设置横屏显示
-    const width: number = document.documentElement.clientWidth;
-    const height: number = document.documentElement.clientHeight;
+    const { clientWidth, clientHeight } = document.documentElement;
+    const width: number = clientWidth;
+    const height: number = clientHeight;
+    let landscape!: ScreenInterface;
     if (width < height) {
-      const landscape: ScreenInterface = {
+      landscape = {
         'width': height + 'px',
         'height': width + 'px',
         'top': (height - width) / 2 + 'px',
@@ -18,18 +22,21 @@ export default {
         'transform': 'rotate(90deg)',
         'transform-origin':  '50% 50%',
       };
-      return landscape;
-    } else {
-      return {};
     }
+    return landscape || {};
   },
 
+
+  /**
+   * 强制设置竖屏显示
+   */
   setVertical: () => {
-    // 强制设置竖屏显示
-    const width: number = document.documentElement.clientWidth;
-    const height: number = document.documentElement.clientHeight;
+    const { clientWidth, clientHeight } = document.documentElement;
+    const width: number = clientWidth;
+    const height: number = clientHeight;
+    let landscape!: ScreenInterface;
     if (width > height) {
-      const landscape: ScreenInterface = {
+      landscape = {
         'width': height + 'px',
         'height': width + 'px',
         'top': (height - width) / 2 + 'px',
@@ -37,8 +44,8 @@ export default {
         'transform': 'rotate(90deg)',
         'transform-origin':  '50% 50%',
       };
-      return landscape;
     }
+    return landscape || {};
   },
 
   renderResize: (): ScreenInterface => {
@@ -70,35 +77,41 @@ export default {
     return landscape;
   },
 
-  fullScreen: (isFullScreen: boolean) => {
-    // 全屏事件
-    const doc: any = document;
-    const element: any = document.documentElement;
-    if (isFullScreen) {
-      if (doc.exitFullscreen) {
-        doc.exitFullscreen();
-      } else if (doc.webkitCancelFullScreen) {
-        doc.webkitCancelFullScreen();
-      } else if (doc.mozCancelFullScreen) {
-        doc.mozCancelFullScreen();
-      } else if (doc.msExitFullscreen) {
-        doc.msExitFullscreen();
-      }
-    } else {
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.webkitRequestFullScreen) {
-        element.webkitRequestFullScreen();
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
+
+  /**
+   * 全屏切换
+   */
+  fullScreen: (isFullScreen: boolean = true) => {
+    const el = document.documentElement;
+    const dom = document || void 0;
+    // 屏幕同步错误
+    if (screenUtil.isFullScreen() !== isFullScreen) {
+      isFullScreen = !isFullScreen;
+    }
+
+    const target: any = isFullScreen ? dom : el;
+    const cancel_open_list = isFullScreen
+      ? ['exitFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen']
+      : ['requestFullscreen', 'webkitRequestFullScreen', 'mozRequestFullScreen', 'msRequestFullscreen']
+    ;
+    for (const n of cancel_open_list) {
+      if (target[n]) {
+        target[n]();
+        break;
       }
     }
-    if (isFullScreen) {
-      return false;
-    } else {
-      return true;
-    }
+    return !isFullScreen;
   },
+
+
+  /**
+   * 是否为全屏状态
+   */
+  isFullScreen: () => {
+    const doc: any = document;
+    return doc.isFullScreen || doc.mozIsFullScreen || doc.webkitIsFullScreen;
+  }
 };
+
+
+export default screenUtil;
