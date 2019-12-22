@@ -28,25 +28,23 @@
       <!-- 用户信息 -->
       <div class="flex-row">
         <div class="avatar">
-          <img src="../../static/images/avater.jpeg" alt="">
+          <van-image :src="`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${userInfo.avatarUrl ? userInfo.id : 'default'}.png?x-oss-process=style/tx`" fit="cover" />
         </div>
 
         <div class="user-info">
           <div class="row user-name">
-            <span>雨泽</span>
-            <div class="replace">
-              <b data-click="click">换</b>
-            </div>
+            <span v-text="userInfo.nickname" class="van-ellipsis"></span>
+            <img src="@/static/images/toggle_user.png" alt="" data-click="click">
           </div>
           <div class="row">
-            <img src="../../static/images/yuanbao.png" alt="">
-            <span>5000</span>
-            <img src="../../static/images/txadd.png" alt="" data-click="click">
+            <img src="@/static/images/yuanbao.png" alt="">
+            <span v-text="userInfo.treasure"></span>
+            <img src="@/static/images/txadd.png" alt="" data-click="click">
           </div>
           <div class="row">
-            <img src="../../static/images/jb.png" alt="">
-            <span>100</span>
-            <img src="../../static/images/txadd.png" alt="" data-click="click">
+            <img src="@/static/images/jb.png" alt="">
+            <span v-text="userInfo.gold"></span>
+            <img src="@/static/images/txadd.png" alt="" data-click="click">
           </div>
         </div>
 
@@ -94,11 +92,14 @@ import bgMusic from '@/components/public/bgMusic.vue';
 import clickMusic from '@/components/public/clickMusic.vue';
 import handleBtn from '@/components/home/handleBtn.vue';
 import landscape from '@/utils/screen';
+import { State } from 'vuex-class';
+import { Image } from 'vant';
 
 @Component({
   components: {
     handleBtn,
     bgMusic,
+    Image,
   },
 })
 export default class Home extends Vue {
@@ -118,11 +119,11 @@ export default class Home extends Vue {
   private moreGames: Games[] = []; // 更多游戏列表
   private smallMoreGames: Games[] = []; // 更多列表框游戏iocn
   private gamesList: Games[] = []; // 游戏列表
+  @State private userInfo!: any;
 
   // 获取主页必要的信息
   public created() {
     this.getCity();
-    this.getWeather();
     this.getGamesList();
   }
 
@@ -258,17 +259,14 @@ export default class Home extends Vue {
       border-radius: 2rem;
 
       .game-radio {
-        width: 17%;
-        font-size: 20px;
+        font-size: 1.6em;
       }
 
       .notice {
         position: relative;
-        top: 2px;
         overflow: hidden;
-        width: 82%;
-        height: 32px;
-        
+        width: 100%;
+        margin-left: .5em;
 
         span {
           display: inline-block;
@@ -280,7 +278,7 @@ export default class Home extends Vue {
 
         @keyframes carousel {
           0% {
-            transform: translateX(100%)
+            transform: translateX(200%)
           }
           100% {
             transform: translateX(-100%)
@@ -290,6 +288,7 @@ export default class Home extends Vue {
     }
 
     .location {
+      display: flex;
       position: absolute;
       top: 15%;
       left: 10%;
@@ -299,16 +298,16 @@ export default class Home extends Vue {
       color: #FEEECF;
       line-height: 24px;
       border-radius: 2rem;
+      align-items: center;
 
       .game {
         position: absolute;
-        left: -5%;
-        top: -10%;
-        font-size: 26px;
+        margin: 0 .1em;
+        font-size: 1.6em;
       }
 
       span {
-        margin-left: 30%;
+        margin-left: 2.5em;
       }
     }
 
@@ -331,6 +330,7 @@ export default class Home extends Vue {
 
       .user-info {
         margin-left: 10px;
+        padding-right: 1.2rem;
 
         .row {
           display: flex;
@@ -355,6 +355,7 @@ export default class Home extends Vue {
         }
         .user-name {
           span {
+            width: 7em;
             color: #FCEFD2 !important;
           }
           .replace {
@@ -378,6 +379,7 @@ export default class Home extends Vue {
       right: 5%;
       width: 42%;
       transform: translateY(-50%);
+      border: 1px solid rgba($color: #fff, $alpha: .2);
     }
     .games-list {
       position: absolute;
@@ -385,6 +387,7 @@ export default class Home extends Vue {
       height: 55%;
       background-color: rgba($color: #000000, $alpha: .3);
       border-radius: 10px;
+      transition: .5s;
 
       .list {
         display: flex;
@@ -426,6 +429,13 @@ export default class Home extends Vue {
         span {
           font-size: 14px;
           color: #fff;
+          -webkit-text-stroke-color: #999;
+          -webkit-text-stroke-width: .5px;
+        }
+
+        &:active {
+          transform: scale(1.1);
+          filter: brightness(1.1);
         }
       }
     }

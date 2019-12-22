@@ -36,14 +36,6 @@ export default class Login extends Vue {
   @Action private SET_USER!: (data: any) => void;
   @State private userInfo!: any;
 
-  public created() {
-    if (this.userInfo.token) {
-      this.$router.push({
-        name: 'home',
-      });
-    }
-  }
-
   // 登陆
   public handleLogin() {
     const account = this.account;
@@ -55,16 +47,24 @@ export default class Login extends Vue {
       Toast('密码不能为空！');
       return;
     }
-    this.$axios
+
+    const toast = Toast.loading({
+      duration: 0,
+      forbidClick: true,
+      message: '登陆中...',
+    });
+    this
+      .$axios
       .api('login', {
         data: {
           account,
           password,
           token: false,
         },
-      }).then( (res: any) => {
+      })
+      .then( (res: any) => {
         if (res.id) {
-          Toast('登陆成功');
+          Toast.success('登陆成功');
           // 保存用户登陆的账号密码
           localStorage.setItem('userAccount', JSON.stringify({
             account,
@@ -77,8 +77,13 @@ export default class Login extends Vue {
             });
           }, 1500);
         } else {
-          Toast(res.msg);
+          Toast.fail('登陆失败: ' + res.msg);
         }
+        toast.clear();
+      })
+      .catch((err) => {
+        toast.clear();
+        Toast.fail('登陆失败: ' + err.message);
       });
   }
 }
