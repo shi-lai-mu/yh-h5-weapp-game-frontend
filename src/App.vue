@@ -65,7 +65,6 @@ export default class App extends Vue {
   @import url('./static/icon.css');
 
   #app {
-    font-size: 13px;
     color: #333;
   }
 
