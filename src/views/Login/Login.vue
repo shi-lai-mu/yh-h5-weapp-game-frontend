@@ -102,6 +102,7 @@ export default class Login extends Vue {
       input {
         width: 66%;
         border: 0;
+        font-size: 17px;
         line-height: 40px;
         outline: none;
       }

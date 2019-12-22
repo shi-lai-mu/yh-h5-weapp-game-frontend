@@ -62,7 +62,7 @@ export default class App extends Vue {
 
 <style lang="scss">
   #app {
-    font-size: 13px;
+    font-size: 15px;
   }
 @import url('./static/style.scss');
 @import url('./static/icon.css');
