@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Action, State } from 'vuex-class';
 import clickMusic from '@/components/public/clickMusic.vue';
 import { Toast } from 'vant';
@@ -19,10 +19,6 @@ import { Toast } from 'vant';
 export default class App extends Vue {
   @Action private SET_USER!: (data: any) => void;
   @State private userInfo!: any;
-  @Watch('userInfo')
-    private userInfoChange(val: any) {
-      console.log(val);
-    }
 
   private created() {
     const to = this.filterLoginState();
@@ -36,7 +32,6 @@ export default class App extends Vue {
       }
       next();
     });
-
   }
 
 
@@ -80,7 +75,7 @@ export default class App extends Vue {
             token: false,
           },
         })
-        .then( (res: any) => {
+        .then((res: any) => {
           if (res.id) {
             this.SET_USER(res);
             toast && toast.clear();
