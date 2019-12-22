@@ -149,7 +149,7 @@ $axios.interceptors.request.use(
       const targetClock = requestClock[requestKey];
       if (targetClock && targetClock > Date.now()) {
         return Promise.reject({
-          error: '频繁请求拦截！',
+          error: '频繁请求拦截！URL:' + requestKey,
         });
       }
       requestClock[requestKey] = Date.now() + 400;

@@ -9,13 +9,11 @@ import 'vant/lib/index.css';
 import io from 'socket.io-client';
 import obServer from '@/utils/obServer';
 import defaultConfig from '@/config/default.config';
-import { AxiosInstance } from 'axios';
 
 const socket = io(defaultConfig.io.host);
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $axios: AxiosInstance;
     $io: typeof socket;
     $observer: typeof obServer;
   }
