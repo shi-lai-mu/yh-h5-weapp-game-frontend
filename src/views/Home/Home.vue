@@ -122,7 +122,6 @@ export default class Home extends Vue {
   // 获取主页必要的信息
   public created() {
     this.getCity();
-    this.getWeather();
     this.getGamesList();
   }
 
