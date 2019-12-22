@@ -20,6 +20,10 @@
         <span>没有账号，去注册</span>
         <van-icon name="arrow" />
       </router-link>
+      <router-link to="/home">
+        <span>没有账号，去注册</span>
+        <van-icon name="arrow" />
+      </router-link>
     </div>
   </div>
 </template>
@@ -35,14 +39,6 @@ export default class Login extends Vue {
 
   @Action private SET_USER!: (data: any) => void;
   @State private userInfo!: any;
-
-  public created() {
-    if (this.userInfo.token) {
-      this.$router.push({
-        name: 'home',
-      });
-    }
-  }
 
   // 登陆
   public handleLogin() {
