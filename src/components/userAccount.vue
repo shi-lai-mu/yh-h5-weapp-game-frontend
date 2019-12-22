@@ -373,6 +373,7 @@ export default class UserAccount extends Vue {
 
       input {
         border: 0;
+        font-size: 17px;
       }
 
       .code-btn {
