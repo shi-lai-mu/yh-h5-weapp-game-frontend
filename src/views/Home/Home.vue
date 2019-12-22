@@ -287,6 +287,7 @@ export default class Home extends Vue {
     }
 
     .location {
+      display: flex;
       position: absolute;
       top: 15%;
       left: 10%;
@@ -296,6 +297,7 @@ export default class Home extends Vue {
       color: #FEEECF;
       line-height: 24px;
       border-radius: 2rem;
+      align-items: center;
 
       .game {
         position: absolute;
