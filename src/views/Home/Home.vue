@@ -265,7 +265,7 @@ export default class Home extends Vue {
         position: relative;
         overflow: hidden;
         width: 100%;
-        margin-left: 2.5em;
+        margin-left: .5em;
 
         span {
           display: inline-block;
@@ -277,7 +277,7 @@ export default class Home extends Vue {
 
         @keyframes carousel {
           0% {
-            transform: translateX(100%)
+            transform: translateX(200%)
           }
           100% {
             transform: translateX(-100%)
