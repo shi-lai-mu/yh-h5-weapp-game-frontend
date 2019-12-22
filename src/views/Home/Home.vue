@@ -258,17 +258,14 @@ export default class Home extends Vue {
       border-radius: 2rem;
 
       .game-radio {
-        width: 17%;
-        font-size: 20px;
+        font-size: 1.6em;
       }
 
       .notice {
         position: relative;
-        top: 2px;
         overflow: hidden;
-        width: 82%;
-        height: 32px;
-        
+        width: 100%;
+        margin-left: 2.5em;
 
         span {
           display: inline-block;
@@ -302,13 +299,12 @@ export default class Home extends Vue {
 
       .game {
         position: absolute;
-        left: -5%;
-        top: -10%;
-        font-size: 26px;
+        margin: 0 .1em;
+        font-size: 1.6em;
       }
 
       span {
-        margin-left: 30%;
+        margin-left: 2.5em;
       }
     }
 
