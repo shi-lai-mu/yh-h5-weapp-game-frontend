@@ -11,8 +11,5 @@ import userAccount from '@/components/userAccount.vue';
     userAccount,
   },
 })
-export default class Register extends Vue {
-}
+export default class Register extends Vue {}
 </script>
-<style lang="scss" scoped>
-</style>

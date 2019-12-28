@@ -9,7 +9,7 @@
     <div class="input">
       <input type="password" placeholder="请输入密码" v-model="pwd">
     </div>
-    <van-button type="info" round @click="handleLogin">登陆</van-button>
+    <Button type="info" round  size="large" @click="handleLogin">登陆</Button>
     <div class="navigation forget">
       <router-link to="/resetPwd">
         <span>忘记密码 ？</span>
@@ -18,7 +18,7 @@
     <div class="navigation reg">
       <router-link to="/register">
         <span>没有账号，去注册</span>
-        <van-icon name="arrow" />
+        <Icon name="arrow" />
       </router-link>
     </div>
   </div>
@@ -26,9 +26,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Action, State } from 'vuex-class';
-import { Toast } from 'vant';
+import { Toast, Icon, Button } from 'vant';
 
-@Component
+@Component({
+  components: {
+    Icon,
+    Button,
+  },
+})
 export default class Login extends Vue {
   private account: string = '';             // 用户登陆账号
   private pwd: string = '';                 // 注册密码
@@ -88,7 +93,7 @@ export default class Login extends Vue {
   }
 }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
   .login {
     padding: 20px;
 
@@ -129,10 +134,8 @@ export default class Login extends Vue {
       }
     }
 
-    .forget {     
-      a {
-        color: #b8b8b8 !important;
-      }
+    .forget a {     
+      color: #b8b8b8 !important;
     }
   }
 </style>

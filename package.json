@@ -11,6 +11,8 @@
     "@types/qs": "^6.5.3",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
     "qs": "^6.9.0",
     "socket.io-client": "^2.3.0",
     "vant": "^2.2.16",
@@ -29,6 +31,7 @@
     "lint-staged": "^8.1.5",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
+    "ts-import-plugin": "^1.6.2",
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.6.10"
   },

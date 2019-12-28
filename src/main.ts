@@ -3,9 +3,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store/index';
 import axios from '@/lib/axios';
-import Vant from 'vant';
+// import Vant from 'vant';
 import Popup from '@/components/public/popup.vue';
-import 'vant/lib/index.css';
+// import 'vant/lib/index.css';
 import io from 'socket.io-client';
 import obServer from '@/utils/obServer';
 import defaultConfig from '@/config/default.config';
@@ -19,13 +19,12 @@ declare module 'vue/types/vue' {
   }
 }
 
-
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.prototype.$io = socket;
 Vue.prototype.$observer = obServer;
 
-Vue.use(Vant);
+// Vue.use(Vant);
 Vue.component('popup', Popup);
 
 new Vue({
