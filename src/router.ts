@@ -8,7 +8,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: () => import('@/views/Home/Home.vue'),
     },
@@ -18,7 +18,7 @@ export default new Router({
       component: () => import('@/views/Login/Register.vue'),
     },
     {
-      path: '*',
+      path: '/login',
       name: 'login',
       component: () => import('@/views/Login/Login.vue'),
     },

@@ -168,7 +168,6 @@ export default class Home extends Vue {
         }
       })
       .catch((err: any) => {
-        console.log(err);
         this.location = null;
       });
   }
@@ -178,7 +177,6 @@ export default class Home extends Vue {
     this.$axios
       .api('get_weather')
       .then((res: any) => {
-        console.log(res.data.forecast);
         if (res.data) {
           this.weather = res.data.forecast[0];
         } else {
@@ -186,7 +184,6 @@ export default class Home extends Vue {
         }
       })
       .catch((err: any) => {
-        console.log(err);
         this.weather = null;
       });
   }
