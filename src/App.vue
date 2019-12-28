@@ -122,9 +122,6 @@ export default class App extends Vue {
   @import url('./static/icon.css');
 
   #app {
-<<<<<<< HEAD
-    font-size: 15px;
-=======
     color: #333;
   }
 
@@ -133,6 +130,5 @@ export default class App extends Vue {
     #app .content >  * {
       zoom: .8;
     }
->>>>>>> 0ee7c34260d616e3f9bb133a5085f761a53e5423
   }
 </style>
