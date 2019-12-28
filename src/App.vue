@@ -6,10 +6,11 @@
 </template>
 
 <script lang="ts">
+import clickMusic from '@/components/public/clickMusic.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { Action, State } from 'vuex-class';
-import clickMusic from '@/components/public/clickMusic.vue';
 import { Toast } from 'vant';
+let loginStateTimeout;
 
 @Component({
   components: {
@@ -22,13 +23,14 @@ export default class App extends Vue {
 
   private created() {
     const to = this.filterLoginState();
-    if (to) {
+    if (to && typeof to !== 'boolean') {
       this.$router.push(to);
     }
 
     this.$router.beforeEach((to, from, next) => {
-      if (!['login', 'register'].includes(to.name || '')) {
-        next(this.filterLoginState());
+      const toPage = this.filterLoginState();
+      if (!['login', 'register'].includes(to.name || '') && typeof toPage !== 'boolean') {
+        next(toPage);
       }
       next();
     });
@@ -39,6 +41,9 @@ export default class App extends Vue {
    * 路由守卫 登陆检测
    */
   private filterLoginState() {
+    if (this.userInfo.id) {
+      return true;
+    }
     let userInfo: any = localStorage.getItem('userInfo');
     userInfo = JSON.parse(userInfo);
     let to;
@@ -64,6 +69,10 @@ export default class App extends Vue {
           forbidClick: true,
           message: '授权登陆中...',
         });
+        loginStateTimeout = setTimeout(() => {
+            toast && toast.clear();
+            Toast.fail('登陆超时，请稍后再试!');
+        }, 5000);
       }, 500);
       // 重新登陆
       this
@@ -72,17 +81,22 @@ export default class App extends Vue {
           data: {
             account,
             password,
-            token: false,
           },
         })
         .then((res: any) => {
+          clock && clearTimeout(clock);
           if (res.id) {
             this.SET_USER(res);
             toast && toast.clear();
-            clock && clearTimeout(clock);
             this.$router.push({
               name: 'home',
             });
+          } else {
+            Toast.fail(res.msg ? res.error + ': ' + res.msg : '登陆失败，账号数据异常!');
+            // 缓存密码错误 ?
+            if (/密码错误/.test(res.msg)) {
+              localStorage.clear();
+            }
           }
         })
         .catch(() => {

@@ -63,6 +63,7 @@ export default class Login extends Vue {
         },
       })
       .then( (res: any) => {
+        toast.clear();
         if (res.id) {
           Toast.success('登陆成功');
           // 保存用户登陆的账号密码
@@ -79,7 +80,6 @@ export default class Login extends Vue {
         } else {
           Toast.fail('登陆失败: ' + res.msg);
         }
-        toast.clear();
       })
       .catch((err) => {
         toast.clear();
