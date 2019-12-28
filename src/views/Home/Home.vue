@@ -28,7 +28,7 @@
       <!-- 用户信息 -->
       <div class="flex-row">
         <div class="avatar">
-          <van-image :src="`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${userInfo.avatarUrl ? userInfo.id : 'default'}.png?x-oss-process=style/tx`" fit="cover" />
+          <vanImage :src="`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${userInfo.avatarUrl ? userInfo.id : 'default'}.png?x-oss-process=style/tx`" fit="cover" />
         </div>
 
         <div class="user-info">
@@ -99,7 +99,7 @@ import { Image } from 'vant';
   components: {
     handleBtn,
     bgMusic,
-    Image,
+    vanImage: Image,
   },
 })
 export default class Home extends Vue {

@@ -8,34 +8,42 @@
       <div class="notice">欢迎您给游惠小游戏提出任何建议，非常感谢！！！</div>
     </div>
 
-    <div class="content">
-      <div class="row">
-        <span class="span">联系方式（必填）</span>
-        <input type="text" v-model="contact">
-      </div>
+    <CellGroup>
+      <Field v-model="contact" label="联系方式" />
+      <Field
+        v-model="content"
+        rows="1"
+        autosize
+        maxlength="200"
+        label="建议描述"
+        type="textarea"
+        placeholder="请输入您的建议"
+      />
+    </CellGroup>
 
-      <div class="row">
-        <span class="span">建议描述（必填）</span>
-        <textarea maxlength="200" v-model="content" placeholder="请输入您的建议"></textarea>
-      </div>
-    </div>
-
-    <div class="content">
+    <div class="content" @click="showPopup">
       <span class="span">反馈类型：{{ type }}</span>
-      <i class="game game-arrow-right" @click="showPopup"></i>
-      <van-action-sheet v-model="show" :actions="feedBackType" @select="onSelect" />
+      <i class="game game-arrow-right"></i>
+      <ActionSheet v-model="show" :actions="feedBackType" @select="onSelect" />
     </div>
 
-    <van-button type="info" round @click="handleSubmit">提交</van-button>
+    <Button type="info" round @click="handleSubmit">提交</Button>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Toast } from 'vant';
+import { Toast, Button, Field, ActionSheet, CellGroup } from 'vant';
 import { ScreenInterface } from '@/interface/screen.interface';
 import landscape from '@/utils/screen';
 
-@Component
+@Component({
+  components: {
+    Button,
+    ActionSheet,
+    Field,
+    CellGroup,
+  },
+})
 export default class Feedback extends Vue {
   private contact: string = '';
   private content: string = '';
@@ -140,17 +148,19 @@ export default class Feedback extends Vue {
   }
 
   .content{
+    display: flex;
     padding: 10px;
     margin: 8px 5px;
     background: #fff;
     border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
 
     .span {
       color: #666;
     }
 
     .game-arrow-right {
-      float: right;
       color: #666;
     }
 
@@ -161,7 +171,7 @@ export default class Feedback extends Vue {
 
       input {
         height: 25px;
-        border: 1px solid #b8b8b8;
+        border: 1px solid #ccc;
         border-radius: 5px;
       }
 
@@ -169,9 +179,14 @@ export default class Feedback extends Vue {
         display: block;
         width: 100%;
         height: 100px;
-        border: 1px solid #b8b8b8;
+        padding: 5px;
+        border: 1px solid #ccc;
         margin-top: 10px;
         border-radius: 5px;
+
+        &::placeholder {
+          color: #ddd;
+        }
       }
     }
   }

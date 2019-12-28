@@ -11,8 +11,5 @@ import userAccount from '@/components/userAccount.vue';
     userAccount,
   },
 })
-export default class ResetPwd extends Vue {
-}
+export default class ResetPwd extends Vue {}
 </script>
-<style lang="scss" scoped>
-</style>

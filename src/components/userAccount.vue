@@ -20,7 +20,7 @@
     <div class="input">
       <div>
         <input type="text" placeholder="请输入验证码" v-model="authCode" @blur="checkAuthCode">
-        <van-icon name="checked" color="#27ae60" v-if="verifyAuthCode"/>
+        <Icon name="checked" color="#27ae60" v-if="verifyAuthCode"/>
         <template v-else>
           <span class="code-btn" @click="getAuthCode" v-if="getCodeShow">{{ authText }}</span>
           <span v-else class="time-down">{{ authText }}</span>
@@ -34,22 +34,27 @@
     <div class="input">
       <input type="password" placeholder="确认密码" v-model="confirmPwd" @blur="checkPwd">
     </div>
-    <van-button type="info" round @click="handleSubmit" v-if="handle === 'register'">注册</van-button>
-    <van-button type="info" round @click="handleSubmit" v-else>确认修改</van-button>
+    <Button type="info" round @click="handleSubmit" v-if="handle === 'register'">注册</Button>
+    <Button type="info" round @click="handleSubmit" v-else>确认修改</Button>
     <div class="navigation">
       <router-link to="/login">
         <span>账号登录</span>
-        <van-icon name="arrow" />
+        <Icon name="arrow" />
       </router-link>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Toast } from 'vant';
+import { Toast, Button, Icon } from 'vant';
 let timer: any;
 
-@Component
+@Component({
+  components: {
+    Button,
+    Icon,
+  },
+})
 export default class UserAccount extends Vue {
   @Prop(String) private title!: string;
   @Prop(String) private handle!: string;
