@@ -129,9 +129,10 @@ export default class Feedback extends Vue {
   }
   .head {
     .title {
-      height: 35px;
+      height: 45px;
       padding: 10px;
       background: #3498db;
+      font-size: 17px;
       color: #fff;
 
       .game-logo-y {
@@ -142,7 +143,7 @@ export default class Feedback extends Vue {
     .notice {
       padding: 8px 10px;
       background: #fff;
-      font-size: 12px;
+      font-size: 14px;
       color: #999;
     }
   }
@@ -170,8 +171,15 @@ export default class Feedback extends Vue {
       }
 
       input {
+<<<<<<< HEAD
         height: 25px;
         border: 1px solid #ccc;
+=======
+        width: 170px;
+        height: 35px;
+        padding-left: 6px;
+        border: 1px solid #b8b8b8;
+>>>>>>> e75d8cae50325a5e211b3192501e47c6dabe0eb4
         border-radius: 5px;
       }
 
@@ -179,8 +187,13 @@ export default class Feedback extends Vue {
         display: block;
         width: 100%;
         height: 100px;
+<<<<<<< HEAD
         padding: 5px;
         border: 1px solid #ccc;
+=======
+        padding: 8px;
+        border: 1px solid #b8b8b8;
+>>>>>>> e75d8cae50325a5e211b3192501e47c6dabe0eb4
         margin-top: 10px;
         border-radius: 5px;
 
