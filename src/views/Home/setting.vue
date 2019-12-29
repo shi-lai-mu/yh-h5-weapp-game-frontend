@@ -1,14 +1,17 @@
 <template>
   <div>
-    setting
+    settingsad
   </div>
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
+@Component
 export default class HomeSetting extends Vue {
-  
+  private created() {
+    console.log(123465);
+  }
 }
 </script>
 

@@ -100,8 +100,10 @@
       </ul>
     </div>
 
-    <Popup v-model="componentPopup">
-      <component :is="require('./' + componentId + '.vue')" v-if="componentId"></component>
+    <Popup v-model="componentPopup" @close="componentId = null" class="component_popup">
+      <span class="popup-title">设置</span>
+      <i class="popup-close" @click="componentId = null" data-click="click"></i>
+      <component :is="componentList[componentId]" v-if="componentId" class="popup-content"></component>
     </Popup>
     <!-- <bgMusic ref="bgMusic"/> -->
   </div>
@@ -170,6 +172,12 @@ export default class Home extends Vue {
    * 弹窗
    */
   private componentId: any = null;
+  /**
+   * 弹窗组件
+   */
+  private componentList: any = {
+    setting: (resolve: any) => require([ './setting.vue' ], resolve),
+  };
   /**
    * 弹窗显示
    */
@@ -328,341 +336,397 @@ export default class Home extends Vue {
     width: 100%;
     height: 100%;
     transition: all 550ms ease-in-out;
+
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding-left: 30px;
+
+      .radio {
+        display: flex;
+        position: absolute;
+        top: 5%;
+        left: 10%;
+        width: 26%;
+        padding-left: 5px;
+        background-color: rgba($color: #000000, $alpha: .3);
+        color: #FEEECF;
+        line-height: 32px;
+        border-radius: 2rem;
+
+        .game-radio {
+          font-size: 1.6em;
+        }
+
+        .notice {
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+          margin-left: .5em;
+
+          span {
+            display: inline-block;
+            color: #FEEECF;
+            text-overflow: clip;
+            white-space: nowrap;
+            animation: carousel 7s linear infinite;
+          }
+
+          @keyframes carousel {
+            0% {
+              transform: translateX(200%)
+            }
+            100% {
+              transform: translateX(-100%)
+            }
+          }
+        }
+      }
+
+      .location {
+        display: flex;
+        position: absolute;
+        top: 15%;
+        left: 10%;
+        width: 13%;
+        height: 24px;
+        background-image: linear-gradient(to right, rgba($color: #000000, $alpha: .8), rgba($color: #000000, $alpha: 0));
+        color: #FEEECF;
+        line-height: 24px;
+        border-radius: 2rem;
+        align-items: center;
+
+        .game {
+          position: absolute;
+          margin: 0 .1em;
+          font-size: 1.6em;
+        }
+
+        span {
+          margin-left: 2.5em;
+        }
+      }
+
+      .flex-row {
+        position: absolute;
+        bottom: 1%;
+
+        .avatar {
+          overflow: hidden;
+          width: 4.5rem;
+          height: 4.5rem;
+          border: 3px solid #FBE3A5;
+          border-radius: 5px;
+          
+          img {
+            width: 3.5rem;
+            height: 3.5rem;
+          }
+        }
+
+        .user-info {
+          margin-left: 10px;
+          padding-right: 1.2rem;
+
+          .row {
+            display: flex;
+            min-width: 100px;
+            height: 26px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #b2b2b2;
+
+            img {
+              width: 1.4rem;
+              height: 1.4rem;
+            }
+
+            span {
+              width: 60%;
+              padding-left: 5px;
+              font-weight: bold;
+              color: #F7DE95 !important;
+              letter-spacing: 2px;
+            }
+          }
+          .user-name {
+            span {
+              width: 7em;
+              color: #FCEFD2 !important;
+            }
+            .replace {
+              width: 1.2rem;
+              line-height: 1.2rem;
+              color: #A07354;
+              text-align: center;
+              border-radius: 50%;
+              background-image: radial-gradient(circle, #FACF9C, #ECD7C2, #fff);
+              
+              b {
+                position: relative;
+                top: 2px;
+              }
+            }
+          }
+        }
+      }
+
+      .right-games {
+        right: 5%;
+        width: 42%;
+        transform: translateY(-50%);
+        border: 1px solid rgba($color: #fff, $alpha: .2);
+      }
+
+      .games-list {
+        position: absolute;
+        top: 50%;  
+        height: 55%;
+        background-image: radial-gradient(transparent, rgba($color: #000, $alpha: .5));
+        border-radius: 10px;
+        transition: .5s;
+
+        .list {
+          display: flex;
+          float: left;
+          width: 33%;
+          height: 40%;
+          margin: 4% 0;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+
+          img {
+            width: 5em;
+            height: 5em;
+            border-radius: 13px;
+          }
+
+          .more-games {
+            width: 5em;
+            height: 5em;
+            padding: 5px;
+            border: 1px solid rgba($color: #fff, $alpha: .7);
+            background-color: rgba($color: #fff, $alpha: .4);
+            border-radius: 15px;
+            columns: 2;
+
+            img {
+              width: 1.6em;
+              height: 1.6em;
+            }
+
+            .game-ellipsis {
+              float: right;
+              margin-right: 4px;
+              font-size: 26px;
+              color: #fff;
+            }
+          }
+
+          span {
+            font-size: 14px;
+            color: #fff;
+            -webkit-text-stroke-color: #999;
+            -webkit-text-stroke-width: .5px;
+          }
+
+          &:active {
+            transform: scale(1.1);
+            filter: brightness(1.1);
+          }
+        }
+      }
+
+      .more-games-popup {
+
+        .game-solid-close {
+          padding: fixed;
+          top: 22.5%;
+          right: 23%;
+        }
+
+        .popup-games {
+          position: absolute;
+          z-index: 1000;
+          overflow-y: auto;
+          overflow-x: hidden;
+          width: 54%;
+          background-image: linear-gradient(to bottom, rgba($color: #9198A2, $alpha: .8) 0%, rgba($color: #fff, $alpha: .15) 20%);
+
+          .list {
+            width: 25%;
+            margin: 3% 0;
+          }
+        }
+      }
+
+      .main_ui {
+        background: url('../../../public/Plist_MainUI.png') no-repeat;
+        background-size: 410px;
+      }
+
+      .bottom-bar {
+        display: flex;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 342px;
+        height: 3.5em;
+        background-size: 410px;
+        background-position-y: -243px;
+        transform-origin: bottom right;
+        transform: scale(1.5);
+        align-items: flex-end;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .ui_btn {
+        display: inline-block;
+        width: 30px;
+        height: 40px;
+        margin: 0 1vw;
+        background-size: 365px;
+        transform: scale(.8) translateY(10%);
+
+        &:active {
+          transform: scale(.9) translateY(10%);
+        }
+      }
+
+      .ui_btn_round {
+        width: 40px;
+        background-size: 295px;
+      }
+      
+      .top-bar {
+        display: flex;
+        position: absolute;
+        right: 1vw;
+        top: 0;
+        width: 342px;
+        height: 3.5em;
+        background-size: 410px;
+        background-position-y: -243px;
+        transform-origin: bottom right;
+        transform: scale(1.5);
+        align-items: flex-end;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        .ui_btn {
+          margin: 0 .2vw;
+        }
+      }
+
+      .left-content-bar {
+        position: absolute;
+        top: 25%;
+        left: 10%;
+        width: 237px;
+
+        li {
+          width: 100%;
+          height: 5rem;
+          margin-bottom: 1vh;
+
+          &:active {
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      .create_room {
+        background-position: 0 -79px;
+      }
+
+      .ui_friends {
+        background-position: -100px -143px;
+      }
+
+      .ui_backpack {
+        background-position: -1px -143px;
+      }
+
+      .ui_record {
+        background-position: -36px -143px;
+      }
+
+      .ui_recruiting {
+        background-position: -68px -143px;
+      }
+
+      .ui_shop {
+        background-position: -214px -88px;
+      }
+
+      .ui_activity {
+        background-position: -171px -53px;
+      }
+    }
+
+    .component_popup {
+      width: 60vw;
+      height: 90vh;
+      background: url('../../assets/zyc_DI.png') no-repeat;
+      background-size: 100%;
+
+      &::after,
+      .popup-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 95%;
+        height: 60vh;
+        margin: auto;
+        background-color: rgba($color: #ecd9b0, $alpha: .95);
+        box-shadow: 0 5px 5px #4d4533;
+        border-radius: 1rem;
+        content: '';
+      }
+
+      // .popup-title {
+      //   display: block;
+      //   line-height: 2em;
+      //   font-size: 1.5em;
+      //   font-weight: bolder;
+      //   color: #ecd9b0;
+      //   text-align: center;
+      //   -webkit-text-stroke-color: #A07354;
+      //   -webkit-text-stroke-width: 1px;
+      // }
+
+      .popup-content {
+        z-index: 1;
+        overflow-y: scroll;
+      }
+
+      .popup-close {
+        position: absolute;
+        top: 2vw;
+        right: 0;
+        width: 4vw;
+        height: 4vw;
+        background: url('../../assets/TY_btn_close.png') no-repeat;
+        background-size: 100%;
+
+        &:active {
+          transform: scale(1.1);
+        }
+      }
+    }
   }
+
   .bg-img {
     width: 100%;
     height: 100%;
     transform: translate(-1px, 1px);
   }
-  .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding-left: 30px;
 
-    .radio {
-      display: flex;
-      position: absolute;
-      top: 5%;
-      left: 10%;
-      width: 26%;
-      padding-left: 5px;
-      background-color: rgba($color: #000000, $alpha: .3);
-      color: #FEEECF;
-      line-height: 32px;
-      border-radius: 2rem;
-
-      .game-radio {
-        font-size: 1.6em;
-      }
-
-      .notice {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        margin-left: .5em;
-
-        span {
-          display: inline-block;
-          color: #FEEECF;
-          text-overflow: clip;
-          white-space: nowrap;
-          animation: carousel 7s linear infinite;
-        }
-
-        @keyframes carousel {
-          0% {
-            transform: translateX(200%)
-          }
-          100% {
-            transform: translateX(-100%)
-          }
-        }
-      }
-    }
-
-    .location {
-      display: flex;
-      position: absolute;
-      top: 15%;
-      left: 10%;
-      width: 13%;
-      height: 24px;
-      background-image: linear-gradient(to right, rgba($color: #000000, $alpha: .8), rgba($color: #000000, $alpha: 0));
-      color: #FEEECF;
-      line-height: 24px;
-      border-radius: 2rem;
-      align-items: center;
-
-      .game {
-        position: absolute;
-        margin: 0 .1em;
-        font-size: 1.6em;
-      }
-
-      span {
-        margin-left: 2.5em;
-      }
-    }
-
-    .flex-row {
-      position: absolute;
-      bottom: 1%;
-
-      .avatar {
-        overflow: hidden;
-        width: 4.5rem;
-        height: 4.5rem;
-        border: 3px solid #FBE3A5;
-        border-radius: 5px;
-        
-        img {
-          width: 3.5rem;
-          height: 3.5rem;
-        }
-      }
-
-      .user-info {
-        margin-left: 10px;
-        padding-right: 1.2rem;
-
-        .row {
-          display: flex;
-          min-width: 100px;
-          height: 26px;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid #b2b2b2;
-
-          img {
-            width: 1.4rem;
-            height: 1.4rem;
-          }
-
-          span {
-            width: 60%;
-            padding-left: 5px;
-            font-weight: bold;
-            color: #F7DE95 !important;
-            letter-spacing: 2px;
-          }
-        }
-        .user-name {
-          span {
-            width: 7em;
-            color: #FCEFD2 !important;
-          }
-          .replace {
-            width: 1.2rem;
-            line-height: 1.2rem;
-            color: #A07354;
-            text-align: center;
-            border-radius: 50%;
-            background-image: radial-gradient(circle, #FACF9C, #ECD7C2, #fff);
-            
-            b {
-              position: relative;
-              top: 2px;
-            }
-          }
-        }
-      }
-    }
-
-    .right-games {
-      right: 5%;
-      width: 42%;
-      transform: translateY(-50%);
-      border: 1px solid rgba($color: #fff, $alpha: .2);
-    }
-
-    .games-list {
-      position: absolute;
-      top: 50%;  
-      height: 55%;
-      background-image: radial-gradient(transparent, rgba($color: #000, $alpha: .5));
-      border-radius: 10px;
-      transition: .5s;
-
-      .list {
-        display: flex;
-        float: left;
-        width: 33%;
-        height: 40%;
-        margin: 4% 0;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-
-        img {
-          width: 5em;
-          height: 5em;
-          border-radius: 13px;
-        }
-
-        .more-games {
-          width: 5em;
-          height: 5em;
-          padding: 5px;
-          border: 1px solid rgba($color: #fff, $alpha: .7);
-          background-color: rgba($color: #fff, $alpha: .4);
-          border-radius: 15px;
-          columns: 2;
-
-          img {
-            width: 1.6em;
-            height: 1.6em;
-          }
-
-          .game-ellipsis {
-            float: right;
-            margin-right: 4px;
-            font-size: 26px;
-            color: #fff;
-          }
-        }
-
-        span {
-          font-size: 14px;
-          color: #fff;
-          -webkit-text-stroke-color: #999;
-          -webkit-text-stroke-width: .5px;
-        }
-
-        &:active {
-          transform: scale(1.1);
-          filter: brightness(1.1);
-        }
-      }
-    }
-
-    .more-games-popup {
-
-      .game-solid-close {
-        padding: fixed;
-        top: 22.5%;
-        right: 23%;
-      }
-
-      .popup-games {
-        position: absolute;
-        z-index: 1000;
-        overflow-y: auto;
-        overflow-x: hidden;
-        width: 54%;
-        background-image: linear-gradient(to bottom, rgba($color: #9198A2, $alpha: .8) 0%, rgba($color: #fff, $alpha: .15) 20%);
-
-        .list {
-          width: 25%;
-          margin: 3% 0;
-        }
-      }
-    }
-
-    .main_ui {
-      background: url('../../../public/Plist_MainUI.png') no-repeat;
-      background-size: 410px;
-    }
-
-    .bottom-bar {
-      display: flex;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 342px;
-      height: 3.5em;
-      background-size: 410px;
-      background-position-y: -243px;
-      transform-origin: bottom right;
-      transform: scale(1.5);
-      align-items: flex-end;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .ui_btn {
-      display: inline-block;
-      width: 30px;
-      height: 40px;
-      margin: 0 1vw;
-      background-size: 365px;
-      transform: scale(.8) translateY(10%);
-
-      &:active {
-        transform: scale(.9) translateY(10%);
-      }
-    }
-
-    .ui_btn_round {
-      width: 40px;
-      background-size: 295px;
-    }
-    
-    .top-bar {
-      display: flex;
-      position: absolute;
-      right: 1vw;
-      top: 0;
-      width: 342px;
-      height: 3.5em;
-      background-size: 410px;
-      background-position-y: -243px;
-      transform-origin: bottom right;
-      transform: scale(1.5);
-      align-items: flex-end;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-
-      .ui_btn {
-        margin: 0 .2vw;
-      }
-    }
-
-    .left-content-bar {
-      position: absolute;
-      top: 25%;
-      left: 10%;
-      width: 237px;
-
-      li {
-        width: 100%;
-        height: 5rem;
-        margin-bottom: 1vh;
-
-        &:active {
-          transform: scale(1.05);
-        }
-      }
-    }
-
-    .create_room {
-      background-position: 0 -79px;
-    }
-
-    .ui_friends {
-      background-position: -100px -143px;
-    }
-
-    .ui_backpack {
-      background-position: -1px -143px;
-    }
-
-    .ui_record {
-      background-position: -36px -143px;
-    }
-
-    .ui_recruiting {
-      background-position: -68px -143px;
-    }
-
-    .ui_shop {
-      background-position: -214px -88px;
-    }
-
-    .ui_activity {
-      background-position: -171px -53px;
-    }
-  }
 </style>
