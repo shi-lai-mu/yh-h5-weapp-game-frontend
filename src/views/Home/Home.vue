@@ -23,7 +23,7 @@
       <handleBtn iconName="反 馈" iconClass="feadback" bottom="68" @click.native="toFeadback"/>
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="54" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="40"/>
-      <handleBtn iconName="设 置" iconClass="settings" bottom="26"/>
+      <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="componentId = 'setting'"/>
 
       <!-- 用户信息 -->
       <div class="flex-row">
@@ -100,30 +100,36 @@
       </ul>
     </div>
 
-    <bgMusic ref="bgMusic"/>
+    <Popup v-model="componentPopup">
+      <component :is="require('./' + componentId + '.vue')" v-if="componentId"></component>
+    </Popup>
+    <!-- <bgMusic ref="bgMusic"/> -->
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { ScreenInterface } from '@/interface/screen.interface';
+import { Image, Popup } from 'vant';
+import { State } from 'vuex-class';
 import { Games } from '@/interface/home.interface';
-import bgMusic from '@/components/public/bgMusic.vue';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { ScreenInterface } from '@/interface/screen.interface';
+// import bgMusic from '@/components/public/bgMusic.vue';
 import clickMusic from '@/components/public/clickMusic.vue';
 import handleBtn from '@/components/home/handleBtn.vue';
 import landscape from '@/utils/screen';
-import { State } from 'vuex-class';
-import { Image } from 'vant';
 
 @Component({
   components: {
+    // bgMusic,
     handleBtn,
-    bgMusic,
+    Popup,
     vanImage: Image,
   },
 })
 export default class Home extends Vue {
-  // 根组件样式
+  /**
+   * 根组件样式
+   */
   private home: ScreenInterface = {
     'width': '',
     'height': '',
@@ -132,22 +138,62 @@ export default class Home extends Vue {
     'transform': '',
     'transform-origin': '',
   };
-  private isFullScreen: boolean = false; // 判断是否全屏
-  private location: string | null = ''; // 定位
-  private weather: string | null = ''; // 天气
-  private moreGamesPopup: boolean = false; // 更多游戏弹框
-  private moreGames: Games[] = []; // 更多游戏列表
-  private smallMoreGames: Games[] = []; // 更多列表框游戏iocn
-  private gamesList: Games[] = []; // 游戏列表
+  /**
+   * 判断是否全屏
+   */
+  private isFullScreen: boolean = false;
+  /**
+   * 定位
+   */
+  private location: string | null = '';
+  /**
+   * 天气
+   */
+  private weather: string | null = '';
+  /**
+   * 更多游戏弹框
+   */
+  private moreGamesPopup: boolean = false;
+  /**
+   * 更多游戏列表
+   */
+  private moreGames: Games[] = [];
+  /**
+   * 更多列表框游戏iocn
+   */
+  private smallMoreGames: Games[] = [];
+  /**
+   * 游戏列表
+   */
+  private gamesList: Games[] = [];
+  /**
+   * 弹窗
+   */
+  private componentId: any = null;
+  /**
+   * 弹窗显示
+   */
+  private componentPopup: boolean = false;
+  @Watch('componentId')
+  private componentIdChanged(val: string | null) {
+    this.componentPopup = !!val;
+  }
+
   @State private userInfo!: any;
 
-  // 获取主页必要的信息
+
+  /**
+   * 获取主页必要的信息
+   */
   public created() {
     this.getCity();
     this.getGamesList();
   }
 
-  // 强制设置横屏显示，且添加监听方法
+
+  /**
+   * 强制设置横屏显示，且添加监听方法
+   */
   public mounted() {
     // this.$io.emit('connect/test', ['aa']);
     const resize: any = landscape.setLandscape();
@@ -155,7 +201,10 @@ export default class Home extends Vue {
     window.addEventListener('resize', this.renderResize, false);
   }
 
-  // 获取游戏列表
+
+  /**
+   * 获取游戏列表
+   */
   public getGamesList() {
     this.$axios
       .api('get_games_list')
@@ -176,7 +225,10 @@ export default class Home extends Vue {
       });
   }
 
-  // 获取城市信息
+
+  /**
+   * 获取城市信息
+   */
   public getCity() {
     this.$axios
       .api('get_city')
@@ -192,7 +244,10 @@ export default class Home extends Vue {
       });
   }
 
-  // 获取天气信息
+
+  /**
+   * 获取天气信息
+   */
   public getWeather() {
     this.$axios
       .api('get_weather')
@@ -208,38 +263,62 @@ export default class Home extends Vue {
       });
   }
 
+
+  /**
+   * 移除监听
+   */
   public beforeDestroy() {
-    // 移除监听
     window.removeEventListener('resize', this.renderResize, false);
   }
 
-  // 监听横竖屏变化的方法
+  /**
+   * 监听横竖屏变化的方法
+   */
   public renderResize() {
     const resize: any = landscape.renderResize();
     this.home = resize;
   }
 
-  // 设置全屏显示
+
+  /**
+   * 设置全屏显示
+   */
   public fullScreen() {
     const result = landscape.fullScreen(this.isFullScreen);
     this.isFullScreen = result;
   }
 
-  // 关闭弹框
+
+  /**
+   * 关闭弹框
+   */
   public hiddenPopup() {
     this.moreGamesPopup = false;
   }
 
-  // 显示更多游戏弹框
+
+  /**
+   * 显示更多游戏弹框
+   */
   public showMoreMages() {
     this.moreGamesPopup = true;
   }
 
-  // 打开反馈页面
+
+  /**
+   * 打开反馈页面
+   */
   public toFeadback() {
     this.$router.push({
       name: 'feedback',
     });
+  }
+
+  /**
+   * 开启弹窗
+   */
+  public togglePopup() {
+
   }
 }
 </script>
