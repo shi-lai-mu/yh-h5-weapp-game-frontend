@@ -1,7 +1,7 @@
 <template>
   <div id="app" @click="handleSound">
-    <clickMusic ref="clickMusic"/>
     <router-view/>
+    <clickMusic ref="clickMusic"/>
   </div>
 </template>
 

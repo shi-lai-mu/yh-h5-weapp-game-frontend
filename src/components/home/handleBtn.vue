@@ -1,8 +1,7 @@
 <template>
   <div class="btn" :style="'bottom:' + bottom + '%;'" data-click="click">
-    <div class="sik" data-click="click"></div>
-    <i :class="'game game-' + iconClass" data-click="click"></i>
-    <span class="icon-name" data-click="click" v-text="iconName"></span>
+    <i :class="'game game-' + iconClass"></i>
+    <span class="icon-name" v-text="iconName"></span>
   </div>
 </template>
 
@@ -28,7 +27,7 @@ export default class HandleBtn extends Vue {
     border-radius: 50%;
     user-select: none;
 
-    .sik {
+    &::after {
       position: absolute;
       top: .4em;
       left: .5em;
@@ -37,6 +36,7 @@ export default class HandleBtn extends Vue {
       background-color: #FCFEFF;
       border-radius: 50%;
       transform: rotate(45deg);
+      content: '';
     }
 
     .game {
@@ -46,6 +46,7 @@ export default class HandleBtn extends Vue {
       font-size: 24px;
       color: #FBF1DE;
       transform: translate(-50%, -50%);
+      pointer-events: none;
     }
 
     .icon-name {
@@ -58,6 +59,7 @@ export default class HandleBtn extends Vue {
       color: #FBF1DE;
       -webkit-text-stroke-color: #644605;
       -webkit-text-stroke-width: .4px;
+      pointer-events: none;
     }
 
     &:active {
