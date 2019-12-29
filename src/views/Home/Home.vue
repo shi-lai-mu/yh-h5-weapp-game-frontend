@@ -86,6 +86,12 @@
         <i class="main_ui ui_btn ui_record"></i>
         <i class="main_ui ui_btn ui_recruiting"></i>
       </div>
+
+      <!-- 右上角侧栏 -->
+      <div class="top-bar">
+        <i class="main_ui ui_btn ui_btn_round ui_activity"></i>
+        <i class="main_ui ui_btn ui_btn_round ui_shop"></i>
+      </div>
     </div>
 
     <bgMusic ref="bgMusic"/>
@@ -504,6 +510,31 @@ export default class Home extends Vue {
       }
     }
 
+    .ui_btn_round {
+      width: 40px;
+      background-size: 295px;
+    }
+    
+    .top-bar {
+      display: flex;
+      position: absolute;
+      right: 1vw;
+      top: 0;
+      width: 342px;
+      height: 3.5em;
+      background-size: 410px;
+      background-position-y: -243px;
+      transform-origin: bottom right;
+      transform: scale(1.5);
+      align-items: flex-end;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+
+      .ui_btn {
+        margin: 0 .2vw;
+      }
+    }
+
     .ui_friends {
       background-position: -100px -143px;
     }
@@ -518,6 +549,14 @@ export default class Home extends Vue {
 
     .ui_recruiting {
       background-position: -68px -143px;
+    }
+
+    .ui_shop {
+      background-position: -214px -88px;
+    }
+
+    .ui_activity {
+      background-position: -171px -53px;
     }
   }
 </style>
