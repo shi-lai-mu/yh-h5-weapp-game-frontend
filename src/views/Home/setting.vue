@@ -1,6 +1,6 @@
 <template>
   <div>
-    settingsad
+    settingsad中文
   </div>
 </template>
 

@@ -101,7 +101,7 @@
     </div>
 
     <Popup v-model="componentPopup" @close="componentId = null" class="component_popup">
-      <span class="popup-title">设置</span>
+      <span class="popup-title css1df6a1233820fb9">设置</span>
       <i class="popup-close" @click="componentId = null" data-click="click"></i>
       <component :is="componentList[componentId]" v-if="componentId" class="popup-content"></component>
     </Popup>
@@ -631,7 +631,7 @@ export default class Home extends Vue {
 
         li {
           width: 100%;
-          height: 5rem;
+          height: 80px;
           margin-bottom: 1vh;
 
           &:active {
@@ -691,16 +691,16 @@ export default class Home extends Vue {
         content: '';
       }
 
-      // .popup-title {
-      //   display: block;
-      //   line-height: 2em;
-      //   font-size: 1.5em;
-      //   font-weight: bolder;
-      //   color: #ecd9b0;
-      //   text-align: center;
-      //   -webkit-text-stroke-color: #A07354;
-      //   -webkit-text-stroke-width: 1px;
-      // }
+      .popup-title {
+        display: block;
+        line-height: 2em;
+        font-size: 2.5rem;
+        font-weight: bolder;
+        color: #ecd9b0;
+        text-align: center;
+        -webkit-text-stroke-color: #A07354;
+        -webkit-text-stroke-width: .3px;
+      }
 
       .popup-content {
         z-index: 1;
