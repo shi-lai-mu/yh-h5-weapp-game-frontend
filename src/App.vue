@@ -22,10 +22,14 @@ export default class App extends Vue {
   @State private userInfo!: any;
 
   private created() {
-    // const to = this.filterLoginState();
-    // if (to && typeof to !== 'boolean') {
-    //   this.$router.push(to);
-    // }
+    if (/\?admin/.test(window.location.href)) {
+      return;
+    }
+
+    const to = this.filterLoginState();
+    if (to && typeof to !== 'boolean') {
+      this.$router.push(to);
+    }
 
     this.$router.beforeEach((to, from, next) => {
       const toPage = this.filterLoginState();
@@ -129,21 +133,21 @@ export default class App extends Vue {
   // 400 小分辨率适配
   @media screen and (max-height: 400px) {
     #app .content >  * {
-      zoom: .9;
+      zoom: .8;
     }
   }
 
   // 350 小分辨率适配
   @media screen and (max-height: 350px) {
     #app .content >  * {
-      zoom: .8;
+      zoom: .7;
     }
   }
 
   // 300 小分辨率适配
   @media screen and (max-height: 300px) {
     #app .content >  * {
-      zoom: .7;
+      zoom: .6;
     }
   }
 

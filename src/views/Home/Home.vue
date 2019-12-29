@@ -20,7 +20,9 @@
       </div>
 
       <!-- 按钮 -->
-      <handleBtn iconName="反 馈" iconClass="feadback" bottom="68" @click.native="toFeadback"/>
+      <router-link to="feedback">
+        <handleBtn iconName="反 馈" iconClass="feadback" bottom="68"/>
+      </router-link>
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="54" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="40"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="componentId = 'setting'"/>
@@ -321,13 +323,6 @@ export default class Home extends Vue {
       name: 'feedback',
     });
   }
-
-  /**
-   * 开启弹窗
-   */
-  public togglePopup() {
-
-  }
 }
 </script>
 <style lang="scss" scoped>
@@ -391,7 +386,7 @@ export default class Home extends Vue {
         position: absolute;
         top: 15%;
         left: 10%;
-        width: 13%;
+        width: 20%;
         height: 24px;
         background-image: linear-gradient(to right, rgba($color: #000000, $alpha: .8), rgba($color: #000000, $alpha: 0));
         color: #FEEECF;
@@ -626,7 +621,7 @@ export default class Home extends Vue {
       .left-content-bar {
         position: absolute;
         top: 25%;
-        left: 10%;
+        left: 12%;
         width: 237px;
 
         li {
@@ -670,20 +665,21 @@ export default class Home extends Vue {
     }
 
     .component_popup {
-      width: 60vw;
-      height: 90vh;
+      width: 70%;
+      height: 85%;
       background: url('../../assets/zyc_DI.png') no-repeat;
       background-size: 100%;
+        overflow: hidden;
 
       &::after,
       .popup-content {
         position: absolute;
-        top: 0;
+        top: 20%;
         right: 0;
         bottom: 0;
         left: 0;
         width: 95%;
-        height: 60vh;
+        height: 75%;
         margin: auto;
         background-color: rgba($color: #ecd9b0, $alpha: .95);
         box-shadow: 0 5px 5px #4d4533;
@@ -693,7 +689,7 @@ export default class Home extends Vue {
 
       .popup-title {
         display: block;
-        line-height: 2em;
+        line-height: 4.5rem;
         font-size: 2.5rem;
         font-weight: bolder;
         color: #ecd9b0;
@@ -709,10 +705,10 @@ export default class Home extends Vue {
 
       .popup-close {
         position: absolute;
-        top: 2vw;
-        right: 0;
-        width: 4vw;
-        height: 4vw;
+        top: 12%;
+        right: 1%;
+        width: 6%;
+        height: 10%;
         background: url('../../assets/TY_btn_close.png') no-repeat;
         background-size: 100%;
 
@@ -729,4 +725,22 @@ export default class Home extends Vue {
     transform: translate(-1px, 1px);
   }
 
+
+  // 500 中分辨率适配
+  @media screen and (max-height: 500px) {
+    .left-content-bar,
+    .games-list .list,
+    .flex-row,
+    .bottom-bar {
+      zoom: .8;
+    }
+  }
+
+
+  // 500 中分辨率适配
+  @media screen and (max-height: 550px) {
+    .component_popup {
+      zoom: .8;
+    }
+  }
 </style>
