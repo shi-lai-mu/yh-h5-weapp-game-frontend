@@ -22,7 +22,7 @@ export default class HandleBtn extends Vue {
     position: absolute;
     width: 2.4rem;
     height: 2.4rem;
-    background-image: radial-gradient(circle, rgba(97, 107, 102, .5), rgba(85, 105, 121, .5));
+    background-image: radial-gradient(circle, rgba(85, 105, 121, .5), rgba($color: #FBF4E5, $alpha: .5));
     border: 1px solid #FBF4E5;
     text-align: center;
     border-radius: 50%;
