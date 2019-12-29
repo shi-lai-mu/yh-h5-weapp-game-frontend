@@ -81,22 +81,22 @@
 
       <!-- 右下角侧栏 -->
       <div class="main_ui bottom-bar">
-        <i class="main_ui ui_btn ui_friends"></i>
-        <i class="main_ui ui_btn ui_backpack"></i>
-        <i class="main_ui ui_btn ui_record"></i>
-        <i class="main_ui ui_btn ui_recruiting"></i>
+        <i class="main_ui ui_btn ui_friends" data-click="click"></i>
+        <i class="main_ui ui_btn ui_backpack" data-click="click"></i>
+        <i class="main_ui ui_btn ui_record" data-click="click"></i>
+        <i class="main_ui ui_btn ui_recruiting" data-click="click"></i>
       </div>
 
       <!-- 右上角侧栏 -->
       <div class="top-bar">
-        <i class="main_ui ui_btn ui_btn_round ui_activity"></i>
-        <i class="main_ui ui_btn ui_btn_round ui_shop"></i>
+        <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click"></i>
+        <i class="main_ui ui_btn ui_btn_round ui_shop" data-click="click"></i>
       </div>
 
       <!-- 左中侧栏 -->
       <ul class="left-content-bar">
-        <li class="main_ui join_room"></li>
-        <li class="main_ui create_room"></li>
+        <li class="main_ui join_room" data-click="click"></li>
+        <li class="main_ui create_room" data-click="click"></li>
       </ul>
     </div>
 

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <audio ref="click"></audio>
-  </div>
+  <audio ref="click"></audio>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
