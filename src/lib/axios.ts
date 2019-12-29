@@ -91,7 +91,6 @@ $axios.interceptors.request.use(
     if (!token) {
       token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
       if (token) {
-        console.log(token);
         value.headers.token = encodeURIComponent(token);
       }
     } else {
