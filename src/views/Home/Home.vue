@@ -92,6 +92,12 @@
         <i class="main_ui ui_btn ui_btn_round ui_activity"></i>
         <i class="main_ui ui_btn ui_btn_round ui_shop"></i>
       </div>
+
+      <!-- 左中侧栏 -->
+      <ul class="left-content-bar">
+        <li class="main_ui join_room"></li>
+        <li class="main_ui create_room"></li>
+      </ul>
     </div>
 
     <bgMusic ref="bgMusic"/>
@@ -533,6 +539,27 @@ export default class Home extends Vue {
       .ui_btn {
         margin: 0 .2vw;
       }
+    }
+
+    .left-content-bar {
+      position: absolute;
+      top: 25%;
+      left: 10%;
+      width: 237px;
+
+      li {
+        width: 100%;
+        height: 5rem;
+        margin-bottom: 1vh;
+
+        &:active {
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    .create_room {
+      background-position: 0 -79px;
     }
 
     .ui_friends {
