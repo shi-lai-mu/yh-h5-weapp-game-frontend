@@ -382,7 +382,7 @@ export default class Home extends Vue {
       position: absolute;
       top: 50%;  
       height: 55%;
-      background-color: rgba($color: #000000, $alpha: .3);
+      background-image: radial-gradient(transparent, rgba($color: #000, $alpha: .5));
       border-radius: 10px;
       transition: .5s;
 
@@ -405,14 +405,15 @@ export default class Home extends Vue {
         .more-games {
           width: 5em;
           height: 5em;
+          padding: 5px;
           border: 1px solid rgba($color: #fff, $alpha: .7);
           background-color: rgba($color: #fff, $alpha: .4);
           border-radius: 15px;
+          columns: 2;
 
           img {
-            width: 1.8em;
-            height: 1.8em;
-            margin: 2px 4px;
+            width: 1.6em;
+            height: 1.6em;
           }
 
           .game-ellipsis {
