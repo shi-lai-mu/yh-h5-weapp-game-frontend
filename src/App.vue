@@ -22,10 +22,10 @@ export default class App extends Vue {
   @State private userInfo!: any;
 
   private created() {
-    const to = this.filterLoginState();
-    if (to && typeof to !== 'boolean') {
-      this.$router.push(to);
-    }
+    // const to = this.filterLoginState();
+    // if (to && typeof to !== 'boolean') {
+    //   this.$router.push(to);
+    // }
 
     this.$router.beforeEach((to, from, next) => {
       const toPage = this.filterLoginState();
@@ -123,6 +123,7 @@ export default class App extends Vue {
 
   #app {
     color: #333;
+    user-select: none;
   }
 
   // 400 小分辨率适配
@@ -150,35 +151,35 @@ export default class App extends Vue {
   // 500 中分辨率适配
   @media screen and (min-height: 500px) {
     #app .content >  * {
-      zoom: 1.1;
+      zoom: 1.05;
     }
   }
 
   // 600 中分辨率适配
   @media screen and (min-height: 600px) {
     #app .content >  * {
-      zoom: 1.2;
+      zoom: 1.1;
     }
   }
 
   // 700 大分辨率适配
   @media screen and (min-height: 700px) {
     #app .content >  * {
-      zoom: 1.3;
+      zoom: 1.15;
     }
   }
 
   // 800 大分辨率适配
   @media screen and (min-height: 800px) {
     #app .content >  * {
-      zoom: 1.4;
+      zoom: 1.2;
     }
   }
 
   // 900 大分辨率适配
   @media screen and (min-height: 900px) {
     #app .content >  * {
-      zoom: 1.5;
+      zoom: 1.25;
     }
   }
 </style>

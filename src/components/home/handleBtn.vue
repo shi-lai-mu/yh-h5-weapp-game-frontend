@@ -58,7 +58,7 @@ export default class HandleBtn extends Vue {
       font-weight: bold;
       color: #FBF1DE;
       -webkit-text-stroke-color: #644605;
-      -webkit-text-stroke-width: .4px;
+      -webkit-text-stroke-width: .05px;
       pointer-events: none;
     }
 
