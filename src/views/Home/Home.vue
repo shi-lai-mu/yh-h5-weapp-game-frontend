@@ -1,7 +1,7 @@
 <template>
   <div :style="home" class="home">
     <!-- 背景图 -->
-    <img class="bg-img" src="https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/time.png">
+    <img class="bg-img" src="@/assets/time.png">
 
     <popup title="设 置"></popup>
 
@@ -77,6 +77,14 @@
             <span data-click="click">{{ item.name }}</span>
           </a>
         </div>
+      </div>
+
+      <!-- 右下角侧栏 -->
+      <div class="main_ui bottom-bar">
+        <i class="main_ui ui_btn ui_friends"></i>
+        <i class="main_ui ui_btn ui_backpack"></i>
+        <i class="main_ui ui_btn ui_record"></i>
+        <i class="main_ui ui_btn ui_recruiting"></i>
       </div>
     </div>
 
@@ -310,12 +318,12 @@ export default class Home extends Vue {
 
     .flex-row {
       position: absolute;
-      bottom: 3%;
+      bottom: 1%;
 
       .avatar {
         overflow: hidden;
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 4.5rem;
+        height: 4.5rem;
         border: 3px solid #FBE3A5;
         border-radius: 5px;
         
@@ -378,6 +386,7 @@ export default class Home extends Vue {
       transform: translateY(-50%);
       border: 1px solid rgba($color: #fff, $alpha: .2);
     }
+
     .games-list {
       position: absolute;
       top: 50%;  
@@ -459,6 +468,56 @@ export default class Home extends Vue {
           margin: 3% 0;
         }
       }
+    }
+
+    .main_ui {
+      background: url('../../../public/Plist_MainUI.png') no-repeat;
+      background-size: 410px;
+    }
+
+    .bottom-bar {
+      display: flex;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 342px;
+      height: 3.5em;
+      background-size: 410px;
+      background-position-y: -243px;
+      transform-origin: bottom right;
+      transform: scale(1.5);
+      align-items: flex-end;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .ui_btn {
+      display: inline-block;
+      width: 30px;
+      height: 40px;
+      margin: 0 1vw;
+      background-size: 365px;
+      transform: scale(.8) translateY(10%);
+
+      &:active {
+        transform: scale(.9) translateY(10%);
+      }
+    }
+
+    .ui_friends {
+      background-position: -100px -143px;
+    }
+
+    .ui_backpack {
+      background-position: -1px -143px;
+    }
+
+    .ui_record {
+      background-position: -36px -143px;
+    }
+
+    .ui_recruiting {
+      background-position: -68px -143px;
     }
   }
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <audio ref="bg"></audio>
-  </div>
+  <audio ref="bg"></audio>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
@@ -11,7 +9,7 @@ export default class BgMusic extends Vue {
   public mounted() {
     // 设置背景音乐
     const bg: any = this.$refs.bg;
-    bg.src = 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/bg-music.mp3';
+    // bg.src = 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/bg-music.mp3';
     bg.autoplay = 'autoplay';
     bg.loop = 'loop';
     bg.preload = 'auto';

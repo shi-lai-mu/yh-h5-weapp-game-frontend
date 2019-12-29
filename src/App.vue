@@ -125,10 +125,60 @@ export default class App extends Vue {
     color: #333;
   }
 
-  // 小分辨率适配
+  // 400 小分辨率适配
+  @media screen and (max-height: 400px) {
+    #app .content >  * {
+      zoom: .9;
+    }
+  }
+
+  // 350 小分辨率适配
   @media screen and (max-height: 350px) {
     #app .content >  * {
       zoom: .8;
+    }
+  }
+
+  // 300 小分辨率适配
+  @media screen and (max-height: 300px) {
+    #app .content >  * {
+      zoom: .7;
+    }
+  }
+
+
+  // 500 中分辨率适配
+  @media screen and (min-height: 500px) {
+    #app .content >  * {
+      zoom: 1.1;
+    }
+  }
+
+  // 600 中分辨率适配
+  @media screen and (min-height: 600px) {
+    #app .content >  * {
+      zoom: 1.2;
+    }
+  }
+
+  // 700 大分辨率适配
+  @media screen and (min-height: 700px) {
+    #app .content >  * {
+      zoom: 1.3;
+    }
+  }
+
+  // 800 大分辨率适配
+  @media screen and (min-height: 800px) {
+    #app .content >  * {
+      zoom: 1.4;
+    }
+  }
+
+  // 900 大分辨率适配
+  @media screen and (min-height: 900px) {
+    #app .content >  * {
+      zoom: 1.5;
     }
   }
 </style>
