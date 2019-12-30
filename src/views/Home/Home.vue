@@ -24,7 +24,7 @@
         <handleBtn iconName="反 馈" iconClass="feadback" bottom="68"/>
       </router-link>
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="54" @click.native="fullScreen"/>
-      <handleBtn iconName="客 服" iconClass="kefu" bottom="40"/>
+      <handleBtn iconName="客 服" iconClass="kefu" bottom="40" @click.native="componentId = 'service'"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="componentId = 'setting'"/>
 
       <!-- 用户信息 -->
@@ -91,7 +91,7 @@
 
       <!-- 右上角侧栏 -->
       <div class="top-bar">
-        <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click"></i>
+        <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
         <i class="main_ui ui_btn ui_btn_round ui_shop" data-click="click"></i>
       </div>
 
@@ -103,9 +103,13 @@
     </div>
 
     <Popup v-model="componentPopup" @close="componentId = null" class="component_popup">
-      <span class="popup-title css1df6a1233820fb9">设置</span>
-      <i class="popup-close" @click="componentId = null" data-click="click"></i>
-      <component :is="componentList[componentId]" v-if="componentId" class="popup-content"></component>
+      <template>
+        <div v-if="componentId">
+          <span class="popup-title css1df6a1233820fb9">{{ componentList[componentId].name }}</span>
+          <i class="popup-close" @click="componentId = null" data-click="click"></i>
+          <component :is="componentList[componentId].component" class="popup-content"></component>
+        </div>
+      </template>
     </Popup>
     <!-- <bgMusic ref="bgMusic"/> -->
   </div>
@@ -178,7 +182,18 @@ export default class Home extends Vue {
    * 弹窗组件
    */
   private componentList: any = {
-    setting: (resolve: any) => require([ './setting.vue' ], resolve),
+    setting: {
+      name: '设置',
+      component: (resolve: any) => require([ './setting.vue' ], resolve),
+    },
+    service: {
+      name: '客服',
+      component: (resolve: any) => require([ './service.vue' ], resolve),
+    },
+    activity: {
+      name: '活动',
+      component: (resolve: any) => require([ './activity.vue' ], resolve),
+    },
   };
   /**
    * 弹窗显示
