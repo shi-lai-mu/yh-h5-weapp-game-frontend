@@ -83,6 +83,7 @@
 
       <!-- 右下角侧栏 -->
       <div class="main_ui bottom-bar">
+        <i class="main_ui ui_btn ui_email" data-click="click"></i>
         <i class="main_ui ui_btn ui_friends" data-click="click"></i>
         <i class="main_ui ui_btn ui_backpack" data-click="click"></i>
         <i class="main_ui ui_btn ui_record" data-click="click"></i>
@@ -579,15 +580,16 @@ export default class Home extends Vue {
         background-size: 410px;
       }
 
-      .bottom-bar {
+      .bottom-bar,
+      .top-bar {
         display: flex;
         position: absolute;
         right: 0;
         bottom: 0;
         width: 342px;
-        height: 3.5em;
+        height: 40px;
         background-size: 410px;
-        background-position-y: -243px;
+        background-position-y: -259px;
         transform-origin: bottom right;
         transform: scale(1.5);
         align-items: flex-end;
@@ -614,19 +616,9 @@ export default class Home extends Vue {
       }
       
       .top-bar {
-        display: flex;
-        position: absolute;
         right: 1vw;
         top: 0;
-        width: 342px;
-        height: 3.5em;
-        background-size: 410px;
-        background-position-y: -243px;
-        transform-origin: bottom right;
-        transform: scale(1.5);
-        align-items: flex-end;
-        flex-wrap: wrap;
-        justify-content: flex-end;
+        height: 55px;
 
         .ui_btn {
           margin: 0 .2vw;
@@ -676,6 +668,10 @@ export default class Home extends Vue {
 
       .ui_activity {
         background-position: -171px -53px;
+      }
+
+      .ui_email {
+        background-position: -2px -182px;
       }
     }
 
