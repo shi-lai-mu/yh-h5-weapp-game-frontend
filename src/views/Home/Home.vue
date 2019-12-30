@@ -83,7 +83,7 @@
 
       <!-- 右下角侧栏 -->
       <div class="main_ui bottom-bar">
-        <i class="main_ui ui_btn ui_email" data-click="click"></i>
+        <i class="main_ui ui_btn ui_email" data-click="click" @click="componentId = 'email'"></i>
         <i class="main_ui ui_btn ui_friends" data-click="click"></i>
         <i class="main_ui ui_btn ui_backpack" data-click="click"></i>
         <i class="main_ui ui_btn ui_record" data-click="click"></i>
@@ -103,9 +103,9 @@
       </ul>
     </div>
 
-    <Popup v-model="componentPopup" @close="componentId = null" class="component_popup">
+    <Popup v-if="componentId" v-model="componentPopup" @close="componentId = null" :class="[ 'component_popup', componentList[componentId].classStyle ]">
       <template>
-        <div v-if="componentId">
+        <div>
           <span class="popup-title css1df6a1233820fb9">{{ componentList[componentId].name }}</span>
           <i class="popup-close" @click="componentId = null" data-click="click"></i>
           <component :is="componentList[componentId].component" class="popup-content"></component>
@@ -195,6 +195,11 @@ export default class Home extends Vue {
       name: '活动',
       component: (resolve: any) => require([ './activity.vue' ], resolve),
     },
+    email: {
+      name: '邮件',
+      classStyle: 'component_popup_p',
+      component: (resolve: any) => require([ './email.vue' ], resolve),
+    },
   };
   /**
    * 弹窗显示
@@ -214,6 +219,11 @@ export default class Home extends Vue {
   public created() {
     this.getCity();
     this.getGamesList();
+
+    // 关闭拦截
+    window.onbeforeunload = () => {
+      return 'no'
+    };
   }
 
 
@@ -680,7 +690,7 @@ export default class Home extends Vue {
       height: 85%;
       background: url('../../assets/zyc_DI.png') no-repeat;
       background-size: 100%;
-        overflow: hidden;
+      overflow: hidden;
 
       &::after,
       .popup-content {
@@ -726,6 +736,25 @@ export default class Home extends Vue {
         &:active {
           transform: scale(1.1);
         }
+      }
+    }
+
+    .component_popup_p {
+      width: 80%;
+      height: 90%;
+      background-image: url('../../assets/zyc_DI_1.png');
+
+      &::after,
+      .popup-content {
+        height: 85%;
+        top: 15%;
+      }
+      .popup-close {
+        top: 2%;
+      }
+      .popup-title {
+        font-size: 2rem;
+        line-height: 3.5rem;
       }
     }
   }
