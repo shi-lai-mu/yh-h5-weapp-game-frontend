@@ -43,6 +43,7 @@ export default class HomeActivity extends Vue {
         font-size: 1rem;
         text-align: center;
         color: #fff;
+        padding: 1.1rem 12px 1rem 8px;
         background-color: transparent;
         background: url('../../assets/CKZJ_ANNIU01.png') no-repeat center;
         background-size: 100%;

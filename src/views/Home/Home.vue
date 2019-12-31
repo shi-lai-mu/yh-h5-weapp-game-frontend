@@ -1,5 +1,5 @@
 <template>
-  <div :style="home" class="home">
+  <GameLayout class="home">
     <!-- 背景图 -->
     <img class="bg-img" src="@/assets/time.png">
 
@@ -29,7 +29,7 @@
 
       <!-- 用户信息 -->
       <div class="flex-row">
-        <div class="avatar">
+        <div class="avatar" @click="componentId = 'account'">
           <vanImage :src="`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${userInfo.avatarUrl ? userInfo.id : 'default'}.png?x-oss-process=style/tx`" fit="cover" />
         </div>
 
@@ -113,7 +113,7 @@
       </template>
     </Popup>
     <!-- <bgMusic ref="bgMusic"/> -->
-  </div>
+  </GameLayout>
 </template>
 
 <script lang="ts">
@@ -121,36 +121,21 @@ import { Image, Popup } from 'vant';
 import { State } from 'vuex-class';
 import { Games } from '@/interface/home.interface';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { ScreenInterface } from '@/interface/screen.interface';
 // import bgMusic from '@/components/public/bgMusic.vue';
 import clickMusic from '@/components/public/clickMusic.vue';
 import handleBtn from '@/components/home/handleBtn.vue';
-import landscape from '@/utils/screen';
+import GameLayout from '@/layout/game.vue';
 
 @Component({
   components: {
     // bgMusic,
     handleBtn,
     Popup,
+    GameLayout,
     vanImage: Image,
   },
 })
 export default class Home extends Vue {
-  /**
-   * 根组件样式
-   */
-  private home: ScreenInterface = {
-    'width': '',
-    'height': '',
-    'top': '',
-    'left': '',
-    'transform': '',
-    'transform-origin': '',
-  };
-  /**
-   * 判断是否全屏
-   */
-  private isFullScreen: boolean = false;
   /**
    * 定位
    */
@@ -200,6 +185,11 @@ export default class Home extends Vue {
       classStyle: 'component_popup_p',
       component: (resolve: any) => require([ './email.vue' ], resolve),
     },
+    account: {
+      name: '账号设置',
+      classStyle: 'component_popup_p',
+      component: (resolve: any) => require([ './account/index.vue' ], resolve),
+    },
   };
   /**
    * 弹窗显示
@@ -224,17 +214,6 @@ export default class Home extends Vue {
     window.onbeforeunload = () => {
       return 'no'
     };
-  }
-
-
-  /**
-   * 强制设置横屏显示，且添加监听方法
-   */
-  public mounted() {
-    // this.$io.emit('connect/test', ['aa']);
-    const resize: any = landscape.setLandscape();
-    this.home = resize;
-    window.addEventListener('resize', this.renderResize, false);
   }
 
 
@@ -297,31 +276,6 @@ export default class Home extends Vue {
       .catch((err: any) => {
         this.weather = null;
       });
-  }
-
-
-  /**
-   * 移除监听
-   */
-  public beforeDestroy() {
-    window.removeEventListener('resize', this.renderResize, false);
-  }
-
-  /**
-   * 监听横竖屏变化的方法
-   */
-  public renderResize() {
-    const resize: any = landscape.renderResize();
-    this.home = resize;
-  }
-
-
-  /**
-   * 设置全屏显示
-   */
-  public fullScreen() {
-    const result = landscape.fullScreen(this.isFullScreen);
-    this.isFullScreen = result;
   }
 
 
@@ -690,7 +644,7 @@ export default class Home extends Vue {
       height: 85%;
       background: url('../../assets/zyc_DI.png') no-repeat;
       background-size: 100%;
-      overflow: hidden;
+      overflow: inherit;
 
       &::after,
       .popup-content {
@@ -709,14 +663,17 @@ export default class Home extends Vue {
       }
 
       .popup-title {
+        position: relative;
         display: block;
+        z-index: 2;
         line-height: 4.5rem;
         font-size: 2.5rem;
         font-weight: bolder;
         color: #ecd9b0;
         text-align: center;
         -webkit-text-stroke-color: #A07354;
-        -webkit-text-stroke-width: .3px;
+        -webkit-text-stroke-width: .5px;
+        pointer-events: none;
       }
 
       .popup-content {
@@ -743,6 +700,20 @@ export default class Home extends Vue {
       width: 80%;
       height: 90%;
       background-image: url('../../assets/zyc_DI_1.png');
+
+      &::before {
+        position: absolute;
+        top: -5px;
+        left: 0;
+        right: 0;
+        width: 20rem;
+        height: 20rem;
+        margin: auto;
+        background: url('../../assets/gy_biaotilan.png') no-repeat;
+        content: '';
+        background-size: 100%;
+        pointer-events: none;
+      }
 
       &::after,
       .popup-content {
