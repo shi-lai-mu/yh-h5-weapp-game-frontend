@@ -1,31 +1,54 @@
 <template>
   <div class="activity-box">
     <Sidebar v-model="activeKey">
-      <SidebarItem title="标签名称" />
-      <SidebarItem title="标签名称" />
-      <SidebarItem title="标签名称" />
-      <SidebarItem title="标签名称" />
-      <SidebarItem title="标签名称" />
-      <SidebarItem title="标签名称" />
+      <SidebarItem v-for="(item, index) in activity" :key="index" :title="item.title" />
     </Sidebar>
-    <div class="activity-content">
-      活动公告{{ activeKey }}
+    <div class="activity-content" v-if="activity[activeKey].html">
+      <span v-html="activity[activeKey].html"></span>
+    </div>
+    <div class="activity-content" v-else-if="activity[activeKey].pcitrue">
+      <vImage
+        width="100%"
+        height="100%"
+        fit="contain"
+        :src="activity[activeKey].pcitrue"
+      ></vImage>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { Sidebar, SidebarItem } from 'vant';
+import { Sidebar, SidebarItem, Image } from 'vant';
+import { Activity } from '@/interface/home.interface';
 
 @Component({
   components: {
     Sidebar,
     SidebarItem,
+    vImage: Image,
   },
 })
 export default class HomeActivity extends Vue {
+  /**
+   * 当前选中的活动KEY
+   */
   private activeKey: number = 0;
+  /**
+   * 活动数据
+   */
+  private activity: Activity[] = [{
+    id: 0,
+    title: '---',
+    pcitrue: 'yh_activity_1.png',
+    disable: 0,
+  }];
+
+  created() {
+    this.$axios.api('home_activity').then((activityData: Activity[]) => {
+      this.activity = activityData;
+    });
+  }
 }
 </script>
 
@@ -37,7 +60,7 @@ export default class HomeActivity extends Vue {
       overflow-x: hidden;
       width: 25%;
       height: 100%;
-      margin: 10px 0;
+      padding: 10px 0;
 
       .van-sidebar-item {
         font-size: 1rem;
