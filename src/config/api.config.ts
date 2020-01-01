@@ -16,7 +16,10 @@ const api: Api = {
   user_feedBack:     'post./notice/feedback',                       // 用户反馈
 
   // 首页
-  get_games_list:    'get./game/home/list',                        // 获取游戏列表
+  get_games_list:    'get./game/home/list',                         // 获取游戏列表
+
+  // 活动
+  home_activity:     'get./activity',                               // 首页活动列表
 
   // 微服务接口
   // get_city:          'test1:get./public/city',                   // 获取城市 [测试阶段接口暂时暂停访问 付费接口]
