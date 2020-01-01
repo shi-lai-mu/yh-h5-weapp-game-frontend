@@ -59,6 +59,7 @@ export default class GameLayout extends Vue {
    * 设置全屏显示
    */
   public fullScreen() {
+    console.log(123456);
     const result = landscape.fullScreen(this.isFullScreen);
     this.isFullScreen = result;
   }
