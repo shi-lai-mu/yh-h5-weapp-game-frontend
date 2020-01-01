@@ -1,5 +1,5 @@
 <template>
-  <GameLayout class="home">
+  <GameLayout class="home" ref="gameLayout">
     <!-- 背景图 -->
     <img class="bg-img" src="@/assets/time.png">
 
@@ -20,10 +20,10 @@
       </div>
 
       <!-- 按钮 -->
+      <handleBtn iconName="全 屏" iconClass="fangda" bottom="68" @click.native="$refs.gameLayout.fullScreen" v-if="!isIOS"/>
       <router-link to="feedback">
-        <handleBtn iconName="反 馈" iconClass="feadback" bottom="68"/>
+        <handleBtn iconName="反 馈" iconClass="feadback" bottom="54"/>
       </router-link>
-      <handleBtn iconName="全 屏" iconClass="fangda" bottom="54" @click.native="fullScreen"/>
       <handleBtn iconName="客 服" iconClass="kefu" bottom="40" @click.native="componentId = 'service'"/>
       <handleBtn iconName="设 置" iconClass="settings" bottom="26" @click.native="componentId = 'setting'"/>
 
@@ -136,6 +136,7 @@ import GameLayout from '@/layout/game.vue';
   },
 })
 export default class Home extends Vue {
+  private isIOS: boolean = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);;
   /**
    * 定位
    */
@@ -174,6 +175,7 @@ export default class Home extends Vue {
     },
     service: {
       name: '客服',
+      classStyle: 'component_popup_p',
       component: (resolve: any) => require([ './service.vue' ], resolve),
     },
     activity: {
