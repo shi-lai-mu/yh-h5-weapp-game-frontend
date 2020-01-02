@@ -11,4 +11,12 @@ export default {
       window.history.go(-1);
     }
   },
+
+
+  /**
+   * 设置屏幕数据
+   */
+  async SET_SCREEN(state: any, data: any) {
+    state.screen = data;
+  },
 };

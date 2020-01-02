@@ -1,13 +1,19 @@
 <template>
   <div>
     settingsad中文
+    <slider />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import slider from '@/components/slider.vue';
 
-@Component
+@Component({
+  components: {
+    slider,
+  },
+})
 export default class HomeSetting extends Vue {
   private created() {
     console.log(123465);
