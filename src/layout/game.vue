@@ -7,6 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ScreenInterface } from '@/interface/screen.interface';
+import { Action } from 'vuex-class';
 import landscape from '@/utils/screen';
 
 @Component
@@ -26,15 +27,16 @@ export default class GameLayout extends Vue {
    * 判断是否全屏
    */
   private isFullScreen: boolean = false;
+  @Action private SET_SCREEN!: (screenData: any) => void;
 
 
   /**
    * 强制设置横屏显示，且添加监听方法
    */
   public mounted() {
-    // this.$io.emit('connect/test', ['aa']);
     const resize: any = landscape.setLandscape();
     this.home = resize;
+    this.SET_SCREEN(resize);
     window.addEventListener('resize', this.renderResize, false);
   }
 
@@ -46,12 +48,14 @@ export default class GameLayout extends Vue {
     window.removeEventListener('resize', this.renderResize, false);
   }
 
+
   /**
    * 监听横竖屏变化的方法
    */
   public renderResize() {
     const resize: any = landscape.renderResize();
     this.home = resize;
+    this.SET_SCREEN(resize);
   }
 
 
