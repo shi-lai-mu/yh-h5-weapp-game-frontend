@@ -109,7 +109,6 @@ export default class App extends Vue {
         });
     }
     const targetRouter = (window.location.pathname.match(/(?<=\/|)(\w+)(?=\/|\?|)/) || [])[0];
-    console.log(targetRouter);
     
     // 免拦截位置
     if ([ 'login', 'loginStay', 'register', 'resetPwd' ].includes(targetRouter)) {

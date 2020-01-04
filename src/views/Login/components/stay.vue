@@ -72,7 +72,7 @@ export default class Home extends Vue {}
       display: inline-block;
       width: 160px;
       height: 60px;
-      background: url('../../../assets/button/login_stay_but.png') no-repeat;
+      background: url('../../../assets/sprites/login_stay_but.png') no-repeat;
       background-size: 320px;
 
       &:active {
@@ -104,7 +104,7 @@ export default class Home extends Vue {}
         width: 34px;
         height: 40px;
         content: '';
-        background: url('../../../assets/button/login_stay_but.png') no-repeat;
+        background: url('../../../assets/sprites/login_stay_but.png') no-repeat;
         background-size: 320px;
         background-position: -167px -69px;
       }

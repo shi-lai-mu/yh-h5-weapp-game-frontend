@@ -21,22 +21,28 @@ export default class HandleBtn extends Vue {
     position: absolute;
     width: 2.4rem;
     height: 2.4rem;
-    background-image: radial-gradient(circle, rgba(85, 105, 121, .5), rgba($color: #FBF4E5, $alpha: .5));
-    border: 1px solid #FBF4E5;
+    // background-image: radial-gradient(circle, rgba(85, 105, 121, .5), rgba($color: #FBF4E5, $alpha: .5));
+    // border: 1px solid #FBF4E5;
     text-align: center;
     border-radius: 50%;
     user-select: none;
+    background: url('../../assets/sprites/game_split/btn_bg.png') no-repeat;
+    background-size: 100%;
 
-    &::after {
-      position: absolute;
-      top: .4em;
-      left: .5em;
-      width: 4px;
-      height: 6px;
-      background-color: #FCFEFF;
-      border-radius: 50%;
-      transform: rotate(45deg);
-      content: '';
+    // &::after {
+    //   position: absolute;
+    //   top: .4em;
+    //   left: .5em;
+    //   width: 4px;
+    //   height: 6px;
+    //   background-color: #FCFEFF;
+    //   border-radius: 50%;
+    //   transform: rotate(45deg);
+    //   content: '';
+    // }
+
+    i {
+      text-shadow: 2px 2px 2px #b16b1b;
     }
 
     .game {
