@@ -1,10 +1,8 @@
 <template>
   <GameLayout class="home" ref="gameLayout">
     <!-- 背景图 -->
-    <img class="bg-img" src="@/assets/bg/time.png">
-
     <popup title="设 置"></popup>
-
+    <div class="bg-gem_bar" style="width: 20px;">cc</div>
     <div class="content">
       <div class="radio">
         <i class="game game-radio"></i>
@@ -34,20 +32,12 @@
         </div>
 
         <div class="user-info">
-          <div class="row user-name">
+          <!-- <div class="row user-name">
             <span v-text="userInfo.nickname" class="van-ellipsis"></span>
             <img src="@/assets/button/toggle_user.png" data-click="click">
-          </div>
-          <div class="row">
-            <img src="@/assets/icon/yuanbao.png">
-            <span v-text="userInfo.treasure"></span>
-            <img src="@/assets/button/txadd.png" data-click="click">
-          </div>
-          <div class="row">
-            <img src="@/assets/icon/jb.png">
-            <span v-text="userInfo.gold"></span>
-            <img src="@/assets/button/txadd.png" data-click="click">
-          </div>
+          </div> -->
+          <div class="row user-gem" v-text="userInfo.treasure || 0"></div>
+          <div class="row user-money" v-text="userInfo.gold || 0"></div>
         </div>
 
       </div>
@@ -290,6 +280,8 @@ export default class Home extends Vue {
     width: 100%;
     height: 100%;
     transition: all 550ms ease-in-out;
+    background: url('../../assets/bg/bg1.png') no-repeat center;
+    background-size: cover;
 
     .content {
       position: absolute;
@@ -382,48 +374,36 @@ export default class Home extends Vue {
         }
 
         .user-info {
+          height: 4.5rem;
           margin-left: 10px;
-          padding-right: 1.2rem;
+          padding-top: .2rem;
+          font-weight: bold;
+          color: #F7DE95 !important;
+          letter-spacing: 2px;
+          text-indent: 2.8rem;
 
           .row {
-            display: flex;
             min-width: 100px;
-            height: 26px;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #b2b2b2;
+            height: 2.2rem;
+            line-height: 2.4rem;
+            text-shadow: 2px 1px 1px #6e4d16;
+            // border-bottom: 1px solid #b2b2b2;
 
             img {
               width: 1.4rem;
               height: 1.4rem;
             }
-
-            span {
-              width: 60%;
-              padding-left: 5px;
-              font-weight: bold;
-              color: #F7DE95 !important;
-              letter-spacing: 2px;
-            }
           }
-          .user-name {
-            span {
-              width: 7em;
-              color: #FCEFD2 !important;
-            }
-            .replace {
-              width: 1.2rem;
-              line-height: 1.2rem;
-              color: #A07354;
-              text-align: center;
-              border-radius: 50%;
-              background-image: radial-gradient(circle, #FACF9C, #ECD7C2, #fff);
-              
-              b {
-                position: relative;
-                top: 2px;
-              }
-            }
+
+          .user-gem,
+          .user-money {
+            width: 130px;
+            background: url('../../assets/sprites/game_split/gem_bar.png') no-repeat;
+            background-size: 100%;
+          }
+
+          .user-money {
+            background-image: url('../../assets/sprites/game_split/money_bar.png');
           }
         }
       }
@@ -586,6 +566,7 @@ export default class Home extends Vue {
       }
 
       .create_room {
+        // background: url('../../assets/sprites/game_split/main_bar.png') no-repeat;
         background-position: 0 -79px;
       }
 
@@ -709,11 +690,12 @@ export default class Home extends Vue {
     }
   }
 
-  .bg-img {
-    width: 100%;
-    height: 100%;
-    transform: translate(-1px, 1px);
-  }
+  // .bg-img {
+  //   width: 100%;
+  //   height: 100%;
+  //   transform: translate(-1px, 1px);
+  //   background: url('../../assets/bg/time.png');
+  // }
 
 
   // 500 中分辨率适配

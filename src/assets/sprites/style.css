@@ -1,0 +1,25 @@
+
+/* game_split */
+.game_split {
+  background: url('game_split.png') no-repeat;
+}
+.bg-gem_bar {
+    width: 237px; height: 63px;
+    background: url('game_split.png') -236px -0;
+}
+.bg-gem {
+    width: 63px; height: 56px;
+    background: url('game_split.png') -69px -64px;
+}
+.bg-money_bar {
+    width: 236px; height: 64px;
+    background: url('game_split.png') -0 -0;
+}
+.bg-money {
+    width: 58px; height: 59px;
+    background: url('game_split.png') -0 -135px;
+}
+.bg-btn_bg {
+    width: 69px; height: 71px;
+    background: url('game_split.png') -0 -64px;
+}
