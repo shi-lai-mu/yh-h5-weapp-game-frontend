@@ -68,12 +68,12 @@ export default class HomeActivity extends Vue {
         color: #fff;
         padding: 1.1rem 12px 1rem 8px;
         background-color: transparent;
-        background: url('../../assets/CKZJ_ANNIU01.png') no-repeat center;
+        background: url('../../../assets/bg/CKZJ_ANNIU01.png') no-repeat center;
         background-size: 100%;
       }
 
       .van-sidebar-item--select {
-        background-image: url('../../assets/CKZJ_ANNIU02.png');
+        background-image: url('../../../assets/bg/CKZJ_ANNIU02.png');
         border: 0;
       }
     }

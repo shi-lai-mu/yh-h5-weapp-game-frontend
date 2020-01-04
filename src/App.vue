@@ -122,8 +122,8 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-  @import url('./static/style.scss');
-  @import url('./static/icon.css');
+  @import url('./assets/css/style.scss');
+  @import url('./assets/css/icon.css');
 
   #app {
     color: #333;

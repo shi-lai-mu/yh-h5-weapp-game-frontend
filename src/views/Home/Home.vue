@@ -1,7 +1,7 @@
 <template>
   <GameLayout class="home" ref="gameLayout">
     <!-- 背景图 -->
-    <img class="bg-img" src="@/assets/time.png">
+    <img class="bg-img" src="@/assets/bg/time.png">
 
     <popup title="设 置"></popup>
 
@@ -36,17 +36,17 @@
         <div class="user-info">
           <div class="row user-name">
             <span v-text="userInfo.nickname" class="van-ellipsis"></span>
-            <img src="@/static/images/toggle_user.png" alt="" data-click="click">
+            <img src="@/assets/button/toggle_user.png" data-click="click">
           </div>
           <div class="row">
-            <img src="@/static/images/yuanbao.png" alt="">
+            <img src="@/assets/icon/yuanbao.png">
             <span v-text="userInfo.treasure"></span>
-            <img src="@/static/images/txadd.png" alt="" data-click="click">
+            <img src="@/assets/button/txadd.png" data-click="click">
           </div>
           <div class="row">
-            <img src="@/static/images/jb.png" alt="">
+            <img src="@/assets/icon/jb.png">
             <span v-text="userInfo.gold"></span>
-            <img src="@/static/images/txadd.png" alt="" data-click="click">
+            <img src="@/assets/button/txadd.png" data-click="click">
           </div>
         </div>
 
@@ -85,7 +85,7 @@
       <div class="main_ui bottom-bar">
         <i class="main_ui ui_btn ui_email" data-click="click" @click="componentId = 'email'"></i>
         <i class="main_ui ui_btn ui_friends" data-click="click"></i>
-        <i class="main_ui ui_btn ui_backpack" data-click="click"></i>
+        <i class="main_ui ui_btn ui_backpack" data-click="click" @click="componentId = 'backpack'"></i>
         <i class="main_ui ui_btn ui_record" data-click="click"></i>
         <i class="main_ui ui_btn ui_recruiting" data-click="click"></i>
       </div>
@@ -93,7 +93,7 @@
       <!-- 右上角侧栏 -->
       <div class="top-bar">
         <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
-        <i class="main_ui ui_btn ui_btn_round ui_shop" data-click="click"></i>
+        <i class="main_ui ui_btn ui_btn_round ui_shop" data-click="click" @click="componentId = 'shop'"></i>
       </div>
 
       <!-- 左中侧栏 -->
@@ -125,6 +125,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import clickMusic from '@/components/public/clickMusic.vue';
 import handleBtn from '@/components/home/handleBtn.vue';
 import GameLayout from '@/layout/game.vue';
+import componentList from './config/component.popup';
 
 @Component({
   components: {
@@ -168,31 +169,7 @@ export default class Home extends Vue {
   /**
    * 弹窗组件
    */
-  private componentList: any = {
-    setting: {
-      name: '设置',
-      component: (resolve: any) => require([ './setting.vue' ], resolve),
-    },
-    service: {
-      name: '客服',
-      classStyle: 'component_popup_p',
-      component: (resolve: any) => require([ './service.vue' ], resolve),
-    },
-    activity: {
-      name: '活动',
-      component: (resolve: any) => require([ './activity.vue' ], resolve),
-    },
-    email: {
-      name: '邮件',
-      classStyle: 'component_popup_p',
-      component: (resolve: any) => require([ './email.vue' ], resolve),
-    },
-    account: {
-      name: '账号设置',
-      classStyle: 'component_popup_p',
-      component: (resolve: any) => require([ './account/index.vue' ], resolve),
-    },
-  };
+  private componentList: any = componentList;
   /**
    * 弹窗显示
    */
@@ -644,7 +621,7 @@ export default class Home extends Vue {
     .component_popup {
       width: 70%;
       height: 85%;
-      background: url('../../assets/zyc_DI.png') no-repeat;
+      background: url('../../assets/bg/zyc_DI.png') no-repeat;
       background-size: 100%;
       overflow: inherit;
 
@@ -689,7 +666,7 @@ export default class Home extends Vue {
         right: 1%;
         width: 6%;
         height: 10%;
-        background: url('../../assets/TY_btn_close.png') no-repeat;
+        background: url('../../assets/button/TY_btn_close.png') no-repeat;
         background-size: 100%;
 
         &:active {
@@ -701,7 +678,7 @@ export default class Home extends Vue {
     .component_popup_p {
       width: 80%;
       height: 90%;
-      background-image: url('../../assets/zyc_DI_1.png');
+      background-image: url('../../assets/bg/zyc_DI_1.png');
 
       &::before {
         position: absolute;
@@ -711,7 +688,7 @@ export default class Home extends Vue {
         width: 20rem;
         height: 20rem;
         margin: auto;
-        background: url('../../assets/gy_biaotilan.png') no-repeat;
+        background: url('../../assets/bg/gy_biaotilan.png') no-repeat;
         content: '';
         background-size: 100%;
         pointer-events: none;
