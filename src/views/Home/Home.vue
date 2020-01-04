@@ -93,7 +93,7 @@
       <!-- 右上角侧栏 -->
       <div class="top-bar">
         <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
-        <i class="main_ui ui_btn ui_btn_round ui_shop" data-click="click" @click="componentId = 'shop'"></i>
+        <router-link class="main_ui ui_btn ui_btn_round ui_shop" data-click="click" tag="i" :to="{ name: 'shop' }"></router-link>
       </div>
 
       <!-- 左中侧栏 -->
