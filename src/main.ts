@@ -36,6 +36,7 @@ new Vue({
 }).$mount('#app');
 
 router.beforeEach((to, from, next) => {
+  console.log(to.name);
   if (to.name === 'home') {
     const userInfo: any = store.state.userInfo;
     if (!userInfo.token) {
