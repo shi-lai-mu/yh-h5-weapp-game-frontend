@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home" ref="gameLayout">
     settingsad中文
   </div>
 </template>
