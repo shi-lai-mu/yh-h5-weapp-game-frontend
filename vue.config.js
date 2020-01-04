@@ -4,7 +4,6 @@ const resolve = (dir) => path.join(__dirname, dir);
 
 module.exports = {
   assetsDir: './',
-  publicPath: './',
   configureWebpack: (config) => {
     config.module = {
       rules: [

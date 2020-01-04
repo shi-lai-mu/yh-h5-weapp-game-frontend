@@ -34,7 +34,7 @@ export default class App extends Vue {
     this.$router.beforeEach((to, from, next) => {
       const toPage = this.filterLoginState(to);
       if (!['login', 'register'].includes(to.name || '') && typeof toPage !== 'boolean') {
-        next(toPage);
+        return next(toPage);
       }
       next();
     });
@@ -108,10 +108,8 @@ export default class App extends Vue {
           clock && clearTimeout(clock);
         });
     }
-    const targetRouter = toRouter
-      ? toRouter.name
-      : (window.location.pathname.match(/(?<=\/|)(\w+)(?=\/|\?|)/) || [])[0]
-    ;
+    const targetRouter = (window.location.pathname.match(/(?<=\/|)(\w+)(?=\/|\?|)/) || [])[0];
+    console.log(targetRouter);
     
     // 免拦截位置
     if ([ 'login', 'loginStay', 'register', 'resetPwd' ].includes(targetRouter)) {

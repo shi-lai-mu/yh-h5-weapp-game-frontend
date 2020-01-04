@@ -11,12 +11,12 @@
     </div>
     <Button type="info" round  size="large" @click="handleLogin">登陆</Button>
     <div class="navigation forget">
-      <router-link to="/resetPwd">
+      <router-link :to="{ name: 'AccountUnsetPassword' }">
         <span>忘记密码 ？</span>
       </router-link>
     </div>
     <div class="navigation reg">
-      <router-link to="/register">
+      <router-link :to="{ name: 'AccountRegister' }">
         <span>没有账号，去注册</span>
         <Icon name="arrow" />
       </router-link>

@@ -23,7 +23,7 @@
     </div>
     <div class="login-box">
       <span class="but wx-login lock"></span>
-      <span class="but account-login"></span>
+      <router-link :to="{ name: 'AccountLogin' }" class="but account-login" data-click="click"></router-link>
       <span class="but xl-login lock"></span>
     </div>
   </GameLayout>
@@ -39,9 +39,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
     GameLayout,
   },
 })
-export default class Home extends Vue {
-  
-}
+export default class Home extends Vue {}
 </script>
 
 <style lang="scss">
@@ -50,7 +48,7 @@ export default class Home extends Vue {
     display: flex;
     width: 100%;
     height: 100%;
-    background: url('../../assets/bg/bg2.png') no-repeat center;
+    background: url('../../../assets/bg/bg2.png') no-repeat center;
     background-size: cover;
     flex-wrap: wrap;
     flex-direction: column-reverse;
@@ -74,7 +72,7 @@ export default class Home extends Vue {
       display: inline-block;
       width: 160px;
       height: 60px;
-      background: url('../../assets/button/login_stay_but.png') no-repeat;
+      background: url('../../../assets/button/login_stay_but.png') no-repeat;
       background-size: 320px;
 
       &:active {
@@ -106,7 +104,7 @@ export default class Home extends Vue {
         width: 34px;
         height: 40px;
         content: '';
-        background: url('../../assets/button/login_stay_but.png') no-repeat;
+        background: url('../../../assets/button/login_stay_but.png') no-repeat;
         background-size: 320px;
         background-position: -167px -69px;
       }

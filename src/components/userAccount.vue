@@ -37,7 +37,7 @@
     <Button type="info" round @click="handleSubmit" v-if="handle === 'register'">注册</Button>
     <Button type="info" round @click="handleSubmit" v-else>确认修改</Button>
     <div class="navigation">
-      <router-link to="/login">
+      <router-link :to="{ name: 'AccountLogin' }">
         <span>账号登录</span>
         <Icon name="arrow" />
       </router-link>
