@@ -1,7 +1,10 @@
+const path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
+const resolve = (dir) => path.join(__dirname, dir);
 
 module.exports = {
   assetsDir: './',
+  publicPath: './',
   configureWebpack: (config) => {
     config.module = {
       rules: [
@@ -11,13 +14,13 @@ module.exports = {
           test: /\.(jsx|tsx|js|ts)$/,
           loader: 'ts-loader',
           options: {
-            happyPackMode: true, // 打包相关
+            happyPackMode: true,
             transpileOnly: true,
             getCustomTransformers: () => ({
               before: [ tsImportPluginFactory( {
                 libraryName: 'vant',
                 libraryDirectory: 'es',
-                style: name => `${name}/style/less` // 配置vant主题文件
+                style: name => `${name}/style/less`
               })]
             }),
             compilerOptions: {
@@ -28,5 +31,11 @@ module.exports = {
         }
       ]
     }
+  },
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@', resolve('src'))
+      .set('@views', resolve('src/views'))
+      .set('@Home', resolve('src/views/Home'))
   }
 }
