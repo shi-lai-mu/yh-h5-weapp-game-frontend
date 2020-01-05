@@ -11,12 +11,6 @@
         </div>
       </div>
 
-      <!-- 定位 -->
-      <div class="location">
-        <i class="game game-location"></i>
-        <span>{{ location === null ? '获取失败' : location }}</span>
-      </div>
-
       <!-- 按钮 -->
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="68" @click.native="$refs.gameLayout.fullScreen" v-if="!isIOS"/>
       <router-link to="feedback">
@@ -87,16 +81,13 @@
       </div>
 
       <!-- 左中侧栏 -->
-      <ul class="left-content-bar">
-        <li class="main_ui join_room" data-click="click"></li>
-        <li class="main_ui create_room" data-click="click"></li>
-      </ul>
+      <clannel class="left-content-bar" />
     </div>
 
     <Popup v-if="componentId" v-model="componentPopup" @close="componentId = null" :class="[ 'component_popup', componentList[componentId].classStyle ]">
       <template>
         <div>
-          <span class="popup-title css1df6a1233820fb9">{{ componentList[componentId].name }}</span>
+          <span class="popup-title">{{ componentList[componentId].name }}</span>
           <i class="popup-close" @click="componentId = null" data-click="click"></i>
           <component :is="componentList[componentId].component" class="popup-content"></component>
         </div>
@@ -116,6 +107,7 @@ import clickMusic from '@/components/public/clickMusic.vue';
 import handleBtn from '@/components/home/handleBtn.vue';
 import GameLayout from '@/layout/game.vue';
 import componentList from './config/component.popup';
+import clannel from './components/channel/channel.vue';
 
 @Component({
   components: {
@@ -124,14 +116,11 @@ import componentList from './config/component.popup';
     Popup,
     GameLayout,
     vanImage: Image,
+    clannel,
   },
 })
 export default class Home extends Vue {
-  private isIOS: boolean = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);;
-  /**
-   * 定位
-   */
-  private location: string | null = '';
+  private isIOS: boolean = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
   /**
    * 天气
    */
@@ -176,7 +165,7 @@ export default class Home extends Vue {
    * 获取主页必要的信息
    */
   public created() {
-    this.getCity();
+    console.log(123465);
     this.getGamesList();
 
     // 关闭拦截
@@ -206,44 +195,6 @@ export default class Home extends Vue {
         } else {
           this.gamesList = res;
         }
-      });
-  }
-
-
-  /**
-   * 获取城市信息
-   */
-  public getCity() {
-    this.$axios
-      .api('get_city')
-      .then((res: any) => {
-        if (res.data) {
-          this.location = res.data.city;
-        } else {
-          this.location = null;
-        }
-      })
-      .catch((err: any) => {
-        this.location = null;
-      });
-  }
-
-
-  /**
-   * 获取天气信息
-   */
-  public getWeather() {
-    this.$axios
-      .api('get_weather')
-      .then((res: any) => {
-        if (res.data) {
-          this.weather = res.data.forecast[0];
-        } else {
-          this.location = null;
-        }
-      })
-      .catch((err: any) => {
-        this.weather = null;
       });
   }
 
@@ -283,13 +234,23 @@ export default class Home extends Vue {
     background: url('../../assets/bg/bg1.png') no-repeat center;
     background-size: cover;
 
+    &::before {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(transparent, rgba($color: #000, $alpha: .4));
+      content: '';
+      pointer-events: none;
+    }
+
     .content {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      padding-left: 30px;
+      padding-left: 5px;
 
       .radio {
         display: flex;
@@ -550,7 +511,7 @@ export default class Home extends Vue {
 
       .left-content-bar {
         position: absolute;
-        top: 25%;
+        top: 15%;
         left: 12%;
         width: 237px;
 

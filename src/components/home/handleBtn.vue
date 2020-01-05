@@ -1,5 +1,5 @@
 <template>
-  <div class="btn" :style="'bottom:' + bottom + '%;'" data-click="click">
+  <div class="yh-gui-public btn" :style="'bottom:' + bottom + '%;'" data-click="click">
     <i :class="'game game-' + iconClass"></i>
     <span class="icon-name" v-text="iconName"></span>
   </div>
@@ -26,8 +26,7 @@ export default class HandleBtn extends Vue {
     text-align: center;
     border-radius: 50%;
     user-select: none;
-    background: url('../../assets/sprites/game_split/btn_bg.png') no-repeat;
-    background-size: 100%;
+    background-position: -129px -220px;
 
     // &::after {
     //   position: absolute;

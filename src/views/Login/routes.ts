@@ -1,9 +1,4 @@
 export default [
-  // 登陆滞留
-  {
-    path: '',
-    component: () => import('@views/Login/components/stay.vue'),
-  },
   // 账号登陆
   {
     path: 'account',
@@ -21,5 +16,11 @@ export default [
     path: 'unset/password',
     name: 'AccountUnsetPassword',
     component: () => import('@views/Login/components/unPassword.vue'),
+  },
+  // 登陆滞留
+  {
+    path: '',
+    name: 'login',
+    component: () => import('@views/Login/components/stay.vue'),
   },
 ];

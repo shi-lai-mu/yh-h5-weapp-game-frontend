@@ -3,7 +3,6 @@ const tsImportPluginFactory = require('ts-import-plugin');
 const resolve = (dir) => path.join(__dirname, dir);
 
 module.exports = {
-  assetsDir: './',
   configureWebpack: (config) => {
     config.module = {
       rules: [

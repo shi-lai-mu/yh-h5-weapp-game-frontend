@@ -39,7 +39,11 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
     GameLayout,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  created() {
+    console.log(1234879);
+  }
+}
 </script>
 
 <style lang="scss">
@@ -116,6 +120,8 @@ export default class Home extends Vue {}
       color: #aaa;
       font-size: 12px;
       justify-content: center;
+      white-space: nowrap;
+      zoom: .7;
 
       li {
         margin: 0 5px;
