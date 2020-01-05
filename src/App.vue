@@ -28,12 +28,14 @@ export default class App extends Vue {
 
     const to = this.filterLoginState();
     if (to && typeof to !== 'boolean') {
+      alert(1)
       this.$router.push(to);
     }
 
     this.$router.beforeEach((to, from, next) => {
       const toPage = this.filterLoginState(to);
       if (!['login', 'register'].includes(to.name || '') && typeof toPage !== 'boolean') {
+        alert(2)
         return next(toPage);
       }
       next();

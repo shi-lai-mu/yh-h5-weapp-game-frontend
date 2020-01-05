@@ -1,26 +1,12 @@
-*{
-  margin:0px; padding:0px;
+body, ul, li, div {
+  margin:0px;
+  padding:0px;
   box-sizing: border-box;
 }
-body {
-  background: #fff;
+a {
+  text-decoration: none;
 }
-input::-webkit-input-placeholder{
-  color: #b7b7b7;
-  font-size: 17px;
-}
-input::-moz-placeholder{   /* Mozilla Firefox 19+ */
-  color: #b7b7b7;
-  font-size: 17px;
-}
-input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
-  color: #b7b7b7;
-  font-size: 17px;
-}
-input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
-  color: #b7b7b7;
-  font-size: 17px;
-}
+
 .navigation {
   margin-top: 20px;
   text-align: center;
@@ -75,9 +61,8 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .float-list {
   float: left;
 }
-a {
-  text-decoration: none;
-}
+
+
 .popup {
   position: fixed;
   top: 0;
@@ -86,13 +71,31 @@ a {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, .7);
+
+  .game-solid-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1001;
+    font-size: 27px;
+    color: #FFF4D6;
+    transform: translate(40%, -40%);
+  }
 }
-.popup .game-solid-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1001;
-  font-size: 27px;
-  color: #FFF4D6;
-  transform: translate(40%, -40%);
+/**
+ * 游惠GUI分割
+ */
+.yh-gui-public {
+  background: url('../sprites/yh_gui_public.png') no-repeat;
+  background-size: 390px;
+}
+
+.yh-gui-template {
+  background: url('../sprites/yh_gui_template.png') no-repeat;
+  background-size: 390px;
+}
+
+.yh-gui-channel {
+  background: url('../sprites/yh_gui_channel.png') no-repeat;
+  background-size: 390px;
 }

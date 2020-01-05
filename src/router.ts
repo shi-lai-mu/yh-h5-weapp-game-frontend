@@ -27,12 +27,6 @@ export default new Router({
       name: 'feedback',
       component: () => import('@/views/Feedback/feedback.vue'),
     },
-    // 商城页
-    {
-      path: '/shop',
-      name: 'shop',
-      component: () => import('@/views/Shop/shop.vue'),
-    },
   ],
 });
 
