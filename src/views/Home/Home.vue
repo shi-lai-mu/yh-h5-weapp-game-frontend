@@ -256,12 +256,13 @@ export default class Home extends Vue {
         display: flex;
         position: absolute;
         top: 5%;
-        left: 10%;
-        width: 26%;
-        padding-left: 5px;
-        background-color: rgba($color: #000000, $alpha: .3);
+        left: .5em;
+        width: 40%;
+        padding: 5px;
+        background-color: rgba($color: #000, $alpha: .3);
+        font-size: .8em;
         color: #FEEECF;
-        line-height: 32px;
+        line-height: 1.2em;
         border-radius: 2rem;
 
         .game-radio {
@@ -358,7 +359,7 @@ export default class Home extends Vue {
 
           .user-gem,
           .user-money {
-            width: 130px;
+            width: 8rem;
             background: url('../../assets/sprites/game_split/gem_bar.png') no-repeat;
             background-size: 100%;
           }
@@ -508,24 +509,6 @@ export default class Home extends Vue {
           margin: 0 .2vw;
         }
       }
-
-      .left-content-bar {
-        position: absolute;
-        top: 15%;
-        left: 12%;
-        width: 237px;
-
-        li {
-          width: 100%;
-          height: 80px;
-          margin-bottom: 1vh;
-
-          &:active {
-            transform: scale(1.05);
-          }
-        }
-      }
-
       .create_room {
         // background: url('../../assets/sprites/game_split/main_bar.png') no-repeat;
         background-position: 0 -79px;

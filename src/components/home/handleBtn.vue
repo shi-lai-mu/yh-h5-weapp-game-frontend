@@ -19,14 +19,14 @@ export default class HandleBtn extends Vue {
 <style scoped lang="scss">
   .btn {
     position: absolute;
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.4em;
+    height: 2.4em;
     // background-image: radial-gradient(circle, rgba(85, 105, 121, .5), rgba($color: #FBF4E5, $alpha: .5));
     // border: 1px solid #FBF4E5;
     text-align: center;
     border-radius: 50%;
     user-select: none;
-    background-position: -129px -220px;
+    background-position: -8.7em -14.8em;
 
     // &::after {
     //   position: absolute;
