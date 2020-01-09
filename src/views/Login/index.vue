@@ -5,9 +5,5 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator';
 @Component
-export default class LoginView extends Vue {
-  created() {
-    console.log(111111111);
-  }
-}
+export default class LoginView extends Vue {}
 </script>
