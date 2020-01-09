@@ -99,3 +99,13 @@ a {
   background: url('../sprites/yh_gui_channel.png') no-repeat;
   background-size: 390px;
 }
+
+.yh-gui-title {
+  display: flex;
+  width: 10em;
+  height: 2.5em;
+  margin: -1em auto 0;
+  background-position: 0px -129px;
+  justify-content: center;
+  align-items: center;
+}
