@@ -12,21 +12,21 @@
     </div>
     <ul class="game-list">
       <li class="yh-gui-home-game-list">
-        <span class="yh-gui-home-game-list game-icon icon-xxl"></span>
+        <span class="yh-gui-home-game-list game-icon icon-xxl" data-click="click"></span>
       </li>
       <li class="yh-gui-home-game-list">
-        <span class="yh-gui-home-game-list game-icon icon-ddz lock"></span>
+        <span class="yh-gui-home-game-list game-icon icon-ddz lock" data-click="click"></span>
       </li>
       <li class="yh-gui-home-game-list">
-        <span class="yh-gui-home-game-list game-icon icon-tcs"></span>
-      </li>
-      <li class="yh-gui-home-game-list"></li>
-      <li class="yh-gui-home-game-list">
-        <span class="yh-gui-home-game-list game-icon icon-wzq"></span>
+        <span class="yh-gui-home-game-list game-icon icon-tcs" data-click="click"></span>
       </li>
       <li class="yh-gui-home-game-list"></li>
       <li class="yh-gui-home-game-list">
-        <span class="yh-gui-home-game-list game-icon icon-fxq"></span>
+        <span class="yh-gui-home-game-list game-icon icon-wzq" data-click="click"></span>
+      </li>
+      <li class="yh-gui-home-game-list"></li>
+      <li class="yh-gui-home-game-list">
+        <span class="yh-gui-home-game-list game-icon icon-fxq" data-click="click"></span>
       </li>
     </ul>
   </div>
