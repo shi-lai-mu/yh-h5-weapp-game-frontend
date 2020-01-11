@@ -36,13 +36,6 @@
       <gameList />
 
       <!-- 右下角侧栏 -->
-      <!-- <div class="main_ui bottom-bar">
-        <i class="main_ui ui_btn ui_email" data-click="click" @click="componentId = 'email'"></i>
-        <i class="main_ui ui_btn ui_friends" data-click="click"></i>
-        <i class="main_ui ui_btn ui_backpack" data-click="click" @click="componentId = 'backpack'"></i>
-        <i class="main_ui ui_btn ui_record" data-click="click"></i>
-        <i class="main_ui ui_btn ui_recruiting" data-click="click"></i>
-      </div> -->
       <BottomAside />
 
       <!-- 右上角侧栏 -->
