@@ -37,33 +37,7 @@
       </div>
 
       <!-- 游戏列表 -->
-      <div class="games-list right-games">
-
-        <a class="list" v-for="(item, index) of gamesList" :key="index" :href="item.url">
-          <img :src="item.icon" data-click="click">
-          <span data-click="click">{{ item.name }}</span>
-        </a>
-
-        <div class="list" v-if="moreGames.length > 0" @click="showMoreMages">
-          <div class="more-games" data-click="click">
-            <img data-click="click" v-for="(item, index) of smallMoreGames" :key="index" :src="item.icon" alt="">
-            <i data-click="click" v-if="moreGames.length > 3" class="game game-ellipsis"></i>
-          </div>
-          <span data-click="click">更多游戏</span>
-        </div>
-      </div>
-
-      <!-- 更多游戏弹框 -->
-      <div class="popup more-games-popup" v-show="moreGamesPopup">
-        <i class="game game-solid-close" data-click="click" @click="hiddenPopup"></i>
-
-        <div class="popup-games games-list vertical-horizontal-center">
-          <a class="list" v-for="(item, index) of moreGames" :key="index" :href="item.url">
-            <img :src="item.icon" data-click="click">
-            <span data-click="click">{{ item.name }}</span>
-          </a>
-        </div>
-      </div>
+      <gameList />
 
       <!-- 右下角侧栏 -->
       <div class="main_ui bottom-bar">
@@ -108,6 +82,7 @@ import handleBtn from '@/components/home/handleBtn.vue';
 import GameLayout from '@/layout/game.vue';
 import componentList from './config/component.popup';
 import clannel from './components/channel/channel.vue';
+import gameList from './components/game/list.vue';
 
 @Component({
   components: {
@@ -117,6 +92,7 @@ import clannel from './components/channel/channel.vue';
     GameLayout,
     vanImage: Image,
     clannel,
+    gameList,
   },
 })
 export default class Home extends Vue {
@@ -125,10 +101,6 @@ export default class Home extends Vue {
    * 天气
    */
   private weather: string | null = '';
-  /**
-   * 更多游戏弹框
-   */
-  private moreGamesPopup: boolean = false;
   /**
    * 更多游戏列表
    */
@@ -196,22 +168,6 @@ export default class Home extends Vue {
           this.gamesList = res;
         }
       });
-  }
-
-
-  /**
-   * 关闭弹框
-   */
-  public hiddenPopup() {
-    this.moreGamesPopup = false;
-  }
-
-
-  /**
-   * 显示更多游戏弹框
-   */
-  public showMoreMages() {
-    this.moreGamesPopup = true;
   }
 
 
@@ -366,73 +322,6 @@ export default class Home extends Vue {
 
           .user-money {
             background-image: url('../../assets/sprites/game_split/money_bar.png');
-          }
-        }
-      }
-
-      .right-games {
-        right: 5%;
-        width: 42%;
-        transform: translateY(-50%);
-        border: 1px solid rgba($color: #fff, $alpha: .2);
-      }
-
-      .games-list {
-        position: absolute;
-        top: 50%;  
-        height: 55%;
-        background-image: radial-gradient(transparent, rgba($color: #000, $alpha: .5));
-        border-radius: 10px;
-        transition: .5s;
-
-        .list {
-          display: flex;
-          float: left;
-          width: 33%;
-          height: 40%;
-          margin: 4% 0;
-          flex-direction: column;
-          justify-content: space-around;
-          align-items: center;
-
-          img {
-            width: 5em;
-            height: 5em;
-            border-radius: 13px;
-          }
-
-          .more-games {
-            width: 5em;
-            height: 5em;
-            padding: 5px;
-            border: 1px solid rgba($color: #fff, $alpha: .7);
-            background-color: rgba($color: #fff, $alpha: .4);
-            border-radius: 15px;
-            columns: 2;
-
-            img {
-              width: 1.6em;
-              height: 1.6em;
-            }
-
-            .game-ellipsis {
-              float: right;
-              margin-right: 4px;
-              font-size: 26px;
-              color: #fff;
-            }
-          }
-
-          span {
-            font-size: 14px;
-            color: #fff;
-            -webkit-text-stroke-color: #999;
-            -webkit-text-stroke-width: .5px;
-          }
-
-          &:active {
-            transform: scale(1.1);
-            filter: brightness(1.1);
           }
         }
       }
@@ -645,7 +534,6 @@ export default class Home extends Vue {
   // 500 中分辨率适配
   @media screen and (max-height: 500px) {
     .left-content-bar,
-    .games-list .list,
     .flex-row,
     .bottom-bar {
       zoom: .8;
