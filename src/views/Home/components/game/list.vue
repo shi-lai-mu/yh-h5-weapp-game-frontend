@@ -111,6 +111,16 @@ export default class HomeGameList extends Vue  {
         background-position: -7.2em -16.9em;
         &::after { background-position: -28.5em -4.5em; }
       }
+
+      .icon-fxq {
+        background-position: -14.3em -16.9em;
+        &::after { background-position: -28.5em -4.5em; }
+      }
+
+      .icon-wzq {
+        background-position: -10.79em -16.9em;
+        &::after { background-position: -28.5em -9.9em; }
+      }
     }
 
     .console-box {
