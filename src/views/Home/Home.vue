@@ -36,13 +36,14 @@
       <gameList />
 
       <!-- 右下角侧栏 -->
-      <div class="main_ui bottom-bar">
+      <!-- <div class="main_ui bottom-bar">
         <i class="main_ui ui_btn ui_email" data-click="click" @click="componentId = 'email'"></i>
         <i class="main_ui ui_btn ui_friends" data-click="click"></i>
         <i class="main_ui ui_btn ui_backpack" data-click="click" @click="componentId = 'backpack'"></i>
         <i class="main_ui ui_btn ui_record" data-click="click"></i>
         <i class="main_ui ui_btn ui_recruiting" data-click="click"></i>
-      </div>
+      </div> -->
+      <BottomAside />
 
       <!-- 右上角侧栏 -->
       <div class="top-bar">
@@ -77,6 +78,7 @@ import componentList from './config/component.popup';
 import handleBtn from '@/components/home/handleBtn.vue';
 import clannel from './components/channel/channel.vue';
 import gameList from './components/game/list.vue';
+import BottomAside from './components/navigation/index.vue';
 // import bgMusic from '@/components/public/bgMusic.vue';
 
 @Component({
@@ -88,6 +90,7 @@ import gameList from './components/game/list.vue';
     vanImage: Image,
     clannel,
     gameList,
+    BottomAside,
   },
 })
 export default class Home extends Vue {
