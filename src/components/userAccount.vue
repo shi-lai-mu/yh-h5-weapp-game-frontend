@@ -326,7 +326,7 @@ export default class UserAccount extends Vue {
           console.log(res);
           setTimeout(() => {
             this.$router.push({
-              path: '/login',
+              name: 'login',
             });
           }, 1500);
         } else {

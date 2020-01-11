@@ -26,10 +26,6 @@
         </div>
 
         <div class="user-info">
-          <!-- <div class="row user-name">
-            <span v-text="userInfo.nickname" class="van-ellipsis"></span>
-            <img src="@/assets/button/toggle_user.png" data-click="click">
-          </div> -->
           <div class="row user-gem" v-text="userInfo.treasure || 0"></div>
           <div class="row user-money" v-text="userInfo.gold || 0"></div>
         </div>
@@ -51,7 +47,7 @@
       <!-- 右上角侧栏 -->
       <div class="top-bar">
         <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
-        <router-link class="main_ui ui_btn ui_btn_round ui_shop" data-click="click" tag="i" :to="{ name: 'shop' }"></router-link>
+        <router-link class="main_ui ui_btn ui_btn_round ui_shop" data-click="click" tag="i" to="shop"></router-link>
       </div>
 
       <!-- 左中侧栏 -->
@@ -74,15 +70,14 @@
 <script lang="ts">
 import { Image, Popup } from 'vant';
 import { State } from 'vuex-class';
-import { Games } from '@/interface/home.interface';
+// import { Games } from '@/interface/home.interface';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-// import bgMusic from '@/components/public/bgMusic.vue';
-import clickMusic from '@/components/public/clickMusic.vue';
-import handleBtn from '@/components/home/handleBtn.vue';
 import GameLayout from '@/layout/game.vue';
 import componentList from './config/component.popup';
+import handleBtn from '@/components/home/handleBtn.vue';
 import clannel from './components/channel/channel.vue';
 import gameList from './components/game/list.vue';
+// import bgMusic from '@/components/public/bgMusic.vue';
 
 @Component({
   components: {
@@ -97,22 +92,6 @@ import gameList from './components/game/list.vue';
 })
 export default class Home extends Vue {
   private isIOS: boolean = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-  /**
-   * 天气
-   */
-  private weather: string | null = '';
-  /**
-   * 更多游戏列表
-   */
-  private moreGames: Games[] = [];
-  /**
-   * 更多列表框游戏iocn
-   */
-  private smallMoreGames: Games[] = [];
-  /**
-   * 游戏列表
-   */
-  private gamesList: Games[] = [];
   /**
    * 弹窗
    */
@@ -137,37 +116,10 @@ export default class Home extends Vue {
    * 获取主页必要的信息
    */
   public created() {
-    console.log(123465);
-    this.getGamesList();
-
     // 关闭拦截
     window.onbeforeunload = () => {
       return 'no'
     };
-  }
-
-
-  /**
-   * 获取游戏列表
-   */
-  public getGamesList() {
-    this.$axios
-      .api('get_games_list')
-      .then((res: any) => {
-        let moreGames: Games[] = [];
-        if (res.length > 5) {
-          this.gamesList = res.slice(0, 5);
-          moreGames = res.slice(5);
-          this.moreGames = moreGames;
-          if (moreGames.length > 3) {
-            this.smallMoreGames = moreGames.slice(0, 3);
-          } else {
-            this.smallMoreGames = moreGames;
-          }
-        } else {
-          this.gamesList = res;
-        }
-      });
   }
 
 
@@ -250,30 +202,6 @@ export default class Home extends Vue {
         }
       }
 
-      .location {
-        display: flex;
-        position: absolute;
-        top: 15%;
-        left: 10%;
-        width: 20%;
-        height: 24px;
-        background-image: linear-gradient(to right, rgba($color: #000000, $alpha: .8), rgba($color: #000000, $alpha: 0));
-        color: #FEEECF;
-        line-height: 24px;
-        border-radius: 2rem;
-        align-items: center;
-
-        .game {
-          position: absolute;
-          margin: 0 .1em;
-          font-size: 1.6em;
-        }
-
-        span {
-          margin-left: 2.5em;
-        }
-      }
-
       .flex-row {
         position: absolute;
         bottom: 1%;
@@ -322,29 +250,6 @@ export default class Home extends Vue {
 
           .user-money {
             background-image: url('../../assets/sprites/game_split/money_bar.png');
-          }
-        }
-      }
-
-      .more-games-popup {
-
-        .game-solid-close {
-          padding: fixed;
-          top: 22.5%;
-          right: 23%;
-        }
-
-        .popup-games {
-          position: absolute;
-          z-index: 1000;
-          overflow-y: auto;
-          overflow-x: hidden;
-          width: 54%;
-          background-image: linear-gradient(to bottom, rgba($color: #9198A2, $alpha: .8) 0%, rgba($color: #fff, $alpha: .15) 20%);
-
-          .list {
-            width: 25%;
-            margin: 3% 0;
           }
         }
       }
