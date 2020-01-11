@@ -141,7 +141,7 @@ export default class App extends Vue {
   // 500 小分辨率适配
   @media screen and (max-width: 500px) {
     #app .content >  * {
-      zoom: .95;
+      zoom: .9;
     }
   }
 

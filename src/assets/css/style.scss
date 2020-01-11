@@ -86,18 +86,23 @@ a {
  * 游惠GUI分割
  */
 .yh-gui-public {
-  background: url('../sprites/yh_gui_public.png') no-repeat;
+  background: url('../sprites/yh_gui_public.png') no-repeat left top;
   background-size: 26em;
 }
 
 .yh-gui-template {
-  background: url('../sprites/yh_gui_template.png') no-repeat;
-  background-size: 390px;
+  background: url('../sprites/yh_gui_template.png') no-repeat left top;
+  background-size: 26em;
 }
 
 .yh-gui-channel {
-  background: url('../sprites/yh_gui_channel.png') no-repeat;
-  background-size: 390px;
+  background: url('../sprites/yh_gui_channel.png') no-repeat left top;
+  background-size: 26em;
+}
+
+.yh-gui-home-game-list {
+  background: url('../sprites/yh_gui_home_game_list.png') no-repeat left top;
+  background-size: 26em;
 }
 
 .yh-gui-title {
@@ -105,7 +110,7 @@ a {
   width: 10em;
   height: 2.5em;
   margin: -1em auto 0;
-  background-position: 0px -129px;
+  background-position: -.1em -8.8em;
   justify-content: center;
   align-items: center;
 }
