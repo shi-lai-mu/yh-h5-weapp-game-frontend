@@ -35,14 +35,13 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-router.beforeEach((to, from, next) => {
-  console.log(to.name);
-  if (to.name === 'home') {
-    // const userInfo: any = store.state.userInfo;
-    // if (!userInfo.token) {
-    //   next({ name: 'login' });
-    //   return;
-    // }
-  }
-  next();
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.name === 'home') {
+//     const userInfo: any = store.state.userInfo;
+//     if (!userInfo.token) {
+//       next({ name: 'login' });
+//       return;
+//     }
+//   }
+//   next();
+// });

@@ -64,7 +64,6 @@
 <script lang="ts">
 import { Image, Popup } from 'vant';
 import { State } from 'vuex-class';
-// import { Games } from '@/interface/home.interface';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import GameLayout from '@/layout/game.vue';
 import componentList from './config/component.popup';
@@ -72,6 +71,7 @@ import handleBtn from '@/components/home/handleBtn.vue';
 import clannel from './components/channel/channel.vue';
 import gameList from './components/game/list.vue';
 import BottomAside from './components/navigation/index.vue';
+// import { Games } from '@/interface/home.interface';
 // import bgMusic from '@/components/public/bgMusic.vue';
 
 @Component({
@@ -131,12 +131,6 @@ export default class Home extends Vue {
 </script>
 <style lang="scss" scoped>
   .home {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    transition: all 550ms ease-in-out;
-    background: url('../../assets/bg/bg1.png') no-repeat center;
-    background-size: cover;
 
     &::before {
       position: fixed;
@@ -324,11 +318,11 @@ export default class Home extends Vue {
       }
 
       .ui_shop::after {
-        background-position: -9.6em -13.3em;
+        background-position: -14em -13.3em;
       }
 
       .ui_activity::after {
-        background-position: -14em -13.3em;
+        background-position: -9.6em -13.3em;
       }
     }
 
