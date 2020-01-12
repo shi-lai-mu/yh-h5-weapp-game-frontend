@@ -131,37 +131,37 @@ a {
 }
 
 
-@media screen and (min-height: 500px) {
+@media screen and (min-height: 500px), (min-width: 500px) {
   html {
     font-size: 10px;
   }
 }
 
-@media screen and (min-height: 550px) {
+@media screen and (min-height: 550px), (min-width: 550px) {
   html {
     font-size: 10.5px;
   }
 }
 
-@media screen and (min-height: 600px) {
+@media screen and (min-height: 600px), (min-width: 600px) {
   html {
     font-size: 12px;
   }
 }
 
-@media screen and (min-height: 650px) {
+@media screen and (min-height: 650px), (min-width: 650px) {
   html {
     font-size: 13px;
   }
 }
 
-@media screen and (min-height: 700px) {
+@media screen and (min-height: 700px), (min-width: 700px) {
   html {
     font-size: 14px;
   }
 }
 
-@media screen and (min-height: 800px) {
+@media screen and (min-height: 800px), (min-width: 800px) {
   html {
     font-size: 16px;
   }
