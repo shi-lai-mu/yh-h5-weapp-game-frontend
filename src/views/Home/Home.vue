@@ -48,11 +48,16 @@
       <clannel class="left-content-bar" />
     </div>
 
-    <Popup v-if="componentId" v-model="componentPopup" @close="componentId = null" :class="[ 'component_popup', componentList[componentId].classStyle ]">
+    <Popup
+      v-if="componentId"
+      v-model="componentPopup"
+      @close="componentId = null"
+      :class="[ 'yh-gui-popup', 'component_popup', componentList[componentId].classStyle ]"
+    >
       <template>
         <div>
           <span class="popup-title">{{ componentList[componentId].name }}</span>
-          <i class="popup-close" @click="componentId = null" data-click="click"></i>
+          <i class="yh-gui-public yh-close" @click="componentId = null" data-click="click"></i>
           <component :is="componentList[componentId].component" class="popup-content"></component>
         </div>
       </template>
@@ -153,8 +158,8 @@ export default class Home extends Vue {
       .radio {
         display: flex;
         position: absolute;
-        top: 5%;
-        left: .5em;
+        top: 1em;
+        left: 5.5em;
         width: 40%;
         padding: 5px;
         background-color: rgba($color: #000, $alpha: .3);
@@ -329,24 +334,33 @@ export default class Home extends Vue {
     .component_popup {
       width: 70%;
       height: 85%;
-      background: url('../../assets/bg/zyc_DI.png') no-repeat;
-      background-size: 100%;
-      overflow: inherit;
+      // background: url('../../assets/bg/zyc_DI.png') no-repeat;
+      // background-size: 100%;
+      // overflow: inherit;
+      background-color: transparent;
+
+      .yh-close {
+        position: fixed;
+        top: .5em;
+        right: .5em;
+        zoom: 1.3;
+      }
 
       &::after,
       .popup-content {
-        position: absolute;
-        top: 20%;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 95%;
-        height: 75%;
-        margin: auto;
-        background-color: rgba($color: #ecd9b0, $alpha: .95);
-        box-shadow: 0 5px 5px #4d4533;
-        border-radius: 1rem;
-        content: '';
+        padding: .5em 2em;
+        // position: absolute;
+        // top: 20%;
+        // right: 0;
+        // bottom: 0;
+        // left: 0;
+        // width: 95%;
+        // height: 75%;
+        // margin: auto;
+        // background-color: rgba($color: #ecd9b0, $alpha: .95);
+        // box-shadow: 0 5px 5px #4d4533;
+        // border-radius: 1rem;
+        // content: '';
       }
 
       .popup-title {
@@ -366,20 +380,6 @@ export default class Home extends Vue {
       .popup-content {
         z-index: 1;
         overflow-y: scroll;
-      }
-
-      .popup-close {
-        position: absolute;
-        top: 12%;
-        right: 1%;
-        width: 6%;
-        height: 10%;
-        background: url('../../assets/button/TY_btn_close.png') no-repeat;
-        background-size: 100%;
-
-        &:active {
-          transform: scale(1.1);
-        }
       }
     }
 
@@ -426,19 +426,19 @@ export default class Home extends Vue {
 
 
   // 500 中分辨率适配
-  @media screen and (max-height: 500px) {
-    .left-content-bar,
-    .flex-row,
-    .bottom-bar {
-      zoom: .8;
-    }
-  }
+  // @media screen and (max-height: 500px) {
+  //   .left-content-bar,
+  //   .flex-row,
+  //   .bottom-bar {
+  //     zoom: .8;
+  //   }
+  // }
 
 
-  // 500 中分辨率适配
-  @media screen and (max-height: 550px) {
-    .component_popup {
-      zoom: .8;
-    }
-  }
+  // // 500 中分辨率适配
+  // @media screen and (max-height: 550px) {
+  //   .component_popup {
+  //     zoom: .8;
+  //   }
+  // }
 </style>

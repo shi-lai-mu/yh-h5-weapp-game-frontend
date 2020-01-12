@@ -45,7 +45,7 @@ export default class HomeGameList extends Vue  {
   .home-game-ist {
     position: absolute;
     top: 15%;
-    right: 1%;
+    right: 1.5em;
     width: 22.6em;
     height: 13.5em;
 

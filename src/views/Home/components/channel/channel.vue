@@ -39,7 +39,7 @@ export default class Channel extends Vue {}
   .channel-box {
     position: absolute;
     top: 15%;
-    left: 3.5em;
+    left: 4.5em;
     height: 19.5em;
     width: 16em;
     background-size: auto 100%;
