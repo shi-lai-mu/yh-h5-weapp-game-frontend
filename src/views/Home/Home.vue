@@ -40,8 +40,8 @@
 
       <!-- 右上角侧栏 -->
       <div class="top-bar">
-        <i class="main_ui ui_btn ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
-        <router-link class="main_ui ui_btn ui_btn_round ui_shop" data-click="click" tag="i" to="shop"></router-link>
+        <i class="yh-gui-public ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
+        <router-link class="yh-gui-public ui_btn_round ui_shop" data-click="click" tag="i" to="shop"></router-link>
       </div>
 
       <!-- 左中侧栏 -->
@@ -251,7 +251,7 @@ export default class Home extends Vue {
       }
 
       .main_ui {
-        background: url('../../../public/Plist_MainUI.png') no-repeat;
+        // background: url('../../../public/Plist_MainUI.png') no-repeat;
         background-size: 410px;
       }
 
@@ -286,8 +286,27 @@ export default class Home extends Vue {
       }
 
       .ui_btn_round {
-        width: 40px;
-        background-size: 295px;
+        position: relative;
+        width: 2.4em;
+        height: 2.5em;
+        line-height: 3.2em;
+        margin: 0 .5em;
+        text-align: center;
+        user-select: none;
+        background-position: -8.9em -15em;
+        zoom: .8;
+
+        &::after {
+          display: inline-block;
+          width: 1.4em;
+          height: 1.5em;
+          background: inherit;
+          content: '';
+        }
+
+        &:active {
+          transform: scale(1.1);
+        }
       }
       
       .top-bar {
@@ -304,32 +323,12 @@ export default class Home extends Vue {
         background-position: 0 -79px;
       }
 
-      .ui_friends {
-        background-position: -100px -143px;
+      .ui_shop::after {
+        background-position: -9.6em -13.3em;
       }
 
-      .ui_backpack {
-        background-position: -1px -143px;
-      }
-
-      .ui_record {
-        background-position: -36px -143px;
-      }
-
-      .ui_recruiting {
-        background-position: -68px -143px;
-      }
-
-      .ui_shop {
-        background-position: -214px -88px;
-      }
-
-      .ui_activity {
-        background-position: -171px -53px;
-      }
-
-      .ui_email {
-        background-position: -2px -182px;
+      .ui_activity::after {
+        background-position: -14em -13.3em;
       }
     }
 

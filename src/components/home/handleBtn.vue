@@ -25,8 +25,7 @@ export default class HandleBtn extends Vue {
     // border: 1px solid #FBF4E5;
     text-align: center;
     border-radius: 50%;
-    user-select: none;
-    background-position: -8.7em -14.8em;
+    background-position: -8.9em -15em;
 
     // &::after {
     //   position: absolute;
