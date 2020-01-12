@@ -130,6 +130,15 @@ a {
   align-items: center;
 }
 
+.yh-close {
+  width: 1.6em;
+  height: 1.6em;
+  background-position: -14.8em -0.2em;
+}
+.yh-close:active {
+  transform: scale(1.2);
+}
+
 
 @media screen and (min-height: 500px), (min-width: 500px) {
   html {
