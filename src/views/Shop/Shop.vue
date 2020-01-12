@@ -1,5 +1,6 @@
 <template>
   <GameLayout class="shop" ref="gameLayout">
+    <div class="yh-gui-public yh-close" data-click="click" @click="$router.go(-1)"></div>
     <aside class="yh-gui-shop shop-tab-box">
       <div class="tab-list-box padding-box">
         <span class="yh-gui-template menu-tab props-buy" data-click="click" v-for="(item, index) in 15" :key="index"></span>
@@ -8,6 +9,7 @@
     <div class="yh-gui-popup shop-list-box" :style="{
       width: targetGoods ? '23.2em' : 'calc(90% - 12em)'
     }">
+      <div class="yh-gui-template yh-gui-title shop-title"></div>
       <div class="goods-list-box">
         <div class="goods-list" :style="{ columns: targetGoods ? 3 : 5 }">
           <span
@@ -51,8 +53,11 @@ export default class ShopHome extends Vue {
 </script>
 
 <style scoped lang="scss">
+$shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
+
 .shop {
   display: flex;
+  padding-top: 3%;
   justify-content: center;
   align-items: center;
 
@@ -64,6 +69,13 @@ export default class ShopHome extends Vue {
     background-image: radial-gradient(transparent, rgba($color: #000, $alpha: .9));
     content: '';
     pointer-events: none;
+  }
+
+  .yh-close {
+    position: fixed;
+    top: .5em;
+    right: .5em;
+    zoom: 1.2;
   }
 
   .padding-box {
@@ -99,7 +111,7 @@ export default class ShopHome extends Vue {
         width: 6em;
         height: 1.3em;
         content: '';
-        background: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
+        background: $shopSprite;
         background-size: 55em;
       }
 
@@ -120,8 +132,26 @@ export default class ShopHome extends Vue {
     width: 23.2em;
     height: 26.6em;
     padding: 2em 1.5em;
-    transition: .5s;
+    transition: .3s;
     // background-position: -12.2em 0;
+
+    .shop-title {
+      position: absolute;
+      top: -1em;
+      right: 0;
+      left: 0;
+      margin: 0 auto;
+
+      &::after {
+        display: block;
+        width: 3.5em;
+        height: 2.5em;
+        content: '';
+        background: $shopSprite;
+        background-size: 40em;
+        background-position: -36.4em -19.7em;
+      }
+    }
 
     .goods-list-box {
       height: 23.6em;
