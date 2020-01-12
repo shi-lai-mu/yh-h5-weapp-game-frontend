@@ -17,7 +17,6 @@ export default new Router({
     // 登陆页
     {
       path: '/login',
-      name: 'login',
       component: () => import('@/views/Login/index.vue'),
       children: LoginRoutes,
     },
@@ -26,6 +25,12 @@ export default new Router({
       path: '/feedback',
       name: 'feedback',
       component: () => import('@/views/Feedback/feedback.vue'),
+    },
+    // 商城页
+    {
+      path: '/shop',
+      name: 'shop',
+      component: () => import('@/views/Shop/Shop.vue'),
     },
   ],
 });

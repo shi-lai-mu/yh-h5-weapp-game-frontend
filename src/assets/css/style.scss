@@ -110,6 +110,16 @@ a {
   background-size: 26em;
 }
 
+.yh-gui-shop {
+  background: url('../sprites/yh_gui_shop.png') no-repeat left top;
+  background-size: 55em;
+}
+
+.yh-gui-popup {
+  background: url('../bg/popup.png') no-repeat;
+  background-size: 100% 100%;
+}
+
 .yh-gui-title {
   display: flex;
   width: 10em;
@@ -118,4 +128,41 @@ a {
   background-position: -.1em -8.8em;
   justify-content: center;
   align-items: center;
+}
+
+
+@media screen and (min-height: 500px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-height: 550px) {
+  html {
+    font-size: 10.5px;
+  }
+}
+
+@media screen and (min-height: 600px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-height: 650px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-height: 700px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-height: 800px) {
+  html {
+    font-size: 16px;
+  }
 }

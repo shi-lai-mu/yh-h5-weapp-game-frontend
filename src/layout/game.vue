@@ -1,5 +1,5 @@
 <template>
-  <div :style="home">
+  <div class="layout-home" :style="home">
     <slot></slot>
   </div>
 </template>
@@ -68,3 +68,14 @@ export default class GameLayout extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+  .layout-home {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: all 550ms ease-in-out;
+    background: url('../assets/bg/bg1.png') no-repeat center;
+    background-size: cover;
+  }
+</style>

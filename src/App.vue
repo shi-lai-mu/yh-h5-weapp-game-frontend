@@ -116,56 +116,56 @@ export default class App extends Vue {
   }
 
 
-  // 400 小分辨率适配
-  @media screen and (max-height: 400px) {
-    #app .content >  * {
-      zoom: .8;
-    }
-  }
+  // // 400 小分辨率适配
+  // @media screen and (max-height: 400px) {
+  //   #app .content >  * {
+  //     zoom: .8;
+  //   }
+  // }
 
-  // 350 小分辨率适配
-  @media screen and (max-height: 350px) {
-    #app .content >  * {
-      zoom: .7;
-    }
-  }
+  // // 350 小分辨率适配
+  // @media screen and (max-height: 350px) {
+  //   #app .content >  * {
+  //     zoom: .7;
+  //   }
+  // }
 
-  // 300 小分辨率适配
-  @media screen and (max-height: 300px) {
-    #app .content >  * {
-      zoom: .6;
-    }
-  }
-
-
-  // 500 小分辨率适配
-  @media screen and (max-width: 500px) {
-    #app .content >  * {
-      zoom: .9;
-    }
-  }
+  // // 300 小分辨率适配
+  // @media screen and (max-height: 300px) {
+  //   #app .content >  * {
+  //     zoom: .6;
+  //   }
+  // }
 
 
-  // 400 小分辨率适配
-  @media screen and (max-width: 400px) {
-    #app .content >  * {
-      zoom: .8;
-    }
-  }
+  // // 500 小分辨率适配
+  // @media screen and (max-width: 500px) {
+  //   #app .content >  * {
+  //     zoom: .9;
+  //   }
+  // }
 
-  // 350 小分辨率适配
-  @media screen and (max-width: 350px) {
-    #app .content >  * {
-      zoom: .7;
-    }
-  }
 
-  // 300 小分辨率适配
-  @media screen and (max-width: 300px) {
-    #app .content >  * {
-      zoom: .6;
-    }
-  }
+  // // 400 小分辨率适配
+  // @media screen and (max-width: 400px) {
+  //   #app .content >  * {
+  //     zoom: .8;
+  //   }
+  // }
+
+  // // 350 小分辨率适配
+  // @media screen and (max-width: 350px) {
+  //   #app .content >  * {
+  //     zoom: .7;
+  //   }
+  // }
+
+  // // 300 小分辨率适配
+  // @media screen and (max-width: 300px) {
+  //   #app .content >  * {
+  //     zoom: .6;
+  //   }
+  // }
 
 
   // 500 中分辨率适配

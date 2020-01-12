@@ -45,7 +45,7 @@ export default class Channel extends Vue {}
     background-size: auto 100%;
 
     .yh-gui-channel {
-      background-size: 445px;
+      background-size: 27.8em;
     }
 
     .channel-title {
