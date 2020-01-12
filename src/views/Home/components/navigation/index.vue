@@ -20,13 +20,14 @@ export default class NavigationIndex extends Vue {
   .home-aside-top-bottom {
     position: absolute;
     display: flex;
-    right: 1em;
+    right: .5em;
     bottom: 0;
     width: 22.6em;
     height: 5.3em;
     background-size: 22.5em;
     justify-content: space-around;
     align-items: center;
+    zoom: .9;
 
     li {
       width: 3.8em;
