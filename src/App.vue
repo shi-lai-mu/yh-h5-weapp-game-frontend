@@ -26,13 +26,18 @@ export default class App extends Vue {
     }
 
     const to = this.filterLoginState();
+      console.log(to)
     if (to && typeof to !== 'boolean') {
-      // this.$router.push(to);
+      this.$router.push(to);
     }
 
     this.$router.beforeEach((to, from, next) => {
       const toPage = this.filterLoginState(to);
-      if (!['login', 'register'].includes(to.name || '') && typeof toPage !== 'boolean') {
+
+      if (![
+        'login',
+        'register',
+      ].includes(to.name || '') && typeof toPage !== 'boolean') {
         return next(toPage);
       }
       next();
@@ -60,38 +65,38 @@ export default class App extends Vue {
       this.SET_USER(userInfo);
     }
 
-    // let userAccount: any = localStorage.getItem('userAccount');
-    // if (userAccount) {
-      // userAccount = JSON.parse(userAccount);
-      // const { account, password } = userAccount;
-      // this
-      //   .$axios
-      //   .api('login', {
-      //     data: {
-      //       account,
-      //       password,
-      //     },
-      //   })
-      //   .then((res: any) => {
-      //     if (res.id) {
-      //       this.SET_USER(res);
-      //       this.$router.push({
-      //         name: 'home',
-      //       });
-      //     } else {
-      //       // 缓存密码错误 ?
-      //       if (/密码错误/.test(res.msg)) {
-      //         localStorage.clear();
-      //       }
-      //     }
-      //   })
-    // }
-    // const targetRouter = (window.location.pathname.match(/(?<=\/|)(\w+)(?=\/|\?|)/) || [])[0];
+    let userAccount: any = localStorage.getItem('userAccount');
+    if (userAccount) {
+      userAccount = JSON.parse(userAccount);
+      const { account, password } = userAccount;
+      this
+        .$axios
+        .api('login', {
+          data: {
+            account,
+            password,
+          },
+        })
+        .then((res: any) => {
+          if (res.id) {
+            this.SET_USER(res);
+            this.$router.push({
+              name: 'home',
+            });
+          } else {
+            // 缓存密码错误 ?
+            if (/密码错误/.test(res.msg)) {
+              localStorage.clear();
+            }
+          }
+        })
+    }
+    const targetRouter = (window.location.pathname.match(/(?<=\/|)(\w+)(?=\/|\?|)/) || [])[0];
     
     // 免拦截位置
-    // if ([ 'login', 'loginStay', 'register', 'resetPwd' ].includes(targetRouter)) {
-    //   to = !0;
-    // }
+    if ([ 'login', 'loginStay', 'register', 'resetPwd' ].includes(targetRouter)) {
+      to = !0;
+    }
 
     return to;
   }
