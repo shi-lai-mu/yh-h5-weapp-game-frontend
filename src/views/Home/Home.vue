@@ -36,7 +36,7 @@
       <gameList />
 
       <!-- 右下角侧栏 -->
-      <BottomAside />
+      <BottomAside @asideClick="(id) => componentId = id" />
 
       <!-- 右上角侧栏 -->
       <div class="top-bar">
@@ -379,6 +379,7 @@ export default class Home extends Vue {
 
       .popup-content {
         z-index: 1;
+        height: 21.8em;
         overflow-y: scroll;
       }
     }

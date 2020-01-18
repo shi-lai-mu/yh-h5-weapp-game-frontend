@@ -32,6 +32,12 @@ export default new Router({
       name: 'shop',
       component: () => import('@/views/Shop/Shop.vue'),
     },
+    // 商城页
+    {
+      path: '/backpack',
+      name: 'backpack',
+      component: () => import('@/views/BackPack/backpack.vue'),
+    },
   ],
 });
 

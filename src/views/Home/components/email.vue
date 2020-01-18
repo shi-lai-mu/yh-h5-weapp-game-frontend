@@ -15,8 +15,8 @@
                 <div><i class="game-user"></i>爱酱</div>
               </div>
               <div class="email-tool">
-                <Button size="small">查看</Button>
-                <Button size="small">领取</Button>
+                <Button @click.stop="() => {}" size="small">查看</Button>
+                <Button @click.stop="() => {}" size="small">领取</Button>
               </div>
             </div>
           </div>

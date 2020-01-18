@@ -14,17 +14,11 @@ export default {
   },
   email: {
     name: '邮件',
-    classStyle: 'component_popup_p',
+    // classStyle: 'component_popup_p',
     component: (resolve: any) => require([ '@Home/components/email.vue' ], resolve),
   },
   account: {
     name: '账号设置',
-    classStyle: 'component_popup_p',
-    component: (resolve: any) => require([ '@Home/components/account/index.vue' ], resolve),
-  },
-  backpack: {
-    name: '背包',
-    classStyle: 'component_popup_p',
     component: (resolve: any) => require([ '@Home/components/account/index.vue' ], resolve),
   },
 }
