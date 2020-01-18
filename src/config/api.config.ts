@@ -21,6 +21,10 @@ const api: Api = {
   // 活动
   home_activity:     'get./activity',                               // 首页活动列表
 
+  // 商城
+  shop_menu:         '/shop/main',                                  // 主商城菜单
+  shio_menu_goods:   '/shop/main/:menuId',                          // 主商城菜单下的商品
+
   // 微服务接口
   // get_city:          'test1:get./public/city',                   // 获取城市 [测试阶段接口暂时暂停访问 付费接口]
   get_city:          'test1:get./public/city111111',                // 获取城市

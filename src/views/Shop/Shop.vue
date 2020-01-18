@@ -3,18 +3,29 @@
     <div class="yh-gui-public yh-close" data-click="click" @click="$router.go(-1)"></div>
     <aside class="yh-gui-shop shop-tab-box">
       <div class="tab-list-box padding-box">
-        <span class="yh-gui-template menu-tab props-buy" data-click="click" v-for="(item, index) in 15" :key="index"></span>
+        <span
+          v-for="(item, index) in menuList"
+          :key="index"
+          :class="[
+            'yh-gui-template',
+            'menu-tab',
+            { 'target-tab': targetTab === index },
+            item.className ? item.className : 'props-buy',
+          ]"
+          @click="targetTab = index"
+          data-click="click"
+        ></span>
       </div>
     </aside>
     <div class="yh-gui-popup shop-list-box" :style="{
-      width: targetGoods ? '23.2em' : 'calc(90% - 12em)'
+      width: targetGoods !== undefined ? '23.2em' : 'calc(90% - 12em)'
     }">
       <div class="yh-gui-template yh-gui-title shop-title"></div>
       <div class="goods-list-box">
-        <div class="goods-list" :style="{ columns: targetGoods ? 3 : 5 }">
+        <div class="goods-list" :style="{ columns: targetGoods !== undefined ? 3 : 5 }">
           <span
             :class="['yh-gui-shop', 'shop-goods', { 'target-goods': targetGoods === index } ]"
-            v-for="(item, index) in 20"
+            v-for="(item, index) in goods"
             :key="index"
             @click="targetGoods = index"
           >
@@ -23,7 +34,7 @@
         </div>
       </div>
     </div>
-    <aside class="yh-gui-shop shop-info-box" v-show="targetGoods">
+    <aside class="yh-gui-shop shop-info-box" v-show="targetGoods !== undefined">
       <div class="padding-box">
         <div class="absolute-center goods-png"></div>
         <div class="absolute-center goods-input-info goods-name"></div>
@@ -43,12 +54,52 @@ import GameLayout from '@/layout/game.vue';
   components: {
     GameLayout,
   },
+  watch: {
+    targetTab(newTabIndex: number) {
+      this
+        .$axios
+        .api('shio_menu_goods', {
+          params: {
+            menuId: newTabIndex,
+          },
+        })
+        .then((res: any) => {
+          const that: any = this;
+          that.goods = res;
+        })
+      ;
+    },
+  },
 })
 export default class ShopHome extends Vue {
   /**
    * 选中的商品
    */
   private targetGoods: string = '';
+  /**
+   * 选中的菜单
+   */
+  private targetTab: number = 1;
+  /**
+   * 菜单
+   */
+  private menuList = [];
+  /**
+   * 商品
+   */
+  private goods = [];
+
+
+  private created() {
+    this
+      .$axios
+      .api('shop_menu')
+      .then((res: any) => {
+        this.menuList = res;
+      })
+    ;
+    this.targetTab = 0;
+  }
 }
 </script>
 
@@ -121,9 +172,23 @@ $shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
       }
     }
 
+    /**
+     * ICON
+     */
     .props-buy::after {
       background-position: -6.3em -27.1em;
     }
+    .room-card::after {
+      background-position: -6.3em -28.8em;
+    }
+    .wing::after {
+      background-position: -6.3em -30.5em;
+    }
+  }
+
+  .target-tab {
+    filter: brightness(1.15);
+    transform: scale(1.05);
   }
 
   .shop-list-box {
