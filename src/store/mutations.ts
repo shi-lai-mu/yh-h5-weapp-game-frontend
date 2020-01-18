@@ -19,4 +19,13 @@ export default {
   async SET_SCREEN(state: any, data: any) {
     state.screen = data;
   },
+
+
+  /**
+   * Group Setting
+   * 全局设置
+   */
+  async GROUP_SETTING(state: any, data: any) {
+    state.setting = data;
+  },
 };

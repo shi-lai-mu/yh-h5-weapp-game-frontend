@@ -37,10 +37,12 @@
     <aside class="yh-gui-shop shop-info-box" v-show="targetGoods !== undefined">
       <div class="padding-box">
         <div class="absolute-center goods-png"></div>
-        <div class="absolute-center goods-input-info goods-name"></div>
-        <div class="absolute-center goods-input-info goods-price"></div>
-        <div class="absolute-center goods-input-info goods-type"></div>
-        <div class="absolute-center goods-description"></div>
+        <div class="absolute-center goods-input-info goods-name" v-text="goods[targetGoods].name"></div>
+        <div class="absolute-center goods-input-info goods-price">
+          {{ goods[targetGoods].price }}{{ goods[targetGoods].bay_currency_name }}
+        </div>
+        <div class="absolute-center goods-input-info goods-type">...</div>
+        <div class="absolute-center goods-description" v-text="goods[targetGoods].desc"></div>
       </div>
     </aside>
   </GameLayout>
@@ -75,7 +77,7 @@ export default class ShopHome extends Vue {
   /**
    * 选中的商品
    */
-  private targetGoods: string = '';
+  private targetGoods: number = 0;
   /**
    * 选中的菜单
    */
@@ -236,9 +238,10 @@ $shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
       background-position: 0 -27.1em;
     }
 
-    // .target-goods {
-    //   // border: #07cc31 solid .1em;
-    // }
+    .target-goods {
+      // border: #07cc31 solid .1em;
+      filter: grayscale(1.1);
+    }
   }
 
   .shop-info-box {
@@ -255,6 +258,8 @@ $shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
       left: 0;
       right: 0;
       margin: 0 auto;
+      color: #7a5e38;
+      font-weight: bold;
     }
 
     .goods-input-info {
@@ -267,22 +272,18 @@ $shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
       top: 2.5em;
       width: 8em;
       height: 5em;
-      background-color: red;
     }
 
     .goods-name {
       top: 9em;
-      background-color: red;
     }
 
     .goods-price {
       top: 11.5em;
-      background-color: red;
     }
 
     .goods-type {
       top: 13.9em;
-      background-color: red;
     }
 
     .goods-description {
@@ -291,7 +292,6 @@ $shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
       left: .5em;
       width: 11em;
       height: 5.5em;
-      background-color: red;
     }
   }
 }

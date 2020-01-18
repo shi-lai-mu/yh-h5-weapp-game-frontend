@@ -66,15 +66,18 @@ export default class HomeActivity extends Vue {
         font-size: 1rem;
         text-align: center;
         color: #fff;
-        padding: 1.1rem 12px 1rem 8px;
+        width: 10em;
+        padding: .3rem 0 .72rem 0;
+        margin-bottom: .8em;
         background-color: transparent;
-        background: url('../../../assets/bg/CKZJ_ANNIU01.png') no-repeat center;
-        background-size: 100%;
+        background: url(/img/yh_gui_template.5ec4f53e.png) no-repeat left top;
+        background-size: 45em;
+        background-position: -4.15em -19.6em;
       }
 
       .van-sidebar-item--select {
-        background-image: url('../../../assets/bg/CKZJ_ANNIU02.png');
-        border: 0;
+        border-color: transparent;
+        filter: brightness(1.1);
       }
     }
 

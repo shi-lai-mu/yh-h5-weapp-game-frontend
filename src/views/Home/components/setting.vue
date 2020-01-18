@@ -1,6 +1,6 @@
 <template>
   <div>
-    settingsad中文
+    设置区域暂不开放
     <slider />
   </div>
 </template>

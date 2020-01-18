@@ -368,7 +368,7 @@ export default class Home extends Vue {
         display: block;
         z-index: 2;
         line-height: 4.5rem;
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: bolder;
         color: #ecd9b0;
         text-align: center;

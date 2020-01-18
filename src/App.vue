@@ -1,6 +1,6 @@
 <template>
   <div id="app" @click="handleSound">
-    <router-view/>
+    <router-view />
     <clickMusic ref="clickMusic"/>
   </div>
 </template>
@@ -19,6 +19,10 @@ let loginStateTimeout;
 export default class App extends Vue {
   @Action private SET_USER!: (data: any) => void;
   @State private userInfo!: any;
+  /**
+   * 全局设置
+   */
+  @Action groupSetting!: any;
 
   private mounted() {
     if (/\?admin/.test(window.location.href)) {
@@ -26,7 +30,6 @@ export default class App extends Vue {
     }
 
     const to = this.filterLoginState();
-      console.log(to)
     if (to && typeof to !== 'boolean') {
       this.$router.push(to);
     }
