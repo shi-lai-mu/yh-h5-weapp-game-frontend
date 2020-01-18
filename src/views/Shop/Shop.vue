@@ -29,12 +29,12 @@
             :key="index"
             @click="targetGoods = index"
           >
-            
           </span>
         </div>
+        <div class="not-goods" v-if="!goods.length">即将上架，请耐心等待!</div>
       </div>
     </div>
-    <aside class="yh-gui-shop shop-info-box" v-show="targetGoods !== undefined">
+    <aside class="yh-gui-shop shop-info-box" v-if="targetGoods !== undefined && goods[targetGoods]">
       <div class="padding-box">
         <div class="absolute-center goods-png"></div>
         <div class="absolute-center goods-input-info goods-name" v-text="goods[targetGoods].name"></div>
@@ -60,7 +60,7 @@ import GameLayout from '@/layout/game.vue';
     targetTab(newTabIndex: number) {
       this
         .$axios
-        .api('shio_menu_goods', {
+        .api('shop_menu_goods', {
           params: {
             menuId: newTabIndex,
           },
@@ -68,6 +68,10 @@ import GameLayout from '@/layout/game.vue';
         .then((res: any) => {
           const that: any = this;
           that.goods = res;
+          that.targetGoods = 0;
+          if (!res.length || !res[0]) {
+            that.targetGoods = undefined;
+          }
         })
       ;
     },
@@ -186,6 +190,17 @@ $shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
     .wing::after {
       background-position: -6.3em -30.5em;
     }
+  }
+
+  .not-goods {
+    display: flex;
+    opacity: .5;
+    width: 100%;
+    height: 100%;
+    color: #7a5e38;
+    font-size: 2em;
+    align-items: center;
+    justify-content: center;
   }
 
   .target-tab {
