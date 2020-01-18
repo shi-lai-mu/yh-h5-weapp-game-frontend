@@ -2,7 +2,7 @@
   <ul class="yh-gui-home-aside home-aside-top-bottom">
     <li data-click="click" class="yh-gui-home-aside email" @click="$emit('asideClick', 'email')"></li>
     <li data-click="click" class="yh-gui-home-aside friends"></li>
-    <li data-click="click" class="yh-gui-home-aside backpack"></li>
+    <router-link to="backpack" tag="li" data-click="click" class="yh-gui-home-aside backpack"></router-link>
     <li data-click="click" class="yh-gui-home-aside record"></li>
   </ul>
 </template>
