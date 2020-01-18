@@ -77,7 +77,7 @@ import GameLayout from '@/layout/game.vue';
     },
   },
 })
-export default class ShopHome extends Vue {
+export default class BackPackHome extends Vue {
   /**
    * 选中的商品
    */
@@ -110,7 +110,7 @@ export default class ShopHome extends Vue {
 </script>
 
 <style scoped lang="scss">
-$shopSprite: url('../../../../assets/sprites/yh_gui_shop.png') no-repeat left top;
+$shopSprite: url('../../assets/sprites/yh_gui_shop.png') no-repeat left top;
 
 .shop {
   display: flex;

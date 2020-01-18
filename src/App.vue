@@ -29,7 +29,8 @@ export default class App extends Vue {
       return;
     }
 
-    const to = this.filterLoginState();
+    const { history } :any = this.$router;
+    const to = this.filterLoginState(history.current.name);
     if (to && typeof to !== 'boolean') {
       this.$router.push(to);
     }
@@ -57,7 +58,7 @@ export default class App extends Vue {
     }
     let userInfo: any = localStorage.getItem('userInfo');
     userInfo = JSON.parse(userInfo);
-    let to;
+    let to: any;
 
     // 登陆过期
     if (!userInfo || !userInfo.token) {
@@ -83,9 +84,7 @@ export default class App extends Vue {
         .then((res: any) => {
           if (res.id) {
             this.SET_USER(res);
-            this.$router.push({
-              name: 'home',
-            });
+            to = !0;
           } else {
             // 缓存密码错误 ?
             if (/密码错误/.test(res.msg)) {
