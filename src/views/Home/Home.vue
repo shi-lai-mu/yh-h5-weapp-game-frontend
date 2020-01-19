@@ -332,6 +332,7 @@ export default class Home extends Vue {
     }
 
     .component_popup {
+      overflow: hidden;
       width: 70%;
       height: 85%;
       // background: url('../../assets/bg/zyc_DI.png') no-repeat;
@@ -379,7 +380,7 @@ export default class Home extends Vue {
 
       .popup-content {
         z-index: 1;
-        height: 21.8em;
+        height: 20em;
         overflow-y: scroll;
       }
     }
