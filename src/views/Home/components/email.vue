@@ -7,7 +7,7 @@
           <div class="email-title-content">
             <div class="email-title-box">
               <span class="email-title van-ellipsis">嘻嘻嘻嘻嘻嘻嘻嘻寻寻寻寻寻嘻嘻嘻嘻嘻嘻嘻</span>
-              <span>2020-01-01</span>
+              <span class="email-time">2020-01-01</span>
             </div>
             <div class="email-info">
               <div>
@@ -89,20 +89,27 @@ export default class HomeSetting extends Vue {
   /deep/ .van-cell__title {
     display: flex;
     height: 60px;
+    width: 100%;
     align-items: center;
   }
 
   .email-title-content {
     flex: 100;
+    width: calc(100% - 2.7em);
   }
 
   .email-title-box {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
+    line-height: 1em;
     .email-title {
-      font-size: 1.3em;
+      font-size: 1.1em;
       font-weight: 400;
+    }
+    .email-time {
+      margin-left: 5px;
+      white-space: nowrap;
     }
   }
 
@@ -117,8 +124,8 @@ export default class HomeSetting extends Vue {
 
   .game-youjianyidu,
   .game-youjianweidu {
-    margin-right: 20px;
-    font-size: 40px;
+    margin-right: .2em;
+    font-size: 2.5rem;
     color: rgba($color: #333, $alpha: .7);
   }
 
