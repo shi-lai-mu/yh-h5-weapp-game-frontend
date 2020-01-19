@@ -47,7 +47,7 @@ export default class HandleBtn extends Vue {
       position: absolute;
       top: 50%;
       left: 50%;
-      font-size: 24px;
+      font-size: 1.5em;
       color: #FBF1DE;
       transform: translate(-50%, -50%);
       pointer-events: none;

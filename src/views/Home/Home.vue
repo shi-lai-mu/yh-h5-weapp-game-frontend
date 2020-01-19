@@ -13,6 +13,7 @@
 
       <!-- 按钮 -->
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="68" @click.native="$refs.gameLayout.fullScreen" v-if="!isIOS"/>
+      <handleBtn iconName="全 屏" iconClass="fangda" bottom="68" @click.native="$refs.gameLayout.fullScreen" v-if="!isIOS"/>
       <router-link to="feedback">
         <handleBtn iconName="反 馈" iconClass="feadback" bottom="54"/>
       </router-link>
@@ -21,14 +22,12 @@
 
       <!-- 用户信息 -->
       <div class="flex-row">
-        <div class="avatar" @click="componentId = 'account'">
+        <!-- <div class="avatar" @click="componentId = 'account'">
           <vanImage :src="`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${userInfo.avatarUrl ? userInfo.id : 'default'}.png?x-oss-process=style/tx`" fit="cover" />
-        </div>
+        </div> -->
 
-        <div class="user-info">
-          <div class="row user-gem" v-text="userInfo.treasure || 0"></div>
-          <div class="row user-money" v-text="userInfo.gold || 0"></div>
-        </div>
+        <!-- <div class="user-info"> -->
+        <!-- </div> -->
 
       </div>
 
@@ -40,6 +39,8 @@
 
       <!-- 右上角侧栏 -->
       <div class="top-bar">
+        <div class="row user-gem" v-text="userInfo.treasure || 0"></div>
+        <div class="row user-money" v-text="userInfo.gold || 0"></div>
         <i class="yh-gui-public ui_btn_round ui_activity" data-click="click" @click="componentId = 'activity'"></i>
         <router-link class="yh-gui-public ui_btn_round ui_shop" data-click="click" tag="i" to="shop"></router-link>
       </div>
@@ -235,17 +236,6 @@ export default class Home extends Vue {
               height: 1.4rem;
             }
           }
-
-          .user-gem,
-          .user-money {
-            width: 8rem;
-            background: url('../../assets/sprites/game_split/gem_bar.png') no-repeat;
-            background-size: 100%;
-          }
-
-          .user-money {
-            background-image: url('../../assets/sprites/game_split/money_bar.png');
-          }
         }
       }
 
@@ -260,13 +250,12 @@ export default class Home extends Vue {
         position: absolute;
         right: 0;
         bottom: 0;
-        width: 342px;
-        height: 40px;
+        width: 50vw;
+        height: 3em;
         background-size: 410px;
         background-position-y: -259px;
         transform-origin: bottom right;
-        transform: scale(1.5);
-        align-items: flex-end;
+        align-items: center;
         flex-wrap: wrap;
         justify-content: flex-end;
       }
@@ -311,10 +300,38 @@ export default class Home extends Vue {
       .top-bar {
         right: 1vw;
         top: 0;
-        height: 55px;
 
         .ui_btn {
           margin: 0 .2vw;
+        }
+
+        .row {
+          min-width: 100px;
+          height: 2.2rem;
+          line-height: 2.4rem;
+          text-shadow: 2px 1px 1px #6e4d16;
+          // border-bottom: 1px solid #b2b2b2;
+        }
+
+        .user-gem,
+        .user-money {
+          width: 8rem;
+          margin-right: 1.5em;
+          background: url('../../assets/sprites/game_split/gem_bar.png') no-repeat;
+          background-size: 100%;
+          letter-spacing: 2px;
+          text-indent: 2.8rem;
+          text-shadow: 2px 1px 1px #6e4d16;
+          color: #F7DE95 !important;
+          zoom: .8;
+        }
+
+        .user-money {
+          background-image: url('../../assets/sprites/game_split/money_bar.png');
+        }
+
+        .ui_btn_round {
+          transform: scale(1.2);
         }
       }
       .create_room {
