@@ -25,6 +25,12 @@
         <span class="yh-gui-channel text-tag btn-text random-room"></span>
       </div>
     </div>
+    <div class="radio">
+      <i class="game game-radio"></i>
+      <div class="notice">
+        <span>欢迎来到游惠小游戏平台！</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,24 +48,64 @@ export default class Channel extends Vue {}
     left: 4.5em;
     height: 19.5em;
     width: 16em;
-    background-size: auto 100%;
+    // background-size: auto 100%;
+
+    .radio {
+      display: flex;
+      width: 79%;
+      margin: 0 auto;
+      padding: 5px;
+      background-color: rgba($color: #000, $alpha: .2);
+      font-size: .8em;
+      color: #FEEECF;
+      line-height: 1.2em;
+      border-radius: 2rem;
+
+      .game-radio {
+        font-size: 1.6em;
+      }
+
+      .notice {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin-left: .5em;
+
+        span {
+          display: inline-block;
+          color: #FEEECF;
+          text-overflow: clip;
+          white-space: nowrap;
+          animation: carousel 7s linear infinite;
+        }
+
+        @keyframes carousel {
+          0% {
+            transform: translateX(200%)
+          }
+          100% {
+            transform: translateX(-100%)
+          }
+        }
+      }
+    }
 
     .yh-gui-channel {
-      background-size: 27.8em;
+      background-size: 27.4em;
     }
 
     .channel-title {
       width: 3em;
       height: 1.5em;
       margin-top: -.3em;
-      background-position: -21.2em -10.2em;
+      background-position: -20.9em -9.8em;
     }
 
     .channel-room-type {
       width: 11em;
       height: 1.9em;
       margin: 5px auto;
-      background-position: -15.5em -3.8em;
+      background-position: -15.3em -3.5em;
 
       .channel-button {
         display: inline-flex;
@@ -76,26 +122,26 @@ export default class Channel extends Vue {}
       .left-button {
         width: 5.3em;
         height: 1.9em;
-        background-position: -21.1em -6em;
+        background-position: -21em -5.7em;
       }
 
       .right-button {
         width: 5.5em;
         height: 1.9em;
-        background-position: -15.5em -6em;
+        background-position: -15.4em -5.7em;
       }
 
       .room-tag {
         width: 2em;
         height: .9em;
-        background-position: -20.9em -12em;
+        background-position: -20.7em -11.7em;
         pointer-events: none;
       }
 
       .world-tag {
         width: 2em;
         height: .9em;
-        background-position: -24.3em -10.1em;
+        background-position: -24.2em -9.8em;
         pointer-events: none;
       }
 
@@ -106,7 +152,7 @@ export default class Channel extends Vue {}
 
     .channel-join-type {
       width: 13em;
-      height: 14em;
+      height: 10.3em;
       margin: 0 auto;
 
       .join-button {
@@ -142,14 +188,14 @@ export default class Channel extends Vue {}
         height: 1.5em;
       }
 
-      .join-room { background-position: -15.5em -10.1em; }
-      .join-icon { background-position: -15.6em -12em; }
+      .join-room { background-position: -15.2em -9.8em; }
+      .join-icon { background-position: -15.2em -11.7em; }
 
-      .create-room { background-position: -21.3em -8.2em; }
-      .create-icon { background-position: -15.6em -14.6em; }
+      .create-room { background-position: -21em -7.9em; }
+      .create-icon { background-position: -15.2em -14.6em; }
 
-      .random-room { background-position: -15.5em -8.2em }
-      .random-icon { background-position: -18.3em -12em; }
+      .random-room { background-position: -15.2em -7.9em; }
+      .random-icon { background-position: -18.1em -11.8em; }
     }
   }
 </style>

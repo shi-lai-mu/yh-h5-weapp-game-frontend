@@ -4,12 +4,6 @@
     <popup title="设 置"></popup>
     <div class="bg-gem_bar" style="width: 20px;">cc</div>
     <div class="content">
-      <div class="radio">
-        <i class="game game-radio"></i>
-        <div class="notice">
-          <span>欢迎来到游惠小游戏平台！</span>
-        </div>
-      </div>
 
       <!-- 按钮 -->
       <handleBtn iconName="全 屏" iconClass="fangda" bottom="68" @click.native="$refs.gameLayout.fullScreen" v-if="!isIOS"/>
@@ -156,48 +150,6 @@ export default class Home extends Vue {
       height: 100%;
       padding-left: 5px;
 
-      .radio {
-        display: flex;
-        position: absolute;
-        top: 1em;
-        left: 5.5em;
-        width: 40%;
-        padding: 5px;
-        background-color: rgba($color: #000, $alpha: .3);
-        font-size: .8em;
-        color: #FEEECF;
-        line-height: 1.2em;
-        border-radius: 2rem;
-
-        .game-radio {
-          font-size: 1.6em;
-        }
-
-        .notice {
-          position: relative;
-          overflow: hidden;
-          width: 100%;
-          margin-left: .5em;
-
-          span {
-            display: inline-block;
-            color: #FEEECF;
-            text-overflow: clip;
-            white-space: nowrap;
-            animation: carousel 7s linear infinite;
-          }
-
-          @keyframes carousel {
-            0% {
-              transform: translateX(200%)
-            }
-            100% {
-              transform: translateX(-100%)
-            }
-          }
-        }
-      }
-
       .flex-row {
         position: absolute;
         bottom: 1%;
@@ -250,13 +202,12 @@ export default class Home extends Vue {
         position: absolute;
         right: 0;
         bottom: 0;
-        width: 50vw;
+        width: 50%;
         height: 3em;
         background-size: 410px;
         background-position-y: -259px;
         transform-origin: bottom right;
         align-items: center;
-        flex-wrap: wrap;
         justify-content: flex-end;
       }
 
@@ -316,11 +267,12 @@ export default class Home extends Vue {
         .user-gem,
         .user-money {
           width: 8rem;
+          min-width: auto;
           margin-right: 1.5em;
           background: url('../../assets/sprites/game_split/gem_bar.png') no-repeat;
-          background-size: 100%;
+          background-size: 8em;
           letter-spacing: 2px;
-          text-indent: 2.8rem;
+          text-indent: 2.8em;
           text-shadow: 2px 1px 1px #6e4d16;
           color: #F7DE95 !important;
           zoom: .8;
