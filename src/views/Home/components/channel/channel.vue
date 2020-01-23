@@ -3,6 +3,12 @@
     <div class="yh-gui-title yh-gui-template">
       <div class="yh-gui-channel channel-title"></div>
     </div>
+    <div class="radio">
+      <i class="game game-radio"></i>
+      <div class="notice">
+        <span>欢迎来到游惠小游戏平台！</span>
+      </div>
+    </div>
     <div class="yh-gui-channel channel-room-type">
       <div class="yh-gui-channel channel-button left-button">
         <div class="yh-gui-channel room-tag"></div>
@@ -23,12 +29,6 @@
       <div class="yh-gui-channel join-button" data-click="click">
         <span class="yh-gui-channel text-tag btn-icon random-icon"></span>
         <span class="yh-gui-channel text-tag btn-text random-room"></span>
-      </div>
-    </div>
-    <div class="radio">
-      <i class="game game-radio"></i>
-      <div class="notice">
-        <span>欢迎来到游惠小游戏平台！</span>
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@ export default class Channel extends Vue {}
     .radio {
       display: flex;
       width: 79%;
-      margin: 0 auto;
+      margin: .5em auto 0;
       padding: 5px;
       background-color: rgba($color: #000, $alpha: .2);
       font-size: .8em;
