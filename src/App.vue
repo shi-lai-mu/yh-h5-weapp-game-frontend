@@ -103,11 +103,17 @@ export default class App extends Vue {
     return to;
   }
 
-  // 事件委托, 点击音效
+
+  /**
+   * 事件委托, 点击音效
+   */
   private handleSound(e: any) {
-    if (e.target.dataset.click === 'click') {
+    const { click,  } = e.target.dataset;
+    if (click === 'click') {
+      // 点击音效处理
       const click: any = this.$refs.clickMusic;
       click.sound();
+
     }
   }
 }
@@ -121,92 +127,4 @@ export default class App extends Vue {
     color: #333;
     user-select: none;
   }
-
-
-  // // 400 小分辨率适配
-  // @media screen and (max-height: 400px) {
-  //   #app .content >  * {
-  //     zoom: .8;
-  //   }
-  // }
-
-  // // 350 小分辨率适配
-  // @media screen and (max-height: 350px) {
-  //   #app .content >  * {
-  //     zoom: .7;
-  //   }
-  // }
-
-  // // 300 小分辨率适配
-  // @media screen and (max-height: 300px) {
-  //   #app .content >  * {
-  //     zoom: .6;
-  //   }
-  // }
-
-
-  // // 500 小分辨率适配
-  // @media screen and (max-width: 500px) {
-  //   #app .content >  * {
-  //     zoom: .9;
-  //   }
-  // }
-
-
-  // // 400 小分辨率适配
-  // @media screen and (max-width: 400px) {
-  //   #app .content >  * {
-  //     zoom: .8;
-  //   }
-  // }
-
-  // // 350 小分辨率适配
-  // @media screen and (max-width: 350px) {
-  //   #app .content >  * {
-  //     zoom: .7;
-  //   }
-  // }
-
-  // // 300 小分辨率适配
-  // @media screen and (max-width: 300px) {
-  //   #app .content >  * {
-  //     zoom: .6;
-  //   }
-  // }
-
-
-  // 500 中分辨率适配
-  // @media screen and (min-height: 500px) {
-  //   #app .content >  * {
-  //     zoom: 1.05;
-  //   }
-  // }
-
-  // 600 中分辨率适配
-  // @media screen and (min-height: 600px) {
-  //   #app .content >  * {
-  //     zoom: 1.1;
-  //   }
-  // }
-
-  // // 700 大分辨率适配
-  // @media screen and (min-height: 700px) {
-  //   #app .content >  * {
-  //     zoom: 1.15;
-  //   }
-  // }
-
-  // // 800 大分辨率适配
-  // @media screen and (min-height: 800px) {
-  //   #app .content >  * {
-  //     zoom: 1.2;
-  //   }
-  // }
-
-  // // 900 大分辨率适配
-  // @media screen and (min-height: 900px) {
-  //   #app .content >  * {
-  //     zoom: 1.25;
-  //   }
-  // }
 </style>
