@@ -117,16 +117,6 @@ export default class Home extends Vue {
       return 'no'
     };
   }
-
-
-  /**
-   * 打开反馈页面
-   */
-  public toFeadback() {
-    this.$router.push({
-      name: 'feedback',
-    });
-  }
 }
 </script>
 <style lang="scss" scoped>
