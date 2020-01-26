@@ -3,7 +3,7 @@
 /**
  * Axios 二次封装 [未启用加密版]
  * author:  ShiLaiMu
- * version: v1.0.4
+ * version: v1.0.6
  * type:    TypeScript
  * encrypt: false
  * 
@@ -56,10 +56,12 @@ let token = false;
 const serverConfig = config.server;
 // 频繁请求处理
 const requestClock: any = {};
+// 开发环境判断
+const isDEV = process.env.NODE_ENV === 'development';
 
 // 创建axios实例
 const $axios: AxiosInstance = axios.create({
-  baseURL: serverConfig.host,
+  baseURL: !isDEV ? serverConfig.host : serverConfig.devHost,
   timeout: serverConfig.timeout || 15000,
   // withCredentials: true
 });
@@ -134,7 +136,7 @@ $axios.interceptors.request.use(
         const targetChild = serverConfig.children[targetServer];
         if (targetChild) {
           value.url = value.url.replace(/^(\w+)\:/, '');
-          value.baseURL = targetChild.host;
+          value.baseURL = !isDEV ? targetChild.host : targetChild.devHost;
         } else {
           throw Error(`${targetServer} 子服务器未在配置内!`);
         }
@@ -148,7 +150,7 @@ $axios.interceptors.request.use(
       const targetClock = requestClock[requestKey];
       if (targetClock && targetClock > Date.now()) {
         return Promise.reject({
-          error: '频繁请求拦截！URL:' + requestKey,
+          error: '频繁请求拦截！',
         });
       }
       requestClock[requestKey] = Date.now() + 400;

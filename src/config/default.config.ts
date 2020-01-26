@@ -3,21 +3,31 @@ import { DefaultConfig } from '../interface/config.interface';
  * 工程默认配置文件
  */
 const config: DefaultConfig =  {
+  appName: '游惠-游戏端',
+  appLogo: 'logo.png',
+  /**
+   * Server Request Config
+   */
   server: {
-    // 主服务器
     host: 'http://127.0.0.1:7100',
-    api: '',
+    devHost: 'http://127.0.0.1:7100',
     children: {
       // 测试服务器1
       test1: {
-        host: 'http://47.97.251.131/service',
-        api: '',
+        host: 'http://127.0.0.1:8888',
+        devHost: 'http://127.0.0.1:8888',
         timeout: 2000,
       },
     },
   },
+  /**
+   * Socket.io Port Conifg
+   */
   io: {
-    host: 'ws://127.0.0.1:7100',
+    main: 'ws://127.0.0.1:7100',
+    dev: {
+      main: 'ws://127.0.0.1:7100',
+    }
   },
 };
 export default config;

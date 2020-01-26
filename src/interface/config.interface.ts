@@ -1,16 +1,24 @@
 export interface DefaultConfig {
   /**
+   * 应用名称
+   */
+  appName: string;
+  /**
+   * 应用LOGO url
+   */
+  appLogo: string;
+  /**
    * 服务器配置
    */
   server: {
     /**
-     * ip
+     * 生产环境请求
      */
     host: string;
     /**
-     * 接口
+     * 开发环境请求
      */
-    api: string;
+    devHost: string;
     /**
      * 请求超时定义 ms
      */
@@ -21,13 +29,13 @@ export interface DefaultConfig {
     children: {
       [key: string]: {
         /**
-         * ip
+         * 生产环境请求
          */
         host: string;
         /**
-         * 接口
+         * 开发环境请求
          */
-        api: string;
+        devHost: string;
         /**
          * 请求超时定义 ms
          */
@@ -40,6 +48,11 @@ export interface DefaultConfig {
     /**
      * IP
      */
-    host: string;
+    dev: {
+      main: string;
+      [key: string]: string;
+    };
+    main: string;
+    [key: string]: any;
   };
 }
