@@ -114,7 +114,7 @@ export default class Home extends Vue {
   public created() {
     // 关闭拦截
     window.onbeforeunload = () => {
-      return 'no'
+      return 'no';
     };
   }
 }

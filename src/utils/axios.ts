@@ -1,9 +1,8 @@
-/* eslint-disable */
 /* tslint:disable */
 /**
  * Axios 二次封装 [未启用加密版]
  * author:  ShiLaiMu
- * version: v1.0.6
+ * version: v1.2.1
  * type:    TypeScript
  * encrypt: false
  * 
@@ -36,6 +35,17 @@
  * - 路由参数:
  *   RequestConfig 内可传入 params 对象，如路由为 testServer1:post./user/:username/login
  *   传入 RequestConfig = { params: { username: 'slm' } } 则会被转换为 testServer1:post./user/slm/login
+ *
+ * - 内网请求
+ *   当请求为127.0.0.1或loaclhost且前端的域非两者之一，自动将请求域替换为当前前端的域，以实现内网请求及调试
+ * 
+ * - 全局监听
+ *   this.$axios.observer.emit(EventKey, callback)  绑定
+ *   this.$axios.observer.off(EventKey, callback)   解绑
+ *   EventKey: 
+ *      + response.updateToken  请求响应更新token时
+ *      + response.error        请求响应错误时
+ *      + response.default      请求默认响应时
  * 
  * 配置方法：
  * - @/config/api.config.ts
@@ -43,7 +53,7 @@
  *   如 'post./user/:user' 或 'test1:/user/:user' 或 '/user/:user' 当请求方法不存在时默认为GET请求，当服务器名不存在时默认为主服务器
  */
 
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
 // get数据
 import axiosQs from 'qs';
 // api调用
@@ -56,12 +66,40 @@ let token = false;
 const serverConfig = config.server;
 // 频繁请求处理
 const requestClock: any = {};
+// 观察者
+const observer: any = {
+  /**
+   * 响应
+   */
+  response: {
+    /**
+     * 更新token时
+     */
+    updateToken: [],
+    /**
+     * 响应错误时
+     */
+    error: [],
+    /**
+     * 默认
+     */
+    default: [],
+  },
+};
 // 开发环境判断
 const isDEV = process.env.NODE_ENV === 'development';
+// 当前域
+const locaHostName = window.location.hostname;
+const localRegExp = /127\.0\.0\.1|localhost/;
 
 // 创建axios实例
 const $axios: AxiosInstance = axios.create({
-  baseURL: !isDEV ? serverConfig.host : serverConfig.devHost,
+  baseURL: !isDEV
+    ? serverConfig.host
+    // : serverConfig.devHost,
+    : localRegExp.test(serverConfig.devHost) && !localRegExp.test(locaHostName)
+      ? serverConfig.devHost.replace(localRegExp, locaHostName)
+      : serverConfig.devHost,
   timeout: serverConfig.timeout || 15000,
   // withCredentials: true
 });
@@ -71,14 +109,20 @@ const $axios: AxiosInstance = axios.create({
  * 响应拦截
  */
 $axios.interceptors.response.use(
-  (res: any) => {
+  (res: AxiosResponse) => {
     const { data } = res;
     // token 自动化更新
     const headersToken = res.headers.token;
     if (headersToken) {
       token = headersToken;
+      observer.response.updateToken.forEach((cb: any) => cb(token));
     }
-    return data;
+    observer.response.default.forEach((cb: any) => cb(res));
+    return data || res;
+  },
+  (err: any) => {
+    observer.response.error.forEach((cb: any) => cb(err.response));
+    return err;
   },
 );
 
@@ -95,9 +139,7 @@ $axios.interceptors.request.use(
       if (token) {
         value.headers.token = encodeURIComponent(token);
       }
-    } else {
-      value.headers.token = encodeURIComponent(token);
-    }
+    } else value.headers.token = encodeURIComponent(token);
 
     // GET 数据处理
     if (data && value.method === 'get') {
@@ -124,9 +166,7 @@ $axios.interceptors.request.use(
         }
       }
       delete value.params;
-      if (data) {
-        delete data.params;
-      }
+      if (data) delete data.params;
     }
 
     // 统一处理路由
@@ -137,9 +177,7 @@ $axios.interceptors.request.use(
         if (targetChild) {
           value.url = value.url.replace(/^(\w+)\:/, '');
           value.baseURL = !isDEV ? targetChild.host : targetChild.devHost;
-        } else {
-          throw Error(`${targetServer} 子服务器未在配置内!`);
-        }
+        } else  throw Error(`${targetServer} 子服务器未在配置内!`);
       }
       value.url = value.url.replace(/^(post|get|put|delete)\./i, '');
     }
@@ -149,9 +187,7 @@ $axios.interceptors.request.use(
     if (requestKey) {
       const targetClock = requestClock[requestKey];
       if (targetClock && targetClock > Date.now()) {
-        return Promise.reject({
-          error: '频繁请求拦截！',
-        });
+        return Promise.reject({ error: '频繁请求拦截！' });
       }
       requestClock[requestKey] = Date.now() + 400;
     }
@@ -170,16 +206,12 @@ $axios.interceptors.request.use(
 $axios.api = (api: (string | { data: any; key: string; }), axiosRequest: AxiosRequestConfig = {}) => {
   let URL: string = API[typeof api === 'string' ? api : api.key];
   // 未知API
-  if (!URL) {
-    throw new Error(`api: 「${api}」在配置内未定义!`);
-  }
+  if (!URL) throw new Error(`api: 「${api}」在配置内未定义!`);
 
   // 动态API
   if (typeof api === 'object' && URL) {
     for (const key in api.data) {
-      if (api.data[key]) {
-        URL = URL.replace(`:${key}`, api.data[key]);
-      }
+      api.data[key] && (URL = URL.replace(`:${key}`, api.data[key]));
     }
     api = api.key;
   }
@@ -201,8 +233,47 @@ $axios.api = (api: (string | { data: any; key: string; }), axiosRequest: AxiosRe
   };
 };
 
+
+let ObserverKey: ('response' | 'response.error' | 'response.updateToken');
+/**
+ * axios observer
+ * @param api - API库内的键
+ * @param axiosRequest
+ *        - 请求数据配置
+ *        - 仅 api(*, *).then() 时生效
+ * @return 链式操作请求方式，内部传入与axios相同，排除第一个URL
+ */
+$axios.observer = {
+  emit: (
+    key: typeof ObserverKey,
+    cb: (param: AxiosResponse) => void,) => {
+    const split = key.split('.');
+    const parent = split[0];
+    const child = split[1] || 'default';
+    observer[parent][child].push(cb);
+    return $axios;
+  },
+  off: (
+    key: typeof ObserverKey,
+    cb: (param: AxiosResponse) => void,) => {
+    const split = key.split('.');
+    const parent = split[0];
+    const child = split[1] || 'default';
+    observer[parent][child].forEach((fn: any, index: number) => {
+      if (cb === fn) observer[parent][child].splice(index, 1);
+    });;
+    return $axios;
+  },
+};
+
 export default $axios;
 
+
+/**
+ * ==============================
+ *          接 口 定 义
+ * ==============================
+ */
 
 declare module 'axios/index' {
   interface AxiosInstance {
@@ -231,12 +302,42 @@ declare module 'axios/index' {
       put:    (res: AxiosRequestConfig)  => Promise<any>;
       then:   (res: any)                 => Promise<any>;
     };
+
+    /**
+     * 监听axios内部事件
+     */
+    observer: {
+      /**
+       * 绑定
+       * @param key - 事件名
+       * @param cb  - 触发体
+       */
+      emit(
+        key: typeof ObserverKey,
+        cb: (param: AxiosResponse) => void
+      ): AxiosInstance,
+      /**
+       * 解绑
+       * @param key - 事件名
+       * @param cb  - 触发体
+       */
+      off(
+        key: typeof ObserverKey,
+        cb: (param: AxiosResponse) => void
+      ): AxiosInstance,
+    };
   }
 
   interface AxiosRequestConfig {
     api?: string | { data: any; key: string; };
   }
 }
+
+/**
+ * ==============================
+ *        vue 接 口 扩 展
+ * ==============================
+ */
 
 declare module 'vue/types/vue' {
   interface Vue {
