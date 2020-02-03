@@ -105,10 +105,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 82
       },
       {
-        "__id__": 80
+        "__id__": 83
       }
     ],
     "_prefab": null,
@@ -198,7 +198,7 @@
       "array": [
         0,
         -12.211,
-        541.2658773652742,
+        527.4094709047232,
         0,
         0,
         0,
@@ -795,7 +795,7 @@
       "__id__": 2
     },
     "component": "",
-    "_componentId": "ddda3b0K3hAGI0g6S1IvERP",
+    "_componentId": "57262WaRA9NEaMOy/uiqaLD",
     "handler": "onLoginClick",
     "customEventData": ""
   },
@@ -1476,8 +1476,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -6,
-        1,
+        0,
+        6.938,
         0,
         0,
         0,
@@ -1622,16 +1622,19 @@
       },
       {
         "__id__": 75
+      },
+      {
+        "__id__": 79
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 78
+        "__id__": 81
       }
     ],
     "_prefab": null,
-    "_opacity": 2,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -1653,15 +1656,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        9.378,
-        7.082,
+        0,
+        0,
         0,
         0,
         0,
         0,
         1,
-        0,
-        0,
+        1,
+        1,
         1
       ]
     },
@@ -1783,8 +1786,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -552.444,
-        -380.365,
+        -526.324,
+        -357.213,
         0,
         0,
         0,
@@ -1888,7 +1891,7 @@
       "__id__": 2
     },
     "component": "",
-    "_componentId": "ddda3b0K3hAGI0g6S1IvERP",
+    "_componentId": "57262WaRA9NEaMOy/uiqaLD",
     "handler": "onLoginClose",
     "customEventData": ""
   },
@@ -1934,11 +1937,11 @@
     "_enabled": true,
     "alignMode": 0,
     "_target": null,
-    "_alignFlags": 45,
-    "_left": -552.444,
-    "_right": 552.444,
-    "_top": 380.365,
-    "_bottom": -380.365,
+    "_alignFlags": 33,
+    "_left": -558.824,
+    "_right": 526.324,
+    "_top": 357.213,
+    "_bottom": -349.996,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -2004,7 +2007,7 @@
       "ctor": "Float64Array",
       "array": [
         37.295,
-        52.853,
+        59.791,
         0,
         0,
         0,
@@ -2633,7 +2636,7 @@
       "ctor": "Float64Array",
       "array": [
         37.295,
-        -11.583,
+        -4.645,
         0,
         0,
         0,
@@ -3320,7 +3323,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.05,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 78
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -3377,6 +3384,108 @@
     "_id": "baFLLEn6pKXaYGJ/f7Ixkd"
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "57262WaRA9NEaMOy/uiqaLD",
+    "handler": "onLogin",
+    "customEventData": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "status",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 32
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 80
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 137,
+      "g": 104,
+      "b": 60,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 50.4
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "7a+7nQ6b5AEL4QFtBgVgrs"
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 79
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "",
+    "_N$string": "",
+    "_fontSize": 30,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": "46he8QTOlDxLXifuGOO68J"
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -3426,7 +3535,7 @@
     "_id": "d2Bxv0o1BO8o9RFUQPF2Gd"
   },
   {
-    "__type__": "ddda3b0K3hAGI0g6S1IvERP",
+    "__type__": "57262WaRA9NEaMOy/uiqaLD",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3439,7 +3548,21 @@
     "LoginPopupMask": {
       "__id__": 29
     },
+    "LoginButton": {
+      "__id__": 75
+    },
+    "LoginStatus": {
+      "__id__": 80
+    },
     "LoginPopupState": true,
-    "_id": "1fk/9Pt3dPPomOQ+5rPkyA"
+    "accountInput": {
+      "__id__": 55
+    },
+    "passwordInput": {
+      "__id__": 73
+    },
+    "accountInputText": "",
+    "passwordInputText": "",
+    "_id": "28r5Okb5BKhqR1Q9YmIRW9"
   }
 ]
