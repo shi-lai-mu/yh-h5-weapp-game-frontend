@@ -146,6 +146,7 @@ export default class NewClass extends cc.Component {
                 console.log(res);
                 if (res.token) {
                     LoginStatus.string = '登录成功';
+                    cc.director.loadScene('Home');
                 } else {
                     LoginStatus.string = res.msg;
                     setTimeout(() => {
