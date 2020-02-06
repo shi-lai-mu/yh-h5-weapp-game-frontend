@@ -44,15 +44,15 @@ export default class NewClass extends cc.Component {
         const { leftTopBox, leftBottomBox, maskBox } = this;
         maskBox.scale = 1;
         leftTopBox.runAction(
-            cc.moveBy(1, cc.v2(-leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
+            cc.moveBy(1, cc.v2(-leftTopBox.width, 0)).easing(cc.easeCubicActionOut()),
         );
         // 底部窗口弹出
         setTimeout(() => {
             leftBottomBox.scale = 1;
-            leftBottomBox.runAction(
-                cc.moveBy(0.5, cc.v2(0, -leftBottomBox.height), 0).easing(cc.easeCubicActionOut()),
-            );
-        }, 1000);
+            // leftBottomBox.runAction(
+            //     cc.moveBy(0.5, cc.v2(0, -leftBottomBox.height), 0).easing(cc.easeCubicActionOut()),
+            // );
+        }, 1200);
     }
 
     
@@ -64,11 +64,11 @@ export default class NewClass extends cc.Component {
         maskBox.scale = 0;
         leftBottomBox.scale = 0;
         leftTopBox.runAction(
-            cc.moveBy(0, cc.v2(leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
+            cc.moveBy(0, cc.v2(leftTopBox.width, 0)).easing(cc.easeCubicActionOut()),
         );
-        leftBottomBox.runAction(
-            cc.moveBy(0, cc.v2(0, leftBottomBox.height), 0).easing(cc.easeCubicActionOut()),
-        );
+        // leftBottomBox.runAction(
+        //     cc.moveBy(0, cc.v2(0, leftBottomBox.height)).easing(cc.easeCubicActionOut()),
+        // );
     }
 
 

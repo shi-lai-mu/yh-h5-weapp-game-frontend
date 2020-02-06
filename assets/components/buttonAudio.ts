@@ -20,7 +20,7 @@ export default class ButtonAudio extends cc.Button {
 
     _onTouchEnded(event: any) {
         if (!this.interactable || !this.enabledInHierarchy) return;
-        cc.audioEngine.play(this.clip, false, 1);
+        cc.audioEngine.playEffect(this.clip, false);
         cc.Component.EventHandler.emitEvents(this.clickEvents, event);
         this.node.emit('click', this);
         event.stopPropagation();
