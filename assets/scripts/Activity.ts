@@ -37,6 +37,12 @@ export default class Activity extends cc.Component {
     mainBox: cc.Node = null;
 
     /**
+     * 主盒子内容
+     */
+    @property(cc.Label)
+    mainContent: cc.Label = null;
+
+    /**
      * 左侧盒子
      */
     @property(cc.Node)
@@ -60,11 +66,19 @@ export default class Activity extends cc.Component {
     @property(Item)
     activityData: typeof Item[] = [];
 
-    show () {
+    /**
+     * 只初始化一次
+     */
+    @property({ visible: !1 })
+    rendererOnly: boolean = !1;
+
+
+    start () {
         this.activityPopupHide();
         this.activityPopupShow();
     }
     
+
     /**
      * 邮件界面显示
      * @param Action - 是否显示动画
@@ -96,13 +110,20 @@ export default class Activity extends cc.Component {
      * 获取邮件消息
      */
     fetchactivityRequest() {
-        axios.api('home_activity').then((data) => {
+        !this.rendererOnly && axios.api('home_activity').then((data) => {
             this.activityData = data;
             data.forEach((item: ActivityItem, index: number) => {
                 const newItem = cc.instantiate(this.activityListPrefab);
                 this.activityListBox.addChild(newItem);
-                newItem.getComponent('emailActivityListItem').init(item);
-                newItem.y = newItem.y - index * 35;
+                const newComponent = newItem.getComponent('emailActivityListItem');
+                newComponent.init(item);
+                newComponent.activityClass = this;
+                newItem.y = newItem.y - index * 40;
+                this.rendererOnly = !this.rendererOnly;
+                if (index === 0) {
+                    console.log(index);
+                    newComponent.onClick();
+                }
             });
         });
     }

@@ -17,5 +17,10 @@ export default  {
     /**
      * 用户数据
      */
-    userInfo: {},
+    userInfo: {
+        id: -1,
+        nickname: '',
+        diamond: 0,
+        gold: 0,
+    },
 }

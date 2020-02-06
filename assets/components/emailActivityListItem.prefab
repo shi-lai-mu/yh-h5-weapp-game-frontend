@@ -30,11 +30,11 @@
         "__id__": 6
       },
       {
-        "__id__": 7
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -161,8 +161,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "撒的撒打算",
-    "_N$string": "撒的撒打算",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 18,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -234,7 +234,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.1,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 7
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -294,6 +298,16 @@
     "_id": ""
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "8e0bfpoaLtDi4dRah9sCWPC",
+    "handler": "onClick",
+    "customEventData": ""
+  },
+  {
     "__type__": "8e0bfpoaLtDi4dRah9sCWPC",
     "_name": "",
     "_objFlags": 0,
@@ -305,6 +319,8 @@
     "itemPrice": {
       "__id__": 3
     },
+    "target": null,
+    "data": {},
     "_id": ""
   },
   {

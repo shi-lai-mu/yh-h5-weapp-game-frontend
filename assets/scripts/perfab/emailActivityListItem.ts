@@ -19,14 +19,35 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     itemPrice: cc.Label = null;
 
-    start () {
+    @property
+    activityClass: any = null;
 
+    @property
+    data: any = {};
+
+
+    /**
+     * 点击事件
+     */
+    onClick() {
+        console.log(this.activityClass.mainContent, this.data.html);
+        this.activityClass.mainContent.string = this.data.html;
     }
 
-    init(data: { id: number; title: string; }) {
-        this.id = data.id;
-        this.itemPrice.string = data.title.length > 5 ? data.title.substr(0, 5) + '...' : data.title;
+
+    /**
+     * 初始化数据
+     * @param data  - 初始出具
+     * @param index - 下标
+     */
+    init(data: any, index: number) {
+        const { id, title } = data;
+        this.id = id;
+        this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
+        data.index = index;
+        this.data = data;
     }
+
 
     // update (dt) {}
 }

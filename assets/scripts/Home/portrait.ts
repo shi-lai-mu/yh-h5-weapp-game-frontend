@@ -8,27 +8,43 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import State from './utils/state';
+import State from '../utils/state';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Node)
-    ActivityNode: cc.Node = null;
+    /**
+     * 账号id
+     */
+    @property(cc.Label)
+    id: cc.Label = null;
 
-    onLoad () {
-        const userInfo = localStorage.getItem('userInfo');
-        if (!userInfo) {
-            console.log(userInfo);
-            cc.director.loadScene('loginPage');
-        }
-        State.userInfo = JSON.parse(userInfo);
-    }
+    /**
+     * 昵称
+     */
+    @property(cc.Label)
+    nickName: cc.Label = null;
+
+    /**
+     * 钻石
+     */
+    @property(cc.Label)
+    diamond: cc.Label = null;
+
+    /**
+     * 金币
+     */
+    @property(cc.Label)
+    gold: cc.Label = null;
+
 
     start () {
-        // console.log(this.ActivityNode.getComponent('Activity'));
-        // this.ActivityNode.getComponent('Activity').activityPopupShow();
+        const { nickname, id, diamond, gold } = State.userInfo;
+        this.nickName.string = nickname;
+        this.id.string = 'ID: ' + id.toString();
+        this.diamond.string = diamond.toString();
+        this.gold.string = gold.toString();
     }
 
     // update (dt) {}
