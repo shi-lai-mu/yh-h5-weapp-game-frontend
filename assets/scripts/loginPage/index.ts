@@ -82,11 +82,34 @@ export default class NewClass extends cc.Component {
     @property({ visible: false }) accountInputText: string = '';
     @property({ visible: false }) passwordInputText: string = '';
 
+    onLoad() {
+        localStorage.getItem('account') && this.onLogin();
+    }
+
 
     start () {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.keyDown, this);
+    }
+
+
+    /**
+     * 按键按下时
+     */
+    keyDown(event: any) {
+        if (event.keyCode === cc.macro.KEY.enter) {
+            this.onLogin();
+        }
+    }
+
+
+    inputClick() {
+        if (cc.sys.isMobile) {
+            this.LoginPopup.rotation = -90;
+            this.LoginPopup.x = this.node.width / 4;
+        }
     }
 
 
@@ -99,9 +122,6 @@ export default class NewClass extends cc.Component {
         LoginPopupMask.runAction(cc.fadeTo(0.3, 200));
         LoginPopupMask.runAction(cc.scaleTo(0.1, 1).easing(cc.easeBackInOut()));
         LoginPopup.runAction(cc.scaleTo(0.4, 1).easing(cc.easeBackInOut()));
-        if (cc.sys.isMobile) {
-            this.LoginPopup.rotation = -90;
-        }
     }
 
 
@@ -122,18 +142,36 @@ export default class NewClass extends cc.Component {
     async onLogin() {
         // console.log(await axios.api('xxx').then((res) => console.log(res)));
         const {
-            accountInputText,
-            passwordInputText,
-            LoginStatus,
             accountInput,
             passwordInput,
+            LoginStatus,
             LoginButton,
         } = this;
+        let {
+            accountInputText,
+            passwordInputText,
+        } = this;
+
         LoginStatus.string = '登录中...';
         accountInput.node.scale = 0;
         passwordInput.node.scale = 0;
         LoginButton.scale = 0;
+
+        // 重新登录
+        const { a, p } = JSON.parse(localStorage.getItem('account') || '{}');
+        if (a && p) {
+            passwordInputText = p.split('-').map((pwd: string) => {
+                return String.fromCharCode(+pwd - 10);
+            }).join('');
+            accountInputText = a.split('-').map((acc: string) => {
+                return String.fromCharCode(+acc - 10);
+            }).join('');
+            this.onLoginClick();
+        }
         
+        if (!accountInput || !accountInput || !passwordInput) {
+            return;
+        }
 
         axios
             .api('login', {
@@ -143,11 +181,21 @@ export default class NewClass extends cc.Component {
                 }
             })
             .then((res) => {
-                console.log(res);
                 if (res.token) {
                     LoginStatus.string = '登录成功';
                     localStorage.setItem('userInfo', JSON.stringify(res));
                     cc.director.loadScene('Home');
+                    // 简单的混淆
+                    const account = (accountInputText || '').split('').map((pwd: string) => {
+                      return pwd.charCodeAt(0) + 10;
+                    }).join('-');
+                    const password = (passwordInputText || '').split('').map((acc: string) => {
+                      return acc.charCodeAt(0) + 10;
+                    }).join('-');
+                    localStorage.setItem('account', JSON.stringify({
+                      a: account,
+                      p: password,
+                    }));
                 } else {
                     LoginStatus.string = res.msg;
                     setTimeout(() => {
