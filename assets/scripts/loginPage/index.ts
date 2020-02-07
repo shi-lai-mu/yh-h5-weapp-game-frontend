@@ -43,6 +43,17 @@ export default class NewClass extends cc.Component {
     })
     LoginButton: cc.Node = null;
 
+
+    /**
+     * 注册按钮
+     */
+    @property({
+        type: cc.Node,
+        tooltip: '注册按钮',
+        displayName: '注册按钮节点',
+    })
+    registerButton: cc.Node = null;
+
     /**
      * label 登录状态节点
      */
@@ -84,6 +95,7 @@ export default class NewClass extends cc.Component {
 
     onLoad() {
         localStorage.getItem('account') && this.onLogin();
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.keyDown, this);
     }
 
 
@@ -91,7 +103,6 @@ export default class NewClass extends cc.Component {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.keyDown, this);
     }
 
 
@@ -146,16 +157,13 @@ export default class NewClass extends cc.Component {
             passwordInput,
             LoginStatus,
             LoginButton,
+            registerButton,
         } = this;
         let {
             accountInputText,
             passwordInputText,
         } = this;
-
-        LoginStatus.string = '登录中...';
-        accountInput.node.scale = 0;
-        passwordInput.node.scale = 0;
-        LoginButton.scale = 0;
+        
 
         // 重新登录
         const { a, p } = JSON.parse(localStorage.getItem('account') || '{}');
@@ -168,10 +176,16 @@ export default class NewClass extends cc.Component {
             }).join('');
             this.onLoginClick();
         }
-        
-        if (!accountInput || !accountInput || !passwordInput) {
+
+        if (!accountInputText || !passwordInputText) {
             return;
         }
+
+        LoginStatus.string = '登录中...';
+        accountInput.node.scale = 0;
+        passwordInput.node.scale = 0;
+        registerButton.scale = 0;
+        LoginButton.scale = 0;
 
         axios
             .api('login', {
@@ -184,7 +198,9 @@ export default class NewClass extends cc.Component {
                 if (res.token) {
                     LoginStatus.string = '登录成功';
                     localStorage.setItem('userInfo', JSON.stringify(res));
-                    cc.director.loadScene('Home');
+                    setTimeout(() => {
+                        cc.director.loadScene('Home');
+                    }, 500);
                     // 简单的混淆
                     const account = (accountInputText || '').split('').map((pwd: string) => {
                       return pwd.charCodeAt(0) + 10;
@@ -197,13 +213,14 @@ export default class NewClass extends cc.Component {
                       p: password,
                     }));
                 } else {
-                    LoginStatus.string = res.msg;
+                    LoginStatus.string = `登录失败\n${res.msg || '服务器繁忙'}`;
                     setTimeout(() => {
                         LoginStatus.string = '';
                         accountInput.node.scale = 1;
                         passwordInput.node.scale = 1;
                         LoginButton.scale = 0.268;
-                    }, 1000);
+                        registerButton.scale = 0.268;
+                    }, 1500);
                 }
             })
         ;
