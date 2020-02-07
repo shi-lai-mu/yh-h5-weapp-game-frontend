@@ -8,31 +8,23 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import State from './utils/state';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Node)
-    ActivityNode: cc.Node = null;
+    @property(cc.Label)
+    label: cc.Label = null;
 
-    onLoad () {
-        const userInfo = localStorage.getItem('userInfo');
-        if (!userInfo) {
-            cc.director.loadScene('loginPage');
-        }
-        State.userInfo = JSON.parse(userInfo);
-    }
+    @property
+    text: string = 'hello';
 
+    // LIFE-CYCLE CALLBACKS:
 
-    openGame(_event, gameName: string) {
-        cc.director.loadScene(gameName);
-    }
+    // onLoad () {}
 
     start () {
-        // console.log(this.ActivityNode.getComponent('Activity'));
-        // this.ActivityNode.getComponent('Activity').activityPopupShow();
+
     }
 
     // update (dt) {}

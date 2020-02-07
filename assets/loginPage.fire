@@ -105,10 +105,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 89
+        "__id__": 92
       },
       {
-        "__id__": 90
+        "__id__": 93
       }
     ],
     "_prefab": null,
@@ -198,7 +198,7 @@
       "array": [
         0,
         -12.211,
-        536.9357503463519,
+        527.4456940826699,
         0,
         0,
         0,
@@ -1695,19 +1695,19 @@
         "__id__": 60
       },
       {
-        "__id__": 78
+        "__id__": 81
       },
       {
-        "__id__": 82
+        "__id__": 85
       },
       {
-        "__id__": 84
+        "__id__": 87
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 88
+        "__id__": 91
       }
     ],
     "_prefab": null,
@@ -1740,8 +1740,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        0,
+        0,
         1
       ]
     },
@@ -2770,10 +2770,13 @@
     "_components": [
       {
         "__id__": 76
+      },
+      {
+        "__id__": 78
       }
     ],
     "_prefab": {
-      "__id__": 77
+      "__id__": 80
     },
     "_opacity": 255,
     "_color": {
@@ -3342,13 +3345,17 @@
     "_enabled": true,
     "_useOriginalSize": false,
     "_string": "",
-    "returnType": 0,
+    "returnType": 4,
     "maxLength": 20,
     "_tabIndex": 0,
     "editingDidBegan": [],
     "textChanged": [],
     "editingDidEnded": [],
-    "editingReturn": [],
+    "editingReturn": [
+      {
+        "__id__": 77
+      }
+    ],
     "_N$textLabel": {
       "__id__": 66
     },
@@ -3362,6 +3369,98 @@
     "_N$inputMode": 6,
     "_N$stayOnTop": false,
     "_id": "7dkPo0sDNJRpNzDpspD8YO"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "57262WaRA9NEaMOy/uiqaLD",
+    "handler": "onLogin",
+    "customEventData": ""
+  },
+  {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 60
+    },
+    "_enabled": true,
+    "_normalMaterial": null,
+    "_grayMaterial": null,
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [
+      {
+        "__id__": 79
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 0,
+    "transition": 0,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "_N$hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$disabledColor": {
+      "__type__": "cc.Color",
+      "r": 124,
+      "g": 124,
+      "b": 124,
+      "a": 255
+    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
+    "_N$target": null,
+    "_id": "4eEf2Th4RLTa/er83QBIS1"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "57262WaRA9NEaMOy/uiqaLD",
+    "handler": "inputClick",
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3385,10 +3484,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 82
       },
       {
-        "__id__": 80
+        "__id__": 83
       }
     ],
     "_prefab": null,
@@ -3444,7 +3543,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 81
     },
     "_enabled": true,
     "_materials": [
@@ -3476,7 +3575,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 81
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -3487,7 +3586,7 @@
     "zoomScale": 1.05,
     "clickEvents": [
       {
-        "__id__": 81
+        "__id__": 84
       }
     ],
     "_N$interactable": true,
@@ -3566,7 +3665,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 83
+        "__id__": 86
       }
     ],
     "_prefab": null,
@@ -3622,7 +3721,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 82
+      "__id__": 85
     },
     "_enabled": true,
     "_materials": [
@@ -3649,7 +3748,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "login",
+    "_name": "register",
     "_objFlags": 0,
     "_parent": {
       "__id__": 33
@@ -3658,10 +3757,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 85
+        "__id__": 88
       },
       {
-        "__id__": 86
+        "__id__": 89
       }
     ],
     "_prefab": null,
@@ -3717,7 +3816,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 87
     },
     "_enabled": true,
     "_materials": [
@@ -3749,7 +3848,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 87
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -3760,7 +3859,7 @@
     "zoomScale": 1.05,
     "clickEvents": [
       {
-        "__id__": 87
+        "__id__": 90
       }
     ],
     "_N$interactable": true,
@@ -3890,10 +3989,13 @@
       "__id__": 30
     },
     "LoginButton": {
-      "__id__": 78
+      "__id__": 81
+    },
+    "registerButton": {
+      "__id__": 87
     },
     "LoginStatus": {
-      "__id__": 83
+      "__id__": 86
     },
     "LoginPopupState": true,
     "accountInput": {
