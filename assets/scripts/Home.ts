@@ -22,13 +22,21 @@ export default class NewClass extends cc.Component {
         if (!userInfo) {
             cc.director.loadScene('loginPage');
         }
-        State.userInfo = JSON.parse(userInfo);
+        if (!State.userInfo) {
+            State.userInfo = JSON.parse(userInfo);
+        }
     }
 
 
+    /**
+     * 打开游戏
+     * @param _event   - 事件体
+     * @param gameName - 游戏名
+     */
     openGame(_event, gameName: string) {
         cc.director.loadScene(gameName);
     }
+
 
     start () {
         // console.log(this.ActivityNode.getComponent('Activity'));

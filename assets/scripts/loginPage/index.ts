@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
+import State from '../utils/state';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -198,6 +199,7 @@ export default class NewClass extends cc.Component {
                 if (res.token) {
                     LoginStatus.string = '登录成功';
                     localStorage.setItem('userInfo', JSON.stringify(res));
+                    State.userInfo = res;
                     setTimeout(() => {
                         cc.director.loadScene('Home');
                     }, 500);
