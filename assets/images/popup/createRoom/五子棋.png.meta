@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "8fa09ba9-e9b1-47b6-90cc-7cc61286bf0d",
+  "uuid": "6fd305cf-4f61-44c3-82f1-3e5f87a6b1ea",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "yh_public": {
+    "五子棋": {
       "ver": "1.0.4",
-      "uuid": "19e6d81e-f0c5-4ea1-a2d0-95e4c2d3fa47",
-      "rawTextureUuid": "8fa09ba9-e9b1-47b6-90cc-7cc61286bf0d",
+      "uuid": "dbacc536-54ad-4d94-8ed1-90af380c516f",
+      "rawTextureUuid": "6fd305cf-4f61-44c3-82f1-3e5f87a6b1ea",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,13 +20,13 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 721,
-      "height": 488,
-      "rawWidth": 721,
-      "rawHeight": 488,
+      "width": 163,
+      "height": 44,
+      "rawWidth": 163,
+      "rawHeight": 44,
       "borderTop": 0,
-      "borderBottom": 200,
-      "borderLeft": 2,
+      "borderBottom": 0,
+      "borderLeft": 0,
       "borderRight": 0,
       "subMetas": {}
     }

@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "52b38127-ac9c-42b5-88a0-53fdf6d94c03",
+  "uuid": "6127c7cd-da14-43f4-957d-a08efaedb61e",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "yh_gui_template": {
+    "createRoom_btn": {
       "ver": "1.0.4",
-      "uuid": "a04aecdf-252e-446c-baa4-afbf0e7c7165",
-      "rawTextureUuid": "52b38127-ac9c-42b5-88a0-53fdf6d94c03",
+      "uuid": "47c5488c-7f78-40dc-9d6f-cea8a02580ee",
+      "rawTextureUuid": "6127c7cd-da14-43f4-957d-a08efaedb61e",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,14 +20,14 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 1077,
-      "height": 814,
-      "rawWidth": 1077,
-      "rawHeight": 814,
+      "width": 290,
+      "height": 95,
+      "rawWidth": 290,
+      "rawHeight": 95,
       "borderTop": 0,
-      "borderBottom": 233,
+      "borderBottom": 0,
       "borderLeft": 0,
-      "borderRight": 306,
+      "borderRight": 0,
       "subMetas": {}
     }
   }
