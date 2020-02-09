@@ -27,10 +27,11 @@ export default class CreateRoom extends cc.Component {
     leftTopBox: cc.Node = null;
 
     /**
-     * 内容
+     * 大内容盒子
      */
     @property(cc.Node)
     ContentBox: cc.Node = null;
+
 
     start() {
         this.popupShow();
@@ -67,12 +68,6 @@ export default class CreateRoom extends cc.Component {
                 cc.callFunc(() => this.node.destroy(), this),
             ),
         );
-        // leftTopBox.runAction(
-        //     cc.sequence(
-        //         cc.moveBy(0, cc.v2(leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
-        //     ),
-        // );
-        // this.node.destroy())
     }
 
 

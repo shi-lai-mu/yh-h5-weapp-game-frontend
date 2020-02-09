@@ -8,19 +8,21 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-/**
- * 缓存数据
- * 负责数据缓存
- */
+const {ccclass, property} = cc._decorator;
 
-export default  {
-    /**
-     * 用户数据
-     */
-    userInfo: {
-        id: '0000',
-        nickname: '* * * * * *',
-        diamond: 0,
-        gold: 0,
-    },
+
+@ccclass
+export default class NewClass extends cc.Component {
+
+    @property(cc.Node)
+    parentNode: cc.Node = null;
+
+
+    @property(cc.Label)
+    text: cc.Label = null;
+
+    onClick() {
+        this.parentNode.getComponent('Radio').toggleEvent(this.text.string);
+    }
+    // update (dt) {}
 }
