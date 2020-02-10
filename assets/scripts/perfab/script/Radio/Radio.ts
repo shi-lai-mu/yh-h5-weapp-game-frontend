@@ -12,20 +12,35 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
     @property({ visible: !1 })
     value: string = null;
 
+    @property(cc.Toggle)
+    radio1: cc.Toggle = null;
 
-    start () {
-        console.log(this.value);
+    @property(cc.Toggle)
+    radio2: cc.Toggle = null;
+
+    @property(cc.Toggle)
+    radio3: cc.Toggle = null;
+
+    @property(cc.Toggle)
+    radio4: cc.Toggle = null;
+
+    onLoad () {
+        const { radio1, radio2, radio3, radio4 } = this;
+        const target = radio1.isChecked
+            ? radio1 : radio2.isChecked
+            ? radio2 : radio3.isChecked
+            ? radio3 : radio4.isChecked
+            ? radio4 : false
+        ;
+        if (target) {
+            target.getComponent('toggle').onClick();
+        }
     }
 
     toggleEvent(value: string) {
-        console.log(this.value);
         this.value = value;
     }
 
