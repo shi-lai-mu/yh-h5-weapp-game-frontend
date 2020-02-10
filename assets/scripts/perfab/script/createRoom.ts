@@ -32,7 +32,6 @@ export default class CreateRoom extends cc.Component {
     @property(cc.Node)
     ContentBox: cc.Node = null;
 
-
     start() {
         this.popupShow();
     }

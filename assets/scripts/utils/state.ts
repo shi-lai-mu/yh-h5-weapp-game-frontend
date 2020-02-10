@@ -22,5 +22,11 @@ export default  {
         nickname: '* * * * * *',
         diamond: 0,
         gold: 0,
+        token: false,
     },
+
+    /**
+     * WebSocket IO
+     */
+    io: {},
 }

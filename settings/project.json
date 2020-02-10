@@ -1,5 +1,4 @@
 {
-  "start-scene": "current",
   "group-list": [
     "default"
   ],
@@ -8,7 +7,14 @@
       true
     ]
   ],
-  "excluded-modules": [],
+  "excluded-modules": [
+    "Collider",
+    "Intersection",
+    "Physics",
+    "Spine Skeleton",
+    "3D",
+    "3D Primitive"
+  ],
   "last-module-event-record-time": 1581237122429,
   "design-resolution-width": 960,
   "design-resolution-height": 640,
@@ -16,19 +22,19 @@
   "fit-height": true,
   "use-project-simulator-setting": false,
   "simulator-orientation": false,
-  "use-customize-simulator": false,
+  "use-customize-simulator": true,
   "simulator-resolution": {
-    "width": 960,
-    "height": 640
+    "height": 640,
+    "width": 960
   },
   "assets-sort-type": "name",
   "facebook": {
-    "enable": false,
     "appID": "",
-    "live": {
+    "audience": {
       "enable": false
     },
-    "audience": {
+    "enable": false,
+    "live": {
       "enable": false
     }
   }

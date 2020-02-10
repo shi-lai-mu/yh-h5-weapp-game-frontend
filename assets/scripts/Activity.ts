@@ -74,8 +74,8 @@ export default class Activity extends cc.Component {
 
 
     start () {
-        this.activityPopupHide();
-        this.activityPopupShow();
+        // this.activityPopupHide();
+        // this.activityPopupShow();
     }
     
 
@@ -121,7 +121,6 @@ export default class Activity extends cc.Component {
                 newItem.y = newItem.y - index * 40;
                 this.rendererOnly = !this.rendererOnly;
                 if (index === 0) {
-                    console.log(index);
                     newComponent.onClick();
                 }
             });
