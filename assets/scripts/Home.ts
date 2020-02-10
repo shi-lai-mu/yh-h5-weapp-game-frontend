@@ -7,7 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
+import socket from './utils/socketIO';
 import State from './utils/state';
 const {ccclass, property} = cc._decorator;
 
@@ -18,13 +18,21 @@ export default class NewClass extends cc.Component {
     ActivityNode: cc.Node = null;
 
     onLoad () {
+        // 登录检测
         const userInfo = localStorage.getItem('userInfo');
         if (!userInfo) {
             cc.director.loadScene('loginPage');
         }
-        if (!State.userInfo) {
+
+        // 数据失效恢复
+        if (!State.userInfo.token) {
             State.userInfo = JSON.parse(userInfo);
         }
+
+        // io连接
+        // console.log(io);
+        // console.log(socekt.use(socketClient));
+        State.io = socket.use;
     }
 
 

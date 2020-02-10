@@ -1,0 +1,9 @@
+{
+  "tinyPackageMode": false,
+  "tinyPackageServer": "",
+  "workerPath": "",
+  "useCustomCpkPath": false,
+  "outputCpkPath": "",
+  "packFirstScreenRes": false,
+  "deviceOrientation": "portrait"
+}

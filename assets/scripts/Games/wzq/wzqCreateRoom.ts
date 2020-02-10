@@ -10,6 +10,13 @@
 
 const {ccclass, property} = cc._decorator;
 
+const radioArray = cc.Class({
+    name: 'radioArray',
+    properties: {
+        node: cc.Node,
+    }
+})
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -53,10 +60,18 @@ export default class NewClass extends cc.Component {
     price: number = 0;
 
     start () {
-        // this.peopleNumber.node.on('callback', (data) => console.log(data))
-        // this.frequencyNumber.node.on('callback', (data) => console.log(data))
-        // this.payType.node.on('callback', (data) => console.log(data))
-        // this.pwdType.node.on('callback', (data) => console.log(data))
+    }
+
+
+    createRoomClick() {
+        
+        const peopleNumber = this.peopleNumber.getComponent('Radio');
+        const frequencyNumber = this.frequencyNumber.getComponent('Radio');
+        const payType = this.payType.getComponent('Radio');
+        const pwdType = this.pwdType.getComponent('Radio');
+
+        console.log(peopleNumber.value, frequencyNumber.value, payType.value, pwdType.value);
+        console.log(peopleNumber.string, frequencyNumber.string, payType.string, pwdType.string);
     }
 
     test(param) {

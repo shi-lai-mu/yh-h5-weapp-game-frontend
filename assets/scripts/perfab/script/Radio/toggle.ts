@@ -17,12 +17,15 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     parentNode: cc.Node = null;
 
-
     @property(cc.Label)
     text: cc.Label = null;
 
+    @property
+    value: string = '';
+
     onClick() {
-        this.parentNode.getComponent('Radio').toggleEvent(this.text.string);
+        const text = this.text.string;
+        this.parentNode.getComponent('Radio').toggleEvent(this.value || text, text);
     }
     // update (dt) {}
 }

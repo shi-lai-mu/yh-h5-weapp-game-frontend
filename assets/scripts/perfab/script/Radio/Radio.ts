@@ -15,6 +15,9 @@ export default class NewClass extends cc.Component {
     @property({ visible: !1 })
     value: string = null;
 
+    @property({ visible: !1 })
+    string: string = null;
+
     @property(cc.Toggle)
     radio1: cc.Toggle = null;
 
@@ -40,8 +43,9 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    toggleEvent(value: string) {
+    toggleEvent(value: string, string: string) {
         this.value = value;
+        this.string = string;
     }
 
     // update (dt) {}

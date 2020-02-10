@@ -104,6 +104,9 @@ export default class NewClass extends cc.Component {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
+        setTimeout(() => {
+            cc.director.preloadScene('Home');
+        }, 2000);
     }
 
 
