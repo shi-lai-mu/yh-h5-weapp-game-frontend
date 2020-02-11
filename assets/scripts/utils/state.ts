@@ -12,6 +12,7 @@
  * 缓存数据
  * 负责数据缓存
  */
+import * as io from 'socket.io-client';
 
 export default  {
     /**
@@ -28,5 +29,5 @@ export default  {
     /**
      * WebSocket IO
      */
-    io: {},
+    io: io.Socket,
 }

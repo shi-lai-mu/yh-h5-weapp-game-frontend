@@ -37,8 +37,6 @@ import defaultConfig from '../config/default.config';
 const IoConfig = defaultConfig.io;
 // 子IO
 // const ioChilder: { [key: string]: typeof io.Socket; } = {};
-// 开发环境判断
-const isDEV = false;
 // 账号token获取
 const { token } = JSON.parse(localStorage.getItem('userInfo') || '{}');
 // 当前域
@@ -65,18 +63,25 @@ const localRegExp = /127\.0\.0\.1|localhost/;
 //   })
 // ;
 
+const ioSocket = io(
+  localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
+    ? IoConfig.main.replace(localRegExp, locaHostName)
+    : IoConfig.main,
+  {
+    forceNew: true,
+    query: {
+      token,
+    },
+  },
+);
+
+ioSocket.on('connect', () => {
+  localStorage.setItem('socket', JSON.stringify({
+    query: ioSocket.query,
+    id: ioSocket.id,
+  }))
+})
 
 export default {
-  use: io(
-    localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
-      ? IoConfig.main.replace(localRegExp, locaHostName)
-      : IoConfig.main,
-    {
-    forceNew: true,
-      query: {
-        token,
-        isAdmin: !0,
-      },
-    },
-  )
+  use: ioSocket,
 };
