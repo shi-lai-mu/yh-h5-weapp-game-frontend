@@ -22,17 +22,19 @@ export default class NewClass extends cc.Component {
         const userInfo = localStorage.getItem('userInfo');
         if (!userInfo) {
             cc.director.loadScene('loginPage');
-        }
-
-        // 数据失效恢复
-        if (!State.userInfo.token) {
+            return !1;
+        } else {
+            // 数据失效恢复
             State.userInfo = JSON.parse(userInfo);
+            State.io = socket.use;
+            State.io.emit('connect/test');
+            State.io.on('rommjoin', res => {
+            })
         }
 
         // io连接
         // console.log(io);
         // console.log(socekt.use(socketClient));
-        State.io = socket.use;
     }
 
 

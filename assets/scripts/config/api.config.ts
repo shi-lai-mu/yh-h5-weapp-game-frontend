@@ -17,6 +17,10 @@ export default {
   // 活动
   home_activity:     'get./activity',                               // 首页活动列表
 
+  // 房间
+  create_room:       'post./room/:gameName',                        // 创建房间
+  room_info:         'get./room/info',                              // 房间详细
+
   // 商城
   shop_menu:         '/shop/main',                                  // 主商城菜单
   shop_menu_goods:   '/shop/main/:menuId',                          // 主商城菜单下的商品

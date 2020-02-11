@@ -9,13 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-
-const radioArray = cc.Class({
-    name: 'radioArray',
-    properties: {
-        node: cc.Node,
-    }
-})
+import axios from '../../utils/axiosUtils';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -64,11 +58,28 @@ export default class NewClass extends cc.Component {
 
 
     createRoomClick() {
-        
         const peopleNumber = this.peopleNumber.getComponent('Radio');
         const frequencyNumber = this.frequencyNumber.getComponent('Radio');
         const payType = this.payType.getComponent('Radio');
         const pwdType = this.pwdType.getComponent('Radio');
+
+        axios.api('create_room', {
+            socketId: true,
+            params: {
+                gameName: 'gobang',
+            },
+            data: {
+                people: peopleNumber.value,
+                frequency: frequencyNumber.value,
+                payType: payType.value,
+                pwdType: pwdType.value,
+            },
+        }).then((res) => {
+            console.log(res);
+            axios.api('room_info').then(res => {
+                console.log(res);
+            })
+        });
 
         console.log(peopleNumber.value, frequencyNumber.value, payType.value, pwdType.value);
         console.log(peopleNumber.string, frequencyNumber.string, payType.string, pwdType.string);
