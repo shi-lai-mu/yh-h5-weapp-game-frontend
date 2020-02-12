@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class HomePD extends cc.Component {
 
     /**
      * 键盘资源
@@ -52,6 +52,7 @@ export default class NewClass extends cc.Component {
     showCreateRoomPopup() {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
         this.Canvas.node.addChild(createRoomPrefab);
+        createRoomPrefab.getComponent('createRoom').Canvas = this.Canvas;
         // createRoomPrefab.getComponent('keyboard').parentClass = {
         //     emit(data) {
         //         console.log(data);

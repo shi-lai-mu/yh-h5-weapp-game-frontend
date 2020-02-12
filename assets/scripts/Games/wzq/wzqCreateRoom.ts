@@ -12,7 +12,7 @@ const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GobangCreateRoom extends cc.Component {
 
     /**
      * 人数Radio
@@ -48,14 +48,18 @@ export default class NewClass extends cc.Component {
     priceNode: cc.Node = null;
 
     /**
+     * 弹窗
+     */
+    @property(cc.Prefab)
+    popupPrefab: cc.Prefab = null;
+
+    /**
      * 价格计算
      */
     @property
     price: number = 0;
 
-    start () {
-    }
-
+    Canvas: cc.Canvas;
 
     createRoomClick() {
         const peopleNumber = this.peopleNumber.getComponent('Radio');
@@ -64,7 +68,6 @@ export default class NewClass extends cc.Component {
         const pwdType = this.pwdType.getComponent('Radio');
 
         axios.api('create_room', {
-            socketId: true,
             params: {
                 gameName: 'gobang',
             },
@@ -75,18 +78,19 @@ export default class NewClass extends cc.Component {
                 pwdType: pwdType.value,
             },
         }).then((res) => {
-            console.log(res);
-            axios.api('room_info').then(res => {
-                console.log(res);
-            })
+            const popup = cc.instantiate(this.popupPrefab);
+            this.Canvas.node.addChild(popup);
+            const scriptPopup = popup.getComponent('popup');
+            scriptPopup.init('创建中...');
+            if (res.status) {
+                cc.director.preloadScene('gamesGoBang');
+                axios.api('room_info').then(res => {
+                    scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
+                    scriptPopup.setEvent('success', () => {
+                        cc.director.loadScene('gamesGoBang');
+                    });
+                });
+            }
         });
-
-        console.log(peopleNumber.value, frequencyNumber.value, payType.value, pwdType.value);
-        console.log(peopleNumber.string, frequencyNumber.string, payType.string, pwdType.string);
     }
-
-    test(param) {
-        console.log(param.target.getComponent('toggle').label);
-    }
-    // update (dt) {}
 }
