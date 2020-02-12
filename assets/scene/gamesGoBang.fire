@@ -57,13 +57,13 @@
     "_is3DNode": true,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "autoReleaseAssets": false,
+    "autoReleaseAssets": true,
     "_id": "fc30fbe0-1668-4af2-8dcb-a798b469719b"
   },
   {
     "__type__": "cc.Node",
     "_name": "Canvas",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 1
     },
@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        524.8576797999102,
+        536.9357503463519,
         0,
         0,
         0,

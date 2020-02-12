@@ -27,6 +27,12 @@ export default class NewClass extends cc.Component {
     nickName: cc.Label = null;
 
     /**
+     * 头像
+     */
+    @property(cc.Sprite)
+    avatar: cc.Sprite = null;
+
+    /**
      * 钻石
      */
     @property(cc.Label)
@@ -40,11 +46,17 @@ export default class NewClass extends cc.Component {
 
 
     start () {
-        const { nickname, id, diamond, gold } = State.userInfo;
+        const { nickname, id, diamond, gold, avatarUrl } = State.userInfo;
         this.nickName.string = nickname;
         this.id.string = 'ID: ' + id.toString();
         this.diamond.string = diamond.toString();
         this.gold.string = gold.toString();
+
+        cc.loader.load(`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${avatarUrl ? id : 'default'}.png`, (error, texture) => {
+            if (error) return;
+            var spriteFrame = new cc.SpriteFrame(texture);
+            this.avatar.spriteFrame = spriteFrame;
+        });
     }
 
     // update (dt) {}

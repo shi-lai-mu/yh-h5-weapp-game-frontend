@@ -24,6 +24,7 @@ export default  {
         diamond: 0,
         gold: 0,
         token: false,
+        avatarUrl: false,
     },
 
     /**
