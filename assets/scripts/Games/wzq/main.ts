@@ -13,6 +13,7 @@ import State from '../../utils/state';
 import axios from '../../utils/axiosUtils';
 
 const PlayerItem = {
+    dataIndex: 0,
     nickName: cc.Label,
     avatar: cc.Sprite,
     setp: cc.Label,
@@ -27,8 +28,11 @@ const Player = cc.Class({
 export default class NewClass extends cc.Component {
     // 棋子资源
     @property(cc.Prefab) qz: cc.Prefab = null;
+    // 房间号
+    @property(cc.Label) roomCode: cc.Label = null;
     // 玩家
     @property(Player) Players: {
+        dataIndex: number;
         nickName: cc.Label;
         avatar: cc.Sprite;
         setp: cc.Label;
@@ -36,22 +40,23 @@ export default class NewClass extends cc.Component {
     }[] = [];
     // 玩家数据
     playersData: {
-        id: -1,
-        nickName: string;
+        id: number,
+        nickname: string;
         avatarUrl: number;
         setp: number;
         timeOut: number;
     }[] = [];
     // 棋子数据
     picecArray: any = [];
+    // 房间数据
+    roomInfo = {};
 
     onLoad() {
-        const { avatarUrl, id, nickname } = State.userInfo;
-        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
-
         axios.api('room_info').then(res => {
-            if (res.status) {
-
+            if (res.status !== false) {
+                this.roomInfo = res;
+                this.roomCode.string = res.roomCode;
+                res.players.forEach((player) => this.playerJoin(player));
             } else {
                 cc.director.loadScene('Home');
             }
@@ -106,6 +111,26 @@ export default class NewClass extends cc.Component {
                 arr[arr.length - 1].push(Point);
             }
         }
+    }
+
+    
+    /**
+     * 玩家加入房间
+     * @param userInfo - 玩家数据
+     */
+    playerJoin(userInfo: { id: number; nickname: string; avatarUrl: number; }) {
+        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
+        const userIndex = this.playersData.push({
+            ...userInfo,
+            setp: 0,
+            timeOut: 0,
+        }) - 1;
+        const target = this.Players[userIndex];
+        target.dataIndex = userIndex;
+        loadImg(`${avatarBase}/${userInfo.avatarUrl ? userInfo.id : 'default'}.png`, (spriteFrame) => {
+            target.avatar.spriteFrame = spriteFrame;
+        });
+        target.nickName.string = userInfo.nickname;
     }
 
 
