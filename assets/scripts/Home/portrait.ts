@@ -52,6 +52,8 @@ export default class NewClass extends cc.Component {
         this.diamond.string = diamond.toString();
         this.gold.string = gold.toString();
 
+        // 头像在线加载
+        // avatarUrl === 1 时加载ID的头像否则加载Default头像
         cc.loader.load(`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${avatarUrl ? id : 'default'}.png`, (error, texture) => {
             if (error) return;
             var spriteFrame = new cc.SpriteFrame(texture);
