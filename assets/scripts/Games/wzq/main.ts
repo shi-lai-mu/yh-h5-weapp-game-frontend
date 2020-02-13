@@ -9,17 +9,78 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import State from '../../utils/state';
+import axios from '../../utils/axiosUtils';
+
+const PlayerItem = {
+    nickName: cc.Label,
+    avatar: cc.Sprite,
+    setp: cc.Label,
+    timeOut: cc.Label,
+};
+const Player = cc.Class({
+    name: 'PlayerItem',
+    properties: PlayerItem,
+})
 
 @ccclass
 export default class NewClass extends cc.Component {
-
-    @property(cc.Prefab)
-    qz: cc.Prefab = null;
-
-    /**
-     * 棋子数据
-     */
+    // 棋子资源
+    @property(cc.Prefab) qz: cc.Prefab = null;
+    // 玩家
+    @property(Player) Players: {
+        nickName: cc.Label;
+        avatar: cc.Sprite;
+        setp: cc.Label;
+        timeOut: cc.Label;
+    }[] = [];
+    // 玩家数据
+    playersData: {
+        id: -1,
+        nickName: string;
+        avatarUrl: number;
+        setp: number;
+        timeOut: number;
+    }[] = [];
+    // 棋子数据
     picecArray: any = [];
+
+    onLoad() {
+        const { avatarUrl, id, nickname } = State.userInfo;
+        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
+
+        axios.api('room_info').then(res => {
+            if (res.status) {
+
+            } else {
+                cc.director.loadScene('Home');
+            }
+        });
+
+        // this.playersData.forEach((player) => {
+
+        // });
+
+        // // 头像加载
+        // loadImg(`${avatarBase}/${avatarUrl ? id : 'default'}.png`, (spriteFrame) => {
+        //     this.Players[0].avatar.spriteFrame = spriteFrame;
+        // });
+        // if (!Player.id) {
+        //     this.Player1Avatar.node.scale = 0;
+        // }
+
+        // 监听载入
+
+        // if (Player.id) {
+        //     loadImg(`${avatarBase}/${avatarUrl ? id : 'default'}.png`, (spriteFrame) => {
+        //         this.myAvatarNode.spriteFrame = spriteFrame;
+        //     });
+        // }
+
+        // 昵称加载
+        // this.Player1nickName.string = Player.nickname;
+        // this.nickName.string = nickname;
+    }
 
     start () {
         const arr = this.picecArray;
@@ -123,6 +184,17 @@ export default class NewClass extends cc.Component {
     // update (dt) {}
 }
 
+
+/**
+ * 加载图片
+ * @param url      - 图片url
+ * @param callback - 回调函数
+ */
+const loadImg = (url, callback) => {
+    cc.loader.load(url, (_error, texture) => {
+        callback(new cc.SpriteFrame(texture));
+    });
+}
 
 
 interface Point {

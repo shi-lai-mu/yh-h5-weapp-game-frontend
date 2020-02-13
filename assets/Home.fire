@@ -195,7 +195,7 @@
       "array": [
         0,
         5,
-        536.9357503463519,
+        530.8735725198609,
         0,
         0,
         0,
@@ -4590,7 +4590,7 @@
   {
     "__type__": "cc.Node",
     "_name": "gameList-bg",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 2
     },
@@ -6783,7 +6783,7 @@
     "component": "",
     "_componentId": "b978fxAiepGxZh12NplIlBz",
     "handler": "openGame",
-    "customEventData": "gamesWZQ"
+    "customEventData": "gamesGoBang"
   },
   {
     "__type__": "cc.Sprite",

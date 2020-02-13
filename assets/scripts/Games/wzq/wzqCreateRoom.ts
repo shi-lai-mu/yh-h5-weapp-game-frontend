@@ -90,6 +90,12 @@ export default class GobangCreateRoom extends cc.Component {
                         cc.director.loadScene('gamesGoBang');
                     });
                 });
+            } else {
+                scriptPopup.message(`创建失败!\n${res.msg}`);
+                scriptPopup.setEvent('reset', () => {
+                    this.createRoomClick();
+                });
+                scriptPopup.setEvent('close', () => {});
             }
         });
     }

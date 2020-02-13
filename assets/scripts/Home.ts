@@ -28,13 +28,10 @@ export default class NewClass extends cc.Component {
             State.userInfo = JSON.parse(userInfo);
             State.io = socket.use;
             State.io.emit('connect/test');
-            State.io.on('rommjoin', res => {
-            })
-        }
+            // State.io.on('rommjoin', res => {
 
-        // io连接
-        // console.log(io);
-        // console.log(socekt.use(socketClient));
+            // });
+        }
     }
 
 
@@ -44,14 +41,10 @@ export default class NewClass extends cc.Component {
      * @param gameName - 游戏名
      */
     openGame(_event, gameName: string) {
+        console.log(gameName);
         cc.director.loadScene(gameName);
     }
 
-
-    start () {
-        // console.log(this.ActivityNode.getComponent('Activity'));
-        // this.ActivityNode.getComponent('Activity').activityPopupShow();
-    }
 
     // update (dt) {}
 }

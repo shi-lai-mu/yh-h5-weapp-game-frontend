@@ -29,6 +29,9 @@ export default class NewClass extends cc.Component {
         pieceType: -1,
     };
 
+    @property(cc.AudioClip)
+    audio: cc.AudioClip = null;
+
     /**
      * 调用者指针
      */
@@ -55,6 +58,7 @@ export default class NewClass extends cc.Component {
             this.qzB.scale = pieceType ? 1 : 0;
             this.qzH.scale = pieceType ? 0 : 1;
 
+            cc.audioEngine.playEffect(this.audio, false);
             // 五子连通检测
             this.game.checkConnectivity(point, pieceType);
         }
