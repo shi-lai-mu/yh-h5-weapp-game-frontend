@@ -25,7 +25,7 @@ const Player = cc.Class({
 })
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GoBangMainService extends cc.Component {
     // 棋子资源
     @property(cc.Prefab) qz: cc.Prefab = null;
     // 房间号
@@ -50,45 +50,50 @@ export default class NewClass extends cc.Component {
     picecArray: any = [];
     // 房间数据
     roomInfo = {};
+    roomJoinEvent = () => this.fetchRoomInfo()
 
+    /**
+     * 界面加载时
+     */
     onLoad() {
+        // 获取房间数据并且绑定事件
+        State.io.on('rommjoin', this.roomJoinEvent);
+        this.fetchRoomInfo();
+    }
+
+
+    /**
+     * 获取房间信息
+     */
+    fetchRoomInfo() {
         axios.api('room_info').then(res => {
             if (res.status !== false) {
                 this.roomInfo = res;
                 this.roomCode.string = res.roomCode;
-                res.players.forEach((player) => this.playerJoin(player));
+                this.playersData = [];
+                (res.players || []).forEach((player) => this.playerJoin(player));
             } else {
+                // 异常加入游戏房间，踢出到首页
                 cc.director.loadScene('Home');
             }
         });
-
-        // this.playersData.forEach((player) => {
-
-        // });
-
-        // // 头像加载
-        // loadImg(`${avatarBase}/${avatarUrl ? id : 'default'}.png`, (spriteFrame) => {
-        //     this.Players[0].avatar.spriteFrame = spriteFrame;
-        // });
-        // if (!Player.id) {
-        //     this.Player1Avatar.node.scale = 0;
-        // }
-
-        // 监听载入
-
-        // if (Player.id) {
-        //     loadImg(`${avatarBase}/${avatarUrl ? id : 'default'}.png`, (spriteFrame) => {
-        //         this.myAvatarNode.spriteFrame = spriteFrame;
-        //     });
-        // }
-
-        // 昵称加载
-        // this.Player1nickName.string = Player.nickname;
-        // this.nickName.string = nickname;
     }
 
+    /**
+     * 游戏场景销毁时
+     */
+    onDestroy() {
+        // 接触IM玩家加入房间事件绑定
+        State.io.off('rommjoin', this.roomJoinEvent);
+    }
+
+
+    /**
+     * 渲染时
+     */
     start () {
         const arr = this.picecArray;
+        // 预设棋盘棋子为透明定位至方格上
         for (let y = 0; y < 15; y++) {
             arr.push([]);
             for (let x = 0; x < 15; x++) {

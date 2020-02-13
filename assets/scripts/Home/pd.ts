@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import axios from '../utils/axiosUtils';
 
 @ccclass
 export default class HomePD extends cc.Component {
@@ -30,8 +31,6 @@ export default class HomePD extends cc.Component {
     @property(cc.Canvas)
     Canvas: cc.Canvas = null;
 
-
-
     /**
      * 加入房间
      */
@@ -40,7 +39,17 @@ export default class HomePD extends cc.Component {
         this.Canvas.node.addChild(joinRoomPopup);
         joinRoomPopup.getComponent('keyboard').parentClass = {
             emit(data) {
-                console.log(data);
+                axios.api('room_join', {
+                    data: {
+                        roomCode: data,
+                    },
+                }).then(res => {
+                    if (res.status) {
+                        cc.director.loadScene('gamesGoBang');
+                    } else {
+                        console.log(res.msg);
+                    }
+                });
             }
         }
     }
