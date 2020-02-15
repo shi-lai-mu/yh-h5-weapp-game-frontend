@@ -37,9 +37,9 @@ export default class KeyBoard extends cc.Component {
      * @param content - 内容
      */
     onClickContent(_event, content: string) {
-        if (content === '0' && !this.Label.string.length) {
-            return;
-        }
+        // if (content === '0' && !this.Label.string.length) {
+        //     return;
+        // }
         this.Label.string += content;
     }
 
