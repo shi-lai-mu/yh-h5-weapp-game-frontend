@@ -31,6 +31,7 @@
  *     this.$io.gameIM.on() 等 Socket 方法
  */
 import * as io from 'socket.io-client';
+import State from './state';
 import defaultConfig from '../config/default.config';
 
 // IO配置文件引入
@@ -74,14 +75,10 @@ const ioSocket = io(
     },
   },
 );
-
 ioSocket.on('connect', () => {
   localStorage.setItem('socket', JSON.stringify({
     query: ioSocket.query,
     id: ioSocket.id,
   }))
 })
-
-export default {
-  use: ioSocket,
-};
+State.io = ioSocket;

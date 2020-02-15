@@ -23,6 +23,8 @@ const Player = cc.Class({
     name: 'PlayerItem',
     properties: PlayerItem,
 })
+// 初始化棋子
+let initS = !1;
 
 @ccclass
 export default class GoBangMainService extends cc.Component {
@@ -59,6 +61,9 @@ export default class GoBangMainService extends cc.Component {
         // 获取房间数据并且绑定事件
         State.io.on('rommjoin', this.roomJoinEvent);
         this.fetchRoomInfo();
+        State.io.on('room/data', (data) => {
+            console.log(data);
+        })
     }
 
 
@@ -67,11 +72,13 @@ export default class GoBangMainService extends cc.Component {
      */
     fetchRoomInfo() {
         axios.api('room_info').then(res => {
-            if (res.status !== false) {
+            if (res.status !== false && res.players) {
                 this.roomInfo = res;
                 this.roomCode.string = res.roomCode;
                 this.playersData = [];
                 (res.players || []).forEach((player) => this.playerJoin(player));
+                State.gameData = res;
+                !initS && this.initPiece();
             } else {
                 // 异常加入游戏房间，踢出到首页
                 cc.director.loadScene('Home');
@@ -91,7 +98,19 @@ export default class GoBangMainService extends cc.Component {
     /**
      * 渲染时
      */
-    start () {
+    initPiece() {
+        // 获取玩家棋子ID
+        let poeceID = -1;
+        State.gameData.players.forEach((player, index) => {
+            if (player.id === State.userInfo.id) {
+                poeceID = index;
+            }
+        });
+
+        if (poeceID === -1) {
+            return;
+        }
+
         const arr = this.picecArray;
         // 预设棋盘棋子为透明定位至方格上
         for (let y = 0; y < 15; y++) {
@@ -109,6 +128,7 @@ export default class GoBangMainService extends cc.Component {
                 const qzScript = newQz.getComponent('qz');
                 qzScript.init(Point);
                 qzScript.game = this;
+                qzScript.pieceType = poeceID;
                 this.node.addChild(newQz);
                 newQz.x = Point.x;
                 newQz.y = Point.y;
@@ -116,6 +136,7 @@ export default class GoBangMainService extends cc.Component {
                 arr[arr.length - 1].push(Point);
             }
         }
+        initS = !0;
     }
 
     
