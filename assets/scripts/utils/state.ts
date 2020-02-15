@@ -31,4 +31,11 @@ export default  {
      * WebSocket IO
      */
     io: io.Socket,
+
+    /**
+     * 游戏数据
+     */
+    gameData: {
+        players: [],
+    },
 }

@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import State from '../../utils/state';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -32,6 +33,10 @@ export default class NewClass extends cc.Component {
     @property(cc.AudioClip)
     audio: cc.AudioClip = null;
 
+
+    @property({ visible: !0 })
+    pieceType: number = -1;
+
     /**
      * 调用者指针
      */
@@ -49,14 +54,23 @@ export default class NewClass extends cc.Component {
      * 点击事件
      * @param pieceType - 棋子类型 0：黑子  1：白子
      */
-    onClick(pieceType: ( 0 | 1 ) = 1) {
+    onClick(pieceType: ( 0 | 1 | -1 ) = 1) {
+        pieceType = typeof pieceType === 'number' ? pieceType : this.pieceType;
         const { point } = this;
+        console.log(point.pieceType, pieceType);
         if (point.pieceType === -1) {
-            pieceType = Math.random() > 0.5 ? 0 : 1
             // pieceType = 1;
             point.pieceType = pieceType;
             this.qzB.scale = pieceType ? 1 : 0;
             this.qzH.scale = pieceType ? 0 : 1;
+            
+            // io
+            const { row, col } = point;
+            State.io.emit('goBang/setp', {
+                x: row,
+                y: col,
+                s: pieceType,
+            });
 
             cc.audioEngine.playEffect(this.audio, false);
             // 五子连通检测

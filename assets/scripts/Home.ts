@@ -26,7 +26,6 @@ export default class NewClass extends cc.Component {
         } else {
             // 数据失效恢复
             State.userInfo = JSON.parse(userInfo);
-            State.io = socket.use;
             State.io.emit('connect/test');
         }
     }
