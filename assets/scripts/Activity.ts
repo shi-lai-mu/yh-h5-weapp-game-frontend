@@ -19,7 +19,7 @@ var Item = cc.Class({
         itemName: '',
         itemPrice: 0,
         iconSF: cc.SpriteFrame
-    }
+    },
 });
 
 const {ccclass, property} = cc._decorator;

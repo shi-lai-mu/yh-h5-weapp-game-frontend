@@ -54,24 +54,28 @@ export default class NewClass extends cc.Component {
      * 点击事件
      * @param pieceType - 棋子类型 0：黑子  1：白子
      */
-    onClick(pieceType: ( 0 | 1 | -1 ) = 1) {
+    onClick(pieceType) {
         pieceType = typeof pieceType === 'number' ? pieceType : this.pieceType;
         const { point } = this;
-        console.log(point.pieceType, pieceType);
+        const { row, col } = point;
+        if (point.pieceType === -1) {
+            State.io.emit('goBang/setp', {
+                x: col,
+                y: row,
+                s: pieceType,
+            });
+        }
+    }
+
+    ioClick(pieceType) {
+        pieceType = typeof pieceType === 'number' ? pieceType : this.pieceType;
+        const { point } = this;
         if (point.pieceType === -1) {
             // pieceType = 1;
             point.pieceType = pieceType;
             this.qzB.scale = pieceType ? 1 : 0;
             this.qzH.scale = pieceType ? 0 : 1;
             
-            // io
-            const { row, col } = point;
-            State.io.emit('goBang/setp', {
-                x: row,
-                y: col,
-                s: pieceType,
-            });
-
             cc.audioEngine.playEffect(this.audio, false);
             // 五子连通检测
             this.game.checkConnectivity(point, pieceType);
