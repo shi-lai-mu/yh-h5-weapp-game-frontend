@@ -168,13 +168,19 @@ export default class Login extends cc.Component {
         const loadingScript = loading.getComponent('loading');
         this.node.addChild(loading);
         let timeout = null;
-        await tool.subPackLoading([
-            'perfabScript', 'HomeScript', 'GamesScript',
-            'HomeImages', 'GameImages',
-        ], (_packname, count, all) => {
-            loadingScript.updateValue(count / all * 100);
+        await tool.packLoading(
+            {
+                sub: [
+                    'perfabScript', 'HomeScript', 'GamesScript',
+                    'HomeImages', 'GameImages',
+                ],
+                scene: [ 'Home' ],
+            }, (_packname, count, all) => {
+            console.log((count / all * 100) / 100);
+            loadingScript.updateValue((count / all * 100) / 100);
             
             // 资源加载完成
+            console.log(count, all);
             if (count === all) {
                 timeout && clearTimeout(timeout);
                 cc.director.loadScene('Home');

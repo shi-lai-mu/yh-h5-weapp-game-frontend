@@ -7,29 +7,53 @@ export default {
      * @param packages - 子包名数组
      * @param callback - 回调
      */
-    async subPackLoading(
-        packages: string[],
+    async packLoading(
+        packages: {
+            sub?: string[],
+            scene?: string[],
+        },
         callback?: (targetPack: string, successCount: number, allCount: number) => boolean
     ) {
         if (Object.keys(cc.loader.downloader._subpackages).length === 0) {
             console.log('跳过 subPackage 加载...')
             return callback && callback('skip', 1, 1);
         }
-        for (const packIndex in packages) {
-            console.time();
-            const packName = packages[packIndex];
-            console.log(packName + ' subPackage 加载...')
+
+        const { scene, sub } = packages;
+        const allCount = scene.length + sub.length;
+
+        for (const subIndex in sub) {
+            const subName = sub[subIndex];
+            console.log(subName + ' subPackage 加载...')
             await new Promise((resolve) => {
-                cc.loader.downloader.loadSubpackage(packName, (err) => {
+                console.time();
+                cc.loader.downloader.loadSubpackage(subName, (err) => {
                     if (err) {
                         return console.error(err);
                     }
-                    console.log(packName + ' 加载成功!');
+                    console.log(subName + ' 加载成功!');
                     resolve();
+                    console.timeEnd();
+                    callback && callback(subName, Number(subIndex) + 1, allCount);
                 });
             })
-            callback && callback(packName, Number(packIndex) + 1, packages.length);
-            console.timeEnd();
         }
-    }
+
+        for (const sceneIndex in scene) {
+            const sceneName = scene[sceneIndex];
+            console.log(sceneName + ' scene 加载...')
+            await new Promise((resolve) => {
+                console.time();
+                cc.director.preloadScene(sceneName, (err) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log(sceneName + ' 加载成功!');
+                    resolve();
+                    console.timeEnd();
+                    callback && callback(sceneName, Number(sceneIndex) + 1 + sub.length, allCount);
+                });
+            })
+        }
+    },
 }
