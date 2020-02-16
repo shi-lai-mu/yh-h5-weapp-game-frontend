@@ -319,7 +319,7 @@
     "itemPrice": {
       "__id__": 3
     },
-    "target": null,
+    "activityClass": null,
     "data": {},
     "_id": ""
   },

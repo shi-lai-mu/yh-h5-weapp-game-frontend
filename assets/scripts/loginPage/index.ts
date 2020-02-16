@@ -11,6 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
+import tool from '../utils/tool';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -100,11 +101,15 @@ export default class NewClass extends cc.Component {
     }
 
 
-    start () {
+    async start () {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
+
+        await tool.subPackLoading([ 'HomeScript' ]);
+        console.log(1);
         setTimeout(() => {
+            console.log(2);
             cc.director.preloadScene('Home');
         }, 2000);
     }

@@ -1,7 +1,7 @@
 {
   "ver": "1.0.1",
   "uuid": "4f2a45ad-136b-429e-80eb-9bf356d26e71",
-  "isSubpackage": false,
-  "subpackageName": "",
+  "isSubpackage": true,
+  "subpackageName": "HomeScript",
   "subMetas": {}
 }
