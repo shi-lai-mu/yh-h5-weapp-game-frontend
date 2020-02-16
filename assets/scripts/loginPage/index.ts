@@ -14,7 +14,7 @@ import State from '../utils/state';
 import tool from '../utils/tool';
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Login extends cc.Component {
     /**
      * 登录弹窗节点
      */
@@ -84,6 +84,12 @@ export default class NewClass extends cc.Component {
     accountInput = null;
 
     /**
+     * 加载资源
+     */
+    @property(cc.Prefab)
+    loadingPrefab: cc.Prefab = null;
+
+    /**
      * 密码输入框
      */
     @property({
@@ -106,12 +112,10 @@ export default class NewClass extends cc.Component {
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
 
-        await tool.subPackLoading([ 'HomeScript' ]);
-        console.log(1);
-        setTimeout(() => {
-            console.log(2);
-            cc.director.preloadScene('Home');
-        }, 2000);
+        // await tool.subPackLoading([ 'HomeScript' ]);
+        // setTimeout(() => {
+        //     cc.director.preloadScene('Home');
+        // }, 2000);
     }
 
 
@@ -153,6 +157,38 @@ export default class NewClass extends cc.Component {
         LoginPopup.runAction(cc.fadeTo(255, 0));
         LoginPopup.runAction(cc.scaleTo(1, 0).easing(cc.easeBackInOut()));
         LoginPopupMask.scale = 0;
+    }
+
+
+    /**
+     * 加载界面
+     */
+    async loadingScens() {
+        const loading = cc.instantiate(this.loadingPrefab);
+        const loadingScript = loading.getComponent('loading');
+        this.node.addChild(loading);
+        let timeout = null;
+        await tool.subPackLoading([
+            'perfabScript', 'HomeScript', 'GamesScript',
+            'HomeImages', 'GameImages',
+        ], (_packname, count, all) => {
+            loadingScript.updateValue(count / all * 100);
+            
+            // 资源加载完成
+            if (count === all) {
+                timeout && clearTimeout(timeout);
+                cc.director.loadScene('Home');
+                return !0;
+            }
+
+            // 资源加载超时 1s
+            timeout && clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                this.LoginStatus.string = '资源加载超时\n请稍后再试!';
+                loading.destroy();
+            }, 60000);
+            return !0;
+        })
     }
 
 
@@ -208,9 +244,7 @@ export default class NewClass extends cc.Component {
                     LoginStatus.string = '登录成功';
                     localStorage.setItem('userInfo', JSON.stringify(res));
                     State.userInfo = res;
-                    setTimeout(() => {
-                        cc.director.loadScene('Home');
-                    }, 500);
+                    this.loadingScens();
                     // 简单的混淆
                     const account = (accountInputText || '').split('').map((pwd: string) => {
                       return pwd.charCodeAt(0) + 10;

@@ -1,7 +1,7 @@
 {
   "ver": "1.0.1",
   "uuid": "ebb0e969-390b-42bd-bbb4-b7f6f681b98f",
-  "isSubpackage": false,
+  "isSubpackage": true,
   "subpackageName": "GameImages",
   "subMetas": {}
 }
