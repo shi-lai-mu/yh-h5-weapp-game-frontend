@@ -25,9 +25,9 @@ export default class NewClass extends cc.Component {
     endLoadingCallBack: any;
 
     start () {
-        setInterval(() => {
-            this.updateValue(this.progress > 1 ? 0 : this.progress += 0.1)
-        }, 200)
+        // setInterval(() => {
+        //     this.updateValue(this.progress > 1 ? 0 : this.progress += 0.1)
+        // }, 200)
     }
 
     startLoading(callback) {

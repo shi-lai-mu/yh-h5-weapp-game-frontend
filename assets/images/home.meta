@@ -1,7 +1,7 @@
 {
   "ver": "1.0.1",
   "uuid": "184ea745-f688-4cb5-a6f0-d1bca2805254",
-  "isSubpackage": false,
+  "isSubpackage": true,
   "subpackageName": "HomeImages",
   "subMetas": {}
 }
