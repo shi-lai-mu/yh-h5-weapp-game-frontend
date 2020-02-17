@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import tool from '../../utils/tool';
 
 const ItemData = cc.Class({
     name: 'itemData',
@@ -107,11 +108,21 @@ export default class NewClass extends cc.Component {
             }
 
             // 赢家
-            console.log(item.winner);
             if (item.winner) {
                 userItem.winner.opacity = 255;
             }
         });
+
+        this.roomId.string = '房间号：' + ( '000000' + initData.roomId).substr(-6);
+        this.Time.string = tool.dateFrom('yyyy/MM/dd HH:mm:ss', initData.time);
+    }
+
+
+    /**
+     * 返回大厅
+     */
+    backHome() {
+        cc.director.loadScene('Home');
     }
 
     // update (dt) {}

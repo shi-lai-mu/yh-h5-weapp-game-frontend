@@ -109,6 +109,7 @@ export default class GoBangMainService extends cc.Component {
             } else {
                 // 异常加入游戏房间，踢出到首页
                 // cc.director.loadScene('Home');
+                this.gameOver({});
             }
         });
 
@@ -301,7 +302,7 @@ export default class GoBangMainService extends cc.Component {
                 winner: !0,
             }],
             itemKey: [],
-            time: 10,
+            time: 1581941094008,
             roomId: 1,
         })
     }
