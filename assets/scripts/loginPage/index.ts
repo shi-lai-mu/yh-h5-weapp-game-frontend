@@ -174,13 +174,13 @@ export default class Login extends cc.Component {
                     'perfabScript', 'HomeScript', 'GamesScript',
                     'HomeImages', 'GameImages',
                 ],
-                scene: [ 'Home' ],
+                scene: [
+                    'Home',
+                ],
             }, (_packname, count, all) => {
-            console.log((count / all * 100) / 100);
             loadingScript.updateValue((count / all * 100) / 100);
             
             // 资源加载完成
-            console.log(count, all);
             if (count === all) {
                 timeout && clearTimeout(timeout);
                 cc.director.loadScene('Home');

@@ -7,8 +7,8 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-import socket from './utils/socketIO';
-import State from './utils/state';
+import socket from '../utils/socketIO';
+import State from '../utils/state';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
