@@ -42,23 +42,23 @@
         "__id__": 212
       },
       {
-        "__id__": 220
+        "__id__": 221
       },
       {
-        "__id__": 224
+        "__id__": 225
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 228
+        "__id__": 229
       },
       {
-        "__id__": 229
+        "__id__": 230
       }
     ],
     "_prefab": {
-      "__id__": 250
+      "__id__": 251
     },
     "_opacity": 255,
     "_color": {
@@ -7805,7 +7805,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 219
+      "__id__": 220
     },
     "_opacity": 255,
     "_color": {
@@ -8034,7 +8034,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 219
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -8091,6 +8095,16 @@
     "_id": ""
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "e80c6ZYa0tI9IU1OaNsfQJy",
+    "handler": "backHome",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -8112,14 +8126,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 221
+        "__id__": 222
       },
       {
-        "__id__": 222
+        "__id__": 223
       }
     ],
     "_prefab": {
-      "__id__": 223
+      "__id__": 224
     },
     "_opacity": 255,
     "_color": {
@@ -8173,7 +8187,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 220
+      "__id__": 221
     },
     "_enabled": true,
     "_materials": [
@@ -8182,8 +8196,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "房间号：202020",
-    "_N$string": "房间号：202020",
+    "_string": "房间号：000000",
+    "_N$string": "房间号：000000",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -8203,7 +8217,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 220
+      "__id__": 221
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8247,14 +8261,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 225
+        "__id__": 226
       },
       {
-        "__id__": 226
+        "__id__": 227
       }
     ],
     "_prefab": {
-      "__id__": 227
+      "__id__": 228
     },
     "_opacity": 255,
     "_color": {
@@ -8308,7 +8322,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 224
+      "__id__": 225
     },
     "_enabled": true,
     "_materials": [
@@ -8317,8 +8331,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "2020/02/17 02:20",
-    "_N$string": "2020/02/17 02:20",
+    "_string": "----/--/-- --:--",
+    "_N$string": "----/--/-- --:--",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -8338,7 +8352,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 224
+      "__id__": 225
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8409,23 +8423,23 @@
     "label": null,
     "UserItem": [
       {
-        "__id__": 230
+        "__id__": 231
       },
       {
-        "__id__": 235
+        "__id__": 236
       },
       {
-        "__id__": 240
+        "__id__": 241
       },
       {
-        "__id__": 245
+        "__id__": 246
       }
     ],
     "roomId": {
-      "__id__": 221
+      "__id__": 222
     },
     "Time": {
-      "__id__": 225
+      "__id__": 226
     },
     "_id": ""
   },
@@ -8442,9 +8456,6 @@
     },
     "item": [
       {
-        "__id__": 231
-      },
-      {
         "__id__": 232
       },
       {
@@ -8452,6 +8463,9 @@
       },
       {
         "__id__": 234
+      },
+      {
+        "__id__": 235
       }
     ],
     "winner": {
@@ -8510,9 +8524,6 @@
     },
     "item": [
       {
-        "__id__": 236
-      },
-      {
         "__id__": 237
       },
       {
@@ -8520,6 +8531,9 @@
       },
       {
         "__id__": 239
+      },
+      {
+        "__id__": 240
       }
     ],
     "winner": {
@@ -8578,9 +8592,6 @@
     },
     "item": [
       {
-        "__id__": 241
-      },
-      {
         "__id__": 242
       },
       {
@@ -8588,6 +8599,9 @@
       },
       {
         "__id__": 244
+      },
+      {
+        "__id__": 245
       }
     ],
     "winner": {
@@ -8646,9 +8660,6 @@
     },
     "item": [
       {
-        "__id__": 246
-      },
-      {
         "__id__": 247
       },
       {
@@ -8656,6 +8667,9 @@
       },
       {
         "__id__": 249
+      },
+      {
+        "__id__": 250
       }
     ],
     "winner": {
