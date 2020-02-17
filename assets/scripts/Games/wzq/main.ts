@@ -107,7 +107,7 @@ export default class GoBangMainService extends cc.Component {
                 !initS && this.initPiece();
             } else {
                 // 异常加入游戏房间，踢出到首页
-                cc.director.loadScene('Home');
+                // cc.director.loadScene('Home');
             }
         });
 
