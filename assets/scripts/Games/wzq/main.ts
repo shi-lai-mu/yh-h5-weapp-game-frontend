@@ -32,6 +32,8 @@ const cooling = 5 * 60;
 export default class GoBangMainService extends cc.Component {
     // 棋子资源
     @property(cc.Prefab) qz: cc.Prefab = null;
+    // 结算界面资源
+    @property(cc.Prefab) chessPrefab: cc.Prefab = null;
     // 房间号
     @property(cc.Label) roomCode: cc.Label = null;
     // 玩家
@@ -82,7 +84,6 @@ export default class GoBangMainService extends cc.Component {
             senderPlayer.setp.string = String(this.playersData[data.s].setp);
 
             this.playersData[senderID ? 0 : 1].timeOut = cooling;
-            cc.log(data);
         });
 
         State.io.on('rommleave', (data) => {
@@ -96,7 +97,7 @@ export default class GoBangMainService extends cc.Component {
      */
     fetchRoomInfo() {
         const that = this;
-        const { playersData, Players } = that;
+        const { Players } = that;
         axios.api('room_info').then(res => {
             if (res.status !== false && res.players) {
                 that.roomInfo = res;
@@ -285,6 +286,24 @@ export default class GoBangMainService extends cc.Component {
     gameOver(picec: any) {
         console.log('GAME OVER!!');
         console.log(picec);
+        const { Players } = this;
+        const chessPrefab = cc.instantiate(this.chessPrefab);
+        this.node.parent.addChild(chessPrefab);
+        const chessScript = chessPrefab.getComponent('overScript');
+        chessScript.init({
+            players: [{ 
+                nickname: 'shilaimu',
+                avatarUrl: Players[0].avatar.spriteFrame,
+                score: '10',
+                item: {
+                    allTime: 12,
+                },
+                winner: !0,
+            }],
+            itemKey: [],
+            time: 10,
+            roomId: 1,
+        })
     }
 
     // update (dt) {}
