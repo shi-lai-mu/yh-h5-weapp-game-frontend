@@ -28,7 +28,7 @@ const UserItem = cc.Class({
             default: [],
             type: ItemData,
         },
-        winner: cc.Boolean,
+        winner: cc.Node,
         Node: cc.Node,
     },
 })
@@ -45,8 +45,8 @@ export default class NewClass extends cc.Component {
         nickname: cc.Label;
         avatarUrl: cc.Sprite;
         score: cc.Label;
-        item: { key: cc.Label; value: cc.Label },
-        winner: Boolean;
+        item: { key: cc.Label; value: cc.Label }[],
+        winner: cc.Node;
         Node: cc.Node;
     }[] = [];
 
@@ -58,19 +58,59 @@ export default class NewClass extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
-
-    start () {
+    onLoad () {
         this.UserItem.forEach((item, index) => {
             item.Node.scale = 0;
-            // item.Node.y = item.Node.height;
-            console.log(item);
+        });
+    }
+
+    /**
+     * 初始化
+     * @param players - 玩家
+     * @param time    - 结束时间
+     * @param roomId  - 房间号
+     */
+    init(initData: {
+        players: { 
+            nickname: string;
+            avatarUrl: cc.SpriteFrame;
+            score: number;
+            item: { [key: string]: string },
+            winner: Boolean;
+        }[],
+        itemKey: string[],
+        time: number,
+        roomId: number,
+    }) {
+        const { UserItem } = this;
+        const { players } = initData;
+        players.forEach((item, index) => {
+            const userItem = UserItem[index];
             setTimeout(() => {
-                item.Node.runAction(
+                userItem.Node.runAction(
                     cc.scaleTo(1, 0.314, 0.456).easing(cc.easeBackOut()),
-                    // cc.moveTo(.5, new cc.Vec2(0, -item.Node.height))
                 );
-            }, index * 200);
+            }, index * 100);
+            userItem.nickname.string = item.nickname;
+            userItem.score.string = String(item.score);
+            userItem.avatarUrl.spriteFrame = item.avatarUrl;
+
+            // 得分项目
+            const params = item.item;
+            let i = 0;
+            for (const key in params) {
+                const keyName = initData.itemKey[key] || key;
+                const keyValue = params[key];
+                userItem.item[i].key.string = keyName;
+                userItem.item[i].value.string = keyValue;
+                i++;
+            }
+
+            // 赢家
+            console.log(item.winner);
+            if (item.winner) {
+                userItem.winner.opacity = 255;
+            }
         });
     }
 

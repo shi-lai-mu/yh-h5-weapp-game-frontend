@@ -2082,7 +2082,7 @@
     "_prefab": {
       "__id__": 56
     },
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -3903,7 +3903,7 @@
     "_prefab": {
       "__id__": 106
     },
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -5724,7 +5724,7 @@
     "_prefab": {
       "__id__": 156
     },
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -7545,7 +7545,7 @@
     "_prefab": {
       "__id__": 206
     },
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -8454,7 +8454,9 @@
         "__id__": 234
       }
     ],
-    "winner": false,
+    "winner": {
+      "__id__": 54
+    },
     "Node": {
       "__id__": 9
     }
@@ -8520,7 +8522,9 @@
         "__id__": 239
       }
     ],
-    "winner": false,
+    "winner": {
+      "__id__": 104
+    },
     "Node": {
       "__id__": 59
     }
@@ -8586,7 +8590,9 @@
         "__id__": 244
       }
     ],
-    "winner": false,
+    "winner": {
+      "__id__": 154
+    },
     "Node": {
       "__id__": 109
     }
@@ -8652,7 +8658,9 @@
         "__id__": 249
       }
     ],
-    "winner": false,
+    "winner": {
+      "__id__": 204
+    },
     "Node": {
       "__id__": 159
     }
