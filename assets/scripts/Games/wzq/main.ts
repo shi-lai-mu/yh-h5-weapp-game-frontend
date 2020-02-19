@@ -63,6 +63,8 @@ export default class GoBangMainService extends cc.Component {
     roomInfo = {};
     // 加入事件容器
     roomJoinEvent = () => this.fetchRoomInfo();
+    // 下棋事件容器
+    roomDataEevent = (data) => this.roomData(data);
     // 是否为人机模式
     isMachine: boolean = !1;
 
@@ -74,7 +76,7 @@ export default class GoBangMainService extends cc.Component {
         // 获取房间数据并且绑定事件
         State.io.on('rommjoin', this.roomJoinEvent);
         this.fetchRoomInfo();
-        State.io.on('room/data', this.roomData);
+        State.io.on('room/data', this.roomDataEevent);
         State.io.on('rommleave', (data) => {
             console.log(data);
             this.gameOver(data);
@@ -251,7 +253,7 @@ export default class GoBangMainService extends cc.Component {
     onDestroy() {
         // 接触IM玩家加入房间事件绑定
         State.io.off('rommjoin', this.roomJoinEvent);
-        State.io.off('room/data', this.roomData);
+        State.io.off('room/data', this.roomDataEevent);
         clock && clearInterval(clock);
     }
 
