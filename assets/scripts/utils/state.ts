@@ -13,12 +13,13 @@
  * 负责数据缓存
  */
 import * as io from 'socket.io-client';
+const userInfo = localStorage.getItem('userInfo');
 
 export default  {
     /**
      * 用户数据
      */
-    userInfo: {
+    userInfo: userInfo ? JSON.parse(userInfo) : {
         id: '0000',
         nickname: '* * * * * *',
         diamond: 0,
@@ -36,6 +37,16 @@ export default  {
      * 游戏数据
      */
     gameData: {
+        id: -1,
+        gameName: '',
+        peopleMax: 0,
+        frequency: 0,
+        payType: 0,
+        pwdType: 0,
+        roomCode: '',
+        roomPwd: -1,
+        gameData: { createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0 },
         players: [],
+        isStart: !0,
     },
 }

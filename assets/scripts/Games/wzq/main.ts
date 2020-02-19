@@ -24,9 +24,14 @@ const Player = cc.Class({
     properties: PlayerItem,
 })
 // 初始化棋子
-let initS = !1;
 let clock = null;
 const cooling = 5 * 60;
+var box = []; //全部落子点
+var wins = []; //全部赢的方法 三维数组
+var count = 0; //总共赢的数量572种
+var myWin = []; //
+var computerScore = []; //计算机分数
+var computerWin = [];
 
 @ccclass
 export default class GoBangMainService extends cc.Component {
@@ -56,7 +61,11 @@ export default class GoBangMainService extends cc.Component {
     picecArray: any = [];
     // 房间数据
     roomInfo = {};
-    roomJoinEvent = () => this.fetchRoomInfo()
+    // 加入事件容器
+    roomJoinEvent = () => this.fetchRoomInfo();
+    // 是否为人机模式
+    isMachine: boolean = !1;
+
 
     /**
      * 界面加载时
@@ -78,7 +87,7 @@ export default class GoBangMainService extends cc.Component {
      */
     roomData(data) {
         const arr = this.picecArray;
-        data = JSON.parse(data);
+        data = typeof data === 'string' ? JSON.parse(data) : data;
         const targetPiece = arr[data.y][data.x];
         const senderID = data.s;
         const senderUser = this.playersData[senderID];
@@ -100,7 +109,6 @@ export default class GoBangMainService extends cc.Component {
      */
     fetchRoomInfo() {
         const that = this;
-        const { Players } = that;
         axios.api('room_info').then(res => {
             if (res.status !== false && res.players) {
                 that.roomInfo = res;
@@ -108,34 +116,132 @@ export default class GoBangMainService extends cc.Component {
                 that.playersData = [];
                 (res.players || []).forEach((player) => this.playerJoin(player));
                 State.gameData = res;
-                !initS && this.initPiece();
 
                 // 开始游戏判断
                 if (res.isStart) {
-                    Players.forEach((player: any, index) => {
-                        player.setp.string = 0;
-                        player.timeOut.string = timeFrom(0);
-                        this.playersData[0].timeOut = cooling;
-                    });
-                    !clock && (clock = setInterval(() => {
-                        this.playersData.forEach((player, index) => {
-                            if (player.timeOut) {
-                                player.timeOut--;
-                                Players[index].timeOut.string = timeFrom(player.timeOut);
-                            } else if (player.timeOut === 0) {
-                                Players[index].timeOut.string = timeFrom(0);
-                            }
-                        })
-                    }, 1000));
+                    this.startGame();
                 }
             } else {
                 // 异常加入游戏房间，踢出到首页
                 // cc.director.loadScene('Home');
                 // 人机模式
-
-                // this.gameOver({});
+                this.playerJoin(State.userInfo);
+                this.playerJoin({
+                    id: -1,
+                    nickname: '电脑玩家',
+                    avatarUrl: 0,
+                });
+                State.gameData = {
+                    id: 1,
+                    gameName: 'gobang',
+                    peopleMax: 0,
+                    frequency: 0,
+                    payType: 0,
+                    pwdType: 0,
+                    roomCode: "262238",
+                    roomPwd: -1,
+                    gameData: {createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0},
+                    players: this.playersData,
+                    isStart: !0,
+                }
+                this.isMachine = !0;
+                this.startGame();
+                this.initModel();
             }
         });
+    }
+
+
+    /**
+     * 人机下棋
+     */
+    machineDownPiece(data) {
+        this.roomData(data);
+
+        box[data.y][data.x] = 0;
+        var myScore = []; //我方分数
+        var max = 0; //最大分数
+        var u = 0, v = 0; //最大分数点
+        for(var k = 0; k<count; k++) {//第几种赢法
+            if(wins[data.y][data.x][k]) {
+            myWin[k]++;
+                computerWin[k] = 999; //因为我方在这个点上已经落子，所以计算机不可能在这个点上赢，
+                // if(myWin[k] == 5) {
+                //     console.log('你赢了')
+                // }
+            }
+        }
+        for (var i = 0; i < 15; i++) {
+            myScore[i] = [];
+            computerScore[i] = [];
+            for (var j = 0; j < 15; j++) {
+                myScore[i][j] = 0;
+                computerScore[i][j] = 0;
+            }
+        }
+        for (var i = 0; i < 15; i++) {
+            for (var j = 0; j < 15; j++) {
+                if (box[i][j] == -1) { //每个空闲点上进行计算分数
+                    for (var k = 0; k < count; k++) { //遍历所有可以赢的，数量
+                        if (wins[i][j][k]) { //可以赢的点进行算分
+                            if (myWin[k] == 1) {
+                                myScore[i][j] += 200;
+                            } else if (myWin[k] == 2) {
+                                myScore[i][j] += 400;
+                            } else if (myWin[k] == 3) {
+                                myScore[i][j] += 2000;
+                            } else if (myWin[k] == 4) {
+                                myScore[i][j] += 10000;
+                            }
+
+                            if (computerWin[k] == 1) {
+                                computerScore[i][j] += 220;
+                            } else if (computerWin[k] == 2) {
+                                computerScore[i][j] += 420;
+                            } else if (computerWin[k] == 3) {
+                                computerScore[i][j] += 2100;
+                            } else if (computerWin[k] == 4) {
+                                computerScore[i][j] += 20000;
+                            }
+                        }
+                    }
+                    //得出最大分数的点，并赋给u,v
+                    if (myScore[i][j] > max) {
+                        max = myScore[i][j];
+                        u = i;
+                        v = j;
+                    } else if (myScore[i][j] == max) {
+                        if (computerScore[i][j] > computerScore[u][v]) {
+                            u = i;
+                            v = j;
+                        }
+                    }
+
+                    if (computerScore[i][j] > max) {
+                        max = computerScore[i][j];
+                        u = i;
+                        v = j;
+                    } else if (computerScore[i][j] == max) {
+                        if (myScore[i][j] > myScore[u][v]) {
+                            u = i;
+                            v = j;
+                        }
+                    }
+
+                }//所有空闲点上进行计算分数
+            }
+        }
+        this.picecArray[u][v].script.ioClick(1)
+        box[u][v] = 1;
+        for (var k = 0; k < count; k++) {//第几种赢法
+            if (wins[u][v][k]) {
+                computerWin[k]++;
+                myWin[k] = 999;
+                // if (computerWin[k] == 5) {
+                //     console.log('计算机赢了--')
+                // }
+            }
+        }
     }
 
 
@@ -161,7 +267,6 @@ export default class GoBangMainService extends cc.Component {
                 poeceID = index;
             }
         });
-
         if (poeceID === -1) {
             return;
         }
@@ -169,15 +274,19 @@ export default class GoBangMainService extends cc.Component {
         const arr = this.picecArray;
         // 预设棋盘棋子为透明定位至方格上
         for (let y = 0; y < 15; y++) {
+            box[y] = [];
+            wins[y] = [];
             arr.push([]);
             for (let x = 0; x < 15; x++) {
+                box[y][x] = -1;
+                wins[y][x] = [];
                 const newQz = cc.instantiate(this.qz);
                 const qzScript = newQz.getComponent('qz');
                 const Point = {
                     row: y,
                     col: x,
                     x: x * 36.5 - (36.5 * 7),
-                    y: y * 36 - (36 * 7),
+                    y: y * 36 + (36 * 7) - (y * 2 * 36),
                     pieceType: -1,
                     script: qzScript,
                 };
@@ -192,7 +301,6 @@ export default class GoBangMainService extends cc.Component {
                 arr[arr.length - 1].push(Point);
             }
         }
-        initS = !0;
     }
 
     
@@ -213,6 +321,30 @@ export default class GoBangMainService extends cc.Component {
             target.avatar.spriteFrame = spriteFrame;
         });
         target.nickName.string = userInfo.nickname;
+    }
+
+
+    /**
+     * 开始游戏
+     */
+    startGame() {
+        this.initPiece();
+        const { Players } = this;
+        Players.forEach((player: any, index) => {
+            player.setp.string = 0;
+            player.timeOut.string = timeFrom(0);
+            this.playersData[0].timeOut = cooling;
+        });
+        !clock && (clock = setInterval(() => {
+            this.playersData.forEach((player, index) => {
+                if (player.timeOut) {
+                    player.timeOut--;
+                    Players[index].timeOut.string = timeFrom(player.timeOut);
+                } else if (player.timeOut === 0) {
+                    Players[index].timeOut.string = timeFrom(0);
+                }
+            })
+        }, 1000));
     }
 
 
@@ -304,6 +436,61 @@ export default class GoBangMainService extends cc.Component {
             time: 1581941094008,
             roomId: 1,
         })
+    }
+
+
+    /**
+     * 初始化模型
+     */
+    initModel() {
+        for (var i = 0; i < 15; i++) {
+            wins[i] = [];
+            for (var j = 0; j < 15; j++) {
+                wins[i][j] = [];
+            }
+        }
+        //横向
+        for (var a = 0; a < 15; a++) {
+            for (var b = 0; b < 11; b++) {
+                for (var c = 0; c < 5; c++) {
+                    wins[a][b + c][count] = true;
+                }
+                count++;
+            }
+        }
+        //纵向
+        for (var a = 0; a < 15; a++) {
+            for (var b = 0; b < 11; b++) {
+                for (var c = 0; c < 5; c++) {
+                    wins[b + c][a][count] = true;
+                }
+                count++;
+            }
+        }
+
+        //斜 '\'
+        for (var a = 0; a < 11; a++) {
+            for (var b = 0; b < 11; b++) {
+                for (var c = 0; c < 5; c++) {
+                    wins[a + c][b + c][count] = true;
+                }
+                count++;
+            }
+        }
+        //反斜 '/'
+        for (var a = 0; a < 11; a++) {
+            for (var b = 4; b < 15; b++) {
+                for (var c = 0; c < 5; c++) {
+                    wins[a + c][b - c][count] = true;
+                }
+                count++;
+            }
+        }
+
+        for(var i = 0; i < count;i++) {
+            myWin[i] = 0;
+            computerWin[i] = 0;
+        }
     }
 
     // update (dt) {}

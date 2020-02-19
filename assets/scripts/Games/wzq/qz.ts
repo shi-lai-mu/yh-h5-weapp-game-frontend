@@ -12,7 +12,7 @@ const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GoBangQz extends cc.Component {
 
     @property(cc.Node)
     qzH: cc.Node = null;
@@ -56,14 +56,19 @@ export default class NewClass extends cc.Component {
      */
     onClick(pieceType) {
         pieceType = typeof pieceType === 'number' ? pieceType : this.pieceType;
-        const { point } = this;
+        const { point, game } = this;
         const { row, col } = point;
+        const pointObject = {
+            x: col,
+            y: row,
+            s: pieceType,
+        };
         if (point.pieceType === -1) {
-            State.io.emit('goBang/setp', {
-                x: col,
-                y: row,
-                s: pieceType,
-            });
+            if (game.isMachine) {
+                game.machineDownPiece(pointObject);
+            } else {
+                State.io.emit('goBang/setp', pointObject;
+            }
         }
     }
 
