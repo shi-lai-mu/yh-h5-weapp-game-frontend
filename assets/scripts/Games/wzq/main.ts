@@ -65,30 +65,33 @@ export default class GoBangMainService extends cc.Component {
         // 获取房间数据并且绑定事件
         State.io.on('rommjoin', this.roomJoinEvent);
         this.fetchRoomInfo();
-        const arr = this.picecArray;
-        // const playersData = this.playersData;
-        
-        // 对方下棋时
-        State.io.on('room/data', (data) => {
-            data = JSON.parse(data);
-            const targetPiece = arr[data.y][data.x];
-            const senderID = data.s;
-            const senderUser = this.playersData[senderID];
-            const senderPlayer = this.Players[senderID];
-            if (targetPiece) {
-                targetPiece.script.ioClick(senderID);
-            }
-            senderUser.timeOut = 0;
-            senderUser.setp++;
-            senderPlayer.timeOut.string = timeFrom(0);
-            senderPlayer.setp.string = String(this.playersData[data.s].setp);
-
-            this.playersData[senderID ? 0 : 1].timeOut = cooling;
-        });
-
+        State.io.on('room/data', this.roomData);
         State.io.on('rommleave', (data) => {
             console.log(data);
+            this.gameOver(data);
         });
+    }
+
+
+    /**
+     * 下棋时
+     */
+    roomData(data) {
+        const arr = this.picecArray;
+        data = JSON.parse(data);
+        const targetPiece = arr[data.y][data.x];
+        const senderID = data.s;
+        const senderUser = this.playersData[senderID];
+        const senderPlayer = this.Players[senderID];
+        if (targetPiece) {
+            targetPiece.script.ioClick(senderID);
+        }
+        senderUser.timeOut = 0;
+        senderUser.setp++;
+        senderPlayer.timeOut.string = timeFrom(0);
+        senderPlayer.setp.string = String(this.playersData[data.s].setp);
+
+        this.playersData[senderID ? 0 : 1].timeOut = cooling;
     }
 
 
@@ -106,36 +109,31 @@ export default class GoBangMainService extends cc.Component {
                 (res.players || []).forEach((player) => this.playerJoin(player));
                 State.gameData = res;
                 !initS && this.initPiece();
+
+                // 开始游戏判断
+                if (res.isStart) {
+                    Players.forEach((player: any, index) => {
+                        player.setp.string = 0;
+                        player.timeOut.string = timeFrom(0);
+                        this.playersData[0].timeOut = cooling;
+                    });
+                    !clock && (clock = setInterval(() => {
+                        this.playersData.forEach((player, index) => {
+                            if (player.timeOut) {
+                                player.timeOut--;
+                                Players[index].timeOut.string = timeFrom(player.timeOut);
+                            } else if (player.timeOut === 0) {
+                                Players[index].timeOut.string = timeFrom(0);
+                            }
+                        })
+                    }, 1000));
+                }
             } else {
                 // 异常加入游戏房间，踢出到首页
                 // cc.director.loadScene('Home');
-                this.gameOver({});
-            }
-        });
+                // 人机模式
 
-        // 开始游戏判断
-        axios.api('room_isStart', {
-            params: {
-                gameName: 'gobang',
-            },
-        }).then(({ status }) => {
-            // 初始化
-            if (status) {
-                Players.forEach((player: any, index) => {
-                    player.setp.string = 0;
-                    player.timeOut.string = timeFrom(0);
-                    this.playersData[0].timeOut = cooling;
-                });
-                !clock && (clock = setInterval(() => {
-                    this.playersData.forEach((player, index) => {
-                        if (player.timeOut) {
-                            player.timeOut--;
-                            Players[index].timeOut.string = timeFrom(player.timeOut);
-                        } else if (player.timeOut === 0) {
-                            Players[index].timeOut.string = timeFrom(0);
-                        }
-                    })
-                }, 1000));
+                // this.gameOver({});
             }
         });
     }
@@ -147,6 +145,7 @@ export default class GoBangMainService extends cc.Component {
     onDestroy() {
         // 接触IM玩家加入房间事件绑定
         State.io.off('rommjoin', this.roomJoinEvent);
+        State.io.off('room/data', this.roomData);
         clock && clearInterval(clock);
     }
 
