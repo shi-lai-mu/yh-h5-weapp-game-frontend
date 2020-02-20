@@ -12,6 +12,9 @@ const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 import axios from '../../utils/axiosUtils';
 
+/**
+ * 玩家数据
+ */
 const PlayerItem = {
     dataIndex: 0,
     nickName: cc.Label,
@@ -23,15 +26,16 @@ const Player = cc.Class({
     name: 'PlayerItem',
     properties: PlayerItem,
 })
-// 初始化棋子
-let clock = null;
-const cooling = 5 * 60;
-var box = []; //全部落子点
-var wins = []; //全部赢的方法 三维数组
-var count = 0; //总共赢的数量572种
-var myWin = []; //
-var computerScore = []; //计算机分数
-var computerWin = [];
+
+let clock = null;         // 计时器
+let count = 0;            // 总共赢的数量572种
+const cooling = 5 * 60;   // 冷却时间
+const box = [];           // 全部落子点
+const wins = [];          // 全部赢的方法 三维数组
+const myWin = [];         // 玩家落棋位置
+const computerScore = []; // 电脑分数
+const computerWin = [];   // 电脑落棋位置
+
 
 @ccclass
 export default class GoBangMainService extends cc.Component {
@@ -56,6 +60,7 @@ export default class GoBangMainService extends cc.Component {
         avatarUrl: number;
         setp: number;
         timeOut: number;
+        time: number,
     }[] = [];
     // 棋子数据
     picecArray: any = [];
@@ -126,22 +131,39 @@ export default class GoBangMainService extends cc.Component {
     gameOver(picec: any) {
         console.log('GAME OVER!!');
         console.log(picec);
-        const { Players } = this;
+        const { Players, playersData } = this;
         const chessPrefab = cc.instantiate(this.chessPrefab);
         this.node.parent.addChild(chessPrefab);
         const chessScript = chessPrefab.getComponent('overScript');
+
+        const winnerUser = playersData[picec.type];
+        const loserUser = playersData[picec.type ? 0 : 1];
+console.log(winnerUser.time);
         clearInterval(clock);
         chessScript.init({
             players: [{ 
-                nickname: 'shilaimu',
-                avatarUrl: Players[0].avatar.spriteFrame,
-                score: '10',
+                nickname: winnerUser.nickname,
+                avatarUrl: Players[picec.type].avatar.spriteFrame,
+                score: Math.round(winnerUser.setp + ((cooling - (winnerUser.time || 1) / winnerUser.setp) || 0)),
                 item: {
-                    allTime: 12,
+                    setp: winnerUser.setp + 1,
+                    time: Math.floor(winnerUser.time / winnerUser.setp) + 's',
                 },
                 winner: !0,
+            },{ 
+                nickname: loserUser.nickname,
+                avatarUrl: Players[picec.type ? 0 : 1].avatar.spriteFrame,
+                score: Math.round(loserUser.setp + ((cooling / 2 - (loserUser.time || 1) / loserUser.setp) || 0)),
+                item: {
+                    setp: loserUser.setp,
+                    time: Math.floor(loserUser.time / loserUser.setp) + 's',
+                },
+                winner: !1,
             }],
-            itemKey: [],
+            itemKey: {
+                setp: '步数',
+                time: '平均耗时',
+            },
             time: 1581941094008,
             roomId: 1,
         })
@@ -207,6 +229,7 @@ export default class GoBangMainService extends cc.Component {
             ...userInfo,
             setp: 0,
             timeOut: 0,
+            time: 0,
         }) - 1;
         const target = this.Players[userIndex];
         target.dataIndex = userIndex;
@@ -222,9 +245,7 @@ export default class GoBangMainService extends cc.Component {
      * @param data - 棋子坐标
      */
     roomData(data: { x: number; y: number; s: number; }) {
-        console.log(data);
         if (!data || data.y === undefined || data.x === undefined || data.s === undefined) return;
-        console.log(data);
         const arr = this.picecArray;
         data = typeof data === 'string' ? JSON.parse(data) : data;
         const targetPiece = arr[data.y][data.x];
@@ -234,6 +255,7 @@ export default class GoBangMainService extends cc.Component {
         if (targetPiece) {
             targetPiece.script.ioClick(senderID);
         }
+        senderUser.time += cooling - senderUser.timeOut;
         senderUser.timeOut = 0;
         senderUser.setp++;
         senderPlayer.timeOut.string = timeFrom(0);
