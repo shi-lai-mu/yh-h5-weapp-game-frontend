@@ -45,6 +45,10 @@ export default class GoBangMainService extends cc.Component {
     @property(cc.Prefab) chessPrefab: cc.Prefab = null;
     // 房间号
     @property(cc.Label) roomCode: cc.Label = null;
+    // 弹窗
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
+    // 主节点
+    @property(cc.Canvas) Canvas: cc.Canvas = null;
     // 玩家
     @property(Player) Players: {
         dataIndex: number;
@@ -65,11 +69,13 @@ export default class GoBangMainService extends cc.Component {
     // 棋子数据
     picecArray: any = [];
     // 房间数据
-    roomInfo = {};
+    roomInfo: any = {};
     // 加入事件容器
     roomJoinEvent = () => this.fetchRoomInfo();
     // 下棋事件容器
     roomDataEevent = (data) => this.roomData(data);
+    // 离开事件容器
+    roomExitEevent = (data) => this.rommleave(data);
     // 是否为人机模式
     isMachine: boolean = !1;
 
@@ -82,12 +88,7 @@ export default class GoBangMainService extends cc.Component {
         State.io.on('rommjoin', this.roomJoinEvent);
         this.fetchRoomInfo();
         State.io.on('room/data', this.roomDataEevent);
-        State.io.on('rommleave', (data) => {
-            data = typeof data === 'string' ? JSON.parse(data) : data;
-            this.gameOver({
-                type: data.id ? 0 : 1,
-            });
-        });
+        State.io.on('rommleave', this.roomExitEevent);
     }
 
 
@@ -98,7 +99,31 @@ export default class GoBangMainService extends cc.Component {
         // 接触IM玩家加入房间事件绑定
         State.io.off('rommjoin', this.roomJoinEvent);
         State.io.off('room/data', this.roomDataEevent);
+        State.io.off('rommleave', this.roomExitEevent);
+        
+        State.io.emit('room/exit');
         clock && clearInterval(clock);
+    }
+
+
+    /**
+     * 返回首页
+     */
+    backHome() {
+        const popup = cc.instantiate(this.popupPrefab);
+        this.Canvas.node.addChild(popup);
+        const scriptPopup = popup.getComponent('popup');
+        console.log(State, this.playersData);
+        this.playersData.forEach((item, index: number) => {
+            if (item.id === State.userInfo.id) {
+                console.log(index);
+                scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
+                scriptPopup.setEvent('success', () => {
+                    this.gameOver({ type: index ? 0 : 1 });
+                });
+                scriptPopup.setEvent('close', () => {});
+            }
+        });
     }
 
 
@@ -140,10 +165,14 @@ export default class GoBangMainService extends cc.Component {
         const chessPrefab = cc.instantiate(this.chessPrefab);
         this.node.parent.addChild(chessPrefab);
         const chessScript = chessPrefab.getComponent('overScript');
-
         const winnerUser = playersData[picec.type];
         const loserUser = playersData[picec.type ? 0 : 1];
-        clearInterval(clock);
+        axios.api('room_exit', {
+            data: {
+                roomCode: this.roomInfo.id,
+            },
+        }).then(() => {});
+
         chessScript.init({
             players: [{ 
                 nickname: winnerUser.nickname,
@@ -174,7 +203,19 @@ export default class GoBangMainService extends cc.Component {
             },
             time: State.gameData.gameData.createTime,
             roomId: State.gameData.roomCode,
-        })
+        });
+    }
+
+
+    /**
+     * 离开房间事件
+     * @param data - 离开房间数据
+     */
+    rommleave(data) {
+        data = typeof data === 'string' ? JSON.parse(data) : data;
+        this.gameOver({
+            type: data.id ? 0 : 1,
+        });
     }
 
 

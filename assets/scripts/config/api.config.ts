@@ -21,6 +21,7 @@ export default {
   create_room:       'post./room/:gameName',                        // 创建房间
   room_info:         'get./room/info',                              // 房间详细
   room_join:         'post./room/join',                             // 加入房间
+  room_exit:         'post./room/exit',                             // 退出房间
   room_isStart:      'get./room/:gameName/isStart',                 // 游戏是否开始
 
   // 商城
