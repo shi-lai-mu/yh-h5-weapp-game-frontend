@@ -27,6 +27,7 @@ export default class NewClass extends cc.Component {
             // 数据失效恢复
             State.io.emit('connect/test');
         }
+        console.log(123456);
     }
 
 

@@ -316,7 +316,7 @@
       "col": 0,
       "pieceType": 1
     },
-    "audio": {
+    "pieceAudio": {
       "__uuid__": "7d1d8544-2998-4c5b-941d-f240da423979"
     },
     "pieceType": -1,
