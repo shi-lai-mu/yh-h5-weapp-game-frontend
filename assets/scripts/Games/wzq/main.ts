@@ -83,8 +83,10 @@ export default class GoBangMainService extends cc.Component {
         this.fetchRoomInfo();
         State.io.on('room/data', this.roomDataEevent);
         State.io.on('rommleave', (data) => {
-            console.log(data);
-            this.gameOver(data);
+            data = typeof data === 'string' ? JSON.parse(data) : data;
+            this.gameOver({
+                type: data.id ? 0 : 1,
+            });
         });
     }
 
@@ -116,6 +118,11 @@ export default class GoBangMainService extends cc.Component {
                 if (player.timeOut) {
                     player.timeOut--;
                     Players[index].timeOut.string = timeFrom(player.timeOut);
+                    if(player.timeOut === 0) {
+                        this.gameOver({
+                            type: index ? 0 : 1,
+                        });
+                    }
                 } else if (player.timeOut === 0) {
                     Players[index].timeOut.string = timeFrom(0);
                 }
@@ -129,8 +136,6 @@ export default class GoBangMainService extends cc.Component {
      * @param point - 棋子坐标
      */
     gameOver(picec: any) {
-        console.log('GAME OVER!!');
-        console.log(picec);
         const { Players, playersData } = this;
         const chessPrefab = cc.instantiate(this.chessPrefab);
         this.node.parent.addChild(chessPrefab);
@@ -138,25 +143,28 @@ export default class GoBangMainService extends cc.Component {
 
         const winnerUser = playersData[picec.type];
         const loserUser = playersData[picec.type ? 0 : 1];
-console.log(winnerUser.time);
         clearInterval(clock);
         chessScript.init({
             players: [{ 
                 nickname: winnerUser.nickname,
                 avatarUrl: Players[picec.type].avatar.spriteFrame,
-                score: Math.round(winnerUser.setp + ((cooling - (winnerUser.time || 1) / winnerUser.setp) || 0)),
+                score: winnerUser.setp
+                    ? Math.round(winnerUser.setp + ((cooling - (winnerUser.time || 1) / winnerUser.setp) || 0))
+                    : 0,
                 item: {
                     setp: winnerUser.setp + 1,
-                    time: Math.floor(winnerUser.time / winnerUser.setp) + 's',
+                    time: winnerUser.setp ? Math.floor(winnerUser.time / winnerUser.setp) + 's' : 0,
                 },
                 winner: !0,
             },{ 
                 nickname: loserUser.nickname,
                 avatarUrl: Players[picec.type ? 0 : 1].avatar.spriteFrame,
-                score: Math.round(loserUser.setp + ((cooling / 2 - (loserUser.time || 1) / loserUser.setp) || 0)),
+                score: loserUser.setp
+                    ? Math.round(loserUser.setp + ((cooling / 2 - (loserUser.time || 1) / loserUser.setp) || 0))
+                    : 0,
                 item: {
                     setp: loserUser.setp,
-                    time: Math.floor(loserUser.time / loserUser.setp) + 's',
+                    time: loserUser.setp ? Math.floor(loserUser.time / loserUser.setp) + 's' : 0,
                 },
                 winner: !1,
             }],
@@ -164,8 +172,8 @@ console.log(winnerUser.time);
                 setp: '步数',
                 time: '平均耗时',
             },
-            time: 1581941094008,
-            roomId: 1,
+            time: State.gameData.gameData.createTime,
+            roomId: State.gameData.roomCode,
         })
     }
 
@@ -205,9 +213,9 @@ console.log(winnerUser.time);
                     frequency: 0,
                     payType: 0,
                     pwdType: 0,
-                    roomCode: "262238",
+                    roomCode: "------",
                     roomPwd: -1,
-                    gameData: { createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0 },
+                    gameData: { createTime: Date.now(), blackSetp: 0, whiteSetp: 0, target: 0 },
                     players: this.playersData,
                     isStart: !0,
                 }
@@ -245,9 +253,9 @@ console.log(winnerUser.time);
      * @param data - 棋子坐标
      */
     roomData(data: { x: number; y: number; s: number; }) {
+        data = typeof data === 'string' ? JSON.parse(data) : data;
         if (!data || data.y === undefined || data.x === undefined || data.s === undefined) return;
         const arr = this.picecArray;
-        data = typeof data === 'string' ? JSON.parse(data) : data;
         const targetPiece = arr[data.y][data.x];
         const senderID = data.s;
         const senderUser = this.playersData[senderID];
