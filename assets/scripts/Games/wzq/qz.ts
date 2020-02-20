@@ -30,8 +30,10 @@ export default class GoBangQz extends cc.Component {
         pieceType: -1,
     };
 
-    @property(cc.AudioClip)
-    audio: cc.AudioClip = null;
+    @property({
+        type: cc.AudioClip,
+    })
+    pieceAudio: cc.AudioClip = null;
 
 
     @property({ visible: !0 })
@@ -67,11 +69,16 @@ export default class GoBangQz extends cc.Component {
             if (game.isMachine) {
                 game.machineDownPiece(pointObject);
             } else {
-                State.io.emit('goBang/setp', pointObject;
+                State.io.emit('goBang/setp', pointObject);
             }
         }
     }
 
+
+    /**
+     * io触发棋子显现
+     * @param pieceType - 棋子类型 0：黑子  1：白子
+     */
     ioClick(pieceType) {
         pieceType = typeof pieceType === 'number' ? pieceType : this.pieceType;
         const { point } = this;
@@ -81,7 +88,7 @@ export default class GoBangQz extends cc.Component {
             this.qzB.scale = pieceType ? 1 : 0;
             this.qzH.scale = pieceType ? 0 : 1;
             
-            cc.audioEngine.playEffect(this.audio, false);
+            cc.audioEngine.playEffect(this.pieceAudio, false);
             // 五子连通检测
             this.game.checkConnectivity(point, pieceType);
         }

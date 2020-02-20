@@ -85,24 +85,66 @@ export default class GoBangMainService extends cc.Component {
 
 
     /**
-     * 下棋时
+     * 游戏场景销毁时
      */
-    roomData(data) {
-        const arr = this.picecArray;
-        data = typeof data === 'string' ? JSON.parse(data) : data;
-        const targetPiece = arr[data.y][data.x];
-        const senderID = data.s;
-        const senderUser = this.playersData[senderID];
-        const senderPlayer = this.Players[senderID];
-        if (targetPiece) {
-            targetPiece.script.ioClick(senderID);
-        }
-        senderUser.timeOut = 0;
-        senderUser.setp++;
-        senderPlayer.timeOut.string = timeFrom(0);
-        senderPlayer.setp.string = String(this.playersData[data.s].setp);
+    onDestroy() {
+        // 接触IM玩家加入房间事件绑定
+        State.io.off('rommjoin', this.roomJoinEvent);
+        State.io.off('room/data', this.roomDataEevent);
+        clock && clearInterval(clock);
+    }
 
-        this.playersData[senderID ? 0 : 1].timeOut = cooling;
+
+    /**
+     * 开始游戏
+     */
+    startGame() {
+        this.initPiece();
+        const { Players } = this;
+        Players.forEach((player: any, index) => {
+            player.setp.string = 0;
+            player.timeOut.string = timeFrom(0);
+            this.playersData[0].timeOut = cooling;
+        });
+        !clock && (clock = setInterval(() => {
+            this.playersData.forEach((player, index) => {
+                if (player.timeOut) {
+                    player.timeOut--;
+                    Players[index].timeOut.string = timeFrom(player.timeOut);
+                } else if (player.timeOut === 0) {
+                    Players[index].timeOut.string = timeFrom(0);
+                }
+            })
+        }, 1000));
+    }
+
+
+    /**
+     * 游戏结束
+     * @param point - 棋子坐标
+     */
+    gameOver(picec: any) {
+        console.log('GAME OVER!!');
+        console.log(picec);
+        const { Players } = this;
+        const chessPrefab = cc.instantiate(this.chessPrefab);
+        this.node.parent.addChild(chessPrefab);
+        const chessScript = chessPrefab.getComponent('overScript');
+        clearInterval(clock);
+        chessScript.init({
+            players: [{ 
+                nickname: 'shilaimu',
+                avatarUrl: Players[0].avatar.spriteFrame,
+                score: '10',
+                item: {
+                    allTime: 12,
+                },
+                winner: !0,
+            }],
+            itemKey: [],
+            time: 1581941094008,
+            roomId: 1,
+        })
     }
 
 
@@ -136,13 +178,14 @@ export default class GoBangMainService extends cc.Component {
                 State.gameData = {
                     id: 1,
                     gameName: 'gobang',
+                    name: '五子棋 人机对战',
                     peopleMax: 0,
                     frequency: 0,
                     payType: 0,
                     pwdType: 0,
                     roomCode: "262238",
                     roomPwd: -1,
-                    gameData: {createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0},
+                    gameData: { createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0 },
                     players: this.playersData,
                     isStart: !0,
                 }
@@ -153,20 +196,67 @@ export default class GoBangMainService extends cc.Component {
         });
     }
 
+    
+    /**
+     * 玩家加入房间
+     * @param userInfo - 玩家数据
+     */
+    playerJoin(userInfo: { id: number; nickname: string; avatarUrl: number; }) {
+        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
+        const userIndex = this.playersData.push({
+            ...userInfo,
+            setp: 0,
+            timeOut: 0,
+        }) - 1;
+        const target = this.Players[userIndex];
+        target.dataIndex = userIndex;
+        loadImg(`${avatarBase}/${userInfo.avatarUrl ? userInfo.id : 'default'}.png`, (spriteFrame) => {
+            target.avatar.spriteFrame = spriteFrame;
+        });
+        target.nickName.string = userInfo.nickname;
+    }
+
+
+    /**
+     * 下棋时
+     * @param data - 棋子坐标
+     */
+    roomData(data: { x: number; y: number; s: number; }) {
+        console.log(data);
+        if (!data || data.y === undefined || data.x === undefined || data.s === undefined) return;
+        console.log(data);
+        const arr = this.picecArray;
+        data = typeof data === 'string' ? JSON.parse(data) : data;
+        const targetPiece = arr[data.y][data.x];
+        const senderID = data.s;
+        const senderUser = this.playersData[senderID];
+        const senderPlayer = this.Players[senderID];
+        if (targetPiece) {
+            targetPiece.script.ioClick(senderID);
+        }
+        senderUser.timeOut = 0;
+        senderUser.setp++;
+        senderPlayer.timeOut.string = timeFrom(0);
+        senderPlayer.setp.string = String(this.playersData[data.s].setp);
+
+        this.playersData[senderID ? 0 : 1].timeOut = cooling;
+        box[data.y][data.x] = 1;
+    }
+
 
     /**
      * 人机下棋
+     * @param data - 棋子坐标
      */
-    machineDownPiece(data) {
+    machineDownPiece(data: { x: number; y: number; s: number; }) {
         this.roomData(data);
 
-        box[data.y][data.x] = 0;
         var myScore = []; //我方分数
         var max = 0; //最大分数
         var u = 0, v = 0; //最大分数点
         for(var k = 0; k<count; k++) {//第几种赢法
             if(wins[data.y][data.x][k]) {
-            myWin[k]++;
+                myWin[k]++;
                 computerWin[k] = 999; //因为我方在这个点上已经落子，所以计算机不可能在这个点上赢，
                 // if(myWin[k] == 5) {
                 //     console.log('你赢了')
@@ -233,8 +323,11 @@ export default class GoBangMainService extends cc.Component {
                 }//所有空闲点上进行计算分数
             }
         }
-        this.picecArray[u][v].script.ioClick(1)
-        box[u][v] = 1;
+        this.roomData({
+            y: u,
+            x: v,
+            s: 1,
+        });
         for (var k = 0; k < count; k++) {//第几种赢法
             if (wins[u][v][k]) {
                 computerWin[k]++;
@@ -244,17 +337,6 @@ export default class GoBangMainService extends cc.Component {
                 // }
             }
         }
-    }
-
-
-    /**
-     * 游戏场景销毁时
-     */
-    onDestroy() {
-        // 接触IM玩家加入房间事件绑定
-        State.io.off('rommjoin', this.roomJoinEvent);
-        State.io.off('room/data', this.roomDataEevent);
-        clock && clearInterval(clock);
     }
 
 
@@ -303,50 +385,6 @@ export default class GoBangMainService extends cc.Component {
                 arr[arr.length - 1].push(Point);
             }
         }
-    }
-
-    
-    /**
-     * 玩家加入房间
-     * @param userInfo - 玩家数据
-     */
-    playerJoin(userInfo: { id: number; nickname: string; avatarUrl: number; }) {
-        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
-        const userIndex = this.playersData.push({
-            ...userInfo,
-            setp: 0,
-            timeOut: 0,
-        }) - 1;
-        const target = this.Players[userIndex];
-        target.dataIndex = userIndex;
-        loadImg(`${avatarBase}/${userInfo.avatarUrl ? userInfo.id : 'default'}.png`, (spriteFrame) => {
-            target.avatar.spriteFrame = spriteFrame;
-        });
-        target.nickName.string = userInfo.nickname;
-    }
-
-
-    /**
-     * 开始游戏
-     */
-    startGame() {
-        this.initPiece();
-        const { Players } = this;
-        Players.forEach((player: any, index) => {
-            player.setp.string = 0;
-            player.timeOut.string = timeFrom(0);
-            this.playersData[0].timeOut = cooling;
-        });
-        !clock && (clock = setInterval(() => {
-            this.playersData.forEach((player, index) => {
-                if (player.timeOut) {
-                    player.timeOut--;
-                    Players[index].timeOut.string = timeFrom(player.timeOut);
-                } else if (player.timeOut === 0) {
-                    Players[index].timeOut.string = timeFrom(0);
-                }
-            })
-        }, 1000));
     }
 
 
@@ -415,33 +453,6 @@ export default class GoBangMainService extends cc.Component {
 
 
     /**
-     * 游戏结束
-     */
-    gameOver(picec: any) {
-        console.log('GAME OVER!!');
-        console.log(picec);
-        const { Players } = this;
-        const chessPrefab = cc.instantiate(this.chessPrefab);
-        this.node.parent.addChild(chessPrefab);
-        const chessScript = chessPrefab.getComponent('overScript');
-        chessScript.init({
-            players: [{ 
-                nickname: 'shilaimu',
-                avatarUrl: Players[0].avatar.spriteFrame,
-                score: '10',
-                item: {
-                    allTime: 12,
-                },
-                winner: !0,
-            }],
-            itemKey: [],
-            time: 1581941094008,
-            roomId: 1,
-        })
-    }
-
-
-    /**
      * 初始化模型
      */
     initModel() {
@@ -498,6 +509,10 @@ export default class GoBangMainService extends cc.Component {
     // update (dt) {}
 }
 
+/**
+ * 转换时间为00:00的格式
+ * @param time - 时间
+ */
 function timeFrom(time) {
     return `00${Math.floor(time / 60)}`.substr(-2) + ':' + `00${Math.floor(time % 60)}`.substr(-2);
 }
@@ -514,7 +529,9 @@ const loadImg = (url, callback) => {
     });
 }
 
-
+/**
+ * 棋子坐标
+ */
 interface Point {
     row: number;
     col: number;

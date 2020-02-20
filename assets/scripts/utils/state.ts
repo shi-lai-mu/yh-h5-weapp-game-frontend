@@ -39,6 +39,7 @@ export default  {
     gameData: {
         id: -1,
         gameName: '',
+        name: '',
         peopleMax: 0,
         frequency: 0,
         payType: 0,
