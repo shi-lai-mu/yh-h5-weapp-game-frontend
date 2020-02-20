@@ -27,7 +27,6 @@ export default class NewClass extends cc.Component {
             // 数据失效恢复
             State.io.emit('connect/test');
         }
-        console.log(123456);
     }
 
 
@@ -37,7 +36,6 @@ export default class NewClass extends cc.Component {
      * @param gameName - 游戏名
      */
     openGame(_event, gameName: string) {
-        console.log(gameName);
         cc.director.loadScene(gameName);
     }
 
