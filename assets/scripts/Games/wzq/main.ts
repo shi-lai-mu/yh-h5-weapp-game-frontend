@@ -100,8 +100,6 @@ export default class GoBangMainService extends cc.Component {
         State.io.off('rommjoin', this.roomJoinEvent);
         State.io.off('room/data', this.roomDataEevent);
         State.io.off('rommleave', this.roomExitEevent);
-        
-        State.io.emit('room/exit');
         clock && clearInterval(clock);
     }
 

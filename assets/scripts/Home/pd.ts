@@ -27,7 +27,16 @@ export default class HomePD extends cc.Component {
     @property(cc.Prefab)
     createRoomPrefab: cc.Prefab = null;
 
+    /**
+     * 弹窗
+     */
+    @property(cc.Prefab)
+    popupPrefab: cc.Prefab = null;
 
+
+    /**
+     * Canvas
+     */
     @property(cc.Canvas)
     Canvas: cc.Canvas = null;
 
@@ -38,7 +47,7 @@ export default class HomePD extends cc.Component {
         const joinRoomPopup = cc.instantiate(this.keyboard);
         this.Canvas.node.addChild(joinRoomPopup);
         joinRoomPopup.getComponent('keyboard').parentClass = {
-            emit(data) {
+            emit: (data) => {
                 axios.api('room_join', {
                     data: {
                         roomCode: data,
@@ -47,7 +56,11 @@ export default class HomePD extends cc.Component {
                     if (res.status) {
                         cc.director.loadScene('gamesGoBang');
                     } else {
-                        console.log(res.msg);
+                        const popup = cc.instantiate(this.popupPrefab);
+                        this.Canvas.node.addChild(popup);
+                        const scriptPopup = popup.getComponent('popup');
+                        scriptPopup.init('加入房间失败!\n' + res.msg);
+                        scriptPopup.setEvent('close', () => {});
                     }
                 });
             }

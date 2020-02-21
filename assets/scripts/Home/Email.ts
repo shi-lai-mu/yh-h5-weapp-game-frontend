@@ -12,29 +12,61 @@ import axios from '../utils/axiosUtils';
 
 const {ccclass, property} = cc._decorator;
 
+var Item = cc.Class({
+    name: 'Item',
+    properties: {
+        id: 0,
+        itemName: '',
+        itemPrice: 0,
+        iconSF: cc.SpriteFrame
+    },
+});
+
 @ccclass
 export default class NewClass extends cc.Component {
 
     @property(cc.Node)
     maskBox: cc.Node = null;
 
+    /**
+     * 主盒子
+     */
     @property(cc.Node)
     mainBox: cc.Node = null;
 
+    /**
+     * Item Prefab 资源
+     */
+    @property(cc.Prefab)
+    listPrefab: cc.Prefab = null;
+
+    /**
+     * 左上角盒子
+     */
+    @property(cc.Node)
+    leftTopContent: cc.Node = null;
+
+    /**
+     * 主盒子内容
+     */
+    @property(cc.Label)
+    mainContent: cc.Label = null;
+
+    /**
+     * 左侧盒子
+     */
     @property(cc.Node)
     leftTopBox: cc.Node = null;
 
+    /**
+     * 左下角盒子
+     */
     @property(cc.Node)
     leftBottomBox: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
-
-    start () {
-        this.emailPopupHide();
-    }
-
     
     /**
      * 邮件界面显示
@@ -44,7 +76,7 @@ export default class NewClass extends cc.Component {
         const { leftTopBox, leftBottomBox, maskBox } = this;
         maskBox.scale = 1;
         leftTopBox.runAction(
-            cc.moveBy(1, cc.v2(-leftTopBox.width, 0)).easing(cc.easeCubicActionOut()),
+            cc.moveBy(.5, cc.v2(-leftTopBox.width, 0)).easing(cc.easeCubicActionOut()),
         );
         // 底部窗口弹出
         setTimeout(() => {
@@ -52,7 +84,7 @@ export default class NewClass extends cc.Component {
             // leftBottomBox.runAction(
             //     cc.moveBy(0.5, cc.v2(0, -leftBottomBox.height), 0).easing(cc.easeCubicActionOut()),
             // );
-        }, 1200);
+        }, 700);
     }
 
     
@@ -60,12 +92,13 @@ export default class NewClass extends cc.Component {
      * 邮件界面隐藏
      */
     emailPopupHide() {
-        const { leftTopBox, leftBottomBox, maskBox } = this;
-        maskBox.scale = 0;
-        leftBottomBox.scale = 0;
-        leftTopBox.runAction(
-            cc.moveBy(0, cc.v2(leftTopBox.width, 0)).easing(cc.easeCubicActionOut()),
-        );
+        this.node.destroy();
+        // const { leftTopBox, leftBottomBox, maskBox } = this;
+        // maskBox.scale = 0;
+        // leftBottomBox.scale = 0;
+        // leftTopBox.runAction(
+        //     cc.moveBy(0, cc.v2(leftTopBox.width, 0)).easing(cc.easeCubicActionOut()),
+        // );
         // leftBottomBox.runAction(
         //     cc.moveBy(0, cc.v2(0, leftBottomBox.height)).easing(cc.easeCubicActionOut()),
         // );

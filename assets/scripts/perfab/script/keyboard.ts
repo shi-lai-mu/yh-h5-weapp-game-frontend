@@ -15,15 +15,25 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class KeyBoard extends cc.Component {
 
+    /**
+     * 内容标签
+     */
     @property(cc.Label)
     Label: cc.Label = null;
 
+    /**
+     * 内容盒子
+     */
     @property(cc.Node)
     ContentBox: cc.Node = null;
 
+    /**
+     * 父级类 调用者this
+     */
     parentClass: any = {};
 
     start() {
+        // 展现动画
         this.ContentBox.scale = 0;
         this.ContentBox.runAction(
             cc.scaleTo(0.5, 1, 1).easing(cc.easeBackOut()),
@@ -37,9 +47,6 @@ export default class KeyBoard extends cc.Component {
      * @param content - 内容
      */
     onClickContent(_event, content: string) {
-        // if (content === '0' && !this.Label.string.length) {
-        //     return;
-        // }
         this.Label.string += content;
     }
 
