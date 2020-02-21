@@ -17,6 +17,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     ActivityNode: cc.Node = null;
 
+    @property(cc.Prefab)
+    EmailPrefab: cc.Prefab = null;
+
     onLoad () {
         // 登录检测
         const userInfo = localStorage.getItem('userInfo');
@@ -37,6 +40,16 @@ export default class NewClass extends cc.Component {
      */
     openGame(_event, gameName: string) {
         cc.director.loadScene(gameName);
+    }
+
+
+    /**
+     * 打开弹窗
+     * @param _event    - 事件体
+     * @param popupName - 弹窗名
+     */
+    openPopup(_event, popupName: string) {
+        this.node.addChild(cc.instantiate(this[popupName]))
     }
 
 
