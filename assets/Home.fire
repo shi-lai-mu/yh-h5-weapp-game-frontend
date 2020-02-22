@@ -189,7 +189,7 @@
       "array": [
         0,
         5,
-        537.2605098727712,
+        527.4094709047232,
         0,
         0,
         0,
@@ -2499,11 +2499,13 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "",
-    "_componentId": "f7ffaCO0QNGGo0CMwfBNiqy",
-    "handler": "activityPopupShow",
-    "customEventData": ""
+    "_componentId": "b978fxAiepGxZh12NplIlBz",
+    "handler": "openPopup",
+    "customEventData": "ActivityPrefab"
   },
   {
     "__type__": "cc.Node",
@@ -8516,7 +8518,9 @@
       "__id__": 2
     },
     "_enabled": true,
-    "ActivityNode": null,
+    "ActivityPrefab": {
+      "__uuid__": "39036aca-4cb1-4048-9142-1c2adc9fc5d7"
+    },
     "EmailPrefab": {
       "__uuid__": "f1b0fee1-d94c-4832-b8b3-5765eee0a928"
     },

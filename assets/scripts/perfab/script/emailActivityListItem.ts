@@ -25,13 +25,18 @@ export default class NewClass extends cc.Component {
     @property
     data: any = {};
 
+    /**
+     * 点击触发的事件
+     */
+    clickEvent: any;
+
 
     /**
      * 点击事件
      */
-    onClick() {
+    async onClick() {
+        this.clickEvent && await this.clickEvent(this.data, this.id);
         const { html, content } = this.data;
-        console.log(this.ParentClass.mainContent, html);
         this.ParentClass.mainContent.string = html || content;
     }
 
@@ -43,7 +48,6 @@ export default class NewClass extends cc.Component {
      */
     init(data: any, index: number) {
         const { id, title } = data;
-        console.log(data);
         this.id = id;
         this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
         data.index = index;
