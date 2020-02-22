@@ -112,7 +112,6 @@ export default class NewClass extends cc.Component {
                 userItem.winner.opacity = 255;
             }
         });
-console.log(initData);
         this.roomId.string = '房间号：' + ( '000000' + initData.roomId).substr(-6);
         this.Time.string = tool.dateFrom('yyyy/MM/dd HH:mm:ss', initData.time);
     }

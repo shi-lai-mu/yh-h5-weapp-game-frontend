@@ -117,7 +117,7 @@ export default class Activity extends cc.Component {
                 this.activityListBox.addChild(newItem);
                 const newComponent = newItem.getComponent('emailActivityListItem');
                 newComponent.init(item);
-                newComponent.activityClass = this;
+                newComponent.ParentClass = this;
                 newItem.y = newItem.y - index * 40;
                 this.rendererOnly = !this.rendererOnly;
                 if (index === 0) {

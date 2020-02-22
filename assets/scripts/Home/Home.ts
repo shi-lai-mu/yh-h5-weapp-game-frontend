@@ -49,6 +49,7 @@ export default class NewClass extends cc.Component {
      * @param popupName - 弹窗名
      */
     openPopup(_event, popupName: string) {
+        console.log(popupName);
         this.node.addChild(cc.instantiate(this[popupName]))
     }
 
