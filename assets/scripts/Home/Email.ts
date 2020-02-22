@@ -126,7 +126,25 @@ export default class NewClass extends cc.Component {
                 const newItem = cc.instantiate(this.listPrefab);
                 this.leftTopContent.addChild(newItem);
                 const newComponent = newItem.getComponent('emailActivityListItem');
+                if (item.template) {
+                    item = {
+                        ...item,
+                        ...item.template,
+                    }
+                }
                 newComponent.init(item);
+                newComponent.clickEvent = () => new Promise((resolve, reject) => {
+                    if (!item.is_receive) {
+                        axios.api('email_content', {
+                            params: {
+                                emailId: item.id,
+                            },
+                        }).then((res) => {
+                            item.content = res.content;
+                            resolve();
+                        });
+                    }
+                })
                 newComponent.ParentClass = this;
                 newItem.y = (newItem.y - index * 40) - 60;
                 if (index === 0) {

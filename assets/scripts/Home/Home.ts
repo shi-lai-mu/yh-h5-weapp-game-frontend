@@ -14,8 +14,8 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Node)
-    ActivityNode: cc.Node = null;
+    @property(cc.Prefab)
+    ActivityPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     EmailPrefab: cc.Prefab = null;
