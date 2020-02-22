@@ -146,7 +146,8 @@ export default class NewClass extends cc.Component {
                     }
                 })
                 newComponent.ParentClass = this;
-                newItem.y = (newItem.y - index * 40) - 60;
+                newItem.y = (newItem.y - index * 40) - 4200;
+                this.leftTopContent.height += 40;
                 if (index === 0) {
                     newComponent.onClick();
                 }

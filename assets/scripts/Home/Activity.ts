@@ -76,6 +76,7 @@ export default class Activity extends cc.Component {
     start () {
         // this.activityPopupHide();
         // this.activityPopupShow();
+        this.fetchactivityRequest();
     }
     
 
@@ -118,7 +119,8 @@ export default class Activity extends cc.Component {
                 const newComponent = newItem.getComponent('emailActivityListItem');
                 newComponent.init(item);
                 newComponent.ParentClass = this;
-                newItem.y = newItem.y - index * 40;
+                newItem.y = (newItem.y - index * 40) - 200;
+                this.activityListBox.height += 40;
                 this.rendererOnly = !this.rendererOnly;
                 if (index === 0) {
                     newComponent.onClick();
