@@ -13,7 +13,7 @@ import axios from '../utils/axiosUtils';
 const {ccclass, property} = cc._decorator;
 
 var Item = cc.Class({
-    name: 'Item',
+    name: 'EmailItem',
     properties: {
         id: 0,
         itemName: '',
@@ -64,9 +64,20 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     leftBottomBox: cc.Node = null;
 
+    /**
+     * 活动数据
+     */
+    @property(Item)
+    emailData: typeof Item[] = [];
+
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
+
+    start() {
+        this.fetchEmailRequest();
+    }
     
     /**
      * 邮件界面显示
@@ -109,7 +120,20 @@ export default class NewClass extends cc.Component {
      * 获取邮件消息
      */
     fetchEmailRequest() {
-        // axios.api('')
+        axios.api('home_email').then((data) => {
+            this.emailData = data;
+            data.forEach((item: any, index: number) => {
+                const newItem = cc.instantiate(this.listPrefab);
+                this.leftTopContent.addChild(newItem);
+                const newComponent = newItem.getComponent('emailActivityListItem');
+                newComponent.init(item);
+                newComponent.ParentClass = this;
+                newItem.y = (newItem.y - index * 40) - 60;
+                if (index === 0) {
+                    newComponent.onClick();
+                }
+            });
+        });
     }
 
     // update (dt) {}

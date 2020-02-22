@@ -20,7 +20,7 @@ export default class NewClass extends cc.Component {
     itemPrice: cc.Label = null;
 
     @property
-    activityClass: any = null;
+    ParentClass: any = null;
 
     @property
     data: any = {};
@@ -30,8 +30,9 @@ export default class NewClass extends cc.Component {
      * 点击事件
      */
     onClick() {
-        console.log(this.activityClass.mainContent, this.data.html);
-        this.activityClass.mainContent.string = this.data.html;
+        const { html, content } = this.data;
+        console.log(this.ParentClass.mainContent, html);
+        this.ParentClass.mainContent.string = html || content;
     }
 
 
@@ -42,6 +43,7 @@ export default class NewClass extends cc.Component {
      */
     init(data: any, index: number) {
         const { id, title } = data;
+        console.log(data);
         this.id = id;
         this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
         data.index = index;
