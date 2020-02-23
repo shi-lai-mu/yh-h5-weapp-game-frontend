@@ -38,7 +38,9 @@ export default class EmailActivityListItem extends cc.Component {
         const { data, id, clickEvent } = this;
         clickEvent && await clickEvent(data, id);
         const { html, content } = data;
-        this.ParentClass.mainContent.string = html || content;
+        if ((html || content) && typeof content === 'string') {
+            this.ParentClass.mainContent.string = html || content;
+        }
     }
 
 

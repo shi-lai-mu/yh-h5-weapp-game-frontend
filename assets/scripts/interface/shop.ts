@@ -2,6 +2,9 @@ export interface ShopMenu {
     id: number;
     name: string;
     imgName: string;
+    sprite: string;
+    title: string;
+    content: ShopItem[];
 }
 
 
