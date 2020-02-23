@@ -57,7 +57,7 @@ export default class Activity extends cc.Component {
 
 
     start () {
-        axios.api('shop_menu').then((data) => {
+        axios.api('shop_menu').then((data: ShopMenu[]) => {
             data.forEach((item, index) => {
                 const prefab = cc.instantiate(this.ShopMenuListPrefab);
                 const prefabScript = prefab.getComponent('emailActivityListItem');
@@ -68,18 +68,27 @@ export default class Activity extends cc.Component {
                 prefab.y = (prefab.y - index * 40) - 200;
                 this.leftBoxContent.addChild(prefab);
                 prefabScript.init(item);
-                // prefabScript.clickEvent = () => new Promise((resolve, reject) => {
-                //     if (!item.is_receive) {
-                //         axios.api('email_content', {
-                //             params: {
-                //                 emailId: item.id,
-                //             },
-                //         }).then((res) => {
-                //             item.content = res.content;
-                //             resolve();
-                //         });
-                //     }
-                // })
+                prefabScript.clickEvent = () => new Promise(async (resolve, reject) => {
+
+                    if (!item.content) {
+                        console.log(123);
+                        await axios.api('shop_menu_goods', {
+                            params: {
+                                menuId: item.id,
+                            },
+                        }).then((res) => {
+                            console.log(res);
+                            item.content = res;
+                            resolve();
+                        });
+                        console.log(1023654);
+                    }
+                })
+
+                // 默认点击第一个
+                if (index === 0) {
+                    prefabScript.onClick();
+                }
             });
         });
     }
