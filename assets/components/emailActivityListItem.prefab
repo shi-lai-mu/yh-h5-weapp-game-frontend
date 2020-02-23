@@ -111,7 +111,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 110,
-      "height": 50.4
+      "height": 18
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -164,7 +164,7 @@
     "_string": "",
     "_N$string": "",
     "_fontSize": 18,
-    "_lineHeight": 40,
+    "_lineHeight": 18,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -319,7 +319,7 @@
     "itemPrice": {
       "__id__": 3
     },
-    "activityClass": null,
+    "ParentClass": null,
     "data": {},
     "_id": ""
   },

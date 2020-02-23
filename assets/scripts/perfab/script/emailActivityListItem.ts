@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class EmailActivityListItem extends cc.Component {
 
     @property()
     id: number = 0;
@@ -35,8 +35,9 @@ export default class NewClass extends cc.Component {
      * 点击事件
      */
     async onClick() {
-        this.clickEvent && await this.clickEvent(this.data, this.id);
-        const { html, content } = this.data;
+        const { data, id, clickEvent } = this;
+        clickEvent && await clickEvent(data, id);
+        const { html, content } = data;
         this.ParentClass.mainContent.string = html || content;
     }
 
@@ -47,13 +48,45 @@ export default class NewClass extends cc.Component {
      * @param index - 下标
      */
     init(data: any, index: number) {
-        const { id, title } = data;
+        const { id, title, sprite } = data;
+
+        // 大小适配
+        const parentWidth = this.node.parent.width;
+        this.node.width *= parentWidth / 140;
+        this.node.height *= parentWidth / 140;
+
         this.id = id;
-        this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
+        // 图片加载
+        if (sprite) {
+            loadImg(sprite, (SpriteFrame) => {
+                const node = new cc.Node();
+                const Sprite = node.addComponent(cc.Sprite);
+                Sprite.spriteFrame = SpriteFrame;
+                const labelHeight = this.itemPrice.node.height;
+                node.width *= labelHeight / node.height
+                node.height = labelHeight;
+                this.node.addChild(node);
+            });
+        } else {
+            this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
+        }
         data.index = index;
         this.data = data;
     }
 
 
     // update (dt) {}
+}
+
+
+/**
+ * 加载图片
+ * @param url      - 图片url
+ * @param callback - 回调函数
+ */
+const loadImg = (url, callback) => {
+    cc.loader.load(url, (_error, texture) => {
+        _error && console.error(_error);
+        callback(new cc.SpriteFrame(texture));
+    });
 }
