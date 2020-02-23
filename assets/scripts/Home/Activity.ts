@@ -10,7 +10,7 @@
 
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
-import { ActivityItem } from './interface/home';
+import { ActivityItem } from '../interface/home';
 
 var Item = cc.Class({
     name: 'Item',

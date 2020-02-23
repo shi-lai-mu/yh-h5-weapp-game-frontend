@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "b9e1bc5a-63f6-4182-8de3-e6a719d603a0",
+  "uuid": "75e12de6-25c6-4ae6-a448-80d40d632736",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "item-bg": {
+    "100钻石": {
       "ver": "1.0.4",
-      "uuid": "6637de0f-cd30-4d8b-b349-3b1f19c0c3f1",
-      "rawTextureUuid": "b9e1bc5a-63f6-4182-8de3-e6a719d603a0",
+      "uuid": "dc3a6da2-dbf9-4287-8492-b1abcf0fc0c2",
+      "rawTextureUuid": "75e12de6-25c6-4ae6-a448-80d40d632736",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,10 +20,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 217,
-      "height": 289,
-      "rawWidth": 217,
-      "rawHeight": 289,
+      "width": 117,
+      "height": 31,
+      "rawWidth": 117,
+      "rawHeight": 31,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
