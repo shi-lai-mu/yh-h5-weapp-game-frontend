@@ -26,7 +26,6 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Activity extends cc.Component {
-
     /**
      * 主盒子内容
      */
@@ -42,23 +41,16 @@ export default class Activity extends cc.Component {
      */
     @property(cc.Node)
     rightBoxContent: cc.Node = null;
-
     /**
      * prefab 资源
      */
     @property(cc.Prefab)
     ShopMenuListPrefab: cc.Prefab = null;
-
     /**
      * prefab 资源
      */
     @property(cc.ScrollView)
     ScrollView: cc.ScrollView = null;
-
-    // /**
-    //  * 当前菜单物品数据
-    //  */
-    // shopItemData: ShopItem[] = [];
     /**
      * 菜单物品资源
      */
@@ -68,7 +60,6 @@ export default class Activity extends cc.Component {
      * 物品资源数据
      */
     shopItemData: any = [];
-
     /**
      * 当前聚焦的物品
      */
@@ -163,6 +154,10 @@ export default class Activity extends cc.Component {
                                     shopDesc.string = data.desc;
                                     shopIcon.spriteFrame = shopItemScript.icon.spriteFrame; 
                                 }
+                            }
+                            // 点击第一个
+                            if (index === 0) {
+                                shopItemData[0] && shopItemData[0].getComponent('shopItem').onClick();
                             }
                         });
 
