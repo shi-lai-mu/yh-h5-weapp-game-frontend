@@ -37,10 +37,16 @@ export default class ShopListItem extends cc.Component {
     @property(cc.Sprite)
     focusSprite: cc.Sprite = null;
 
+    /**
+     * 点击触发的事件
+     */
+    clickEvent: any;
+    data: any;
+
 
     init(data: any) {
-       console.log(data);
        this.Price.string = data.price;
+       this.data = data;
     }
     
 
@@ -63,8 +69,17 @@ export default class ShopListItem extends cc.Component {
     /**
      * 点击事件
      */
-    onClick() {
+    async onClick() {
+        console.log(123456);
+        const { data, clickEvent } = this;
+        clickEvent && await clickEvent(data);
+    }
 
+    /**
+     * 点击购买
+     */
+    but() {
+        console.log('buy', this.data);
     }
 
     // update (dt) {}

@@ -69,6 +69,36 @@ export default class Activity extends cc.Component {
      */
     shopItemData: any = [];
 
+    /**
+     * 当前聚焦的物品
+     */
+    focusItem: any;
+    /**
+     * 商品名
+     */
+    @property(cc.Label)
+    shopName: cc.Label = null;
+    /**
+     * 商品类型
+     */
+    @property(cc.Label)
+    shopType: cc.Label = null;
+    /**
+     * 商品价格
+     */
+    @property(cc.Label)
+    shopPrice: cc.Label = null;
+    /**
+     * 商品简介
+     */
+    @property(cc.Label)
+    shopDesc: cc.Label = null;
+    /**
+     * 商品图标
+     */
+    @property(cc.Sprite)
+    shopIcon: cc.Sprite = null;
+
 
     start () {
         axios.api('shop_menu').then((data: ShopMenu[]) => {
@@ -93,9 +123,16 @@ export default class Activity extends cc.Component {
                     }
                     // 渲染
                     const res = item.content;
-                    console.log(res);
                     if (res instanceof Array) {
-                        const { mainContent, shopItemData } = this;
+                        const {
+                            mainContent,
+                            shopItemData,
+                            shopName,
+                            shopType,
+                            shopPrice,
+                            shopDesc,
+                            shopIcon,
+                        } = this;
                         let offsetX = 0;
                         const col = mainContent.width > 600 ? 5 : 4;
                         res.forEach((item, index) => {
@@ -110,10 +147,22 @@ export default class Activity extends cc.Component {
                             } else {
                                 const shopItemPrefab = cc.instantiate(this.shopItemPrefab);
                                 mainContent.addChild(shopItemPrefab);
-                                shopItemPrefab.getComponent('shopItem').init(item);
+                                const shopItemScript = shopItemPrefab.getComponent('shopItem')
+                                shopItemScript.init(item);
                                 shopItemPrefab.x = (mainContent.width / col) * offsetX - 80;
-                                shopItemPrefab.y = -Math.round(index / col | 0) * 200 - 80;
+                                shopItemPrefab.y = -Math.round(index / col | 0) * 200 - 100;
                                 shopItemData.push(shopItemPrefab);
+                                // 商品点击事件
+                                shopItemScript.clickEvent = (data) => {
+                                    this.focusItem && this.focusItem.blur();
+                                    shopItemScript.focus();
+                                    this.focusItem = shopItemScript;
+                                    shopName.string = data.name;
+                                    shopType.string = '全部';
+                                    shopPrice.string = data.price;
+                                    shopDesc.string = data.desc;
+                                    shopIcon.spriteFrame = shopItemScript.icon.spriteFrame; 
+                                }
                             }
                         });
 
@@ -133,56 +182,4 @@ export default class Activity extends cc.Component {
             });
         });
     }
-    
-
-    /**
-     * 邮件界面显示
-     * @param Action - 是否显示动画
-     */
-    // activityPopupShow(Action: boolean = !0) {
-    //     this.fetchactivityRequest();
-    //     const { leftTopBox, maskBox } = this;
-    //     maskBox.scale = 1;
-    //     Action && leftTopBox.runAction(
-    //         cc.moveBy(1, cc.v2(-leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
-    //     );
-    // }
-
-    
-    /**
-     * 邮件界面隐藏
-     * @param Action - 是否显示动画
-     */
-    // activityPopupHide(Action: boolean = !0) {
-    //     const { leftTopBox, maskBox } = this;
-    //     maskBox.scale = 0;
-    //     Action && leftTopBox.runAction(
-    //         cc.moveBy(0, cc.v2(leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
-    //     );
-    // }
-
-
-    /**
-     * 获取邮件消息
-     */
-    // fetchShopRequest() {
-    //     !this.rendererOnly && axios.api('home_activity').then((data) => {
-    //         this.activityData = data;
-    //         data.forEach((item: ActivityItem, index: number) => {
-    //             const newItem = cc.instantiate(this.activityListPrefab);
-    //             this.activityListBox.addChild(newItem);
-    //             const newComponent = newItem.getComponent('emailActivityListItem');
-    //             newComponent.init(item);
-    //             newComponent.ParentClass = this;
-    //             newItem.y = (newItem.y - index * 40) - 200;
-    //             this.activityListBox.height += 40;
-    //             this.rendererOnly = !this.rendererOnly;
-    //             if (index === 0) {
-    //                 newComponent.onClick();
-    //             }
-    //         });
-    //     });
-    // }
-
-    // update (dt) {}
 }
