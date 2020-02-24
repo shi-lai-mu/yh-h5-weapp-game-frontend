@@ -8,9 +8,9 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import axios from '../utils/axiosUtils';
-import State from '../utils/state';
-import { ShopMenu, ShopItem } from '../interface/shop';
+import axios from '../../utils/axiosUtils';
+import State from '../../utils/state';
+import { ShopMenu, ShopItem } from '../../interface/shop';
 
 // var Item = cc.Class({
 //     name: 'ShopMenuItem',
@@ -50,10 +50,24 @@ export default class Activity extends cc.Component {
     ShopMenuListPrefab: cc.Prefab = null;
 
     /**
-     * 当前菜单物品数据
+     * prefab 资源
      */
-    shopItemData: ShopItem[] = [];
+    @property(cc.ScrollView)
+    ScrollView: cc.ScrollView = null;
 
+    // /**
+    //  * 当前菜单物品数据
+    //  */
+    // shopItemData: ShopItem[] = [];
+    /**
+     * 菜单物品资源
+     */
+    @property(cc.Prefab)
+    shopItemPrefab: cc.Prefab = null;
+    /**
+     * 物品资源数据
+     */
+    shopItemData: any = [];
 
 
     start () {
@@ -69,19 +83,46 @@ export default class Activity extends cc.Component {
                 this.leftBoxContent.addChild(prefab);
                 prefabScript.init(item);
                 prefabScript.clickEvent = () => new Promise(async (resolve, reject) => {
-
+                    this.ScrollView.scrollToTop();
                     if (!item.content) {
-                        console.log(123);
-                        await axios.api('shop_menu_goods', {
+                        item.content = await axios.api('shop_menu_goods', {
                             params: {
                                 menuId: item.id,
                             },
-                        }).then((res) => {
-                            console.log(res);
-                            item.content = res;
-                            resolve();
+                        }).then((res) => res);
+                    }
+                    // 渲染
+                    const res = item.content;
+                    console.log(res);
+                    if (res instanceof Array) {
+                        const { mainContent, shopItemData } = this;
+                        let offsetX = 0;
+                        const col = mainContent.width > 600 ? 5 : 4;
+                        res.forEach((item, index) => {
+                            if (index % 5 === 0) {
+                                offsetX = 0;
+                            }
+                            offsetX++;
+                            if (shopItemData[index]) {
+                                // 重复渲染时重新初始化
+                                shopItemData[index].getComponent('shopItem').init(item);
+                                shopItemData[index].scale = .573;
+                            } else {
+                                const shopItemPrefab = cc.instantiate(this.shopItemPrefab);
+                                mainContent.addChild(shopItemPrefab);
+                                shopItemPrefab.getComponent('shopItem').init(item);
+                                shopItemPrefab.x = (mainContent.width / col) * offsetX - 80;
+                                shopItemPrefab.y = -Math.round(index / col | 0) * 200 - 80;
+                                shopItemData.push(shopItemPrefab);
+                            }
                         });
-                        console.log(1023654);
+
+                        // 重渲染 多余数据隐藏
+                        if (res.length < shopItemData.length) {
+                            for (let i = res.length, len = shopItemData.length; i < len; i++) {
+                                shopItemData[i].scale = 0;
+                            }
+                        }
                     }
                 })
 
