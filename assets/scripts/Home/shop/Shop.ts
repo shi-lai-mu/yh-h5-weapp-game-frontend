@@ -156,9 +156,9 @@ export default class Activity extends cc.Component {
                                 }
                             }
                             // 点击第一个
-                            if (index === 0) {
-                                shopItemData[0] && shopItemData[0].getComponent('shopItem').onClick();
-                            }
+                            // if (index === 0) {
+                            //     shopItemData[0] && shopItemData[0].getComponent('shopItem').onClick();
+                            // }
                         });
 
                         // 重渲染 多余数据隐藏
@@ -176,5 +176,10 @@ export default class Activity extends cc.Component {
                 }
             });
         });
+    }
+
+
+    close() {
+        this.node.destroy();
     }
 }
