@@ -2,6 +2,7 @@
  * 工具类
  */
 export default {
+    url: 'https://perfergame.oss-cn-beijing.aliyuncs.com',
     /**
      * 加载子包
      * @param packages - 子包名数组
@@ -86,4 +87,17 @@ export default {
         }
         return fmt;
     },
+
+    /**
+     * 加载图片
+     * @param url      - 图片url
+     * @param callback - 回调函数
+     */
+    loadImg: (url, callback) => {
+        cc.loader.load(url, (_error, texture) => {
+            _error && console.error(_error);
+            callback(new cc.SpriteFrame(texture));
+        });
+    }
+
 }

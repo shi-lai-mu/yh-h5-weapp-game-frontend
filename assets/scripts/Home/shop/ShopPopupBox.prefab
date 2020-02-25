@@ -298,8 +298,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "f7ffaCO0QNGGo0CMwfBNiqy",
-    "handler": "activityPopupHide",
+    "_componentId": "f7360cobSJL/YdNtO0h/q8K",
+    "handler": "close",
     "customEventData": ""
   },
   {
@@ -4724,8 +4724,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "f7ffaCO0QNGGo0CMwfBNiqy",
-    "handler": "activityPopupHide",
+    "_componentId": "f7360cobSJL/YdNtO0h/q8K",
+    "handler": "close",
     "customEventData": ""
   },
   {
