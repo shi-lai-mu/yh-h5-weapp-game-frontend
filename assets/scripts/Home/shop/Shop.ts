@@ -102,7 +102,7 @@ export default class Activity extends cc.Component {
                 item.title = item.name;
                 prefab.y = (prefab.y - index * 40) - 200;
                 this.leftBoxContent.addChild(prefab);
-                prefabScript.init(item);
+                prefabScript.init(item, index, !0);
                 prefabScript.clickEvent = () => new Promise(async (resolve, reject) => {
                     this.ScrollView.scrollToTop();
                     if (!item.content) {

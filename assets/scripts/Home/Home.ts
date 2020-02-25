@@ -20,6 +20,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     EmailPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    ShopPrefab: cc.Prefab = null;
+
     onLoad () {
         // 登录检测
         const userInfo = localStorage.getItem('userInfo');
@@ -50,7 +53,7 @@ export default class NewClass extends cc.Component {
      */
     openPopup(_event, popupName: string) {
         console.log(popupName);
-        this.node.addChild(cc.instantiate(this[popupName]))
+        this.node.addChild(cc.instantiate(this[popupName]));
     }
 
 

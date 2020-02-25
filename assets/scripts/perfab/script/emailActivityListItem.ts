@@ -48,14 +48,17 @@ export default class EmailActivityListItem extends cc.Component {
      * 初始化数据
      * @param data  - 初始出具
      * @param index - 下标
+     * @param auto  - 是否自适应
      */
-    init(data: any, index: number) {
+    init(data: any, index: number, auto: boolean = !1) {
         const { id, title, sprite } = data;
 
-        // 大小适配
-        const parentWidth = this.node.parent.width;
-        this.node.width *= parentWidth / 140;
-        this.node.height *= parentWidth / 140;
+        if (auto) {
+            // 大小适配
+            const parentWidth = this.node.parent.width;
+            this.node.width *= parentWidth / 140;
+            this.node.height *= parentWidth / 140;
+        }
 
         this.id = id;
         // 图片加载
@@ -75,8 +78,6 @@ export default class EmailActivityListItem extends cc.Component {
         data.index = index;
         this.data = data;
     }
-
-
     // update (dt) {}
 }
 
