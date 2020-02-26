@@ -80,5 +80,17 @@ ioSocket.on('connect', () => {
     query: ioSocket.query,
     id: ioSocket.id,
   }))
-})
+});
+ioSocket.on('disconnect', (event: any) => {
+  console.log('[IO] 通讯服务, 断开!', event);
+});
+ioSocket.on('reconnecting', (event: any) => {
+  console.log('[IO] 重连中', event);
+});
+ioSocket.on('reconnect', (event: any) => {
+  console.log('[IO] 重连成功!', event);
+});
+ioSocket.on('error', (event: any) => {
+  console.log('[IO] 发生错误!', event);
+});
 State.io = ioSocket;
