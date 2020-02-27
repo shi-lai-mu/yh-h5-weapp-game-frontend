@@ -1,6 +1,6 @@
 {
   "ver": "2.3.3",
-  "uuid": "85a8e00c-6b40-4579-8b26-d6472d9847af",
+  "uuid": "754e3423-95f3-4fb7-8d97-0597ffc63645",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -9,10 +9,10 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "activity": {
+    "女": {
       "ver": "1.0.4",
-      "uuid": "476c9b04-5045-45b2-b978-ba35c0083c24",
-      "rawTextureUuid": "85a8e00c-6b40-4579-8b26-d6472d9847af",
+      "uuid": "0bb71a9a-37d2-471f-b180-25ae962615f3",
+      "rawTextureUuid": "754e3423-95f3-4fb7-8d97-0597ffc63645",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -20,10 +20,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 95,
-      "height": 99,
-      "rawWidth": 95,
-      "rawHeight": 99,
+      "width": 30,
+      "height": 28,
+      "rawWidth": 30,
+      "rawHeight": 28,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
