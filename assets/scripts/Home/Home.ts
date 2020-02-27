@@ -23,6 +23,20 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     ShopPrefab: cc.Prefab = null;
 
+    @property(cc.Sprite)
+    bg: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    bg2: cc.Sprite = null;
+
+    @property(cc.Node)
+    bgIcon: cc.Node = null;
+
+    @property(cc.Node)
+    bg2Icon: cc.Node = null;
+
+    bgStatus = true;
+
     onLoad () {
         // 登录检测
         const userInfo = localStorage.getItem('userInfo');
@@ -54,6 +68,23 @@ export default class NewClass extends cc.Component {
     openPopup(_event, popupName: string) {
         console.log(popupName);
         this.node.addChild(cc.instantiate(this[popupName]));
+    }
+
+
+    /**
+     * 背景切换
+     */
+    backageSwitch() {
+        this.bgStatus = !this.bgStatus;
+        const bgStatus = this.bgStatus;
+        this.bg.node.runAction(
+            !bgStatus ? cc.fadeOut(1) : cc.fadeIn(1),
+        );
+        this.bg2.node.runAction(
+            bgStatus ? cc.fadeOut(1) : cc.fadeIn(1),
+        );
+        this.bgIcon.scale = bgStatus ? 1 : 0;
+        this.bg2Icon.scale = bgStatus ? 0 : 1;
     }
 
 

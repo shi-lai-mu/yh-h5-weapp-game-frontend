@@ -1,0 +1,33 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "arraw",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.06666666666666667,
+  "sample": 60,
+  "speed": 0.1,
+  "wrapMode": 22,
+  "curveData": {
+    "props": {
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 0.06666666666666667,
+          "value": [
+            50,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "events": []
+}
