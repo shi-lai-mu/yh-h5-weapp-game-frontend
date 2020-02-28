@@ -72,5 +72,10 @@ export default class NewClass extends cc.Component {
         });
     }
 
+    
+    close() {
+        this.node.destroy();
+    }
+
     // update (dt) {}
 }
