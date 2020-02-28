@@ -9,10 +9,10 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import State from '../utils/state';
+import State from '../../utils/state';
 
 @ccclass
-export default class Portrait extends cc.Component {
+export default class NewClass extends cc.Component {
 
     /**
      * 账号id
@@ -33,25 +33,37 @@ export default class Portrait extends cc.Component {
     avatar: cc.Sprite = null;
 
     /**
-     * 钻石
+     * gender man
      */
-    @property(cc.Label)
-    diamond: cc.Label = null;
+    @property(cc.Sprite)
+    man: cc.Sprite = null;
 
     /**
-     * 金币
+     * gender woman
+     */
+    @property(cc.Sprite)
+    woman: cc.Sprite = null;
+
+    /**
+     * 账号
      */
     @property(cc.Label)
-    gold: cc.Label = null;
-
+    account: cc.Label = null;
 
     start () {
-        const { nickname, id, diamond, gold, avatarUrl } = State.userInfo;
+        const { nickname, id, avatarUrl, account, gender } = State.userInfo;
         this.nickName.string = nickname;
         this.id.string = 'ID: ' + (id || '000000').toString();
-        this.diamond.string = diamond.toString();
-        this.gold.string = gold.toString();
-        // 头像在线加载
+        this.account.string = account.toString();
+        this.loadAvatarUrl(id, avatarUrl);
+        const emptyRadio = this.woman.spriteFrame;
+        gender === 1
+            ? (this.woman.spriteFrame = this.man.spriteFrame) && (this.man.spriteFrame = emptyRadio)
+            : null;
+    }
+
+
+    loadAvatarUrl(id, avatarUrl) {
         // avatarUrl === 1 时加载ID的头像否则加载Default头像
         cc.loader.load(`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${avatarUrl ? id : 'default'}.png`, (error, texture) => {
             if (error) return;
