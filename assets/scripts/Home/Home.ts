@@ -23,6 +23,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     ShopPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    UserCenter: cc.Prefab = null;
+
     @property(cc.Sprite)
     bg: cc.Sprite = null;
 

@@ -2634,8 +2634,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "f7ffaCO0QNGGo0CMwfBNiqy",
-    "handler": "activityPopupHide",
+    "_componentId": "a27b5zPSu5IHKpG4XARzbby",
+    "handler": "close",
     "customEventData": ""
   },
   {
