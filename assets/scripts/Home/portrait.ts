@@ -48,10 +48,11 @@ export default class Portrait extends cc.Component {
     start () {
         const { nickname, id, diamond, gold, avatarUrl } = State.userInfo;
         this.nickName.string = nickname;
-        this.id.string = 'ID: ' + id.toString();
-        this.diamond.string = diamond.toString();
-        this.gold.string = gold.toString();
-
+        this.id.string = 'ID: ' + (id || '000000').toString();
+        if (this.diamond && this.gold) {
+            this.diamond.string = diamond.toString();
+            this.gold.string = gold.toString();
+        }
         // 头像在线加载
         // avatarUrl === 1 时加载ID的头像否则加载Default头像
         cc.loader.load(`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${avatarUrl ? id : 'default'}.png`, (error, texture) => {
