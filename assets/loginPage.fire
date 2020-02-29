@@ -90,6 +90,9 @@
         "__id__": 24
       },
       {
+        "__id__": 27
+      },
+      {
         "__id__": 29
       },
       {
@@ -198,7 +201,7 @@
       "array": [
         0,
         -12.211,
-        527.4094709047232,
+        537.2605098727712,
         0,
         0,
         0,
@@ -1155,7 +1158,7 @@
       }
     ],
     "_prefab": null,
-    "_opacity": 121,
+    "_opacity": 100,
     "_color": {
       "__type__": "cc.Color",
       "r": 0,
@@ -1236,85 +1239,19 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "协议同意",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [
-      {
-        "__id__": 25
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 28
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 398,
-      "height": 130.4
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        27.795,
-        -254.097,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "fbwPq1m25MNKraPbBfLsd7"
-  },
-  {
-    "__type__": "cc.Node",
     "_name": "success",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 24
+      "__id__": 2
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 26
+        "__id__": 25
       },
       {
-        "__id__": 27
+        "__id__": 26
       }
     ],
     "_prefab": null,
@@ -1328,7 +1265,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 19.99999999999997,
+      "width": 19.999999999999964,
       "height": 20
     },
     "_anchorPoint": {
@@ -1340,16 +1277,16 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -195.89800000000002,
-        -0.561,
+        -145.18293,
+        -259.94836,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
-        1
+        0.883,
+        0.883,
+        0.883
       ]
     },
     "_eulerAngles": {
@@ -1370,7 +1307,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 24
     },
     "_enabled": true,
     "_materials": [
@@ -1402,14 +1339,14 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 24
     },
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 40,
-    "_left": -6.897999999999996,
-    "_right": 384.898,
+    "_left": 325.98707,
+    "_right": 616.35293,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -1425,11 +1362,73 @@
     "_id": "1827YyNQ5A+atJhlYjGl3x"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "协议同意",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 28
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 398,
+      "height": 130.4
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        27.795,
+        -259.453,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0.883,
+        0.883,
+        0.883
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "fbwPq1m25MNKraPbBfLsd7"
+  },
+  {
     "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 24
+      "__id__": 27
     },
     "_enabled": true,
     "_materials": [
@@ -1492,15 +1491,15 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -281,
+        -285.686,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
-        1
+        0.839,
+        0.839,
+        0.839
       ]
     },
     "_eulerAngles": {
@@ -1584,15 +1583,15 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -305,
+        -303.661,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
-        1
+        0.839,
+        0.839,
+        0.839
       ]
     },
     "_eulerAngles": {

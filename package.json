@@ -9,12 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/axios": "^0.14.0",
     "@types/socket.io-client": "^1.4.32",
-    "axios": "^0.19.2",
-    "axios-miniprogram-adapter": "^0.3.0",
-    "qs": "^6.9.1",
-    "socket.io-wxapp-client": "^1.1.12",
-    "wx-axios-promise": "^2.3.3"
+    "socket.io-wxapp-client": "^1.1.12"
   }
 }
