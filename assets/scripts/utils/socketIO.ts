@@ -30,7 +30,7 @@
  *     this.$io.gameIM.emit()
  *     this.$io.gameIM.on() 等 Socket 方法
  */
-import * as io from 'socket.io-wxapp-client';
+const io = require('../lib/weapp.socket.io.js');
 import State from './state';
 import defaultConfig from '../config/default.config';
 
@@ -63,34 +63,17 @@ const localRegExp = /127\.0\.0\.1|localhost/;
 //     );
 //   })
 // ;
+console.log(token);
 
-const ioSocket = io(
-  localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
-    ? IoConfig.main.replace(localRegExp, locaHostName)
-    : IoConfig.main,
-  {
-    forceNew: true,
-    query: {
-      token,
-    },
-  },
-);
-ioSocket.on('connect', () => {
-  localStorage.setItem('socket', JSON.stringify({
-    query: ioSocket.query,
-    id: ioSocket.id,
-  }))
-});
-ioSocket.on('disconnect', (event: any) => {
-  console.log('[IO] 通讯服务, 断开!', event);
-});
-ioSocket.on('reconnecting', (event: any) => {
-  console.log('[IO] 重连中', event);
-});
-ioSocket.on('reconnect', (event: any) => {
-  console.log('[IO] 重连成功!', event);
-});
-ioSocket.on('error', (event: any) => {
-  console.log('[IO] 发生错误!', event);
-});
-State.io = ioSocket;
+const socket = io('ws://127.0.0.1:7100/?token=186198010f8643d2678fc6c8de71a09cfd703f8464cc069223289119829a1ef0')
+
+socket.connect()
+console.log(socket);
+// 链接处理
+socket.on('connect', console.log)
+
+socket.on('disconnect', console.warn)
+socket.on('disconnecting', console.warn)
+// 错误处理
+socket.on('error', console.warn)
+State.io = socket;

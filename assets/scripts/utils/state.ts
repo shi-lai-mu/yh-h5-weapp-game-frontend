@@ -12,7 +12,7 @@
  * 缓存数据
  * 负责数据缓存npm install --save socket.io-wxapp-client
  */
-import * as io from 'socket.io-wxapp-client';
+const io = require('../lib/socket.io.js');
 const userInfo = localStorage.getItem('userInfo');
 
 export default  {
