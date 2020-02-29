@@ -55,16 +55,14 @@
  *   {  路由名: '服务器名:请求方法.路由' } 如 { login: 'test1:post./user/:user' } 服务器名和请求方法均为可选参数
  *   如 'post./user/:user' 或 'test1:/user/:user' 或 '/user/:user' 当请求方法不存在时默认为GET请求，当服务器名不存在时默认为主服务器
  */
-
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
-// get数据
-import axiosQs from 'qs';
 // api调用
 import API from '../config/api.config';
 // 配置文件
 import config from '../config/default.config';
+// 开发环境判断
+const isDEV = !0;
 // token存储
-let token = false;
+let token: any = false;
 // 服务器配置
 const serverConfig = config.server;
 // 频繁请求处理
@@ -89,248 +87,174 @@ const observer: any = {
     default: [],
   },
 };
-// 开发环境判断
-const isDEV = !0;
 // 当前域
 const locaHostName = window.location.hostname;
 const localRegExp = /127\.0\.0\.1|localhost/;
 
-// 创建axios实例
-const $axios: AxiosInstance = axios.create({
-  baseURL: !isDEV
-    ? serverConfig.host
-    : localRegExp.test(serverConfig.devHost) && !localRegExp.test(locaHostName)
-      ? serverConfig.devHost.replace(localRegExp, locaHostName)
-      : serverConfig.devHost,
-  timeout: serverConfig.timeout || 15000,
-  // withCredentials: true
-});
-
-
-/**
- * 响应拦截
- */
-$axios.interceptors.response.use(
-  (res: AxiosResponse) => {
-    const { data } = res;
-    // token 自动化更新
-    const headersToken = res.headers.token;
-    if (headersToken) {
-      token = headersToken;
-      observer.response.updateToken.forEach((cb: any) => cb(token));
-    }
-    observer.response.default.forEach((cb: any) => cb(res));
-    return data || res;
-  },
-  (err: any) => {
-    observer.response.error.forEach((cb: any) => cb(err.response));
-    return err;
-  },
-);
-
-
-/**
- * 请求拦截
- */
-$axios.interceptors.request.use(
-  (value: AxiosRequestConfig) => {
-    const data = value.data;
-
-    if (!token) {
-      token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
-      if (token) {
-        value.headers.token = encodeURIComponent(token);
-      }
-    } else value.headers.token = encodeURIComponent(token);
-
-    // GET 数据处理
-    if (data && value.method === 'get') {
-      value.url += `?${axiosQs.stringify(data)}`;
-      value.data = undefined;
-    }
-
-    // 非 GET 处理
-    const postData = value.data || {};
-    if (value.method !== 'get' && postData.api) {
-      value.data = {
-        ...value.data.data,
-      };
-      // token && (value.data.token = token);
-      delete value.data.api;
-    }
-
-    // 路径参数
-    const params = value.params || (data && data.params);
-    if (params && value.url) {
-      for (const key in params) {
-        if (params[key] !== undefined) {
-          value.url = value.url.replace(`:${key}`, params[key]);
-        }
-      }
-      delete value.params;
-      if (data) delete data.params;
-    }
-
-    // 统一处理路由
-    if (value.url) {
-      const targetServer = (value.url.match(/^(\w+)(?=\:)/) || [])[0];
-      if (targetServer) {
-        const targetChild = serverConfig.children[targetServer];
-        if (targetChild) {
-          value.url = value.url.replace(/^(\w+)\:/, '');
-          value.baseURL = !isDEV ? targetChild.host : targetChild.devHost;
-        } else  throw Error(`${targetServer} 子服务器未在配置内!`);
-      }
-      value.url = value.url.replace(/^(post|get|put|delete)\./i, '');
-    }
-
-    // 频繁请求拦截
-    const requestKey = (value.method || 'get') + value.url;
-    if (requestKey) {
-      const targetClock = requestClock[requestKey];
-      if (targetClock && targetClock > Date.now()) {
-        return Promise.reject({ error: '频繁请求拦截！' });
-      }
-      requestClock[requestKey] = Date.now() + 400;
-    }
-    return value;
-  },
-);
-
-/**
- * axios API request
- * @param api - API库内的键
- * @param axiosRequest
- *        - 请求数据配置
- *        - 仅 api(*, *).then() 时生效
- * @return 链式操作请求方式，内部传入与axios相同，排除第一个URL
- */
-$axios.api = (api: (string | { data: any; key: string; }), axiosRequest: AxiosRequestConfig = {}) => {
-  let URL: string = API[typeof api === 'string' ? api : api.key];
-  // 未知API
-  if (!URL) throw new Error(`api: 「${api}」在配置内未定义!`);
-
-  // 动态API
-  if (typeof api === 'object' && URL) {
-    for (const key in api.data) {
-      api.data[key] && (URL = URL.replace(`:${key}`, api.data[key]));
-    }
-    api = api.key;
-  }
-
-  const methods: any = {
-    get:        (res: AxiosRequestConfig = {}) => $axios.get(URL,    { api, ...res }),
-    put:        (res: AxiosRequestConfig = {}) => $axios.put(URL,    { api, ...res }),
-    post:       (res: AxiosRequestConfig)      => $axios.post(URL,   { api, ...res }),
-    delete:     (res: AxiosRequestConfig)      => $axios.delete(URL, { api, ...res }),
-  };
-
-  return {
-    ...methods,
-    then: async (res) => {
-      const regExp = /((\w+)(?=\:))?(post|get|put|delete)(?=\.)/ig;
-      const method: any = (URL.match(regExp) || [])[0];
-      return await methods[ method || 'get' ](axiosRequest).then(res);
-    },
-  };
-};
-
-
 let ObserverKey: ('response' | 'response.error' | 'response.updateToken');
-/**
- * axios observer
- * @param api - API库内的键
- * @param axiosRequest
- *        - 请求数据配置
- *        - 仅 api(*, *).then() 时生效
- * @return 链式操作请求方式，内部传入与axios相同，排除第一个URL
- */
-$axios.observer = {
-  emit: (
-    key: typeof ObserverKey,
-    cb: (param: AxiosResponse) => void,) => {
-    const split = key.split('.');
-    const parent = split[0];
-    const child = split[1] || 'default';
-    observer[parent][child].push(cb);
-    return $axios;
-  },
-  off: (
-    key: typeof ObserverKey,
-    cb: (param: AxiosResponse) => void,) => {
-    const split = key.split('.');
-    const parent = split[0];
-    const child = split[1] || 'default';
-    observer[parent][child].forEach((fn: any, index: number) => {
-      if (cb === fn) observer[parent][child].splice(index, 1);
-    });;
-    return $axios;
-  },
-};
 
-export default $axios;
+export default class HttpUtil {
+
+  private static baseUrl:string = !isDEV
+  ? serverConfig.host
+  : localRegExp.test(serverConfig.devHost) && !localRegExp.test(locaHostName)
+    ? serverConfig.devHost.replace(localRegExp, locaHostName)
+    : serverConfig.devHost
+  ;
 
 
-/**
- * ==============================
- *          接 口 定 义
- * ==============================
- */
+  /**
+   * 发送WEB请求
+   * @param method   - 请求方式
+   * @param url      - 请求链接
+   * @param config   - 请求参数
+   */
+  public static async request(method: ( 'post' | 'get' | 'delete' | 'put' ) = 'get', url: string, config: any = {}){
+      if (!token) {
+        token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
+        if (token) {
+          token = encodeURIComponent(token);
+          observer.response.updateToken.forEach((cb: any) => cb(token));
+        }
+      } else token = encodeURIComponent(token);
 
-declare module 'axios/index' {
-  interface AxiosInstance {
-    /**
-     * axios API request
-     * @param api - API库内的键
-     * @param axiosRequest
-     *        - 请求数据配置
-     *        - 仅 api(*, *).then() 时生效
-     */
-    api: (
-      /**
-       * API库内的键
-       * - @/config/api.config.ts
-       */
-      api: (string | { data: any; key: string; }),
-      /**
-       * 请求数据配置
-       * - 仅 api(*, *).then() 时生效
-       */
-      axiosRequest?: AxiosRequestConfig
-    ) => {
-      get:    (res: AxiosRequestConfig)  => Promise<any>;
-      post:   (res: AxiosRequestConfig)  => Promise<any>;
-      delete: (res: AxiosRequestConfig)  => Promise<any>;
-      put:    (res: AxiosRequestConfig)  => Promise<any>;
-      then:   (res: any)                 => Promise<any>;
+      let dataStr = '';
+      const { data } = config;
+      Object.keys(data || {}).forEach(key => {
+          dataStr += key + '=' + encodeURIComponent(data[key]) + '&';
+      })
+
+      if (dataStr !== '') {
+          dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
+          if (method === 'get') {
+            url += '?' + dataStr;
+          }
+      }
+      
+      // 路径参数
+      const params = config.params || (data && data.params);
+      if (params && url) {
+        for (const key in params) {
+          if (params[key] !== undefined) {
+            url = url.replace(`:${key}`, params[key]);
+          }
+        }
+        delete config.params;
+        if (data) delete data.params;
+      }
+
+      // 统一处理路由
+      if (url) {
+        const targetServer = (url.match(/^(\w+)(?=\:)/) || [])[0];
+        if (targetServer) {
+          const targetChild = serverConfig.children[targetServer];
+          if (targetChild) {
+            url = url.replace(/^(\w+)\:/, '');
+            config.baseURL = !isDEV ? targetChild.host : targetChild.devHost;
+          } else  throw Error(`${targetServer} 子服务器未在配置内!`);
+        }
+        url = url.replace(/^(post|get|put|delete)\./i, '');
+      }
+
+      
+      // 频繁请求拦截
+      const requestKey = method + url;
+      if (requestKey) {
+        const targetClock = requestClock[requestKey];
+        if (targetClock && targetClock > Date.now()) {
+          return Promise.reject({ error: '频繁请求拦截！' });
+        }
+        requestClock[requestKey] = Date.now() + 400;
+      }
+
+      url = HttpUtil.baseUrl + url;
+      return new Promise((resolve, reject) => {
+        let xhr = cc.loader.getXMLHttpRequest();
+        xhr.open(method.toLocaleUpperCase(), url, true);
+        xhr.setRequestHeader('Content-Type', `${method !== 'get' ? 'application/x-www-form-urlencoded' : 'text/plain' };charset=UTF-8`);
+        xhr.setRequestHeader('token', token);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                let response = xhr.responseText;
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const res = JSON.parse(response) || xhr;
+                    resolve(res);
+                    observer.response.default.forEach((cb: any) => cb(res));
+                }else{
+                    observer.response.error.forEach((cb: any) => cb(xhr));
+                    reject(xhr);
+                }
+            }
+        };
+        xhr.send(method !== 'get' ? dataStr : '');
+      })
+  }
+
+
+  /**
+   * 调用API请求
+   * @param api          - api
+   * @param axiosRequest - 请求体
+   */
+  public static api(api: (string | { data: any; key: string; }), axiosRequest = {}) {
+    let URL: string = API[typeof api === 'string' ? api : api.key];
+    // 未知API
+    if (!URL) throw new Error(`api: 「${api}」在配置内未定义!`);
+  
+    // 动态API
+    if (typeof api === 'object' && URL) {
+      for (const key in api.data) {
+        api.data[key] && (URL = URL.replace(`:${key}`, api.data[key]));
+      }
+      api = api.key;
+    }
+  
+    const methods: any = {
+      // get:        (res = {}) => HttpUtil.get(URL,    { api, ...res }),
+      // put:        (res = {}) => HttpUtil.put(URL,    { api, ...res }),
+      // post:       (res)      => HttpUtil.post(URL,   { api, ...res }),
+      // delete:     (res)      => HttpUtil.delete(URL, { api, ...res }),
     };
-
-    /**
-     * 监听axios内部事件
-     */
-    observer: {
-      /**
-       * 绑定
-       * @param key - 事件名
-       * @param cb  - 触发体
-       */
-      emit(
-        key: typeof ObserverKey,
-        cb: (param: AxiosResponse) => void
-      ): AxiosInstance,
-      /**
-       * 解绑
-       * @param key - 事件名
-       * @param cb  - 触发体
-       */
-      off(
-        key: typeof ObserverKey,
-        cb: (param: AxiosResponse) => void
-      ): AxiosInstance,
+  
+    return {
+      ...methods,
+      then: async (res) => {
+        const regExp = /((\w+)(?=\:))?(post|get|put|delete)(?=\.)/ig;
+        const method: any = (URL.match(regExp) || [])[0];
+        return await HttpUtil.request(method || 'get', URL, axiosRequest).then(res);
+      },
     };
   }
 
-  interface AxiosRequestConfig {
-    api?: string | { data: any; key: string; };
+
+  /**
+   * axios observer
+   * @param api - API库内的键
+   * @param axiosRequest
+   *        - 请求数据配置
+   *        - 仅 api(*, *).then() 时生效
+   * @return 链式操作请求方式，内部传入与axios相同，排除第一个URL
+   */
+  $axios.observer = {
+    emit: (
+      key: typeof ObserverKey,
+      cb: (param) => void,) => {
+      const split = key.split('.');
+      const parent = split[0];
+      const child = split[1] || 'default';
+      observer[parent][child].push(cb);
+      return HttpUtil;
+    },
+    off: (
+      key: typeof ObserverKey,
+      cb: (param) => void,) => {
+      const split = key.split('.');
+      const parent = split[0];
+      const child = split[1] || 'default';
+      observer[parent][child].forEach((fn: any, index: number) => {
+        if (cb === fn) observer[parent][child].splice(index, 1);
+      });;
+      return HttpUtil;
+    },
   }
 }
