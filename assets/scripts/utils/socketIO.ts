@@ -30,7 +30,7 @@
  *     this.$io.gameIM.emit()
  *     this.$io.gameIM.on() 等 Socket 方法
  */
-import * as io from 'socket.io-client';
+import * as io from 'socket.io-wxapp-client';
 import State from './state';
 import defaultConfig from '../config/default.config';
 
