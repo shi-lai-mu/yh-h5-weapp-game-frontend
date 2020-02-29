@@ -130,10 +130,11 @@ export default class Login extends cc.Component {
 
 
     inputClick() {
-        if (cc.sys.isMobile) {
-            this.LoginPopup.rotation = -90;
-            this.LoginPopup.x = this.node.width / 4;
-        }
+        console.log(cc.sys);
+        // if (cc.sys.isMobile) {
+        //     this.LoginPopup.rotation = -90;
+        //     this.LoginPopup.x = this.node.width / 4;
+        // }
     }
 
 
