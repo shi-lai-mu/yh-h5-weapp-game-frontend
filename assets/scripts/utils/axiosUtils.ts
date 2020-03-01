@@ -109,7 +109,7 @@ export default class HttpUtil {
    * @param url      - 请求链接
    * @param config   - 请求参数
    */
-  public static async request(method: ( 'post' | 'get' | 'delete' | 'put' ) = 'get', url: string, config: any = {}){
+  static async request(method: ( 'post' | 'get' | 'delete' | 'put' ) = 'get', url: string, config: any = {}, api?: string) {
       if (!token) {
         token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
         if (token) {
@@ -174,20 +174,20 @@ export default class HttpUtil {
         xhr.setRequestHeader('Content-Type', `${method !== 'get' ? 'application/x-www-form-urlencoded' : 'text/plain' };charset=UTF-8`);
         xhr.setRequestHeader('token', token);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                let response = xhr.responseText;
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    const res = JSON.parse(response) || xhr;
-                    resolve(res);
-                    observer.response.default.forEach((cb: any) => cb(res));
-                }else{
-                    observer.response.error.forEach((cb: any) => cb(xhr));
-                    reject(xhr);
-                }
+          if (xhr.readyState === 4) {
+            let response = xhr.responseText;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              const res = JSON.parse(response) || xhr;
+              resolve(res);
+              observer.response.default.forEach((cb: any) => cb(res, api));
+            } else {
+              observer.response.error.forEach((cb: any) => cb(xhr));
+              reject(xhr);
             }
+          }
         };
         xhr.send(method !== 'get' ? dataStr : '');
-      })
+      });
   }
 
 
@@ -196,7 +196,7 @@ export default class HttpUtil {
    * @param api          - api
    * @param axiosRequest - 请求体
    */
-  public static api(api: (string | { data: any; key: string; }), axiosRequest = {}) {
+  static api(api: (string | { data: any; key: string; }), axiosRequest = {}) {
     let URL: string = API[typeof api === 'string' ? api : api.key];
     // 未知API
     if (!URL) throw new Error(`api: 「${api}」在配置内未定义!`);
@@ -221,7 +221,7 @@ export default class HttpUtil {
       then: async (res) => {
         const regExp = /((\w+)(?=\:))?(post|get|put|delete)(?=\.)/ig;
         const method: any = (URL.match(regExp) || [])[0];
-        return await HttpUtil.request(method || 'get', URL, axiosRequest).then(res);
+        return await HttpUtil.request(method || 'get', URL, axiosRequest, api).then(res);
       },
     };
   }
@@ -235,26 +235,29 @@ export default class HttpUtil {
    *        - 仅 api(*, *).then() 时生效
    * @return 链式操作请求方式，内部传入与axios相同，排除第一个URL
    */
-  $axios.observer = {
-    emit: (
-      key: typeof ObserverKey,
-      cb: (param) => void,) => {
-      const split = key.split('.');
-      const parent = split[0];
-      const child = split[1] || 'default';
-      observer[parent][child].push(cb);
-      return HttpUtil;
-    },
-    off: (
-      key: typeof ObserverKey,
-      cb: (param) => void,) => {
-      const split = key.split('.');
-      const parent = split[0];
-      const child = split[1] || 'default';
-      observer[parent][child].forEach((fn: any, index: number) => {
-        if (cb === fn) observer[parent][child].splice(index, 1);
-      });;
-      return HttpUtil;
-    },
+  static observer() {
+    return {
+      emit: (
+        key: typeof ObserverKey,
+        cb: (param) => void,) => {
+        const split = key.split('.');
+        const parent = split[0];
+        const child = split[1] || 'default';
+        observer[parent][child].push(cb);
+        return HttpUtil;
+      },
+      off: (
+        key: typeof ObserverKey,
+        cb: (param) => void,) => {
+        const split = key.split('.');
+        const parent = split[0];
+        const child = split[1] || 'default';
+        observer[parent][child].forEach((fn: any, index: number) => {
+          if (cb === fn) observer[parent][child].splice(index, 1);
+        });;
+        return HttpUtil;
+      },
+    };
   }
+
 }

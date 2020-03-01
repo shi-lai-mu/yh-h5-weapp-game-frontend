@@ -14,6 +14,7 @@
  */
 const io = require('../lib/socket.io.js');
 const userInfo = localStorage.getItem('userInfo');
+const observer = {};
 
 export default  {
     /**
@@ -49,5 +50,50 @@ export default  {
         gameData: { createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0 },
         players: [],
         isStart: !0,
+    },
+
+    /**
+     * Observer
+     */
+    observer: {
+        
+        /**
+         * 订阅事件
+         * @param keyword  - 事件名
+         * @param callback - 回调
+         */
+        on(keyword: string, callback: any) {
+            !observer[keyword] && (observer[keyword] = []);
+            observer[keyword].push(callback);
+        },
+
+        /**
+         * 发布内容
+         * @param keyword - 事件名
+         * @param data    - 数据
+         */
+        emit(keyword: string, data: any) {
+            if (observer[keyword]) {
+                observer[keyword].forEach((cb) => {
+                    cb(data);
+                });
+            }
+        },
+
+        /**
+         * 取消订阅
+         * @param keyword  - 事件名
+         * @param callback - 回调
+         */
+        off(keyword: string, callback: any) {
+            if (observer[keyword]) {
+                observer[keyword].forEach((cb, index) => {
+                    if (callback === cb) {
+                        delete observer[index];
+                    }
+                });
+                if (!observer[keyword].length) delete observer[keyword];
+            }
+        }
     },
 }
