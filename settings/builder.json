@@ -16,7 +16,7 @@
   "mergeStartScene": false,
   "optimizeHotUpdate": false,
   "md5Cache": false,
-  "encryptJs": true,
+  "encryptJs": false,
   "xxteaKey": "c660ec7f-b8ed-46",
   "zipCompressJs": true,
   "fb-instant-games": {},
@@ -40,5 +40,5 @@
     "skipRecord": false
   },
   "appBundle": false,
-  "includeAnySDK": false
+  "includeAnySDK": null
 }
