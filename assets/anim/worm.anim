@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "worm",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.08333333333333333,
+  "sample": 60,
+  "speed": 0.1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "337774af-0162-47c6-b2d4-af931f35e83a"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "38d7e22e-45ac-4e6f-956f-27370dee0b96"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "b36dea27-3354-43cd-9d40-e9d193f8bb27"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "a3a2b002-bc21-4eba-8137-a2fe440c82f7"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "337774af-0162-47c6-b2d4-af931f35e83a"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
