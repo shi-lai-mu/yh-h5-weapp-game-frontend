@@ -173,7 +173,7 @@ export default class Login extends cc.Component {
             {
                 sub: [
                     'perfabScript', 'HomeScript', 'GamesScript',
-                    'HomeImages', 'GameImages',
+                    'HomeImages',
                 ],
                 scene: [
                     'Home',
@@ -195,7 +195,7 @@ export default class Login extends cc.Component {
                 loading.destroy();
             }, 60000);
             return !0;
-        })
+        });
     }
 
 
@@ -263,6 +263,7 @@ export default class Login extends cc.Component {
                       a: account,
                       p: password,
                     }));
+                    State.observer.emit('tokenUpdate', res.token); 
                 } else {
                     LoginStatus.string = `登录失败\n${res.msg || '服务器繁忙'}`;
                     setTimeout(() => {

@@ -30,7 +30,8 @@
  *     this.$io.gameIM.emit()
  *     this.$io.gameIM.on() 等 Socket 方法
  */
-const io = require('../lib/weapp.socket.io.js');
+// const io = require('../lib/socket.io.js');
+import * as io from '../lib/socket.io.js';
 import State from './state';
 import defaultConfig from '../config/default.config';
 
@@ -39,7 +40,6 @@ const IoConfig = defaultConfig.io;
 // 子IO
 // const ioChilder: { [key: string]: typeof io.Socket; } = {};
 // 账号token获取
-const { token } = JSON.parse(localStorage.getItem('userInfo') || '{}');
 // 当前域
 const locaHostName = window.location.hostname;
 const localRegExp = /127\.0\.0\.1|localhost/;
@@ -63,17 +63,31 @@ const localRegExp = /127\.0\.0\.1|localhost/;
 //     );
 //   })
 // ;
-console.log(token);
+State.observer.on('tokenUpdate', (newToken) => {
+  // if (typeof State.io === 'object') {
+  //   // console.warn('断开了一次IO连接');
+  //   State.io.disconnect();
+  // }
+  console.log('==================================');
+  console.log(newToken);
 
-const socket = io('ws://127.0.0.1:7100/?token=186198010f8643d2678fc6c8de71a09cfd703f8464cc069223289119829a1ef0')
-
-socket.connect()
-console.log(socket);
-// 链接处理
-socket.on('connect', console.log)
-
-socket.on('disconnect', console.warn)
-socket.on('disconnecting', console.warn)
-// 错误处理
-socket.on('error', console.warn)
-State.io = socket;
+  let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
+    ? IoConfig.main.replace(localRegExp, locaHostName)
+    : IoConfig.main
+  }/?token=${ newToken }`, 
+  { 
+      transports:['websocket'],
+  });
+  socket.on('connect', () => {
+      console.log(`\n SocketIo Connect`)
+      // this.tipNode.color = cc.Color.GREEN
+  });
+  // 链接处理
+  socket.on('connect', data => console.log('IO连接成功!', data));
+  socket.on('reconnect', data => console.log('IO重连中...', data));
+  socket.on('disconnect', data => console.log('IO断开了!', data));
+  socket.on('disconnecting', data => console.log('IO断开中...', data));
+  socket.on('test', console.log);
+  State.io = socket;
+  window.socket = socket;
+});

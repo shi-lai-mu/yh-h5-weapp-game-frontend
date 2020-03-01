@@ -85,6 +85,7 @@ export default class GoBangMainService extends cc.Component {
      */
     onLoad() {
         // 获取房间数据并且绑定事件
+        console.log(State.io);
         State.io.on('rommjoin', this.roomJoinEvent);
         this.fetchRoomInfo();
         State.io.on('room/data', this.roomDataEevent);
@@ -293,7 +294,9 @@ export default class GoBangMainService extends cc.Component {
      */
     roomData(data: { x: number; y: number; s: number; }) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
+        console.log(data);
         if (!data || data.y === undefined || data.x === undefined || data.s === undefined) return;
+        console.log(1);
         const arr = this.picecArray;
         const targetPiece = arr[data.y][data.x];
         const senderID = data.s;
