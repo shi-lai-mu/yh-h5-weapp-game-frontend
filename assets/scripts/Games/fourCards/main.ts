@@ -56,6 +56,7 @@ export default class FourCardsGame extends cc.Component {
         const screenWidth = node.width;
         const screenHeight = node.height;
         const colorKey = Object.keys(this.Card);
+        const cardList = [];
         // 主颜色
         let mainColor = 0;
         // 子颜色
@@ -67,27 +68,41 @@ export default class FourCardsGame extends cc.Component {
             const newNode = new cc.Node();
             const nodeSprice = newNode.addComponent(cc.Sprite);
             nodeSprice.spriteFrame = targetFrame;
+            let x, y = 0;
             // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-            newNode.x = i * 30 - (screenWidth * .5) + 100;
-            newNode.y -= (screenHeight * .5 - (newNode.height * .5));
+            x = i * 30 - (screenWidth * .5) + 100;
+            y -= (screenHeight * .5 - (newNode.height * .5));
 
             // 一行占满 换行判断
-            if (newNode.x >= screenWidth * .5 - 100) {
+            if (x >= screenWidth * .5 - 100) {
                 // 断点开始换行
                 if (!startX) startX = i;
-                newNode.x -= startX * 30;
+                x -= startX * 30;
                 // 60为往下
-                newNode.y -= 60;
+                y -= 60;
                 // 三行判断
-                if (newNode.x >= screenWidth * .5 - 100) {
-                    newNode.x -= startX * 30;
-                    newNode.y -= 60;
+                if (x >= screenWidth * .5 - 100) {
+                    x -= startX * 30;
+                    y -= 60;
                 }
             }
+            newNode.x = 0;
+            newNode.y = 0;
             
             // 三行判断
-
             this.node.addChild(newNode);
+            cardList.push({
+                node: newNode,
+                x,
+                y,
+            });
+
+            // setTimeout(() => {
+            //     newNode.x = x;
+            //     newNode.y = y;
+            // }, i * 50);
+            // let clock = setInterval(() => {
+            // }, 100);
 
             // 全拍展示 【测试案例】
             mainChildColor++;
@@ -96,6 +111,18 @@ export default class FourCardsGame extends cc.Component {
                 mainChildColor = 0;
             }
         }
+
+        let updatePoint = 0;
+        let clock = setInterval(() => {
+            const target = cardList[updatePoint];
+            // target.node.x = target.x;
+            target.node.x = target.x - 60;
+            target.node.y = target.y;
+            target.node.runAction(cc.moveTo(.5, target.x, target.y));
+            updatePoint++;
+            if (updatePoint === 54) clearInterval(clock);
+        }, 100);
+
     }
 
     // update (dt) {}
