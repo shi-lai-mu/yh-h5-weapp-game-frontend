@@ -9,11 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^13.7.7",
-    "socket.io-wxapp-client": "^1.1.12",
-    "weapp.socket.io": "^2.0.1"
   },
-  "devDependencies": {
-    "weapp.socket.io": "^2.0.1"
-  }
+  "devDependencies": {}
 }

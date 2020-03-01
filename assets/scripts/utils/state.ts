@@ -12,9 +12,9 @@
  * 缓存数据
  * 负责数据缓存npm install --save socket.io-wxapp-client
  */
-const io = require('../lib/socket.io.js');
 const userInfo = localStorage.getItem('userInfo');
 const observer = {};
+
 
 export default  {
     /**
@@ -32,7 +32,7 @@ export default  {
     /**
      * WebSocket IO
      */
-    io: io.Socket,
+    io: {},
 
     /**
      * 游戏数据
@@ -56,7 +56,7 @@ export default  {
      * Observer
      */
     observer: {
-        
+
         /**
          * 订阅事件
          * @param keyword  - 事件名
@@ -94,6 +94,6 @@ export default  {
                 });
                 if (!observer[keyword].length) delete observer[keyword];
             }
-        }
+        },
     },
 }

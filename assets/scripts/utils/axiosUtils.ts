@@ -196,18 +196,18 @@ export default class HttpUtil {
    * @param api          - api
    * @param axiosRequest - 请求体
    */
-  static api(api: (string | { data: any; key: string; }), axiosRequest = {}) {
-    let URL: string = API[typeof api === 'string' ? api : api.key];
+  static api(api: keyof typeof API, axiosRequest = {}) {
+    let URL: string = API[api];
     // 未知API
     if (!URL) throw new Error(`api: 「${api}」在配置内未定义!`);
   
-    // 动态API
-    if (typeof api === 'object' && URL) {
-      for (const key in api.data) {
-        api.data[key] && (URL = URL.replace(`:${key}`, api.data[key]));
-      }
-      api = api.key;
-    }
+    // // 动态API
+    // if (typeof api === 'object' && URL) {
+    //   for (const key in api.data) {
+    //     api.data[key] && (URL = URL.replace(`:${key}`, api.data[key]));
+    //   }
+    //   api = api.key;
+    // }
   
     const methods: any = {
       // get:        (res = {}) => HttpUtil.get(URL,    { api, ...res }),
