@@ -9,6 +9,9 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import axios from '../../utils/axiosUtils';
+import State from '../../utils/State';
+
 const CardItem = cc.Class({
     name: 'cardItem',
     properties: {
@@ -19,6 +22,8 @@ const CardItem = cc.Class({
         joker: [ cc.SpriteFrame ],
     }
 });
+let clock = null; // 计时器
+
 @ccclass
 export default class FourCardsGame extends cc.Component {
 
@@ -46,16 +51,65 @@ export default class FourCardsGame extends cc.Component {
         joker: [],
     }
 
+    // 加入事件容器
+    roomJoinEvent = () => this.fetchRoomInfo();
+    // 下棋事件容器
+    roomDataEevent = (data) => this.roomData(data);
+    // 离开事件容器
+    roomExitEevent = (data) => this.rommleave(data);
+
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        // 创建房间伪逻辑
+        axios.api('create_room', {
+            params: {
+                gameName: 'fourCards',
+            },
+            data: {
+                people: 4,
+                frequency: 1,
+                payType: 0,
+                pwdType: 0,
+            },
+        }).then((res) => {
+            console.log(res);
+            if (res.status) {
+                this.fetchRoomInfo();
+            }
+        });
+        State.io.on('rommjoin', this.roomJoinEvent);
+        State.io.on('room/data', this.roomDataEevent);
+        State.io.on('rommleave', this.roomExitEevent);
+    }
 
     start () {
+        // 随机的卡牌
+        const randomCard = [];
+        const { Card } = this;
+        const CardKey = Object.keys(Card);
+
+        // 随机牌
+        for (let i = 0; i < 54; i++) {
+            let randomMain = Math.random() * 5 | 0;
+            const randomChild = Math.random() * Card[CardKey[randomMain]].length | 0;
+
+            // 如果非大小王
+            if (randomMain === 4) {
+                randomMain = 13;
+            }
+            if (!randomCard[randomChild]) randomCard[randomChild] = {};
+            const cardIndex = randomCard[randomChild];
+            if (!cardIndex[randomMain]) cardIndex[randomMain] = 0;
+            cardIndex[randomMain]++;
+        }
+        console.log(randomCard);
+
+
         // 模拟发牌
         const { node } = this;
         const screenWidth = node.width;
         const screenHeight = node.height;
-        const colorKey = Object.keys(this.Card);
         const cardList = [];
         // 主颜色
         let mainColor = 0;
@@ -64,7 +118,7 @@ export default class FourCardsGame extends cc.Component {
         // 断点行
         let startX = 0;
         for (let i = 0; i < 54; i++) {
-            const targetFrame = this.Card[colorKey[mainColor]][mainChildColor];
+            const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
             const newNode = new cc.Node();
             const nodeSprice = newNode.addComponent(cc.Sprite);
             nodeSprice.spriteFrame = targetFrame;
@@ -106,7 +160,7 @@ export default class FourCardsGame extends cc.Component {
 
             // 全拍展示 【测试案例】
             mainChildColor++;
-            if (mainChildColor === this.Card[colorKey[mainColor]].length) {
+            if (mainChildColor === this.Card[CardKey[mainColor]].length) {
                 mainColor++;
                 mainChildColor = 0;
             }
@@ -115,15 +169,43 @@ export default class FourCardsGame extends cc.Component {
         let updatePoint = 0;
         let clock = setInterval(() => {
             const target = cardList[updatePoint];
-            // target.node.x = target.x;
-            target.node.x = target.x - 60;
+            target.node.x = target.x;
+            // target.node.x = target.x - 60;
             target.node.y = target.y;
-            target.node.runAction(cc.moveTo(.5, target.x, target.y));
+            // target.node.runAction(cc.moveTo(.5, target.x, target.y));
             updatePoint++;
             if (updatePoint === 54) clearInterval(clock);
         }, 100);
 
     }
 
+
+    /**
+     * 游戏场景销毁时
+     */
+    onDestroy() {
+        // 接触IM玩家加入房间事件绑定
+        State.io.off('rommjoin', this.roomJoinEvent);
+        State.io.off('room/data', this.roomDataEevent);
+        State.io.off('rommleave', this.roomExitEevent);
+        clock && clearInterval(clock);
+    }
+
+    
+    private fetchRoomInfo() {
+        axios.api('room_info').then(res => {
+            console.log(res);
+        });
+    }
+
+
+    private roomData(data) {
+        console.log(data);
+    }
+
+
+    private rommleave(data) {
+        console.log(data);
+    }
     // update (dt) {}
 }
