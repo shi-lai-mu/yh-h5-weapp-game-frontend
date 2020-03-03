@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
-import State from '../../utils/State';
+import State from '../../utils/state';
 
 const CardItem = cc.Class({
     name: 'cardItem',
@@ -134,12 +134,13 @@ export default class FourCardsGame extends cc.Component {
         // 大小王
         if (cardData[4]) {
             sortCard.unshift([]);
-            [0, 1].forEach((num, index) => {
-                sortCard[0][index] = num;
+            Object.values(cardData[4]).forEach((num, index) => {
+                cardData[4][index] && sortCard[0].push(...Array(num).fill(index))
             })
         }
         console.log(sortCard);
 
+        
 
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
@@ -147,8 +148,7 @@ export default class FourCardsGame extends cc.Component {
                 // 主颜色
                 let mainColor = row !== 0 ? rowItem[col] : 4;
                 // 子颜色
-                let mainChildColor = row !== 0 ? row - 1 : row;
-                // console.log(mainColor, mainChildColor);
+                let mainChildColor = row !== 0 ? row - 1 : rowItem[col];
                 // 当前颜色的扑克牌张数
                 const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
                 const newNode = new cc.Node();
@@ -156,20 +156,20 @@ export default class FourCardsGame extends cc.Component {
                 nodeSprice.spriteFrame = targetFrame;
                 let x, y = 0;
                 // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-                x = cardCount * 30 - (screenWidth * .5) + 100;
-                y -= (screenHeight * .5 - (newNode.height * .5));
+                x = cardCount * 30 - (screenWidth * .5) + 150;
+                y -= (screenHeight * .3 - (newNode.height * .5));
     
                 // 一行占满 换行判断
-                if (x >= screenWidth * .5 - 100) {
+                if (x >= screenWidth * .5 - 150) {
                     // 断点开始换行
                     if (!startX) startX = cardCount;
                     x -= startX * 30;
-                    // 60为往下
-                    y -= 60;
+                    // 80为往下
+                    y -= 80;
                     // 三行判断
-                    if (x >= screenWidth * .5 - 100) {
+                    if (x >= screenWidth * .5 - 150) {
                         x -= startX * 30;
-                        y -= 60;
+                        y -= 80;
                     }
                 }
                 
@@ -186,7 +186,20 @@ export default class FourCardsGame extends cc.Component {
                 const newButton = newNode.addComponent(cc.Button);
                 newButton.clickEvents.push(clickEventHandler);
 
+                // 放置到屏幕最上方
                 newNode.y = newNode.height + screenHeight / 2;
+
+                // 显示数字
+                if (col === 0 && row !== 0) {
+                    const labelNode = new cc.Node();
+                    const label = labelNode.addComponent(cc.Label);
+                    label.string = rowItem.length;
+                    labelNode.x = -((newNode.width / 2) - 20);
+                    labelNode.y += 20;
+                    labelNode.color = cc.color(63, 110, 146);
+                    label.fontSize = 30;
+                    newNode.addChild(labelNode);
+                }
 
                 cardList.push({
                     node: newNode,
@@ -207,6 +220,7 @@ export default class FourCardsGame extends cc.Component {
                 // target.node.runAction(cc.moveTo(.03, target.x, target.y));
                 updatePoint++;
             } else {
+                console.log(updatePoint);
                 clearInterval(clock);
             }
         }, 50);
