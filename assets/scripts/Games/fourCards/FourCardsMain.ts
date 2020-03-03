@@ -81,75 +81,92 @@ export default class FourCardsGame extends cc.Component {
         State.io.on('rommjoin', this.roomJoinEvent);
         State.io.on('room/data', this.roomDataEevent);
         State.io.on('rommleave', this.roomExitEevent);
+        State.observer.on('socketConnect', this.onSocketConnect.bind(this))
     }
 
-    start () {
-        // 随机的卡牌
-        const randomCard = [];
+
+    /**
+     * 开始游戏
+     * @param cardData - 卡牌数组
+     */
+    gameStart (cardData: Array<{ [key: number]: number }>[]) {
+        // // 随机的卡牌
+        // const randomCard = [];
         const { Card } = this;
         const CardKey = Object.keys(Card);
 
-        // 随机牌
-        for (let i = 0; i < 54; i++) {
-            let randomMain = Math.random() * 5 | 0;
-            const randomChild = Math.random() * Card[CardKey[randomMain]].length | 0;
+        // // 随机牌
+        // for (let i = 0; i < 54; i++) {
+        //     let randomMain = Math.random() * 5 | 0;
+        //     const randomChild = Math.random() * Card[CardKey[randomMain]].length | 0;
 
-            // 如果非大小王
-            if (randomMain === 4) {
-                randomMain = 13;
-            }
-            if (!randomCard[randomChild]) randomCard[randomChild] = {};
-            const cardIndex = randomCard[randomChild];
-            if (!cardIndex[randomMain]) cardIndex[randomMain] = 0;
-            cardIndex[randomMain]++;
-        }
-        console.log(randomCard);
-
+        //     // 如果非大小王
+        //     if (randomMain === 4) {
+        //         randomMain = 13;
+        //     }
+        //     if (!randomCard[randomChild]) randomCard[randomChild] = {};
+        //     const cardIndex = randomCard[randomChild];
+        //     if (!cardIndex[randomMain]) cardIndex[randomMain] = 0;
+        //     cardIndex[randomMain]++;
+        // }
+        // console.log(randomCard);
+        console.log(cardData[0]);
 
         // 模拟发牌
         const { node } = this;
         const screenWidth = node.width;
         const screenHeight = node.height;
         const cardList = [];
-        // 主颜色
-        let mainColor = 0;
-        // 子颜色
-        let mainChildColor = 0;
         // 断点行
         let startX = 0;
-        for (let i = 0; i < 54; i++) {
-            const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
-            const newNode = new cc.Node();
-            const nodeSprice = newNode.addComponent(cc.Sprite);
-            nodeSprice.spriteFrame = targetFrame;
-            let x, y = 0;
-            // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-            x = i * 30 - (screenWidth * .5) + 100;
-            y -= (screenHeight * .5 - (newNode.height * .5));
-
-            // 一行占满 换行判断
-            if (x >= screenWidth * .5 - 100) {
-                // 断点开始换行
-                if (!startX) startX = i;
-                x -= startX * 30;
-                // 60为往下
-                y -= 60;
-                // 三行判断
-                if (x >= screenWidth * .5 - 100) {
-                    x -= startX * 30;
-                    y -= 60;
+        // 扑克牌当前张数
+        let cardCount = 0;
+        for (let row = 0; row < cardData.length; row++) {
+            const rowItem = cardData[row];
+            const rowCard = Object.keys(rowItem);
+            for (let col = 0; col < rowCard.length; col++) {
+                // 主颜色
+                let mainColor = row;
+                // 子颜色
+                let mainChildColor = rowCard[col];
+                // 当前颜色的扑克牌张数
+                const targetCardCount = rowItem[rowCard[col]];
+                for (let renderIndex = 0; renderIndex < targetCardCount; renderIndex++) {
+                    const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
+                    const newNode = new cc.Node();
+                    const nodeSprice = newNode.addComponent(cc.Sprite);
+                    nodeSprice.spriteFrame = targetFrame;
+                    let x, y = 0;
+                    // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
+                    x = cardCount * 30 - (screenWidth * .5) + 100;
+                    y -= (screenHeight * .5 - (newNode.height * .5));
+        
+                    // 一行占满 换行判断
+                    if (x >= screenWidth * .5 - 100) {
+                        // 断点开始换行
+                        if (!startX) startX = cardCount;
+                        x -= startX * 30;
+                        // 60为往下
+                        y -= 60;
+                        // 三行判断
+                        if (x >= screenWidth * .5 - 100) {
+                            x -= startX * 30;
+                            y -= 60;
+                        }
+                    }
+                    newNode.x = 0;
+                    newNode.y = 0;
+                    
+                    // 三行判断
+                    this.node.addChild(newNode);
+                    cardList.push({
+                        node: newNode,
+                        x,
+                        y,
+                    });
+                    cardCount++;
                 }
             }
-            newNode.x = 0;
-            newNode.y = 0;
-            
-            // 三行判断
-            this.node.addChild(newNode);
-            cardList.push({
-                node: newNode,
-                x,
-                y,
-            });
 
             // setTimeout(() => {
             //     newNode.x = x;
@@ -159,24 +176,37 @@ export default class FourCardsGame extends cc.Component {
             // }, 100);
 
             // 全拍展示 【测试案例】
-            mainChildColor++;
-            if (mainChildColor === this.Card[CardKey[mainColor]].length) {
-                mainColor++;
-                mainChildColor = 0;
-            }
+            // mainChildColor++;
+            // if (mainChildColor === this.Card[CardKey[mainColor]].length) {
+            //     mainColor++;
+            //     mainChildColor = 0;
+            // }
         }
+        console.log(cardCount);
 
         let updatePoint = 0;
         let clock = setInterval(() => {
             const target = cardList[updatePoint];
-            target.node.x = target.x;
-            // target.node.x = target.x - 60;
-            target.node.y = target.y;
-            // target.node.runAction(cc.moveTo(.5, target.x, target.y));
-            updatePoint++;
-            if (updatePoint === 54) clearInterval(clock);
-        }, 100);
+            if (target && updatePoint < 54) {
+                target.node.x = target.x;
+                // target.node.x = target.x - 60;
+                target.node.y = target.y;
+                // target.node.runAction(cc.moveTo(.5, target.x, target.y));
+                updatePoint++;
+            } else {
+                clearInterval(clock);
+            }
+        }, 50);
 
+    }
+
+
+    /**
+     * Socket 连接时[通常情况下为重连]
+     */
+    onSocketConnect() {
+        this.node.removeAllChildren();
+        this.onLoad();
     }
 
 
@@ -192,18 +222,33 @@ export default class FourCardsGame extends cc.Component {
     }
 
     
+    /**
+     * 当玩家加入房间时
+     */
     private fetchRoomInfo() {
         axios.api('room_info').then(res => {
             console.log(res);
+            // 检测是否已经开始游戏
+            if (res.isStart && res.gameData && res.gameData.card) {
+                this.gameStart(res.gameData.card[0]);
+            }
         });
     }
 
 
+    /**
+     * 房间内接收到数据时
+     * @param data - 房间内数据
+     */
     private roomData(data) {
         console.log(data);
     }
 
 
+    /**
+     * 玩家离开游戏时
+     * @param data - 数据
+     */
     private rommleave(data) {
         console.log(data);
     }

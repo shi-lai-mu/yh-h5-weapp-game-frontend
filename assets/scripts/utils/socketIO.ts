@@ -63,11 +63,13 @@ const localRegExp = /127\.0\.0\.1|localhost/;
 //     );
 //   })
 // ;
+console.log('IO 机制加载成功!');
 State.observer.on('tokenUpdate', (newToken) => {
   // if (typeof State.io === 'object') {
   //   // console.warn('断开了一次IO连接');
   //   State.io.disconnect();
   // }
+  console.log(`IO 连接中...`);
   console.log(newToken);
   let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
     ? IoConfig.main.replace(localRegExp, locaHostName)
@@ -80,8 +82,9 @@ State.observer.on('tokenUpdate', (newToken) => {
     transports:['websocket'],
   });
   socket.on('connect', () => {
-      console.log(`IO 连接成功!`)
+      console.log(`IO 连接成功!`);
       // this.tipNode.color = cc.Color.GREEN
+      State.observer.emit('socketConnect');
   });
   // 链接处理
   socket.on('reconnect', data => console.log('IO重连中...', data));
