@@ -72,7 +72,7 @@ const State = {
          * @param keyword - 事件名
          * @param data    - 数据
          */
-        emit(keyword: string, data: any) {
+        emit(keyword: string, data?: any) {
             if (observer[keyword]) {
                 observer[keyword].forEach((cb) => {
                     cb(data);
