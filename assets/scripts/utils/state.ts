@@ -14,9 +14,9 @@
  */
 const userInfo = localStorage.getItem('userInfo');
 const observer = {};
+import * as io from '../lib/socket.io.js';
 
-
-export default  {
+const State = {
     /**
      * 用户数据
      */
@@ -32,7 +32,7 @@ export default  {
     /**
      * WebSocket IO
      */
-    io: {},
+    io: io.Socket,
 
     /**
      * 游戏数据
@@ -96,4 +96,49 @@ export default  {
             }
         },
     },
+}
+export default State;
+
+/**
+ * 全局重登机制
+ */
+import axios from './axiosUtils';
+localStorage.getItem('account') && onLogin();
+
+function onLogin() {
+    let accountInputText = '';
+    let passwordInputText = '';
+    
+
+    // 重新登录
+    const { a, p } = JSON.parse(localStorage.getItem('account') || '{}');
+    if (a && p) {
+        passwordInputText = p.split('-').map((pwd: string) => {
+            return String.fromCharCode(+pwd - 10);
+        }).join('');
+        accountInputText = a.split('-').map((acc: string) => {
+            return String.fromCharCode(+acc - 10);
+        }).join('');
+    }
+
+    if (!accountInputText || !passwordInputText) {
+        return;
+    }
+
+    axios
+        .api('login', {
+            data: {
+                account: accountInputText,
+                password: passwordInputText,
+            }
+        })
+        .then((res) => {
+            if (res.token) {
+                localStorage.setItem('userInfo', JSON.stringify(res));
+                State.userInfo = res;
+                console.log('==== State 登录机制 登录成功 ====');
+                State.observer.emit('tokenUpdate', res.token);
+            }
+        })
+    ;
 }
