@@ -49,7 +49,10 @@ export default class FourCardsGame extends cc.Component {
          * 大小王
          */
         joker: [],
-    }
+    };
+
+    // 已有扑克牌
+    cardList = [];
 
     // 加入事件容器
     roomJoinEvent = () => this.fetchRoomInfo();
@@ -110,94 +113,114 @@ export default class FourCardsGame extends cc.Component {
         //     cardIndex[randomMain]++;
         // }
         // console.log(randomCard);
-        console.log(cardData[0]);
 
         // 模拟发牌
-        const { node } = this;
+        const { node, cardList } = this;
         const screenWidth = node.width;
         const screenHeight = node.height;
-        const cardList = [];
         // 断点行
         let startX = 0;
         // 扑克牌当前张数
         let cardCount = 0;
-        for (let row = 0; row < cardData.length; row++) {
-            const rowItem = cardData[row];
-            const rowCard = Object.keys(rowItem);
-            for (let col = 0; col < rowCard.length; col++) {
-                // 主颜色
-                let mainColor = row;
-                // 子颜色
-                let mainChildColor = rowCard[col];
-                // 当前颜色的扑克牌张数
-                const targetCardCount = rowItem[rowCard[col]];
-                for (let renderIndex = 0; renderIndex < targetCardCount; renderIndex++) {
-                    const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
-                    const newNode = new cc.Node();
-                    const nodeSprice = newNode.addComponent(cc.Sprite);
-                    nodeSprice.spriteFrame = targetFrame;
-                    let x, y = 0;
-                    // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-                    x = cardCount * 30 - (screenWidth * .5) + 100;
-                    y -= (screenHeight * .5 - (newNode.height * .5));
-        
-                    // 一行占满 换行判断
-                    if (x >= screenWidth * .5 - 100) {
-                        // 断点开始换行
-                        if (!startX) startX = cardCount;
-                        x -= startX * 30;
-                        // 60为往下
-                        y -= 60;
-                        // 三行判断
-                        if (x >= screenWidth * .5 - 100) {
-                            x -= startX * 30;
-                            y -= 60;
-                        }
-                    }
-                    newNode.x = 0;
-                    newNode.y = 0;
-                    
-                    // 三行判断
-                    this.node.addChild(newNode);
-                    cardList.push({
-                        node: newNode,
-                        x,
-                        y,
-                    });
-                    cardCount++;
-                }
+        // 排序
+        const sortCard = [];
+        for (let num = 0; num < 13; num++) {
+            sortCard[num] = [];
+            for (let row = 0; row < cardData.length - 1; row++) {
+                const targetCard = cardData[row][num];
+                targetCard && sortCard[num].push(...Array(targetCard).fill(row))
             }
-
-            // setTimeout(() => {
-            //     newNode.x = x;
-            //     newNode.y = y;
-            // }, i * 50);
-            // let clock = setInterval(() => {
-            // }, 100);
-
-            // 全拍展示 【测试案例】
-            // mainChildColor++;
-            // if (mainChildColor === this.Card[CardKey[mainColor]].length) {
-            //     mainColor++;
-            //     mainChildColor = 0;
-            // }
         }
-        console.log(cardCount);
+        // 大小王
+        if (cardData[4]) {
+            sortCard.unshift([]);
+            [0, 1].forEach((num, index) => {
+                sortCard[0][index] = num;
+            })
+        }
+        console.log(sortCard);
+
+
+        for (let row = 0; row < sortCard.length; row++) {
+            const rowItem = sortCard[row];
+            for (let col = 0; col < rowItem.length; col++) {
+                // 主颜色
+                let mainColor = row !== 0 ? rowItem[col] : 4;
+                // 子颜色
+                let mainChildColor = row !== 0 ? row - 1 : row;
+                // console.log(mainColor, mainChildColor);
+                // 当前颜色的扑克牌张数
+                const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
+                const newNode = new cc.Node();
+                const nodeSprice = newNode.addComponent(cc.Sprite);
+                nodeSprice.spriteFrame = targetFrame;
+                let x, y = 0;
+                // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
+                x = cardCount * 30 - (screenWidth * .5) + 100;
+                y -= (screenHeight * .5 - (newNode.height * .5));
+    
+                // 一行占满 换行判断
+                if (x >= screenWidth * .5 - 100) {
+                    // 断点开始换行
+                    if (!startX) startX = cardCount;
+                    x -= startX * 30;
+                    // 60为往下
+                    y -= 60;
+                    // 三行判断
+                    if (x >= screenWidth * .5 - 100) {
+                        x -= startX * 30;
+                        y -= 60;
+                    }
+                }
+                
+                // 三行判断
+                this.node.addChild(newNode);
+                var clickEventHandler = new cc.Component.EventHandler();
+                //这个 node 节点是你的事件处理代码组件所属的节点
+                clickEventHandler.target = this.node; 
+
+                //这个是代码文件名
+                clickEventHandler.component = "FourCardsMain";
+                clickEventHandler.handler = "onClickCard";
+                clickEventHandler.customEventData = cardCount.toString();
+                const newButton = newNode.addComponent(cc.Button);
+                newButton.clickEvents.push(clickEventHandler);
+
+                newNode.y = newNode.height + screenHeight / 2;
+
+                cardList.push({
+                    node: newNode,
+                    x,
+                    y,
+                });
+                cardCount++;
+            }
+        }
 
         let updatePoint = 0;
         let clock = setInterval(() => {
             const target = cardList[updatePoint];
-            if (target && updatePoint < 54) {
+            if (target && updatePoint < cardList.length) {
                 target.node.x = target.x;
-                // target.node.x = target.x - 60;
                 target.node.y = target.y;
-                // target.node.runAction(cc.moveTo(.5, target.x, target.y));
+                // target.node.x = target.x - 60;
+                // target.node.runAction(cc.moveTo(.03, target.x, target.y));
                 updatePoint++;
             } else {
                 clearInterval(clock);
             }
         }, 50);
 
+    }
+
+
+    /**
+     * 扑克牌点击事件
+     * @param _e        - 事件体
+     * @param cardIndex - 扑克牌下标
+     */
+    onClickCard(_e, cardIndex: string) {
+        console.log(cardIndex);
     }
 
 
