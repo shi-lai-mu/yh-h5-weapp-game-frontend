@@ -27,6 +27,9 @@ let clock = null; // 计时器
 @ccclass
 export default class FourCardsGame extends cc.Component {
 
+    @property(cc.Node)
+    cardBox: cc.Node = null;
+
     @property(CardItem)
     Card = {
         /**
@@ -76,7 +79,6 @@ export default class FourCardsGame extends cc.Component {
                 pwdType: 0,
             },
         }).then((res) => {
-            console.log(res);
             if (res.status) {
                 this.fetchRoomInfo();
             }
@@ -92,7 +94,7 @@ export default class FourCardsGame extends cc.Component {
      * 开始游戏
      * @param cardData - 卡牌数组
      */
-    gameStart (cardData: Array<{ [key: number]: number }>[]) {
+    gameStart (cardData: Array<{ [key: number]: number }>) {
         // // 随机的卡牌
         // const randomCard = [];
         const { Card } = this;
@@ -124,24 +126,28 @@ export default class FourCardsGame extends cc.Component {
         let cardCount = 0;
         // 排序
         const sortCard = [];
+        if (cardData.length === 4) {
+            cardData.unshift({});
+        }
         for (let num = 0; num < 13; num++) {
             sortCard[num] = [];
             for (let row = 0; row < cardData.length - 1; row++) {
                 const targetCard = cardData[row][num];
-                targetCard && sortCard[num].push(...Array(targetCard).fill(row))
+                if (Object.keys(cardData[row]).length) {
+                    targetCard && sortCard[num].push(...Array(targetCard).fill(row));
+                }
             }
         }
         // 大小王
-        if (cardData[4]) {
+        let jokers = cardData[4];
+        if (jokers) {
             sortCard.unshift([]);
-            Object.values(cardData[4]).forEach((num, index) => {
-                cardData[4][index] && sortCard[0].push(...Array(num).fill(index))
-            })
+            Object.keys(jokers).forEach((num) => {
+                jokers[num] && sortCard[0].push(...Array(jokers[num]).fill(num));
+            });
         }
+
         console.log(sortCard);
-
-        
-
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
             for (let col = 0; col < rowItem.length; col++) {
@@ -152,29 +158,36 @@ export default class FourCardsGame extends cc.Component {
                 // 当前颜色的扑克牌张数
                 const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
                 const newNode = new cc.Node();
+                newNode.scale = .7;
                 const nodeSprice = newNode.addComponent(cc.Sprite);
                 nodeSprice.spriteFrame = targetFrame;
                 let x, y = 0;
                 // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-                x = cardCount * 30 - (screenWidth * .5) + 150;
-                y -= (screenHeight * .3 - (newNode.height * .5));
+                x = cardCount * 25;
+                y -= ( (newNode.height * .5)) - 150;
     
                 // 一行占满 换行判断
-                if (x >= screenWidth * .5 - 150) {
-                    // 断点开始换行
+                // if (x >= screenWidth * .5 - 150) {
+                //     // 断点开始换行
+                //     if (!startX) startX = cardCount;
+                //     x -= startX * 30;
+                //     // 80为往下
+                //     y -= 80;
+                //     // 三行判断
+                //     if (x >= screenWidth * .5 - 150) {
+                //         x -= startX * 30;
+                //         y -= 80;
+                //     }
+                // }
+                if (cardCount >= 27) {
                     if (!startX) startX = cardCount;
-                    x -= startX * 30;
+                    x -= startX * 25;
                     // 80为往下
                     y -= 80;
-                    // 三行判断
-                    if (x >= screenWidth * .5 - 150) {
-                        x -= startX * 30;
-                        y -= 80;
-                    }
                 }
                 
                 // 三行判断
-                this.node.addChild(newNode);
+                this.cardBox.addChild(newNode);
                 var clickEventHandler = new cc.Component.EventHandler();
                 //这个 node 节点是你的事件处理代码组件所属的节点
                 clickEventHandler.target = this.node; 
@@ -187,18 +200,19 @@ export default class FourCardsGame extends cc.Component {
                 newButton.clickEvents.push(clickEventHandler);
 
                 // 放置到屏幕最上方
-                newNode.y = newNode.height + screenHeight / 2;
+                newNode.y = newNode.height + screenHeight;
 
                 // 显示数字
                 if (col === 0 && row !== 0) {
                     const labelNode = new cc.Node();
                     const label = labelNode.addComponent(cc.Label);
                     label.string = rowItem.length;
-                    labelNode.x = -((newNode.width / 2) - 20);
+                    labelNode.x = -((newNode.width / 2) + 45);
                     labelNode.y += 20;
                     labelNode.color = cc.color(63, 110, 146);
                     label.fontSize = 30;
                     newNode.addChild(labelNode);
+                    console.log(123456);
                 }
 
                 cardList.push({
@@ -220,7 +234,6 @@ export default class FourCardsGame extends cc.Component {
                 // target.node.runAction(cc.moveTo(.03, target.x, target.y));
                 updatePoint++;
             } else {
-                console.log(updatePoint);
                 clearInterval(clock);
             }
         }, 50);

@@ -85,7 +85,6 @@ export default class NewClass extends cc.Component {
      * @param signal - 延迟
      */
     onSignal(signal) {
-        console.log(signal);
         if (typeof signal === 'number' && this.signal) {
             statusUpdateTime = Date.now();
             this.signal.string = signal + 'ms';
