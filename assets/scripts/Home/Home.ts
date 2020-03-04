@@ -12,7 +12,7 @@ import State from '../utils/state';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Home extends cc.Component {
 
     @property(cc.Prefab)
     ActivityPrefab: cc.Prefab = null;

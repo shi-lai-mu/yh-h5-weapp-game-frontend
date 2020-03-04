@@ -100,7 +100,7 @@ const State = {
 export default State;
 
 /**
- * 全局重登机制
+ * 全局重登机制 [Bate]
  */
 import axios from './axiosUtils';
 localStorage.getItem('account') && onLogin();

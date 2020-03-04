@@ -204,6 +204,12 @@ export default class Login extends cc.Component {
      */
     async onLogin() {
         // console.log(await axios.api('xxx').then((res) => console.log(res)));
+
+        // 已自动登录则拒绝登录
+        if (Date.now() - State.userInfo.last_login_time < 10000) {
+            return this.loadingScens();
+        }
+
         const {
             accountInput,
             passwordInput,
@@ -215,7 +221,6 @@ export default class Login extends cc.Component {
             accountInputText,
             passwordInputText,
         } = this;
-        
 
         // 重新登录
         const { a, p } = JSON.parse(localStorage.getItem('account') || '{}');
