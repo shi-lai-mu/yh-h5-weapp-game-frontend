@@ -134,6 +134,7 @@ export default class FourCardsGame extends cc.Component {
             for (let row = 0; row < cardData.length - 1; row++) {
                 const targetCard = cardData[row][num];
                 if (Object.keys(cardData[row]).length) {
+                    console.log(Object.keys(cardData[row]).length, row);
                     targetCard && sortCard[num].push(...Array(targetCard).fill(row));
                 }
             }
@@ -158,13 +159,13 @@ export default class FourCardsGame extends cc.Component {
                 // 当前颜色的扑克牌张数
                 const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
                 const newNode = new cc.Node();
-                newNode.scale = .7;
+                newNode.scale = .6;
                 const nodeSprice = newNode.addComponent(cc.Sprite);
                 nodeSprice.spriteFrame = targetFrame;
                 let x, y = 0;
                 // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-                x = cardCount * 25;
-                y -= ( (newNode.height * .5)) - 150;
+                x = cardCount * 15;
+                y -= ((newNode.height * .5)) - 50;
     
                 // 一行占满 换行判断
                 // if (x >= screenWidth * .5 - 150) {
@@ -179,12 +180,12 @@ export default class FourCardsGame extends cc.Component {
                 //         y -= 80;
                 //     }
                 // }
-                if (cardCount >= 27) {
-                    if (!startX) startX = cardCount;
-                    x -= startX * 25;
-                    // 80为往下
-                    y -= 80;
-                }
+                // if (cardCount >= 27) {
+                //     if (!startX) startX = cardCount;
+                //     x -= startX * 25;
+                //     // 80为往下
+                //     y -= 80;
+                // }
                 
                 // 三行判断
                 this.cardBox.addChild(newNode);
