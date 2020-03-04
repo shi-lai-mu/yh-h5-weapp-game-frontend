@@ -12,6 +12,10 @@ const {ccclass, property} = cc._decorator;
 import tool from '../../utils/tool';
 import State from '../../utils/state';
 
+let prveStatus = 20;
+let statusUpdateTime = Date.now();
+let clock = 0;
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -51,14 +55,8 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     signal: cc.Label = null;
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-        let prveStatus = 20;
-        let statusUpdateTime = Date.now();
-        setInterval(() => {
+    onLoad () {
+        clock = setInterval(() => {
             this.time.string = tool.dateFrom('HH:mm');
             State.io.emit('signal');
 
@@ -75,30 +73,52 @@ export default class NewClass extends cc.Component {
             }
         }, 1000);
 
-        State.io.on('signal', (signal) => {
-            if (typeof signal === 'number') {
-                statusUpdateTime = Date.now();
-                this.signal.string = signal + 'ms';
+        /**
+         * 延迟接收
+         */
+        State.io.on('signal', this.onSignal.bind(this));
+    }
 
-                // 状态正常恢复
-                if (prveStatus >= 500 && prveStatus <= 2000 && signal < 500) {
-                    this.wifi.spriteFrame = this.wifiSuccessFrame;
-                    this.signal.node.color = cc.color(30, 255, 127);
-                }
 
-                // 延迟状态
-                if (signal > 500 && signal < 1000) {
-                    this.wifi.spriteFrame = this.wifiErrorFrame;
-                    prveStatus = signal;
-                }
+    /**
+     * 接收到延迟数据时
+     * @param signal - 延迟
+     */
+    onSignal(signal) {
+        console.log(signal);
+        if (typeof signal === 'number' && this.signal) {
+            statusUpdateTime = Date.now();
+            this.signal.string = signal + 'ms';
+            State.userInfo.signal = signal;
 
-                // 掉线状态
-                if (signal > 1000) {
-                    this.wifi.spriteFrame = this.wifiUnLinkFrame;
-                    prveStatus = signal;
-                }
+            // 状态正常恢复
+            if (prveStatus >= 500 && prveStatus <= 2000 && signal < 500) {
+                this.wifi.spriteFrame = this.wifiSuccessFrame;
+                this.signal.node.color = cc.color(30, 255, 127);
             }
-        });
+
+            // 延迟状态
+            if (signal > 500 && signal < 1000) {
+                this.wifi.spriteFrame = this.wifiErrorFrame;
+                prveStatus = signal;
+            }
+
+            // 掉线状态
+            if (signal > 1000) {
+                this.wifi.spriteFrame = this.wifiUnLinkFrame;
+                prveStatus = signal;
+            }
+        }
+    }
+
+
+    /**
+     * 销毁场景时进行清理
+     */
+    onDestroy() {
+        console.log('clear Signal');
+        State.io.off('signal', this.onSignal.bind(this));
+        clock && clearInterval(clock);
     }
 
     // update (dt) {}

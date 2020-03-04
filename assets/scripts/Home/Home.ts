@@ -43,9 +43,6 @@ export default class Home extends cc.Component {
     onLoad () {
         // 登录检测
         const userInfo = localStorage.getItem('userInfo');
-        console.log(
-            State.userInfo
-        );
         if (!userInfo) {
             cc.director.loadScene('loginPage');
             return !1;

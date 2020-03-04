@@ -27,6 +27,7 @@ const State = {
         gold: 0,
         token: false,
         avatarUrl: false,
+        signal: 0,
     },
 
     /**
