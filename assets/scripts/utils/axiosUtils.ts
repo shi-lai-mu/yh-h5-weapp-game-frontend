@@ -162,7 +162,7 @@ export default class HttpUtil {
       if (requestKey) {
         const targetClock = requestClock[requestKey];
         if (targetClock && targetClock > Date.now()) {
-          return Promise.reject({ error: '频繁请求拦截！' });
+          return Promise.reject({ error: '频繁请求拦截！', requestKey });
         }
         requestClock[requestKey] = Date.now() + 400;
       }
