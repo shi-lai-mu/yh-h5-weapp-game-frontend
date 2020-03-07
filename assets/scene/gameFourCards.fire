@@ -17,7 +17,7 @@
         "__id__": 2
       },
       {
-        "__id__": 143
+        "__id__": 144
       }
     ],
     "_active": true,
@@ -105,25 +105,25 @@
         "__id__": 118
       },
       {
-        "__id__": 124
+        "__id__": 125
       },
       {
-        "__id__": 128
-      },
-      {
-        "__id__": 134
+        "__id__": 129
       },
       {
         "__id__": 135
+      },
+      {
+        "__id__": 136
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 136
+        "__id__": 137
       },
       {
-        "__id__": 137
+        "__id__": 138
       }
     ],
     "_prefab": null,
@@ -5897,7 +5897,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 124
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -5954,6 +5958,16 @@
     "_id": "7bYf5PIqJCZ6H9Rx2H0CKg"
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "cf228ofZzBCzKT9S3oNYYN0",
+    "handler": "dealCards",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Node",
     "_name": "clock",
     "_objFlags": 0,
@@ -5962,13 +5976,13 @@
     },
     "_children": [
       {
-        "__id__": 125
+        "__id__": 126
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 127
+        "__id__": 128
       }
     ],
     "_prefab": null,
@@ -6024,13 +6038,13 @@
     "_name": "number",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 124
+      "__id__": 125
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 126
+        "__id__": 127
       }
     ],
     "_prefab": null,
@@ -6086,7 +6100,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 125
+      "__id__": 126
     },
     "_enabled": true,
     "_materials": [
@@ -6118,7 +6132,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 124
+      "__id__": 125
     },
     "_enabled": true,
     "_materials": [
@@ -6154,19 +6168,19 @@
     },
     "_children": [
       {
-        "__id__": 129
+        "__id__": 130
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 131
-      },
-      {
         "__id__": 132
       },
       {
         "__id__": 133
+      },
+      {
+        "__id__": 134
       }
     ],
     "_prefab": null,
@@ -6222,13 +6236,13 @@
     "_name": "不出",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 128
+      "__id__": 129
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 130
+        "__id__": 131
       }
     ],
     "_prefab": null,
@@ -6284,7 +6298,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 129
+      "__id__": 130
     },
     "_enabled": true,
     "_materials": [
@@ -6316,7 +6330,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 128
+      "__id__": 129
     },
     "_enabled": true,
     "_materials": [
@@ -6348,7 +6362,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 128
+      "__id__": 129
     },
     "_enabled": true,
     "alignMode": 1,
@@ -6375,7 +6389,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 128
+      "__id__": 129
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -6588,9 +6602,6 @@
     },
     "FourCardsPlayers": [
       {
-        "__id__": 138
-      },
-      {
         "__id__": 139
       },
       {
@@ -6598,13 +6609,16 @@
       },
       {
         "__id__": 141
+      },
+      {
+        "__id__": 142
       }
     ],
     "cardsMask": {
       "__uuid__": "ae2b835e-013c-41bf-9918-6902779a25b3"
     },
     "Card": {
-      "__id__": 142
+      "__id__": 143
     },
     "_id": "39Db48D9VDXaoTwPHz0to9"
   },
@@ -6874,11 +6888,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 144
+        "__id__": 145
       }
     ],
     "_prefab": {
-      "__id__": 145
+      "__id__": 146
     },
     "_opacity": 255,
     "_color": {
@@ -6932,7 +6946,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 143
+      "__id__": 144
     },
     "_enabled": true,
     "_materials": [
@@ -6952,7 +6966,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 143
+      "__id__": 144
     },
     "asset": {
       "__uuid__": "ae2b835e-013c-41bf-9918-6902779a25b3"
