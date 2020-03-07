@@ -54,7 +54,10 @@ export default class FourCardsGame extends cc.Component {
      * 玩家节点数据
      */
     @property(FourCardsPlayersItem)
-    FourCardsPlayers: typeof FourCardsPlayersItem[] = [];
+    FourCardsPlayers: typeof FourCardsPlayers[] = [];
+
+    @property(cc.Prefab)
+    cardsMask: cc.Prefab = null;
 
     /**
      * 玩家数据
@@ -156,8 +159,6 @@ export default class FourCardsGame extends cc.Component {
         const { node, cardList } = this;
         const screenWidth = node.width;
         const screenHeight = node.height;
-        // 断点行
-        let startX = 0;
         // 扑克牌当前张数
         let cardCount = 0;
         // 排序
@@ -170,7 +171,6 @@ export default class FourCardsGame extends cc.Component {
             for (let row = 0; row < cardData.length - 1; row++) {
                 const targetCard = cardData[row][num];
                 if (Object.keys(cardData[row]).length) {
-                    console.log(Object.keys(cardData[row]).length, row);
                     targetCard && sortCard[num].push(...Array(targetCard).fill(row));
                 }
             }
@@ -184,6 +184,25 @@ export default class FourCardsGame extends cc.Component {
             });
         }
 
+        // 一行占满 换行判断
+        // if (x >= screenWidth * .5 - 150) {
+        //     // 断点开始换行
+        //     if (!startX) startX = cardCount;
+        //     x -= startX * 30;
+        //     // 80为往下
+        //     y -= 80;
+        //     // 三行判断
+        //     if (x >= screenWidth * .5 - 150) {
+        //         x -= startX * 30;
+        //         y -= 80;
+        //     }
+        // }
+        // if (cardCount >= 27) {
+        //     if (!startX) startX = cardCount;
+        //     x -= startX * 25;
+        //     // 80为往下
+        //     y -= 80;
+        // }
         console.log(sortCard);
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
@@ -195,6 +214,9 @@ export default class FourCardsGame extends cc.Component {
                 // 当前颜色的扑克牌张数
                 const targetFrame = this.Card[CardKey[mainColor]][mainChildColor];
                 const newNode = new cc.Node();
+                const mask = cc.instantiate(this.cardsMask);
+                newNode.addChild(mask);
+                mask.opacity = 0;
                 newNode.scale = .6;
                 const nodeSprice = newNode.addComponent(cc.Sprite);
                 nodeSprice.spriteFrame = targetFrame;
@@ -202,29 +224,8 @@ export default class FourCardsGame extends cc.Component {
                 // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
                 x = cardCount * 15;
                 y -= ((newNode.height * .5)) - 50;
-    
-                // 一行占满 换行判断
-                // if (x >= screenWidth * .5 - 150) {
-                //     // 断点开始换行
-                //     if (!startX) startX = cardCount;
-                //     x -= startX * 30;
-                //     // 80为往下
-                //     y -= 80;
-                //     // 三行判断
-                //     if (x >= screenWidth * .5 - 150) {
-                //         x -= startX * 30;
-                //         y -= 80;
-                //     }
-                // }
-                // if (cardCount >= 27) {
-                //     if (!startX) startX = cardCount;
-                //     x -= startX * 25;
-                //     // 80为往下
-                //     y -= 80;
-                // }
                 
                 // 三行判断
-                this.cardBox.addChild(newNode);
                 var clickEventHandler = new cc.Component.EventHandler();
                 //这个 node 节点是你的事件处理代码组件所属的节点
                 clickEventHandler.target = this.node; 
@@ -235,6 +236,7 @@ export default class FourCardsGame extends cc.Component {
                 clickEventHandler.customEventData = cardCount.toString();
                 const newButton = newNode.addComponent(cc.Button);
                 newButton.clickEvents.push(clickEventHandler);
+                this.cardBox.addChild(newNode);
 
                 // 放置到屏幕最上方
                 newNode.y = newNode.height + screenHeight;
@@ -249,17 +251,25 @@ export default class FourCardsGame extends cc.Component {
                     labelNode.color = cc.color(63, 110, 146);
                     label.fontSize = 30;
                     newNode.addChild(labelNode);
-                    console.log(123456);
                 }
 
                 cardList.push({
                     node: newNode,
                     x,
                     y,
+                    number: row,
+                    row: mainColor,
+                    col: mainChildColor,
+                    buttonScipt: newButton,
+                    mask,
                 });
                 cardCount++;
             }
         }
+        
+        setTimeout(() => {
+            this.outCard([0, 6, 10, 15, 30, 31], this.playersData[0])
+        }, 3000)
 
         let updatePoint = 0;
         let clock = setInterval(() => {
@@ -271,6 +281,7 @@ export default class FourCardsGame extends cc.Component {
                 // target.node.runAction(cc.moveTo(.03, target.x, target.y));
                 updatePoint++;
             } else {
+                console.log(updatePoint);
                 clearInterval(clock);
             }
         }, 50);
@@ -284,7 +295,14 @@ export default class FourCardsGame extends cc.Component {
      * @param cardIndex - 扑克牌下标
      */
     onClickCard(_e, cardIndex: string) {
-        console.log(cardIndex);
+        const cardInfo = this.cardList[cardIndex];
+        const targetNode = cardInfo.node;
+        targetNode.runAction(
+            cc.moveTo(.2, targetNode.x, targetNode.y + ( cardInfo.isSelect ? -20 : 20 )).easing(cc.easeBackOut()),
+        );
+        cardInfo.buttonScipt.interactable = false;
+        cardInfo.mask.opacity = 255;
+        cardInfo.isSelect = !cardInfo.isSelect;
     }
 
 
@@ -308,6 +326,34 @@ export default class FourCardsGame extends cc.Component {
         clock && clearInterval(clock);
     }
 
+
+    /**
+     * 发牌动作
+     */
+    private outCard(cards, player) {
+        const { id, index } = player;
+        const { cardList } = this;
+        const cardsBox = this.FourCardsPlayers[index].cardPoint;
+        cards.forEach((card, offset) => cardList.splice(card, 1)[0].node.runAction(
+            cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
+        ));
+        this.updateCardPoint();
+    }
+
+
+    /**
+     * 重新刷新扑克牌位置
+     */
+    private updateCardPoint() {
+        const { cardList } = this;
+        cardList.forEach((card, index) => {
+            // card.node.x = index * 15;
+            card.node.runAction(
+                cc.moveTo(.5, index * 15, card.node.y).easing(cc.easeBackOut()),
+            )
+        });
+    }
+
     
     /**
      * 当玩家加入房间时
@@ -316,8 +362,12 @@ export default class FourCardsGame extends cc.Component {
         axios.api('room_info').then(res => {
             console.log(res);
             // 检测是否已经开始游戏
-            if (res.isStart && res.gameData && res.gameData.card) {
-                this.gameStart(res.gameData.card[0]);
+            if (res.isStart && res.players[res.playerIndex]) {
+                this.gameStart(res.players[res.playerIndex].card);
+                this.playersData = res.players.map((player, index) => {
+                    player.index = index;
+                    return player;
+                });
             }
         });
     }

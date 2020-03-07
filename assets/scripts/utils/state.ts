@@ -14,7 +14,8 @@
  */
 const userInfo = localStorage.getItem('userInfo');
 const observer = {};
-import * as io from '../lib/socket.io.js';
+import socket from '../utils/socketIO';
+
 
 const State = {
     /**
@@ -33,7 +34,11 @@ const State = {
     /**
      * WebSocket IO
      */
-    io: io.Socket,
+    io: {
+        emit(keyword, callback) {},
+        on(keyword, callback) {},
+        off(keyword, callback) {},
+    },
 
     /**
      * 游戏数据
@@ -98,14 +103,15 @@ const State = {
         },
     },
 }
+
 export default State;
+socket.init();
 
 /**
  * 全局重登机制 [Bate]
  */
 import axios from './axiosUtils';
 localStorage.getItem('account') && onLogin();
-
 function onLogin() {
     let accountInputText = '';
     let passwordInputText = '';

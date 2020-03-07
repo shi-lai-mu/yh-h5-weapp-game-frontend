@@ -32,6 +32,7 @@
  */
 // const io = require('../lib/socket.io.js');
 import * as io from '../lib/socket.io.js';
+// import State from './state';
 import State from './state';
 import defaultConfig from '../config/default.config';
 
@@ -44,60 +45,47 @@ const IoConfig = defaultConfig.io;
 const locaHostName = window.location.hostname;
 const localRegExp = /127\.0\.0\.1|localhost/;
 
-// 子IM连接
-// Object.keys(IoConfig)
-//   .filter((key: string) => ![ 'main', 'dev' ].includes(key))
-//   .forEach((key: string) => {
-//     ioChilder[key] = socket(
-//       !isDEV
-//         ? IoConfig[key]
-//         : localRegExp.test(IoConfig.dev[key]) && !localRegExp.test(locaHostName)
-//           ? IoConfig.dev[key].replace(localRegExp, locaHostName)
-//           : IoConfig.dev[key],
-//       {
-//         forceNew: true,
-//         query: {
-//           token,
-//         },
-//       },
-//     );
-//   })
-// ;
-console.log('IO 机制加载成功!');
-State.observer.on('tokenUpdate', (newToken) => {
-  // if (typeof State.io === 'object') {
-  //   // console.warn('断开了一次IO连接');
-  //   State.io.disconnect();
-  // }
-  console.log(`IO 连接中...`);
-  console.log(newToken);
-  let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
-    ? IoConfig.main.replace(localRegExp, locaHostName)
-    : IoConfig.main
-  }/`, 
-  {
-    query: {
-      token: newToken,
-    },
-    transports:['websocket'],
-  });
-  socket.on('connect', () => {
-      console.log(`IO 连接成功!`);
-      // this.tipNode.color = cc.Color.GREEN
-      State.observer.emit('socketConnect');
-  });
-  // 链接处理
-  socket.on('reconnect', data => console.log('IO重连中...', data));
-  socket.on('disconnect', data => console.log('IO断开了!', data));
-  socket.on('disconnecting', data => console.log('IO断开中...', data));
-  socket.on('test', console.log);
-  
-  // 自定义事件
-  socket.reconnect = () => {
-    socket.disconnect();
-    socket.connect();
+export default {
+  init() {
+    console.log('IO 机制加载成功!');
+    State.observer.on('tokenUpdate', (newToken) => {
+      // if (typeof State.io === 'object') {
+      //   // console.warn('断开了一次IO连接');
+      //   State.io.disconnect();
+      // }
+      console.log(`IO 连接中...`);
+      console.log(newToken);
+      let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
+        ? IoConfig.main.replace(localRegExp, locaHostName)
+        : IoConfig.main
+      }/`, 
+      {
+        query: {
+          token: newToken,
+        },
+        transports:['websocket'],
+      });
+      socket.on('connect', () => {
+          console.log(`IO 连接成功!`);
+          // this.tipNode.color = cc.Color.GREEN
+          State.observer.emit('socketConnect');
+      });
+      // 链接处理
+      socket.on('reconnect', data => console.log('IO重连中...', data));
+      socket.on('disconnect', data => console.log('IO断开了!', data));
+      socket.on('disconnecting', data => console.log('IO断开中...', data));
+      socket.on('test', console.log);
+      
+      // 自定义事件
+      socket.reconnect = () => {
+        socket.disconnect();
+        socket.connect();
+      }
+      
+      console.log('123152645648748978979');
+      State.io = socket;
+      console.log(socket);
+      window.socket = socket;
+    });
   }
-  
-  State.io = socket;
-  window.socket = socket;
-});
+};
