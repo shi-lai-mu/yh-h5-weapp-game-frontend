@@ -11,24 +11,62 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
-
+/**
+ * 扑克牌
+ */
 const CardItem = cc.Class({
     name: 'cardItem',
     properties: {
-        plum: [ cc.SpriteFrame ],
-        heart: [ cc.SpriteFrame ],
-        block: [ cc.SpriteFrame ],
-        Spade: [ cc.SpriteFrame ],
-        joker: [ cc.SpriteFrame ],
+        plum: [ cc.SpriteFrame ],  // 梅花
+        heart: [ cc.SpriteFrame ], // 红心
+        block: [ cc.SpriteFrame ], // 方块
+        Spade: [ cc.SpriteFrame ], // 黑桃
+        joker: [ cc.SpriteFrame ], // 大小王
     }
+});
+/**
+ * 玩家
+ */
+const FourCardsPlayers = {
+    nickname: cc.Label,    // 昵称
+    score: cc.Label,       // 分数
+    noteScore: cc.Label,   // 抓分分数
+    cardCount: cc.Label,   // 剩余扑克牌数量
+    avatarUrl: cc.Sprite,  // 头像
+    cardPoint: cc.Node,    // 发牌位置
+}
+const FourCardsPlayersItem = cc.Class({
+    name: 'FourCardsPlayers',
+    properties: FourCardsPlayers,
 });
 let clock = null; // 计时器
 
 @ccclass
 export default class FourCardsGame extends cc.Component {
 
+    /**
+     * 发牌位置
+     */
     @property(cc.Node)
     cardBox: cc.Node = null;
+
+    /**
+     * 玩家节点数据
+     */
+    @property(FourCardsPlayersItem)
+    FourCardsPlayers: typeof FourCardsPlayersItem[] = [];
+
+    /**
+     * 玩家数据
+     */
+    playersData: {
+        id: number,
+        nickname: string;
+        avatarUrl: number;
+        setp: number;
+        timeOut: number;
+        time: number,
+    }[] = [];
 
     @property(CardItem)
     Card = {
@@ -63,8 +101,6 @@ export default class FourCardsGame extends cc.Component {
     roomDataEevent = (data) => this.roomData(data);
     // 离开事件容器
     roomExitEevent = (data) => this.rommleave(data);
-
-    // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         // 创建房间伪逻辑
