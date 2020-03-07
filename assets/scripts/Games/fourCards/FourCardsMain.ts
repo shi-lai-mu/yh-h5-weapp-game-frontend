@@ -138,26 +138,8 @@ export default class FourCardsGame extends cc.Component {
         // const randomCard = [];
         const { Card } = this;
         const CardKey = Object.keys(Card);
-
-        // // 随机牌
-        // for (let i = 0; i < 54; i++) {
-        //     let randomMain = Math.random() * 5 | 0;
-        //     const randomChild = Math.random() * Card[CardKey[randomMain]].length | 0;
-
-        //     // 如果非大小王
-        //     if (randomMain === 4) {
-        //         randomMain = 13;
-        //     }
-        //     if (!randomCard[randomChild]) randomCard[randomChild] = {};
-        //     const cardIndex = randomCard[randomChild];
-        //     if (!cardIndex[randomMain]) cardIndex[randomMain] = 0;
-        //     cardIndex[randomMain]++;
-        // }
-        // console.log(randomCard);
-
         // 模拟发牌
         const { node, cardList } = this;
-        const screenWidth = node.width;
         const screenHeight = node.height;
         // 扑克牌当前张数
         let cardCount = 0;
@@ -183,26 +165,7 @@ export default class FourCardsGame extends cc.Component {
                 jokers[num] && sortCard[0].push(...Array(jokers[num]).fill(num));
             });
         }
-
-        // 一行占满 换行判断
-        // if (x >= screenWidth * .5 - 150) {
-        //     // 断点开始换行
-        //     if (!startX) startX = cardCount;
-        //     x -= startX * 30;
-        //     // 80为往下
-        //     y -= 80;
-        //     // 三行判断
-        //     if (x >= screenWidth * .5 - 150) {
-        //         x -= startX * 30;
-        //         y -= 80;
-        //     }
-        // }
-        // if (cardCount >= 27) {
-        //     if (!startX) startX = cardCount;
-        //     x -= startX * 25;
-        //     // 80为往下
-        //     y -= 80;
-        // }
+        console.log(Object.keys(cardData[0]).length);
         console.log(sortCard);
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
@@ -261,15 +224,16 @@ export default class FourCardsGame extends cc.Component {
                     row: mainColor,
                     col: mainChildColor,
                     buttonScipt: newButton,
+                    clickEventHandler,
                     mask,
                 });
                 cardCount++;
             }
         }
         
-        setTimeout(() => {
-            this.outCard([0, 6, 10, 15, 30, 31], this.playersData[0])
-        }, 3000)
+        // setTimeout(() => {
+        //     this.outCard([0, 6, 10, 15, 30, 31], this.playersData[0])
+        // }, 3000)
 
         let updatePoint = 0;
         let clock = setInterval(() => {
@@ -300,8 +264,8 @@ export default class FourCardsGame extends cc.Component {
         targetNode.runAction(
             cc.moveTo(.2, targetNode.x, targetNode.y + ( cardInfo.isSelect ? -20 : 20 )).easing(cc.easeBackOut()),
         );
-        cardInfo.buttonScipt.interactable = false;
-        cardInfo.mask.opacity = 255;
+        // cardInfo.buttonScipt.interactable = false;
+        // cardInfo.mask.opacity = 255;
         cardInfo.isSelect = !cardInfo.isSelect;
     }
 
@@ -328,15 +292,40 @@ export default class FourCardsGame extends cc.Component {
 
 
     /**
+     * 发牌
+     *  - 选中的牌进行发牌操作
+     */
+    private dealCards() {
+        const selectCard = [];
+        this.cardList.forEach((item, index) => {
+            if (item.isSelect) {
+                selectCard.push(index);
+            }
+        });
+        this.outCard(selectCard, this.playersData[0]);
+    }
+
+
+    /**
      * 发牌动作
      */
     private outCard(cards, player) {
         const { id, index } = player;
         const { cardList } = this;
         const cardsBox = this.FourCardsPlayers[index].cardPoint;
-        cards.forEach((card, offset) => cardList.splice(card, 1)[0].node.runAction(
-            cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
-        ));
+        const cardsReverse = [];
+        cards.reverse().forEach((card, offset) => {
+            cardsReverse.push(cardList.splice(card, 1));
+        })
+        cardsReverse.reverse().forEach((card, offset) => {
+            const node = card[0].node;
+            if (node.children.length === 2) {
+                node.children[1].destroy();
+            }
+            node.runAction(
+                cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
+            );
+        });
         this.updateCardPoint();
     }
 
@@ -348,6 +337,7 @@ export default class FourCardsGame extends cc.Component {
         const { cardList } = this;
         cardList.forEach((card, index) => {
             // card.node.x = index * 15;
+            card.clickEventHandler.customEventData = index;
             card.node.runAction(
                 cc.moveTo(.5, index * 15, card.node.y).easing(cc.easeBackOut()),
             )
