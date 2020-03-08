@@ -24,22 +24,24 @@ const gameOption = {
             [ '密码', '公开' ],
         ],
         keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
+        scene: 'gamesGoBang',
     },
     fourCards: {
         name: '四副牌',
         room: [
-            [ '人数', '2人' ],
+            [ '人数', '4人' ],
             [ '局数', '1局' ],
             [ '支付', '房主支付' ],
             [ '密码', '公开' ],
         ],
         keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
+        scene: 'gameFourCards',
     },
 }
 /**
  * 选项实例
  */
-const radioOption = [];
+const radioOption: any = [];
 
 @ccclass
 export default class CreateRoom extends cc.Component {
@@ -98,6 +100,11 @@ export default class CreateRoom extends cc.Component {
      */
     _ROOM_NAME_: string = '';
 
+    /**
+     * 当前选中的GAME
+     */
+    _GANE_: any = {};
+
     start() {
         this.popupShow();
         let prveClick = null;
@@ -152,6 +159,7 @@ export default class CreateRoom extends cc.Component {
                     keyword: gameOpt.keyword[index],
                 });
             });
+            this._GANE_ = gameOpt;
         }
     }
 
@@ -193,6 +201,7 @@ export default class CreateRoom extends cc.Component {
             // console.log(item.script.value, item.config, item.keyword);
             query[item.keyword] = item.script.value;
         });
+        console.log(radioOption);
         axios.api('create_room', {
             params: {
                 gameName: this._ROOM_NAME_,
@@ -204,7 +213,7 @@ export default class CreateRoom extends cc.Component {
             const scriptPopup = popup.getComponent('popup');
             scriptPopup.init('创建中...');
             if (res.status) {
-                cc.director.preloadScene('gamesGoBang');
+                cc.director.preloadScene(this._GANE_.scene);
                 axios.api('room_info').then(res => {
                     scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
                     scriptPopup.setEvent('success', () => {
