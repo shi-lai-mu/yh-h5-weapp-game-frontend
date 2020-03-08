@@ -54,6 +54,9 @@ export default class KeyBoard extends cc.Component {
         if (code === 110) {
             this.onClickDecimal(false, '.');
         }
+        if (code === cc.macro.KEY.enter) {
+            this.onClickSuccess();
+        }
     }
 
 
