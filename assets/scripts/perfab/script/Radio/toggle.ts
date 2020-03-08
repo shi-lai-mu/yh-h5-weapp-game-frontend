@@ -14,8 +14,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Node)
-    parentNode: cc.Node = null;
+    parent: any = null;
 
     @property(cc.Label)
     text: cc.Label = null;
@@ -25,7 +24,7 @@ export default class NewClass extends cc.Component {
 
     onClick() {
         const text = this.text.string;
-        this.parentNode.getComponent('Radio').toggleEvent(this.value || text, text);
+        this.parent.toggleEvent(this.value || text, text);
     }
     // update (dt) {}
 }

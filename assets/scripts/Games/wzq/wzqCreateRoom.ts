@@ -40,7 +40,6 @@ export default class GobangCreateRoom extends cc.Component {
     @property(cc.Node)
     pwdType: cc.Node = null;
 
-
     /**
      * 价格节点
      */

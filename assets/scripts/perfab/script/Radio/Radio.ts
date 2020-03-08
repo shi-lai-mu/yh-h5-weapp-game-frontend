@@ -15,6 +15,9 @@ export default class NewClass extends cc.Component {
     @property({ visible: !1 })
     value: string = null;
 
+    @property(cc.Label)
+    title: cc.Label = null;
+
     @property({ visible: !1 })
     string: string = null;
 
@@ -30,7 +33,7 @@ export default class NewClass extends cc.Component {
     @property(cc.Toggle)
     radio4: cc.Toggle = null;
 
-    onLoad () {
+    start() {
         const { radio1, radio2, radio3, radio4 } = this;
         const target = radio1.isChecked
             ? radio1 : radio2.isChecked
@@ -39,10 +42,37 @@ export default class NewClass extends cc.Component {
             ? radio4 : false
         ;
         if (target) {
-            target.getComponent('toggle').onClick();
+            const script = target.getComponent('toggle');
+            script.parent = this;
+            script.onClick();
         }
     }
 
+
+    /**
+     * 初始化组合选项
+     * @param title  - 标签
+     * @param option - 参数
+     */
+    init(title:string, option: string[]) {
+        [1, 2, 3, 4].forEach((index: number) => {
+            const targetRadio: cc.Toggle = this[`radio${index}`];
+            if (option[index - 1]) {
+                const toggleScript = targetRadio.getComponent('toggle');
+                toggleScript.text.string = option[index - 1];
+            } else {
+                targetRadio.node.scale = 0;
+            }
+        });
+        this.title.string = title + ':';
+    }
+
+
+    /**
+     * 切换选值事件
+     * @param value  - 值
+     * @param string - 字符串
+     */
     toggleEvent(value: string, string: string) {
         this.value = value;
         this.string = string;
