@@ -63,6 +63,17 @@ export default class FourCardsGame extends cc.Component {
     cardsMask: cc.Prefab = null;
 
     /**
+     * 桌面机制
+     */
+    desktop: {
+        score: number;
+        card: cc.Node[];
+    } = {
+        score: 0,
+        card: [],
+    };
+
+    /**
      * 玩家数据
      */
     playersData: {
@@ -168,11 +179,9 @@ export default class FourCardsGame extends cc.Component {
                 jokers[num] && sortCard[0].push(...Array(jokers[num]).fill(num));
             });
         }
-        console.log(Object.keys(cardData[0]).length);
         if (!Object.keys(cardData[0]).length) {
             sortCard[0] = [];
         }
-        console.log(sortCard);
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
             for (let col = 0; col < rowItem.length; col++) {
@@ -191,8 +200,8 @@ export default class FourCardsGame extends cc.Component {
                 nodeSprice.spriteFrame = targetFrame;
                 let x, y = 0;
                 // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
-                x = cardCount * 15;
-                y -= ((newNode.height * .5)) - 50;
+                x = (cardCount * 15) - 400;
+                y = 50;
                 
                 // 三行判断
                 var clickEventHandler = new cc.Component.EventHandler();
@@ -244,7 +253,6 @@ export default class FourCardsGame extends cc.Component {
                 // target.node.runAction(cc.moveTo(.03, target.x, target.y));
                 updatePoint++;
             } else {
-                console.log(updatePoint);
                 clearInterval(clock);
             }
         }, 50);
@@ -295,6 +303,10 @@ export default class FourCardsGame extends cc.Component {
      *  - 选中的牌进行发牌操作
      */
     private dealCards() {
+        // 销毁桌前的扑克牌
+        if (this.desktop.card.length) {
+            this.desktop.card.forEach((card) => card.destroy());
+        }
         const selectCard = [];
         this.cardList.forEach((item, index) => {
             if (item.isSelect) {
@@ -317,15 +329,18 @@ export default class FourCardsGame extends cc.Component {
             cardsReverse.push(cardList.splice(card, 1));
         })
         cardsReverse.reverse().forEach((card, offset) => {
-            const node = card[0].node;
-            // 出牌后删除纸牌上的数字
-            if (node.children.length === 2) {
-                node.children[1].destroy();
+            if (card[0]) {
+                const node = card[0].node;
+                // 出牌后删除纸牌上的数字
+                if (node.children.length === 2) {
+                    node.children[1].destroy();
+                }
+                // 扑克牌缓动效果
+                node.runAction(
+                    cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
+                );
+                this.desktop.card.push(node);
             }
-            // 扑克牌缓动效果
-            node.runAction(
-                cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
-            );
         });
         this.updateCardPoint();
     }
