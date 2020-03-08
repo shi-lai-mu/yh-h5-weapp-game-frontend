@@ -18,16 +18,22 @@ const gameOption = {
     gobang: {
         name: '五子棋',
         room: [
-            ['人数', '1人', '5人', '10人'],
-            ['支付方式', 'aa', 'bb', 'cc'],
+            [ '人数', '2人' ],
+            [ '局数', '1局' ],
+            [ '支付', '房主支付' ],
+            [ '密码', '公开' ],
         ],
-
+        keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
     },
     fourCards: {
         name: '四副牌',
         room: [
-            []
+            [ '人数', '2人' ],
+            [ '局数', '1局' ],
+            [ '支付', '房主支付' ],
+            [ '密码', '公开' ],
         ],
+        keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
     },
 }
 /**
@@ -80,9 +86,17 @@ export default class CreateRoom extends cc.Component {
     @property(cc.SpriteFrame)
     itemSpriteFrame: cc.SpriteFrame[] = [];
 
-    prevPrefab: cc.Prefab = null;
+    /**
+     * 弹窗
+     */
+    @property(cc.Prefab)
+    popupPrefab: cc.Prefab = null;
 
-    Canvas: cc.Canvas;
+
+    /**
+     * 当前选中的游戏名
+     */
+    _ROOM_NAME_: string = '';
 
     start() {
         this.popupShow();
@@ -106,14 +120,13 @@ export default class CreateRoom extends cc.Component {
                 prveClick && prveClick.blur();
                 this.loadPrefab(key);
                 prveClick = ListItem;
+                this._ROOM_NAME_ = key;
             }
 
             if (index === 0) {
                 ListItem.onClick();
             }
         });
-        // 默认载入五子棋
-        // this.loadPrefab('gobang');
     }
 
 
@@ -135,7 +148,8 @@ export default class CreateRoom extends cc.Component {
                 radioOption.push({
                     instantiate: optGroup,
                     script: radioScript,
-                    config: opt,
+                    config: opt[0],
+                    keyword: gameOpt.keyword[index],
                 });
             });
         }
@@ -174,40 +188,37 @@ export default class CreateRoom extends cc.Component {
      * 创建房间按钮 按下事件
      */
     onCreateRoom() {
-        radioOption.forEach((item) => {
-            console.log(item.script.value);
+        const query = {};
+        radioOption.forEach((item, index) => {
+            // console.log(item.script.value, item.config, item.keyword);
+            query[item.keyword] = item.script.value;
         });
-        // axios.api('create_room', {
-        //     params: {
-        //         gameName: 'gobang',
-        //     },
-        //     data: {
-        //         people: peopleNumber.value,
-        //         frequency: frequencyNumber.value,
-        //         payType: payType.value,
-        //         pwdType: pwdType.value,
-        //     },
-        // }).then((res) => {
-        //     const popup = cc.instantiate(this.popupPrefab);
-        //     this.Canvas.node.addChild(popup);
-        //     const scriptPopup = popup.getComponent('popup');
-        //     scriptPopup.init('创建中...');
-        //     if (res.status) {
-        //         cc.director.preloadScene('gamesGoBang');
-        //         axios.api('room_info').then(res => {
-        //             scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
-        //             scriptPopup.setEvent('success', () => {
-        //                 cc.director.loadScene('gamesGoBang');
-        //             });
-        //         });
-        //     } else {
-        //         scriptPopup.message(`创建失败!\n${res.msg}`);
-        //         scriptPopup.setEvent('reset', () => {
-        //             this.createRoomClick();
-        //         });
-        //         scriptPopup.setEvent('close', () => {});
-        //     }
-        // });
+        axios.api('create_room', {
+            params: {
+                gameName: this._ROOM_NAME_,
+            },
+            data: query,
+        }).then((res) => {
+            const popup = cc.instantiate(this.popupPrefab);
+            this.node.addChild(popup);
+            const scriptPopup = popup.getComponent('popup');
+            scriptPopup.init('创建中...');
+            if (res.status) {
+                cc.director.preloadScene('gamesGoBang');
+                axios.api('room_info').then(res => {
+                    scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
+                    scriptPopup.setEvent('success', () => {
+                        cc.director.loadScene('gamesGoBang');
+                    });
+                });
+            } else {
+                scriptPopup.message(`创建失败!\n${res.msg}`);
+                // scriptPopup.setEvent('reset', () => {
+                //     this.createRoomClick();
+                // });
+                scriptPopup.setEvent('close', () => {});
+            }
+        });
     }
 
     // update (dt) {}
