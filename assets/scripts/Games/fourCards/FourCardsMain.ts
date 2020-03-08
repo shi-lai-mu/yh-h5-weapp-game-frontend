@@ -56,6 +56,9 @@ export default class FourCardsGame extends cc.Component {
     @property(FourCardsPlayersItem)
     FourCardsPlayers: typeof FourCardsPlayers[] = [];
 
+    /**
+     * 扑克牌遮罩节点
+     */
     @property(cc.Prefab)
     cardsMask: cc.Prefab = null;
 
@@ -166,6 +169,9 @@ export default class FourCardsGame extends cc.Component {
             });
         }
         console.log(Object.keys(cardData[0]).length);
+        if (!Object.keys(cardData[0]).length) {
+            sortCard[0] = [];
+        }
         console.log(sortCard);
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
@@ -206,14 +212,7 @@ export default class FourCardsGame extends cc.Component {
 
                 // 显示数字
                 if (col === 0 && row !== 0) {
-                    const labelNode = new cc.Node();
-                    const label = labelNode.addComponent(cc.Label);
-                    label.string = rowItem.length;
-                    labelNode.x = -((newNode.width / 2) + 45);
-                    labelNode.y += 20;
-                    labelNode.color = cc.color(63, 110, 146);
-                    label.fontSize = 30;
-                    newNode.addChild(labelNode);
+                    this.addCardNumber(rowItem.length, newNode);
                 }
 
                 cardList.push({
@@ -319,9 +318,11 @@ export default class FourCardsGame extends cc.Component {
         })
         cardsReverse.reverse().forEach((card, offset) => {
             const node = card[0].node;
+            // 出牌后删除纸牌上的数字
             if (node.children.length === 2) {
                 node.children[1].destroy();
             }
+            // 扑克牌缓动效果
             node.runAction(
                 cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
             );
@@ -335,11 +336,46 @@ export default class FourCardsGame extends cc.Component {
      */
     private updateCardPoint() {
         const { cardList } = this;
+        let prevNumber = -1; // 上类扑克牌标识
+        let prevCount = 0;   // 上类扑克牌数量
+        let prevNode = null; // 上类扑克牌节点
         cardList.forEach((card, index) => {
             // card.node.x = index * 15;
+            const { node } = card;
             card.clickEventHandler.customEventData = index;
-            card.node.runAction(
-                cc.moveTo(.5, index * 15, card.node.y).easing(cc.easeBackOut()),
+
+            // 如果判定到位最后一张非同类牌 进行重置
+            if (prevNumber !== card.number || index === cardList.length - 1) {
+                if (prevNode && prevNumber !== 0) {
+                    // 如果为全部的最后一张牌
+                    if (index == cardList.length - 1 && prevNumber !== card.number) { 
+                        if (card.node.children.length !== 2) {
+                            this.addCardNumber('1', card.node);
+                        } else {
+                            const labelNode = card.node.children[1].getComponent(cc.Label);
+                            if (labelNode.string && labelNode.string !== '1') {
+                                labelNode.string = '1';
+                            }
+                        }
+                    }
+                    // 如果目标扑克牌存在文本节点则修改内容 否则 创建文本节点
+                    const prevCountStr = prevCount.toString();
+                    if (prevNode.node.children.length !== 2) {
+                        this.addCardNumber(prevCountStr, prevNode.node);
+                    } else {
+                        const labelNode = prevNode.node.children[1].getComponent(cc.Label);
+                        if (labelNode.string && labelNode.string !== prevCountStr) {
+                            labelNode.string = prevCountStr;
+                        }
+                    }
+                }
+                prevNumber = card.number;
+                prevCount = 0;
+                prevNode = card;
+            }
+            prevCount++;
+            node.runAction(
+                cc.moveTo(.5, index * 15, node.y).easing(cc.easeBackOut()),
             )
         });
     }
@@ -380,4 +416,21 @@ export default class FourCardsGame extends cc.Component {
         console.log(data);
     }
     // update (dt) {}
+
+
+    /**
+     * 为扑克牌添加数量
+     * @param number  - 扑克牌数量
+     * @param newNode - 扑克牌节点
+     */
+    private addCardNumber(number: string, newNode: any) {
+        const labelNode = new cc.Node();
+        const label = labelNode.addComponent(cc.Label);
+        label.string = number;
+        labelNode.x = -50   ;
+        labelNode.y += 20;
+        labelNode.color = cc.color(63, 110, 146);
+        label.fontSize = 30;
+        newNode.addChild(labelNode);
+    }
 }
