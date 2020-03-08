@@ -9,7 +9,7 @@
   "packable": true,
   "platformSettings": {},
   "subMetas": {
-    "email-left-list-bg": {
+    "list-bg": {
       "ver": "1.0.4",
       "uuid": "9dcadeb6-3497-4dbf-b1c4-e03574bdcff7",
       "rawTextureUuid": "0477fcb1-2555-4e1d-a5f4-9e60f9e0df04",

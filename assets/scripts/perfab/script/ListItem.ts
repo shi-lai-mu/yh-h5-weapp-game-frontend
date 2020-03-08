@@ -18,12 +18,15 @@ export default class EmailActivityListItem extends cc.Component {
 
     @property(cc.Label)
     itemPrice: cc.Label = null;
+    
+    @property(cc.SpriteFrame)
+    itemTarget: cc.SpriteFrame = null;
 
-    @property
     ParentClass: any = null;
 
-    @property
     data: any = {};
+
+    Sprite = null;
 
     /**
      * 点击触发的事件
@@ -41,6 +44,18 @@ export default class EmailActivityListItem extends cc.Component {
         if ((html || content) && typeof content === 'string') {
             this.ParentClass.mainContent.string = html || content;
         }
+        const Sprite = this.node.getComponent(cc.Sprite);
+        if (!this.Sprite) {
+            this.Sprite = Sprite.spriteFrame;
+        }
+        Sprite.spriteFrame = this.itemTarget;
+    }
+
+    /**
+     * 失焦
+     */
+    blur() {
+        this.node.getComponent(cc.Sprite).spriteFrame = this.Sprite;
     }
 
 

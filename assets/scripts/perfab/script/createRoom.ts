@@ -63,12 +63,6 @@ export default class CreateRoom extends cc.Component {
     ContentBoxView: cc.Node = null;
 
     /**
-     * 创建房间按钮
-     */
-    @property(cc.Node)
-    createRoomButton: cc.Node = null;
-
-    /**
      * 选项组资源
      */
     @property(cc.Prefab)
@@ -92,36 +86,10 @@ export default class CreateRoom extends cc.Component {
 
     start() {
         this.popupShow();
-        // 默认载入五子棋
-        this.loadPrefab('gobang');
-    }
-
-
-    /**
-     * 加载创建房间的设置资源
-     * @param prefabName - 游戏名
-     */
-    loadPrefab(prefabName: 'gobang') {
-        const gameOpt = gameOption[prefabName];
-        if (gameOpt) {
-            gameOpt.room.forEach((opt: string[], index) => {
-                const optGroup = cc.instantiate(this.radioGroup);
-                const radioScript = optGroup.getComponent('Radio');
-                radioScript.init(opt.shift(), opt);
-                this.ContentBoxView.addChild(optGroup);
-                optGroup.y -= index * 60 - 210;
-                radioOption.push({
-                    instantiate: optGroup,
-                    script: radioScript,
-                    config: opt,
-                });
-            });
-            // 按钮位置
-            const btnY = gameOpt.room.length + 1 * 60;
-            this.createRoomButton.y = btnY > -80 ? -80 : btnY;
-        }
+        let prveClick = null;
         // 创建按钮实例化
-        Object.values(gameOption).forEach((item, index) => {
+        Object.keys(gameOption).forEach((key, index) => {
+            const item = gameOption[key];
             const itemInstantiate = cc.instantiate(this.listItem);
             const ListItem = itemInstantiate.getComponent('ListItem');
             ListItem.init({
@@ -133,7 +101,44 @@ export default class CreateRoom extends cc.Component {
             itemInstantiate.x -= itemInstantiate.x;
             itemInstantiate.y -= index * 40;
             this.leftTopBox.addChild(itemInstantiate);
+
+            ListItem.clickEvent = () => {
+                prveClick && prveClick.blur();
+                this.loadPrefab(key);
+                prveClick = ListItem;
+            }
+
+            if (index === 0) {
+                ListItem.onClick();
+            }
         });
+        // 默认载入五子棋
+        // this.loadPrefab('gobang');
+    }
+
+
+    /**
+     * 加载创建房间的设置资源
+     * @param prefabName - 游戏名
+     */
+    loadPrefab(prefabName: string) {
+        this.ContentBoxView.destroyAllChildren();
+        const gameOpt = gameOption[prefabName];
+        if (gameOpt) {
+            gameOpt.room.forEach((opt: string[], index) => {
+                opt = Object.assign([], opt);
+                const optGroup = cc.instantiate(this.radioGroup);
+                const radioScript = optGroup.getComponent('Radio');
+                radioScript.init(opt.shift(), opt);
+                this.ContentBoxView.addChild(optGroup);
+                optGroup.y -= index * 60 - 210;
+                radioOption.push({
+                    instantiate: optGroup,
+                    script: radioScript,
+                    config: opt,
+                });
+            });
+        }
     }
 
 
