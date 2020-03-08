@@ -8,25 +8,32 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+const {ccclass, property} = cc._decorator;
+import axios from '../../utils/axiosUtils';
+
+/**
+ * 游戏房间配置
+ */
 const gameOption = {
     gobang: {
         name: '五子棋',
-        icon: '',
         room: [
             ['人数', '1人', '5人', '10人'],
             ['支付方式', 'aa', 'bb', 'cc'],
         ],
+
     },
     fourCards: {
         name: '四副牌',
-        icon: '',
         room: [
             []
         ],
     },
 }
-
-const {ccclass, property} = cc._decorator;
+/**
+ * 选项实例
+ */
+const radioOption = [];
 
 @ccclass
 export default class CreateRoom extends cc.Component {
@@ -56,16 +63,28 @@ export default class CreateRoom extends cc.Component {
     ContentBoxView: cc.Node = null;
 
     /**
-     * 五子棋资源
+     * 创建房间按钮
      */
-    @property(cc.Prefab)
-    wzqPrefab: cc.Prefab = null;
+    @property(cc.Node)
+    createRoomButton: cc.Node = null;
 
     /**
      * 选项组资源
      */
     @property(cc.Prefab)
     radioGroup: cc.Prefab = null;
+
+    /**
+     * 列表资源
+     */
+    @property(cc.Prefab)
+    listItem: cc.Prefab = null;
+
+    /**
+     * 项目资源
+     */
+    @property(cc.SpriteFrame)
+    itemSpriteFrame: cc.SpriteFrame[] = [];
 
     prevPrefab: cc.Prefab = null;
 
@@ -83,23 +102,38 @@ export default class CreateRoom extends cc.Component {
      * @param prefabName - 游戏名
      */
     loadPrefab(prefabName: 'gobang') {
-        // if (this.prevPrefab) {
-        //     this.prevPrefab.destroy();
-        // }
-        // const newPrefab = cc.instantiate(this[prefabName + 'Prefab']);
-        // this.ContentBoxView.addChild(newPrefab);
-        // newPrefab.getComponent(prefabName + 'CreateRoom').Canvas = this.Canvas;
-        // this.prevPrefab = newPrefab;
         const gameOpt = gameOption[prefabName];
         if (gameOpt) {
             gameOpt.room.forEach((opt: string[], index) => {
                 const optGroup = cc.instantiate(this.radioGroup);
                 const radioScript = optGroup.getComponent('Radio');
                 radioScript.init(opt.shift(), opt);
-                this.ContentBox.addChild(optGroup);
-                optGroup.y -= index * 60 - 150;
+                this.ContentBoxView.addChild(optGroup);
+                optGroup.y -= index * 60 - 210;
+                radioOption.push({
+                    instantiate: optGroup,
+                    script: radioScript,
+                    config: opt,
+                });
             });
+            // 按钮位置
+            const btnY = gameOpt.room.length + 1 * 60;
+            this.createRoomButton.y = btnY > -80 ? -80 : btnY;
         }
+        // 创建按钮实例化
+        Object.values(gameOption).forEach((item, index) => {
+            const itemInstantiate = cc.instantiate(this.listItem);
+            const ListItem = itemInstantiate.getComponent('ListItem');
+            ListItem.init({
+                id: index,
+                scale: .5,
+                title: item.name,
+                sprite: this.itemSpriteFrame[index],
+            });
+            itemInstantiate.x -= itemInstantiate.x;
+            itemInstantiate.y -= index * 40;
+            this.leftTopBox.addChild(itemInstantiate);
+        });
     }
 
 
@@ -112,12 +146,7 @@ export default class CreateRoom extends cc.Component {
         this.ContentBox.scale = 0;
         leftTopBox.x = leftTopBox.x + leftTopBox.width;
         this.ContentBox.runAction(
-            cc.sequence(
-                cc.scaleTo(0.5, 1, 1).easing(cc.easeBackOut()),
-                cc.callFunc(() => leftTopBox.runAction(
-                    cc.moveBy(1, cc.v2(-leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
-                ), this),
-            ),
+            cc.scaleTo(0.5, 1, 1).easing(cc.easeBackOut()),
         );
     }
 
@@ -136,6 +165,45 @@ export default class CreateRoom extends cc.Component {
     }
 
 
+    /**
+     * 创建房间按钮 按下事件
+     */
+    onCreateRoom() {
+        radioOption.forEach((item) => {
+            console.log(item.script.value);
+        });
+        // axios.api('create_room', {
+        //     params: {
+        //         gameName: 'gobang',
+        //     },
+        //     data: {
+        //         people: peopleNumber.value,
+        //         frequency: frequencyNumber.value,
+        //         payType: payType.value,
+        //         pwdType: pwdType.value,
+        //     },
+        // }).then((res) => {
+        //     const popup = cc.instantiate(this.popupPrefab);
+        //     this.Canvas.node.addChild(popup);
+        //     const scriptPopup = popup.getComponent('popup');
+        //     scriptPopup.init('创建中...');
+        //     if (res.status) {
+        //         cc.director.preloadScene('gamesGoBang');
+        //         axios.api('room_info').then(res => {
+        //             scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
+        //             scriptPopup.setEvent('success', () => {
+        //                 cc.director.loadScene('gamesGoBang');
+        //             });
+        //         });
+        //     } else {
+        //         scriptPopup.message(`创建失败!\n${res.msg}`);
+        //         scriptPopup.setEvent('reset', () => {
+        //             this.createRoomClick();
+        //         });
+        //         scriptPopup.setEvent('close', () => {});
+        //     }
+        // });
+    }
 
     // update (dt) {}
 }

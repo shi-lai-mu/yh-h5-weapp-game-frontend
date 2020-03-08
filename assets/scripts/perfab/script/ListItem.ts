@@ -13,7 +13,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class EmailActivityListItem extends cc.Component {
 
-    @property()
+    @property(Number)
     id: number = 0;
 
     @property(cc.Label)
@@ -51,7 +51,7 @@ export default class EmailActivityListItem extends cc.Component {
      * @param auto  - 是否自适应
      */
     init(data: any, index: number, auto: boolean = !1) {
-        const { id, title, sprite } = data;
+        const { id, title, sprite, scale } = data;
 
         if (auto) {
             // 大小适配
@@ -61,22 +61,27 @@ export default class EmailActivityListItem extends cc.Component {
         }
 
         this.id = id;
+        console.log(sprite);
         // 图片加载
         if (sprite) {
-            loadImg(sprite, (SpriteFrame) => {
-                const node = new cc.Node();
-                const Sprite = node.addComponent(cc.Sprite);
-                Sprite.spriteFrame = SpriteFrame;
-                const labelHeight = this.itemPrice.node.height;
-                node.width *= labelHeight / node.height
-                node.height = labelHeight;
-                this.node.addChild(node);
-            });
+            typeof sprite === 'string' ? loadImg(sprite, this.setSprite) : this.setSprite(sprite, scale || 1);
         } else {
             this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
         }
         data.index = index;
         this.data = data;
+    }
+
+
+    /**
+     * 创建精灵图
+     */
+    setSprite(SpriteFrame, scale: number = 1) {
+        const node = new cc.Node();
+        const Sprite = node.addComponent(cc.Sprite);
+        Sprite.spriteFrame = SpriteFrame;
+        node.scale = scale;
+        this.node.addChild(node);
     }
     // update (dt) {}
 }
