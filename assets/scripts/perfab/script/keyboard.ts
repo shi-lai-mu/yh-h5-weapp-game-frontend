@@ -38,6 +38,22 @@ export default class KeyBoard extends cc.Component {
         this.ContentBox.runAction(
             cc.scaleTo(0.5, 1, 1).easing(cc.easeBackOut()),
         );
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.keyDown, this);
+    }
+
+    
+    /**
+     * 键盘按下事件
+     * @param event - 事件
+     */
+    keyDown(event) {
+        const code = event.keyCode;
+        if (code >= 96 && code <= 105) {
+            this.onClickContent(false, code - 96);
+        }
+        if (code === 110) {
+            this.onClickDecimal(false, '.');
+        }
     }
 
 
@@ -46,7 +62,7 @@ export default class KeyBoard extends cc.Component {
      * @param _event  - 事件体
      * @param content - 内容
      */
-    onClickContent(_event, content: string) {
+    onClickContent(_event, content: number) {
         this.Label.string += content;
     }
 
