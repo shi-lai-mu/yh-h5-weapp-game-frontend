@@ -2616,9 +2616,6 @@
     "ContentBoxView": {
       "__id__": 53
     },
-    "createRoomButton": {
-      "__id__": 64
-    },
     "radioGroup": {
       "__uuid__": "35d92f34-751d-4740-b2be-99ee94ed6913"
     },
@@ -2633,6 +2630,9 @@
         "__uuid__": "007b430c-0d3e-44c5-a949-409d4ebda5b7"
       }
     ],
+    "popupPrefab": {
+      "__uuid__": "56cace53-26a8-45f0-af7c-f49e3233bbd5"
+    },
     "_id": ""
   },
   {
