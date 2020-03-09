@@ -52,14 +52,14 @@ export default class HomePD extends cc.Component {
                     data: {
                         roomCode: data,
                     },
-                }).then(res => {
-                    if (res.status) {
-                        cc.director.loadScene('gamesGoBang');
+                }).then(({ status, msg }) => {
+                    if (status && msg && msg.scene) {
+                        cc.director.loadScene(msg.scene);
                     } else {
                         const popup = cc.instantiate(this.popupPrefab);
                         this.Canvas.node.addChild(popup);
                         const scriptPopup = popup.getComponent('popup');
-                        scriptPopup.init('加入房间失败!\n' + res.msg);
+                        scriptPopup.init('加入房间失败!\n' + msg);
                         scriptPopup.setEvent('close', () => {});
                     }
                 });

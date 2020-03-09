@@ -172,6 +172,11 @@ export default class GoBangMainService extends cc.Component {
             },
         }).then(() => {});
 
+        if (!winnerUser) {
+            cc.director.loadScene('Home');
+            return;
+        }
+
         chessScript.init({
             players: [{ 
                 nickname: winnerUser.nickname,

@@ -15,9 +15,6 @@
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 207
       }
     ],
     "_active": false,
@@ -201,7 +198,7 @@
       "array": [
         0,
         5,
-        536.9357503463519,
+        527.4094709047232,
         0,
         0,
         0,
@@ -10200,51 +10197,5 @@
       "__id__": 57
     },
     "_id": "11AkDWSPlE5rb3GpM1xb7u"
-  },
-  {
-    "__type__": "cc.Node",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_id": "51YudkyFNJjLCTw9MGFS3Q",
-    "_prefab": {
-      "__id__": 208
-    },
-    "_name": "createRoom",
-    "_active": true,
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        476.178,
-        317.171,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    }
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 207
-    },
-    "asset": {
-      "__uuid__": "585911dc-0f63-46fb-9bf3-2f41ce2d2045"
-    },
-    "fileId": "32HA8aiEBGt5i+qGbUmTfx",
-    "sync": true
   }
 ]
