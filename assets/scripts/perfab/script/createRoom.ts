@@ -160,6 +160,7 @@ export default class CreateRoom extends cc.Component {
                 });
             });
             this._GANE_ = gameOpt;
+            cc.director.preloadScene(gameOpt.scene);
         }
     }
 
@@ -197,9 +198,8 @@ export default class CreateRoom extends cc.Component {
      */
     onCreateRoom() {
         const query = {};
-        radioOption.forEach((item, index) => {
-            // console.log(item.script.value, item.config, item.keyword);
-            query[item.keyword] = item.script.value;
+        radioOption.forEach(item => {
+            query[item.keyword] = item.script.value - 1;
         });
         console.log(radioOption);
         axios.api('create_room', {
@@ -213,11 +213,10 @@ export default class CreateRoom extends cc.Component {
             const scriptPopup = popup.getComponent('popup');
             scriptPopup.init('创建中...');
             if (res.status) {
-                cc.director.preloadScene(this._GANE_.scene);
                 axios.api('room_info').then(res => {
                     scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
                     scriptPopup.setEvent('success', () => {
-                        cc.director.loadScene('gamesGoBang');
+                        cc.director.loadScene(this._GANE_.scene);
                     });
                 });
             } else {

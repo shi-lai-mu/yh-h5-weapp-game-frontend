@@ -53,8 +53,7 @@ export default {
       //   // console.warn('断开了一次IO连接');
       //   State.io.disconnect();
       // }
-      console.log(`IO 连接中...`);
-      console.log(newToken);
+      console.log(`IO 连接中...`, newToken);
       let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
         ? IoConfig.main.replace(localRegExp, locaHostName)
         : IoConfig.main

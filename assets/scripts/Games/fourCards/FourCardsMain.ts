@@ -112,8 +112,6 @@ export default class FourCardsGame extends cc.Component {
     // 已有扑克牌
     cardList = [];
 
-    // 加入事件容器
-    roomJoinEvent = () => this.fetchRoomInfo();
     // 下棋事件容器
     roomDataEevent = (data) => this.roomData(data);
     // 离开事件容器
@@ -121,22 +119,23 @@ export default class FourCardsGame extends cc.Component {
 
     onLoad () {
         // 创建房间伪逻辑
-        axios.api('create_room', {
-            params: {
-                gameName: 'fourCards',
-            },
-            data: {
-                people: 4,
-                frequency: 1,
-                payType: 0,
-                pwdType: 0,
-            },
-        }).then((res) => {
-            if (res.status) {
-                this.fetchRoomInfo();
-            }
-        });
-        State.io.on('rommjoin', this.roomJoinEvent);
+        // axios.api('create_room', {
+        //     params: {
+        //         gameName: 'fourCards',
+        //     },
+        //     data: {
+        //         people: 4,
+        //         frequency: 1,
+        //         payType: 0,
+        //         pwdType: 0,
+        //     },
+        // }).then((res) => {
+        //     if (res.status) {
+        //         this.fetchRoomInfo();
+        //     }
+        // });
+        this.fetchRoomInfo();
+        State.io.on('rommjoin', this.fetchRoomInfo.bind(this));
         State.io.on('room/data', this.roomDataEevent);
         State.io.on('rommleave', this.roomExitEevent);
         State.observer.on('socketConnect', this.onSocketConnect.bind(this))
@@ -291,7 +290,7 @@ export default class FourCardsGame extends cc.Component {
      */
     onDestroy() {
         // 接触IM玩家加入房间事件绑定
-        State.io.off('rommjoin', this.roomJoinEvent);
+        State.io.off('rommjoin', this.fetchRoomInfo);
         State.io.off('room/data', this.roomDataEevent);
         State.io.off('rommleave', this.roomExitEevent);
         clock && clearInterval(clock);
@@ -302,7 +301,7 @@ export default class FourCardsGame extends cc.Component {
      * 发牌
      *  - 选中的牌进行发牌操作
      */
-    private dealCards() {
+    dealCards() {
         // 销毁桌前的扑克牌
         if (this.desktop.card.length) {
             this.desktop.card.forEach((card) => card.destroy());
@@ -320,12 +319,12 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 发牌动作
      */
-    private outCard(cards, player) {
+    outCard(cards, player) {
         const { id, index } = player;
         const { cardList } = this;
         const cardsBox = this.FourCardsPlayers[index].cardPoint;
         const cardsReverse = [];
-        cards.reverse().forEach((card, offset) => {
+        cards.reverse().forEach((card ) => {
             cardsReverse.push(cardList.splice(card, 1));
         })
         cardsReverse.reverse().forEach((card, offset) => {
@@ -337,7 +336,7 @@ export default class FourCardsGame extends cc.Component {
                 }
                 // 扑克牌缓动效果
                 node.runAction(
-                    cc.moveTo(.2,  cardsBox.x + (15 * offset), cardsBox.y).easing(cc.easeBackOut()),
+                    cc.moveTo(.2,  cardsBox.x + (15 * offset) - 400, cardsBox.y).easing(cc.easeBackOut()),
                 );
                 this.desktop.card.push(node);
             }
@@ -349,7 +348,7 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 重新刷新扑克牌位置
      */
-    private updateCardPoint() {
+    updateCardPoint() {
         const { cardList } = this;
         let prevNumber = -1; // 上类扑克牌标识
         let prevCount = 0;   // 上类扑克牌数量
@@ -390,7 +389,7 @@ export default class FourCardsGame extends cc.Component {
             }
             prevCount++;
             node.runAction(
-                cc.moveTo(.5, index * 15, node.y).easing(cc.easeBackOut()),
+                cc.moveTo(.5, index * 15 - 400, node.y).easing(cc.easeBackOut()),
             )
         });
     }
@@ -399,7 +398,7 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 当玩家加入房间时
      */
-    private fetchRoomInfo() {
+    fetchRoomInfo() {
         axios.api('room_info').then(res => {
             console.log(res);
             // 检测是否已经开始游戏
@@ -418,7 +417,7 @@ export default class FourCardsGame extends cc.Component {
      * 房间内接收到数据时
      * @param data - 房间内数据
      */
-    private roomData(data) {
+    roomData(data) {
         console.log(data);
     }
 
@@ -427,7 +426,7 @@ export default class FourCardsGame extends cc.Component {
      * 玩家离开游戏时
      * @param data - 数据
      */
-    private rommleave(data) {
+    rommleave(data) {
         console.log(data);
     }
     // update (dt) {}
@@ -438,7 +437,7 @@ export default class FourCardsGame extends cc.Component {
      * @param number  - 扑克牌数量
      * @param newNode - 扑克牌节点
      */
-    private addCardNumber(number: string, newNode: any) {
+    addCardNumber(number: string, newNode: any) {
         const labelNode = new cc.Node();
         const label = labelNode.addComponent(cc.Label);
         label.string = number;
