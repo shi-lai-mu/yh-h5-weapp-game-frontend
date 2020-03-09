@@ -51,6 +51,12 @@ export default class FourCardsGame extends cc.Component {
     cardBox: cc.Node = null;
 
     /**
+     * 房间号节点
+     */
+    @property(cc.Label)
+    roomIdLabel: cc.Label = null;
+
+    /**
      * 玩家节点数据
      */
     @property(FourCardsPlayersItem)
@@ -84,6 +90,11 @@ export default class FourCardsGame extends cc.Component {
         timeOut: number;
         time: number,
     }[] = [];
+    
+    /**
+     * 房间数据
+     */
+    roomInfoData = {};
 
     @property(CardItem)
     Card = {
@@ -112,11 +123,6 @@ export default class FourCardsGame extends cc.Component {
     // 已有扑克牌
     cardList = [];
 
-    // 下棋事件容器
-    roomDataEevent = (data) => this.roomData(data);
-    // 离开事件容器
-    roomExitEevent = (data) => this.rommleave(data);
-
     onLoad () {
         // 创建房间伪逻辑
         // axios.api('create_room', {
@@ -136,8 +142,8 @@ export default class FourCardsGame extends cc.Component {
         // });
         this.fetchRoomInfo();
         State.io.on('rommjoin', this.fetchRoomInfo.bind(this));
-        State.io.on('room/data', this.roomDataEevent);
-        State.io.on('rommleave', this.roomExitEevent);
+        State.io.on('room/data', this.roomData.bind(this));
+        State.io.on('rommleave', this.rommleave.bind(this));
         State.observer.on('socketConnect', this.onSocketConnect.bind(this))
     }
 
@@ -290,9 +296,9 @@ export default class FourCardsGame extends cc.Component {
      */
     onDestroy() {
         // 接触IM玩家加入房间事件绑定
-        State.io.off('rommjoin', this.fetchRoomInfo);
-        State.io.off('room/data', this.roomDataEevent);
-        State.io.off('rommleave', this.roomExitEevent);
+        State.io.off('rommjoin', this.fetchRoomInfo.bind(this));
+        State.io.off('room/data', this.roomData.bind(this));
+        State.io.off('rommleave', this.rommleave.bind(this));
         clock && clearInterval(clock);
     }
 
@@ -399,16 +405,34 @@ export default class FourCardsGame extends cc.Component {
      * 当玩家加入房间时
      */
     fetchRoomInfo() {
+        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
+        const MyUserData = State.userInfo;
         axios.api('room_info').then(res => {
             console.log(res);
             // 检测是否已经开始游戏
             if (res.isStart && res.players[res.playerIndex]) {
                 this.gameStart(res.players[res.playerIndex].card);
+                let outherPlayer = 1;
+
+                loadImg(`${avatarBase}/${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
+                    this.FourCardsPlayers[0].avatarUrl.spriteFrame = spriteFrame;
+                });
+
                 this.playersData = res.players.map((player, index) => {
                     player.index = index;
+                    if (index !== res.playerIndex) {
+                        const target = this.FourCardsPlayers[outherPlayer];
+                        target.nickname.string = player.nickname;
+                        loadImg(`${avatarBase}/${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
+                            target.avatarUrl.spriteFrame = spriteFrame;
+                        });
+                        outherPlayer++;
+                    }
                     return player;
                 });
             }
+            this.roomInfoData = res;
+            this.roomIdLabel.string = `房间号: ${res.roomCode || '错误'}`;
         });
     }
 
@@ -447,4 +471,15 @@ export default class FourCardsGame extends cc.Component {
         label.fontSize = 30;
         newNode.addChild(labelNode);
     }
+}
+
+/**
+ * 加载图片
+ * @param url      - 图片url
+ * @param callback - 回调函数
+ */
+const loadImg = (url, callback) => {
+    cc.loader.load(url, (_error, texture) => {
+        callback(new cc.SpriteFrame(texture));
+    });
 }
