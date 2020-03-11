@@ -94,7 +94,6 @@ export default class CreateRoom extends cc.Component {
     @property(cc.Prefab)
     popupPrefab: cc.Prefab = null;
 
-
     /**
      * 当前选中的游戏名
      */
@@ -104,6 +103,11 @@ export default class CreateRoom extends cc.Component {
      * 当前选中的GAME
      */
     _GANE_: any = {};
+
+    /**
+     * 项目节点列表
+     */
+    listItems = {};
 
     start() {
         this.popupShow();
@@ -133,6 +137,8 @@ export default class CreateRoom extends cc.Component {
             if (index === 0) {
                 ListItem.onClick();
             }
+
+            this.listItems[key] = ListItem;
         });
     }
 
@@ -174,7 +180,7 @@ export default class CreateRoom extends cc.Component {
         this.ContentBox.scale = 0;
         leftTopBox.x = leftTopBox.x + leftTopBox.width;
         this.ContentBox.runAction(
-            cc.scaleTo(0.5, 1, 1).easing(cc.easeBackOut()),
+            cc.scaleTo(.5, 1, 1).easing(cc.easeBackOut()),
         );
     }
 
@@ -186,7 +192,7 @@ export default class CreateRoom extends cc.Component {
     popupHide() {
         this.ContentBox.runAction(
             cc.sequence(
-                cc.scaleTo(0.5, .5, .5).easing(cc.easeBackIn()),
+                cc.scaleTo(.5, .5, .5).easing(cc.easeBackIn()),
                 cc.callFunc(() => this.node.destroy(), this),
             ),
         );

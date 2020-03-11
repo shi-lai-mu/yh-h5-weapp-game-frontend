@@ -76,7 +76,6 @@ export default class EmailActivityListItem extends cc.Component {
         }
 
         this.id = id;
-        console.log(sprite);
         // 图片加载
         if (sprite) {
             typeof sprite === 'string' ? loadImg(sprite, this.setSprite.bind(this)) : this.setSprite(sprite, scale || .5);
@@ -96,7 +95,6 @@ export default class EmailActivityListItem extends cc.Component {
         const Sprite = node.addComponent(cc.Sprite);
         Sprite.spriteFrame = SpriteFrame;
         node.scale = scale;
-        console.log(scale);
         this.node.addChild(node);
     }
     // update (dt) {}

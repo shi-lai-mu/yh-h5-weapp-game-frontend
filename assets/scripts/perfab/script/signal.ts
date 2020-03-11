@@ -55,19 +55,32 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     signal: cc.Label = null;
 
+    /**
+     * 弹窗
+     */
+    @property(cc.Prefab)
+    popupPrefab: cc.Prefab = null;
+
     onLoad () {
         clock = setInterval(() => {
             this.time.string = tool.dateFrom('HH:mm');
             State.io.emit('signal');
+            const time = Date.now();
 
-            // 掉线二次检测
-            if (statusUpdateTime + 10 * 1000 < Date.now()) {
+            if (statusUpdateTime + (10 * 1000) < Date.now()) {
+                // 掉线二次检测
                 this.wifi.spriteFrame = this.wifiUnLinkFrame;
                 prveStatus = 2000;
+            } else if (statusUpdateTime + (4 * 1000) < time) {
+                // 警告状态
+                this.wifi.spriteFrame = this.wifiErrorFrame;
+                prveStatus = 700 + (Math.random() * 300 >> 1);
+                this.signal.node.color = cc.color(255, 160, 36);
+                this.signal.string = prveStatus.toString();
             }
 
             // 颜色修改
-            if (prveStatus > 500) {
+            if (prveStatus > 1000) {
                 this.signal.node.color = cc.color(197, 27, 6);
                 this.signal.string = '已掉线';
             }
@@ -99,6 +112,7 @@ export default class NewClass extends cc.Component {
             // 延迟状态
             if (signal > 500 && signal < 1000) {
                 this.wifi.spriteFrame = this.wifiErrorFrame;
+                this.signal.node.color = cc.color(255, 160, 36);
                 prveStatus = signal;
             }
 
