@@ -40,6 +40,7 @@ const FourCardsPlayersItem = cc.Class({
     properties: FourCardsPlayers,
 });
 let clock = null; // 计时器
+let cardList = {};
 
 @ccclass
 export default class FourCardsGame extends cc.Component {
@@ -70,12 +71,21 @@ export default class FourCardsGame extends cc.Component {
     @property(cc.Prefab) chessPrefab: cc.Prefab = null;
 
     /**
+     * 发牌按钮
+     */
+    @property(cc.Node)
+    setpBtn: cc.Node = null;
+
+    /**
+     * 跳过的按钮
+     */
+    @property(cc.Node)
+    skipBtn: cc.Node = null;
+
+    /**
      * 桌面机制
      */
-    desktop: {
-        score: number;
-        card: cc.Node[];
-    } = {
+    desktop: { score: number; card: cc.Node[]; } = {
         score: 0,
         card: [],
     };
@@ -83,19 +93,17 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 玩家数据
      */
-    playersData: {
-        id: number,
-        nickname: string;
-        avatarUrl: number;
-        setp: number;
-        timeOut: number;
-        time: number,
-    }[] = [];
+    playersData: { id: number, nickname: string; avatarUrl: number; setp: number; timeOut: number; time: number; }[] = [];
     
     /**
      * 房间数据
      */
     roomInfoData = {};
+
+    /**
+     * 已有扑克牌
+     */
+    cardList = [];
 
     @property(CardItem)
     Card = {
@@ -121,17 +129,14 @@ export default class FourCardsGame extends cc.Component {
         joker: [],
     };
 
-    // 已有扑克牌
-    cardList = [];
-
-    onLoad () {
-        // 创建房间伪逻辑
+    onLoad() {
+        // // 创建房间伪逻辑
         // axios.api('create_room', {
         //     params: {
         //         gameName: 'fourCards',
         //     },
         //     data: {
-        //         people: 4,
+        //         people: 0,
         //         frequency: 1,
         //         payType: 0,
         //         pwdType: 0,
@@ -142,6 +147,7 @@ export default class FourCardsGame extends cc.Component {
         //     }
         // });
         this.fetchRoomInfo();
+        State.io.on('fourcard/gameData', this.onGameData);
         State.io.on('rommjoin', this.fetchRoomInfo.bind(this));
         State.io.on('room/data', this.roomData.bind(this));
         State.io.on('rommleave', this.rommleave.bind(this));
@@ -150,10 +156,18 @@ export default class FourCardsGame extends cc.Component {
 
 
     /**
+     * 接收到游戏数据时
+     */
+    onGameData(data) {
+        console.log(data);
+    }
+
+
+    /**
      * 开始游戏
      * @param cardData - 卡牌数组
      */
-    gameStart (cardData: Array<{ [key: number]: number }>) {
+    gameStart(cardData: Array<{ [key: number]: number }>) {
         // // 随机的卡牌
         // const randomCard = [];
         const { Card } = this;
@@ -279,7 +293,11 @@ export default class FourCardsGame extends cc.Component {
         );
         // cardInfo.buttonScipt.interactable = false;
         // cardInfo.mask.opacity = 255;
-        cardInfo.isSelect = !cardInfo.isSelect;
+        (cardInfo.isSelect = !cardInfo.isSelect)
+            ? cardList[cardIndex] = cardInfo
+            : delete cardList[cardIndex]
+        ;
+        // this.setpBtn.scale = Object.keys(cardList).length ? 1 : 0;
     }
 
 
@@ -319,14 +337,15 @@ export default class FourCardsGame extends cc.Component {
                 selectCard.push(index);
             }
         });
-        this.outCard(selectCard, this.playersData[0]);
+        cardList = {}
+        this.outCardActuin(selectCard, this.playersData[0]);
     }
 
 
     /**
      * 发牌动作
      */
-    outCard(cards, player) {
+    outCardActuin(cards, player) {
         const { id, index } = player;
         const { cardList } = this;
         const cardsBox = this.FourCardsPlayers[index].cardPoint;
@@ -436,7 +455,7 @@ export default class FourCardsGame extends cc.Component {
             this.roomIdLabel.string = `房间号: ${res.roomCode || '错误'}`;
         });
     }
-
+ 
 
     /**
      * 房间内接收到数据时

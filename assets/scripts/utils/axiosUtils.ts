@@ -164,7 +164,8 @@ export default class HttpUtil {
         if (targetClock && targetClock > Date.now()) {
           return Promise.reject({ error: '频繁请求拦截！', requestKey });
         }
-        requestClock[requestKey] = Date.now() + 400;
+        // requestClock[requestKey] = Date.now() + 400;
+        requestClock[requestKey] = Date.now() + 1;
       }
 
       url = HttpUtil.baseUrl + url;
