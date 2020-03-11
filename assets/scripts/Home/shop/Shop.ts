@@ -95,7 +95,7 @@ export default class Activity extends cc.Component {
         axios.api('shop_menu').then((data: ShopMenu[]) => {
             data.forEach((item, index) => {
                 const prefab = cc.instantiate(this.ShopMenuListPrefab);
-                const prefabScript = prefab.getComponent('emailActivityListItem');
+                const prefabScript = prefab.getComponent('ListItem');
                 if (item.imgName) {
                     item.sprite = `https://perfergame.oss-cn-beijing.aliyuncs.com/text/shop/${ item.imgName }.png`;
                 }
