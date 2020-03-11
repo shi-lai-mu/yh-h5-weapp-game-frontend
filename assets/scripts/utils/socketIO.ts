@@ -65,6 +65,7 @@ export default {
         transports:['websocket'],
       });
       socket.on('connect', () => {
+          State.io = socket;
           console.log(`IO 连接成功!`);
           // this.tipNode.color = cc.Color.GREEN
           State.observer.emit('socketConnect');
@@ -82,9 +83,7 @@ export default {
         socket.connect();
       }
       
-      console.log('123152645648748978979');
       State.io = socket;
-      console.log(socket);
       window.socket = socket;
     });
   }

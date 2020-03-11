@@ -202,36 +202,41 @@ export default class CreateRoom extends cc.Component {
     /**
      * 创建房间按钮 按下事件
      */
-    onCreateRoom() {
+    async onCreateRoom() {
         const query = {};
         radioOption.forEach(item => {
             query[item.keyword] = item.script.value - 1;
         });
         console.log(radioOption);
-        axios.api('create_room', {
-            params: {
-                gameName: this._ROOM_NAME_,
-            },
-            data: query,
-        }).then((res) => {
-            const popup = cc.instantiate(this.popupPrefab);
-            this.node.addChild(popup);
-            const scriptPopup = popup.getComponent('popup');
-            scriptPopup.init('创建中...');
-            if (res.status) {
-                axios.api('room_info').then(res => {
-                    scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
-                    scriptPopup.setEvent('success', () => {
-                        cc.director.loadScene(this._GANE_.scene);
+
+        return new Promise((resolve, reject) => {
+            axios.api('create_room', {
+                params: {
+                    gameName: this._ROOM_NAME_,
+                },
+                data: query,
+            }).then((res) => {
+                const popup = cc.instantiate(this.popupPrefab);
+                this.node.addChild(popup);
+                const scriptPopup = popup.getComponent('popup');
+                scriptPopup.init('创建中...');
+                if (res.status) {
+                    axios.api('room_info').then(res => {
+                        scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
+                        scriptPopup.setEvent('success', () => {
+                            cc.director.loadScene(this._GANE_.scene);
+                        });
+                        resolve(scriptPopup);
                     });
-                });
-            } else {
-                scriptPopup.message(`创建失败!\n${res.msg}`);
-                // scriptPopup.setEvent('reset', () => {
-                //     this.createRoomClick();
-                // });
-                scriptPopup.setEvent('close', () => {});
-            }
+                } else {
+                    scriptPopup.message(`创建失败!\n${res.msg}`);
+                    // scriptPopup.setEvent('reset', () => {
+                    //     this.createRoomClick();
+                    // });
+                    scriptPopup.setEvent('close', () => {});
+                    reject(scriptPopup);
+                }
+            });
         });
     }
 

@@ -13,7 +13,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class EmailActivityListItem extends cc.Component {
 
-    @property(Number)
+    @property()
     id: number = 0;
 
     @property(cc.Label)

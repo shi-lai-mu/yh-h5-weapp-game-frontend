@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Popup extends cc.Component {
 
     @property(cc.Label)
     text: cc.Label = null;
@@ -76,6 +76,7 @@ export default class NewClass extends cc.Component {
     }
 
     success() {
+        console.log(123456);
         this.successEvent && this.successEvent();
     }
 
