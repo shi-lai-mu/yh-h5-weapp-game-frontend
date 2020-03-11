@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "email-left-list-bg",
+    "_name": "list-bg",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -233,7 +233,7 @@
     },
     "_grayMaterial": null,
     "duration": 0.1,
-    "zoomScale": 1.1,
+    "zoomScale": 1.05,
     "clickEvents": [
       {
         "__id__": 7
@@ -322,8 +322,6 @@
     "itemTarget": {
       "__uuid__": "4e61d16d-693a-44fe-8cd6-1a304e391361"
     },
-    "ParentClass": null,
-    "data": {},
     "_id": ""
   },
   {

@@ -71,22 +71,22 @@ export default class HomePD extends cc.Component {
     /**
      * 创建房间点击事件
      */
-    showCreateRoomPopup() {
+    showCreateRoomPopup(gameName?: string) {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
         this.Canvas.node.addChild(createRoomPrefab);
-        createRoomPrefab.getComponent('createRoom').Canvas = this.Canvas;
+        const createRoom = createRoomPrefab.getComponent('createRoom');
+        createRoom.Canvas = this.Canvas;
+        if (gameName) {
+            setTimeout(() => {
+                createRoom.listItems['fourCards'].onClick();
+            }, 100);
+        }
         // createRoomPrefab.getComponent('keyboard').parentClass = {
         //     emit(data) {
         //         console.log(data);
         //     }
         // }
     }
-
-
-    start () {
-
-    }
-
 
 
     // update (dt) {}
