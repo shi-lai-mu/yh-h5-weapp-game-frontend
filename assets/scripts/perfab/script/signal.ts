@@ -98,10 +98,7 @@ export default class NewClass extends cc.Component {
             }
         }, 1000);
 
-        /**
-         * 延迟接收
-         */
-
+        // 延迟接收
         State.io.on('signal', this.onSignal.bind(this));
     }
 

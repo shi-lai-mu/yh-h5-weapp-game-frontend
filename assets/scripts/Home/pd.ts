@@ -77,8 +77,10 @@ export default class HomePD extends cc.Component {
         const createRoom = createRoomPrefab.getComponent('createRoom');
         createRoom.Canvas = this.Canvas;
         if (gameName) {
-            setTimeout(() => {
+            setTimeout(async () => {
                 createRoom.listItems['fourCards'].onClick();
+                const popup = await createRoom.onCreateRoom();
+                popup.success();
             }, 100);
         }
         // createRoomPrefab.getComponent('keyboard').parentClass = {
