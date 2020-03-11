@@ -61,7 +61,18 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     popupPrefab: cc.Prefab = null;
 
-    onLoad () {
+    /**
+     * 弹窗实例
+     */
+    scriptPopup: any = null;
+
+    onLoad() {
+        this.watch();
+        State.observer.on('socketConnect', this.watch.bind(this));
+    }
+
+    watch() {
+        clock && clearInterval(clock);
         clock = setInterval(() => {
             this.time.string = tool.dateFrom('HH:mm');
             State.io.emit('signal');
@@ -71,6 +82,8 @@ export default class NewClass extends cc.Component {
                 // 掉线二次检测
                 this.wifi.spriteFrame = this.wifiUnLinkFrame;
                 prveStatus = 2000;
+                this.unonline();
+                this.signal.string = '已掉线';
             } else if (statusUpdateTime + (4 * 1000) < time) {
                 // 警告状态
                 this.wifi.spriteFrame = this.wifiErrorFrame;
@@ -82,13 +95,13 @@ export default class NewClass extends cc.Component {
             // 颜色修改
             if (prveStatus > 1000) {
                 this.signal.node.color = cc.color(197, 27, 6);
-                this.signal.string = '已掉线';
             }
         }, 1000);
 
         /**
          * 延迟接收
          */
+
         State.io.on('signal', this.onSignal.bind(this));
     }
 
@@ -102,6 +115,7 @@ export default class NewClass extends cc.Component {
             statusUpdateTime = Date.now();
             this.signal.string = signal + 'ms';
             State.userInfo.signal = signal;
+            this.scriptPopup && this.scriptPopup.close();
 
             // 状态正常恢复
             if (prveStatus >= 500 && prveStatus <= 2000 && signal < 500) {
@@ -126,11 +140,29 @@ export default class NewClass extends cc.Component {
 
 
     /**
+     * 掉线弹窗处理
+     */
+    unonline() {
+        if (!this.scriptPopup) {
+            const popup = cc.instantiate(this.popupPrefab);
+            this.node.parent.addChild(popup);
+            const scriptPopup = popup.getComponent('popup');
+            scriptPopup.init('与服务器失去连接!\n重新连接中...');
+            scriptPopup.setEvent('close', () => {
+                this.scriptPopup = null;
+            });
+            this.scriptPopup = scriptPopup;
+        }
+    }
+
+
+    /**
      * 销毁场景时进行清理
      */
     onDestroy() {
         console.log('clear Signal');
         State.io.off('signal', this.onSignal.bind(this));
+        State.observer.off('socketConnect', this.watch.bind(this));
         clock && clearInterval(clock);
     }
 
