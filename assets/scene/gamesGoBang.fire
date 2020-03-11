@@ -84,7 +84,7 @@
         "__id__": 20
       },
       {
-        "__id__": 59
+        "__id__": 57
       },
       {
         "__id__": 13
@@ -183,7 +183,7 @@
       "array": [
         0,
         0,
-        527.4094709047232,
+        536.9357503463519,
         0,
         0,
         0,
@@ -354,9 +354,6 @@
       },
       {
         "__id__": 10
-      },
-      {
-        "__id__": 57
       }
     ],
     "_prefab": null,
@@ -2571,88 +2568,6 @@
     "_id": "7afmmtO29Mq7QpDd40t+uJ"
   },
   {
-    "__type__": "cc.Button",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 7
-    },
-    "_enabled": true,
-    "_normalMaterial": null,
-    "_grayMaterial": null,
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 58
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$transition": 0,
-    "transition": 0,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "_N$hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": null,
-    "_id": "d267cGx5xFfJgdN0zSez1S"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 7
-    },
-    "component": "",
-    "_componentId": "665a40HOxxMH5Qj+8iNrXfS",
-    "handler": "onClick",
-    "customEventData": ""
-  },
-  {
     "__type__": "cc.Node",
     "_name": "back",
     "_objFlags": 0,
@@ -2663,13 +2578,13 @@
     "_active": true,
     "_components": [
       {
+        "__id__": 58
+      },
+      {
+        "__id__": 59
+      },
+      {
         "__id__": 60
-      },
-      {
-        "__id__": 61
-      },
-      {
-        "__id__": 62
       }
     ],
     "_prefab": null,
@@ -2725,7 +2640,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 59
+      "__id__": 57
     },
     "_enabled": true,
     "_materials": [
@@ -2757,7 +2672,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 59
+      "__id__": 57
     },
     "_enabled": true,
     "alignMode": 1,
@@ -2784,7 +2699,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 59
+      "__id__": 57
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -2795,7 +2710,7 @@
     "zoomScale": 1.1,
     "clickEvents": [
       {
-        "__id__": 63
+        "__id__": 61
       }
     ],
     "_N$interactable": true,

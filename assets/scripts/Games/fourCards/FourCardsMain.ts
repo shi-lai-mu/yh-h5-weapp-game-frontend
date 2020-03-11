@@ -47,26 +47,27 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 发牌位置
      */
-    @property(cc.Node)
-    cardBox: cc.Node = null;
+    @property(cc.Node) cardBox: cc.Node = null;
 
     /**
      * 房间号节点
      */
-    @property(cc.Label)
-    roomIdLabel: cc.Label = null;
+    @property(cc.Label) roomIdLabel: cc.Label = null;
 
     /**
      * 玩家节点数据
      */
-    @property(FourCardsPlayersItem)
-    FourCardsPlayers: typeof FourCardsPlayers[] = [];
+    @property(FourCardsPlayersItem) FourCardsPlayers: typeof FourCardsPlayers[] = [];
 
     /**
      * 扑克牌遮罩节点
      */
-    @property(cc.Prefab)
-    cardsMask: cc.Prefab = null;
+    @property(cc.Prefab) cardsMask: cc.Prefab = null;
+    
+    /**
+     * 结算界面资源
+     */
+    @property(cc.Prefab) chessPrefab: cc.Prefab = null;
 
     /**
      * 桌面机制
