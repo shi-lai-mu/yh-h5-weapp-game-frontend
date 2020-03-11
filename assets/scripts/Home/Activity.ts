@@ -116,7 +116,7 @@ export default class Activity extends cc.Component {
             data.forEach((item: ActivityItem, index: number) => {
                 const newItem = cc.instantiate(this.activityListPrefab);
                 this.activityListBox.addChild(newItem);
-                const newComponent = newItem.getComponent('emailActivityListItem');
+                const newComponent = newItem.getComponent('ListItem');
                 newComponent.init(item);
                 newComponent.ParentClass = this;
                 newItem.y = (newItem.y - index * 40) - 200;
