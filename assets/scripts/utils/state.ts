@@ -35,6 +35,7 @@ const State = {
      * WebSocket IO
      */
     io: {
+        connected: false,
         emit(keyword, callback) {},
         on(keyword, callback) {},
         off(keyword, callback) {},

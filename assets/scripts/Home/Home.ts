@@ -45,9 +45,6 @@ export default class Home extends cc.Component {
         if (!userInfo) {
             cc.director.loadScene('loginPage');
             return !1;
-        } else {
-            // 数据失效恢复
-            State.io.emit('connect/test');
         }
     }
 

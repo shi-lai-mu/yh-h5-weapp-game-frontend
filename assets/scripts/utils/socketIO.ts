@@ -68,6 +68,7 @@ export default {
           console.log(`IO 连接成功!`);
           // this.tipNode.color = cc.Color.GREEN
           State.observer.emit('socketConnect');
+          socket.emit('connect/test');
       });
       // 链接处理
       socket.on('reconnect', data => console.log('IO重连中...', data));
