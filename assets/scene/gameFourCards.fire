@@ -210,7 +210,7 @@
       "array": [
         0,
         0,
-        541.2658773652742,
+        536.9357503463519,
         0,
         0,
         0,
@@ -6024,7 +6024,7 @@
         0,
         1,
         0,
-        0,
+        1,
         1
       ]
     },
@@ -6205,7 +6205,9 @@
     "_normalMaterial": {
       "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
     },
-    "_grayMaterial": null,
+    "_grayMaterial": {
+      "__uuid__": "3a7bb79f-32fd-422e-ada2-96f518fed422"
+    },
     "duration": 0.1,
     "zoomScale": 1.2,
     "clickEvents": [
@@ -6214,7 +6216,7 @@
       }
     ],
     "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
+    "_N$enableAutoGrayEffect": true,
     "_N$transition": 3,
     "transition": 3,
     "_N$normalColor": {
@@ -6836,10 +6838,10 @@
       "__uuid__": "c3a88e04-eee8-42e6-ade2-27c6e1896203"
     },
     "setpBtn": {
-      "__id__": 125
+      "__id__": 130
     },
     "skipBtn": {
-      "__id__": 132
+      "__id__": 137
     },
     "Card": {
       "__id__": 149

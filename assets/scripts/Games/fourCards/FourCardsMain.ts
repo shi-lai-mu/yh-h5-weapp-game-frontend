@@ -73,14 +73,14 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 发牌按钮
      */
-    @property(cc.Node)
-    setpBtn: cc.Node = null;
+    @property(cc.Button)
+    setpBtn: cc.Button = null;
 
     /**
      * 跳过的按钮
      */
-    @property(cc.Node)
-    skipBtn: cc.Node = null;
+    @property(cc.Button)
+    skipBtn: cc.Button = null;
 
     /**
      * 桌面机制
@@ -103,7 +103,7 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 已有扑克牌
      */
-    cardList = [];
+    cardList: CardList[] = [];
 
     @property(CardItem)
     Card = {
@@ -147,7 +147,7 @@ export default class FourCardsGame extends cc.Component {
         //     }
         // });
         this.fetchRoomInfo();
-        State.io.on('fourcard/gameData', this.onGameData);
+        State.io.on('fourcard/gameData', this.onGameData.bind(this));
         State.io.on('rommjoin', this.fetchRoomInfo.bind(this));
         State.io.on('room/data', this.roomData.bind(this));
         State.io.on('rommleave', this.rommleave.bind(this));
@@ -158,7 +158,29 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 接收到游戏数据时
      */
-    onGameData(data) {
+    onGameData(data: ioOnData) {
+        console.log(data);
+        data.callback && this[data.callback](typeof data === 'string' ? JSON.stringify(data) : data);
+    }
+
+
+    /**
+     * 允许当前玩家发牌时
+     * @param data - IO数据
+     */
+    currentUser(data: ioOnData) {
+        const { setpBtn, skipBtn } = this;
+        setpBtn.node.scale = 1;
+        setpBtn.interactable = false;
+        skipBtn.node.scale = 1;
+    }
+
+
+    /**
+     * 允许当前玩家发牌时
+     * @param data - IO数据
+     */
+    userSendCard(data: ioOnData) {
         console.log(data);
     }
 
@@ -286,6 +308,8 @@ export default class FourCardsGame extends cc.Component {
      * @param cardIndex - 扑克牌下标
      */
     onClickCard(_e, cardIndex: string) {
+        // 判断是为当前玩家的回合
+        if (!this.setpBtn.node.scale) return;
         const cardInfo = this.cardList[cardIndex];
         const targetNode = cardInfo.node;
         targetNode.runAction(
@@ -297,6 +321,8 @@ export default class FourCardsGame extends cc.Component {
             ? cardList[cardIndex] = cardInfo
             : delete cardList[cardIndex]
         ;
+        
+        this.setpBtn.interactable = !!Object.keys(cardList).length;
         // this.setpBtn.scale = Object.keys(cardList).length ? 1 : 0;
     }
 
@@ -332,12 +358,21 @@ export default class FourCardsGame extends cc.Component {
             this.desktop.card.forEach((card) => card.destroy());
         }
         const selectCard = [];
+        const numberCard = [];
         this.cardList.forEach((item, index) => {
             if (item.isSelect) {
                 selectCard.push(index);
+                numberCard.push({
+                    row: item.row,
+                    col: item.col,
+                    number: item.number,
+                });
             }
         });
-        cardList = {}
+        cardList = {};
+        this.setpBtn.node.scale = 0;
+        this.skipBtn.node.scale = 0;
+        State.io.emit('fourCards/setp', numberCard);
         this.outCardActuin(selectCard, this.playersData[0]);
     }
 
@@ -502,4 +537,26 @@ const loadImg = (url, callback) => {
     cc.loader.load(url, (_error, texture) => {
         callback(new cc.SpriteFrame(texture));
     });
+}
+
+
+interface ioOnData {
+    type: string;
+    msg: {
+      prveCard: any,
+    },
+    callback?: string,
+}
+
+interface CardList {
+    node: cc.Node;
+    x: number;
+    y: number;
+    number: number;
+    row: number;
+    col: number;
+    buttonScipt: any;
+    clickEventHandler: any;
+    mask: cc.Node;
+    isSelect?: boolean;
 }
