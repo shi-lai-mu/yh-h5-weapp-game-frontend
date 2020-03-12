@@ -39,8 +39,8 @@ const FourCardsPlayersItem = cc.Class({
     name: 'FourCardsPlayers',
     properties: FourCardsPlayers,
 });
-let clock = null; // 计时器
-let cardList = {};
+let clock = null;  // 计时器
+let cardList = {}; // 选中的扑克牌
 
 @ccclass
 export default class FourCardsGame extends cc.Component {
@@ -98,7 +98,7 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 房间数据
      */
-    roomInfoData = {};
+    roomInfoData: any = {};
 
     /**
      * 已有扑克牌
@@ -151,16 +151,20 @@ export default class FourCardsGame extends cc.Component {
         State.io.on('rommjoin', this.fetchRoomInfo.bind(this));
         State.io.on('room/data', this.roomData.bind(this));
         State.io.on('rommleave', this.rommleave.bind(this));
-        State.observer.on('socketConnect', this.onSocketConnect.bind(this))
+        State.observer.on('socketConnect', this.onSocketConnect.bind(this));
+        const { setpBtn, skipBtn } = this;
+        setpBtn.node.active = false;
+        skipBtn.node.active = false;
     }
 
 
     /**
      * 接收到游戏数据时
      */
-    onGameData(data: ioOnData) {
-        console.log(data);
-        data.callback && this[data.callback](typeof data === 'string' ? JSON.stringify(data) : data);
+    onGameData(data: any) {
+        data = typeof data === 'string' ? JSON.parse(data) : data;
+        console.log(typeof data, data);
+        data.callback && data.msg && this[data.callback](data.msg);
     }
 
 
@@ -170,9 +174,9 @@ export default class FourCardsGame extends cc.Component {
      */
     currentUser(data: ioOnData) {
         const { setpBtn, skipBtn } = this;
-        setpBtn.node.scale = 1;
+        setpBtn.node.active = true;
         setpBtn.interactable = false;
-        skipBtn.node.scale = 1;
+        skipBtn.node.active = true;
     }
 
 
@@ -180,8 +184,27 @@ export default class FourCardsGame extends cc.Component {
      * 允许当前玩家发牌时
      * @param data - IO数据
      */
-    userSendCard(data: ioOnData) {
-        console.log(data);
+    userSendCard(data: {
+        params: Array<{ r: number; c: number; n: number; }>;
+        userId: number;
+    }) {
+        if (data.userId !== State.userInfo.id) {
+            console.log(data.userId, State.userInfo.id);
+            console.log(data);
+            const { playersData } = this;
+            let sender = null;
+            for (const player of playersData) {
+                if (player.id === data.userId) {
+                    sender = player;
+                    break;
+                }
+            }
+    
+            if (sender) {
+                // console.log(sender, this.FourCardsPlayers[sender.index]);
+                this.outCardActuin(data.params, sender);
+            }
+        }
     }
 
 
@@ -224,6 +247,7 @@ export default class FourCardsGame extends cc.Component {
         if (!Object.keys(cardData[0]).length) {
             sortCard[0] = [];
         }
+        console.log(sortCard);
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
             for (let col = 0; col < rowItem.length; col++) {
@@ -277,6 +301,7 @@ export default class FourCardsGame extends cc.Component {
                     clickEventHandler,
                     mask,
                 });
+                console.log(mainColor, mainChildColor, row);
                 cardCount++;
             }
         }
@@ -309,8 +334,9 @@ export default class FourCardsGame extends cc.Component {
      */
     onClickCard(_e, cardIndex: string) {
         // 判断是为当前玩家的回合
-        if (!this.setpBtn.node.scale) return;
+        if (!this.setpBtn.node.active) return;
         const cardInfo = this.cardList[cardIndex];
+        if (!cardInfo) return;
         const targetNode = cardInfo.node;
         targetNode.runAction(
             cc.moveTo(.2, targetNode.x, targetNode.y + ( cardInfo.isSelect ? -20 : 20 )).easing(cc.easeBackOut()),
@@ -363,17 +389,17 @@ export default class FourCardsGame extends cc.Component {
             if (item.isSelect) {
                 selectCard.push(index);
                 numberCard.push({
-                    row: item.row,
-                    col: item.col,
-                    number: item.number,
+                    r: item.row,
+                    c: item.col,
+                    n: item.number,
                 });
             }
         });
         cardList = {};
-        this.setpBtn.node.scale = 0;
-        this.skipBtn.node.scale = 0;
+        this.setpBtn.node.active = false;
+        this.skipBtn.node.active = false;
         State.io.emit('fourCards/setp', numberCard);
-        this.outCardActuin(selectCard, this.playersData[0]);
+        this.outCardActuin(selectCard, this.playersData[this.roomInfoData.playerIndex]);
     }
 
 
@@ -381,27 +407,45 @@ export default class FourCardsGame extends cc.Component {
      * 发牌动作
      */
     outCardActuin(cards, player) {
-        const { id, index } = player;
+        const { index } = player;
         const { cardList } = this;
+        console.log(this.FourCardsPlayers[index]);
         const cardsBox = this.FourCardsPlayers[index].cardPoint;
         const cardsReverse = [];
-        cards.reverse().forEach((card ) => {
-            cardsReverse.push(cardList.splice(card, 1));
-        })
-        cardsReverse.reverse().forEach((card, offset) => {
-            if (card[0]) {
-                const node = card[0].node;
-                // 出牌后删除纸牌上的数字
-                if (node.children.length === 2) {
-                    node.children[1].destroy();
+        console.log(index, player);
+        if (!index) {
+            cards.reverse().forEach((card) => {
+                cardsReverse.push(cardList.splice(card, 1));
+            });
+            cardsReverse.reverse().forEach((card, offset) => {
+                if (card[0]) {
+                    const node = card[0].node;
+                    // 出牌后删除纸牌上的数字
+                    if (node.children.length === 2) {
+                        node.children[1].destroy();
+                    }
+                    // 扑克牌缓动效果
+                    node.runAction(
+                        cc.moveTo(.2,  cardsBox.x + (15 * offset) - 400, cardsBox.y).easing(cc.easeBackOut()),
+                    );
+                    this.desktop.card.push(node);
                 }
-                // 扑克牌缓动效果
-                node.runAction(
-                    cc.moveTo(.2,  cardsBox.x + (15 * offset) - 400, cardsBox.y).easing(cc.easeBackOut()),
-                );
-                this.desktop.card.push(node);
-            }
-        });
+            });
+        } else {
+            const cardKey = Object.keys(this.Card);
+            cardsBox.removeAllChildren();
+            cards.forEach((card, offset) => {
+                console.log(cardKey[card.r], cardKey, card.r, this.Card[cardKey[card.r]]);
+                const targetFrame = this.Card[cardKey[card.r]][card.c];
+                const newNode = new cc.Node();
+                newNode.scale = .4;
+                newNode.x += 10 * offset;
+                newNode.y = cardsBox.y;
+                const nodeSprice = newNode.addComponent(cc.Sprite);
+                nodeSprice.spriteFrame = targetFrame;
+                cardsBox.addChild(newNode);
+            });
+        }
         this.updateCardPoint();
     }
 
@@ -474,14 +518,16 @@ export default class FourCardsGame extends cc.Component {
                 });
 
                 this.playersData = res.players.map((player, index) => {
-                    player.index = index;
                     if (index !== res.playerIndex) {
                         const target = this.FourCardsPlayers[outherPlayer];
+                        player.index = outherPlayer;
                         target.nickname.string = player.nickname;
                         loadImg(`${avatarBase}/${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
                             target.avatarUrl.spriteFrame = spriteFrame;
                         });
                         outherPlayer++;
+                    } else {
+                        player.index = 0;
                     }
                     return player;
                 });
