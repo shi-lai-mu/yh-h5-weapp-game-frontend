@@ -173,7 +173,6 @@ export default class Login extends cc.Component {
             {
                 sub: [
                     'perfabScript', 'HomeScript', 'GamesScript',
-                    'HomeImages',
                 ],
                 scene: [
                     'Home',
