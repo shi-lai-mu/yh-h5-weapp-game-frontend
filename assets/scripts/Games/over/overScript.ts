@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import tool from '../../utils/tool';
+import { dateFrom } from '../../utils/tool';
 
 const ItemData = cc.Class({
     name: 'itemData',
@@ -113,7 +113,7 @@ export default class NewClass extends cc.Component {
             }
         });
         this.roomId.string = '房间号：' + ( '000000' + initData.roomId).substr(-6);
-        this.Time.string = tool.dateFrom('yyyy/MM/dd HH:mm:ss', initData.time);
+        this.Time.string = dateFrom('yyyy/MM/dd HH:mm:ss', initData.time);
     }
 
 

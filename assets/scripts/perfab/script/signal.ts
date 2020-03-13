@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import tool from '../../utils/tool';
+import { dateFrom } from '../../utils/tool';
 import State from '../../utils/state';
 
 let prveStatus = 20;
@@ -74,8 +74,8 @@ export default class NewClass extends cc.Component {
     watch() {
         clock && clearInterval(clock);
         clock = setInterval(() => {
-            this.time.string = tool.dateFrom('HH:mm');
-            State.io.emit('signal');
+            this.time.string = dateFrom('HH:mm');
+            State.io.emit('signal', '');
             const time = Date.now();
 
             if (statusUpdateTime + (10 * 1000) < Date.now()) {

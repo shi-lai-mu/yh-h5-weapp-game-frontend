@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
-import tool from '../utils/tool';
+import { packLoading } from '../utils/tool';
 
 @ccclass
 export default class Login extends cc.Component {
@@ -169,7 +169,7 @@ export default class Login extends cc.Component {
         const loadingScript = loading.getComponent('loading');
         this.node.addChild(loading);
         let timeout = null;
-        await tool.packLoading(
+        await packLoading(
             {
                 sub: [
                     'perfabScript', 'HomeScript', 'GamesScript',
