@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import tool from '../../utils/tool';
+import { url, loadImg } from '../../utils/tool';
 
 @ccclass
 export default class ShopListItem extends cc.Component {
@@ -49,11 +49,11 @@ export default class ShopListItem extends cc.Component {
         this.Price.string = data.price;
         this.data = data;
        
-        tool.loadImg(`${tool.url}/text/shop/${data.icon}-text.png`, (spriteFrame) => {
+        loadImg(`${url}/text/shop/${data.icon}-text.png`, (spriteFrame) => {
             this.Name.spriteFrame = spriteFrame;
         });
         
-        tool.loadImg(`${tool.url}/H5Game/shop/${data.icon}.png`, (spriteFrame) => {
+        loadImg(`${url}/H5Game/shop/${data.icon}.png`, (spriteFrame) => {
             this.icon.spriteFrame = spriteFrame;
         });
     }

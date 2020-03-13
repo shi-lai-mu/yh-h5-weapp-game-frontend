@@ -44,6 +44,7 @@ const IoConfig = defaultConfig.io;
 // 当前域
 const locaHostName = window.location.hostname;
 const localRegExp = /127\.0\.0\.1|localhost/;
+let clock = null;
 
 export default {
   init() {
@@ -70,10 +71,17 @@ export default {
           // this.tipNode.color = cc.Color.GREEN
           State.observer.emit('socketConnect');
           socket.emit('connect/test');
+          // clock && clearInterval(clock);
       });
       // 链接处理
       socket.on('reconnect', data => console.log('IO重连中...', data));
-      socket.on('disconnect', data => console.log('IO断开了!', data));
+      socket.on('disconnect', data => {
+        if (data === 'transport close') {
+          // let clock = setInterval(() => {
+          //   socket.reconnect();
+          // }, 1000);
+        }
+      });
       socket.on('disconnecting', data => console.log('IO断开中...', data));
       socket.on('test', console.log);
       

@@ -11,6 +11,8 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
+import { loadImg } from '../../utils/tool';
+import { ioOnData, CardList, FourCardsPlayers, SendCardData, UserData } from '../../interface/game/fourCard';
 /**
  * 扑克牌
  */
@@ -24,17 +26,6 @@ const CardItem = cc.Class({
         joker: [ cc.SpriteFrame ], // 大小王
     }
 });
-/**
- * 玩家
- */
-interface FourCardsPlayers {
-    nickname: cc.Label;
-    score: cc.Label;
-    noteScore: cc.Label;
-    cardCount: cc.Label;
-    avatarUrl: cc.Sprite;
-    cardPoint: cc.Node;
-}
 const FourCardsPlayersItem = cc.Class({
     name: 'FourCardsPlayers',
     properties: {
@@ -46,8 +37,9 @@ const FourCardsPlayersItem = cc.Class({
         cardPoint: cc.Node,    // 发牌位置
     },
 });
-let clock = null;  // 计时器
-let cardList = {}; // 选中的扑克牌
+let clock = null;          // 计时器
+let cardList = {};         // 选中的扑克牌
+let countDownClock = null; // 倒计时
 
 @ccclass
 export default class FourCardsGame extends cc.Component {
@@ -79,18 +71,22 @@ export default class FourCardsGame extends cc.Component {
      * 弹窗资源
      */
     @property(cc.Prefab) popupPrefab: cc.Prefab = null;
-
+    /**
+     * 倒计时 时钟载体
+     */
+    @property(cc.Node) clockBox: cc.Node = null;
+    /**
+     * 倒计时 时钟内容
+     */
+    @property(cc.Label) clockContent: cc.Label = null;
     /**
      * 发牌按钮
      */
-    @property(cc.Button)
-    setpBtn: cc.Button = null;
-
+    @property(cc.Button) setpBtn: cc.Button = null;
     /**
      * 跳过的按钮
      */
-    @property(cc.Button)
-    skipBtn: cc.Button = null;
+    @property(cc.Button) skipBtn: cc.Button = null;
 
     /**
      * 桌面机制
@@ -103,7 +99,7 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 玩家数据
      */
-    playersData: { id: number, nickname: string; avatarUrl: number; setp: number; timeOut: number; time: number; }[] = [];
+    playersData: UserData[] = [];
     
     /**
      * 房间数据
@@ -156,20 +152,24 @@ export default class FourCardsGame extends cc.Component {
         //         this.fetchRoomInfo();
         //     }
         // });
-        this.fetchRoomInfo();
-        State.io.on('fourcard/gameData', this.onGameData.bind(this));
-        State.io.on('rommjoin', this.fetchRoomInfo.bind(this));
-        State.io.on('room/data', this.roomData.bind(this));
-        State.io.on('rommleave', this.rommleave.bind(this));
-        State.observer.on('socketConnect', this.onSocketConnect.bind(this));
-        const { setpBtn, skipBtn } = this;
+        const that = this;
+        const { setpBtn, skipBtn, clockBox } = that;
+
+        that.fetchRoomInfo();
+        State.io.on('fourcard/gameData', that.onGameData.bind(that));
+        State.io.on('rommjoin', that.fetchRoomInfo.bind(that));
+        State.io.on('room/data', that.roomData.bind(that));
+        State.io.on('rommleave', that.rommleave.bind(that));
+        State.observer.on('socketConnect', that.onSocketConnect.bind(that));
         setpBtn.node.active = false;
         skipBtn.node.active = false;
+        // clockBox.active = false;
     }
 
 
     /**
      * 接收到游戏数据时
+     * @param data - IO数据
      */
     onGameData(data: any) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
@@ -191,30 +191,44 @@ export default class FourCardsGame extends cc.Component {
 
 
     /**
-     * 允许当前玩家发牌时
+     * 允玩家发牌时
      * @param data - IO数据
      */
-    userSendCard(data: {
-        params: Array<{ r: number; c: number; n: number; }>;
-        userId: number;
-    }) {
-        if (data.userId !== State.userInfo.id) {
-            console.log(data.userId, State.userInfo.id);
-            console.log(data);
-            const { playersData } = this;
-            let sender = null;
-            for (const player of playersData) {
-                if (player.id === data.userId) {
-                    sender = player;
-                    break;
-                }
-            }
-    
-            if (sender) {
-                // console.log(sender, this.FourCardsPlayers[sender.index]);
-                this.outCardActuin(data.params, sender);
+    userSendCard(data: SendCardData) {
+        const { clockBox, clockContent, playersData, FourCardsPlayers } = this;
+        if (data.userId !== this.roomInfoData.playerIndex) {
+            this.outCardActuin(data.params, playersData[data.userId]);
+        }
+        const { index } = data.next;
+        if (data.next.timeout) {
+            let outTime = 60;
+            clockContent.string = (data.next.timeout - Date.now()).toString();
+            const dataIndex = playersData[index].index;
+            const { x, y } = dataIndex !== 0
+                ? FourCardsPlayers[dataIndex].cardCount.node.parent
+                : { x: 0, y: 0 }
+            ;
+            clockBox.runAction(
+                cc.moveTo(.5, x + (clockBox.width * (dataIndex === 1 ? -1 : 1)), y).easing(cc.easeBackOut()),
+            );
+
+            // 房主负责与服务器通讯
+            if (playersData[0].id === State.userInfo.id) {
+                countDownClock && clearInterval(countDownClock);
+                countDownClock = setInterval(() => {
+                    clockContent.string = (--outTime).toString();
+                    this.skip();
+                }, 1000)
             }
         }
+    }
+
+
+    /**
+     * 跳过本轮
+     */
+    skip() {
+        State.io.emit('fourCards/skip', '');
     }
 
 
@@ -277,7 +291,6 @@ export default class FourCardsGame extends cc.Component {
                 // 30: 每张牌可见距离， 0.5: 屏幕左侧开始  100: 安全距离
                 x = (cardCount * 15) - 400;
                 y = 50;
-                
                 // 三行判断
                 var clickEventHandler = new cc.Component.EventHandler();
                 //这个 node 节点是你的事件处理代码组件所属的节点
@@ -310,14 +323,10 @@ export default class FourCardsGame extends cc.Component {
                     clickEventHandler,
                     mask,
                 });
-                console.log(mainColor, mainChildColor, row);
+                // console.log(mainColor, mainChildColor, row);
                 cardCount++;
             }
         }
-        
-        // setTimeout(() => {
-        //     this.outCard([0, 6, 10, 15, 30, 31], this.playersData[0])
-        // }, 3000)
 
         let updatePoint = 0;
         let clock = setInterval(() => {
@@ -325,8 +334,6 @@ export default class FourCardsGame extends cc.Component {
             if (target && updatePoint < cardList.length) {
                 target.node.x = target.x;
                 target.node.y = target.y;
-                // target.node.x = target.x - 60;
-                // target.node.runAction(cc.moveTo(.03, target.x, target.y));
                 updatePoint++;
             } else {
                 clearInterval(clock);
@@ -418,10 +425,10 @@ export default class FourCardsGame extends cc.Component {
     outCardActuin(cards, player) {
         const { index } = player;
         const { cardList } = this;
-        console.log(this.FourCardsPlayers[index]);
+        // console.log(this.FourCardsPlayers[index]);
         const cardsBox = this.FourCardsPlayers[index].cardPoint;
         const cardsReverse = [];
-        console.log(index, player);
+        // console.log(index, player);
         if (!index) {
             cards.reverse().forEach((card) => {
                 cardsReverse.push(cardList.splice(card, 1));
@@ -435,7 +442,7 @@ export default class FourCardsGame extends cc.Component {
                     }
                     // 扑克牌缓动效果
                     node.runAction(
-                        cc.moveTo(.2,  cardsBox.x + (15 * offset) - 400, cardsBox.y).easing(cc.easeBackOut()),
+                        cc.moveTo(.2, cardsBox.x + (15 * offset) - 400, cardsBox.y).easing(cc.easeBackOut()),
                     );
                     this.desktop.card.push(node);
                 }
@@ -444,7 +451,7 @@ export default class FourCardsGame extends cc.Component {
             const cardKey = Object.keys(this.Card);
             cardsBox.removeAllChildren();
             cards.forEach((card, offset) => {
-                console.log(cardKey[card.r], cardKey, card.r, this.Card[cardKey[card.r]]);
+                // console.log(cardKey[card.r], cardKey, card.r, this.Card[cardKey[card.r]]);
                 const targetFrame = this.Card[cardKey[card.r]][card.c];
                 const newNode = new cc.Node();
                 newNode.scale = .4;
@@ -615,37 +622,4 @@ export default class FourCardsGame extends cc.Component {
         label.fontSize = 30;
         newNode.addChild(labelNode);
     }
-}
-
-/**
- * 加载图片
- * @param url      - 图片url
- * @param callback - 回调函数
- */
-const loadImg = (url, callback) => {
-    cc.loader.load(url, (_error, texture) => {
-        callback(new cc.SpriteFrame(texture));
-    });
-}
-
-
-interface ioOnData {
-    type: string;
-    msg: {
-      prveCard: any,
-    },
-    callback?: string,
-}
-
-interface CardList {
-    node: cc.Node;
-    x: number;
-    y: number;
-    number: number;
-    row: number;
-    col: number;
-    buttonScipt: any;
-    clickEventHandler: any;
-    mask: cc.Node;
-    isSelect?: boolean;
 }
