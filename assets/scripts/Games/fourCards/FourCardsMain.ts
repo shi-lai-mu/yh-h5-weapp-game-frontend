@@ -181,11 +181,25 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 允许当前玩家发牌时
      */
-    currentUser() {
+    currentUser(data: any) {
         const { setpBtn, skipBtn } = this;
         setpBtn.node.active = true;
         setpBtn.interactable = false;
         skipBtn.node.active = true;
+
+        console.log(data);
+        // 不可选择的扑克牌屏蔽
+        if (data && data.params !== '') {
+            this.cardList.forEach((card) => {
+                if (card.node.children.length === 2) {
+                    const label = card.node.children[1].getComponent(cc.Label);
+                    if (label) {
+                        const cardNumber = Number(label.string);
+                        console.log(card.number, cardNumber, card.node.children);
+                    }
+                }
+            });
+        }
     }
 
 
@@ -195,13 +209,16 @@ export default class FourCardsGame extends cc.Component {
      */
     userSendCard(data: SendCardData) {
         const { clockBox, clockContent, playersData, FourCardsPlayers } = this;
+        // 上次出牌的玩家出牌显示
         if (data.userId !== undefined && data.userId !== this.roomInfoData.playerIndex) {
             this.outCardActuin(data.params, playersData[data.userId]);
         }
+
         const { index } = data.next;
         if (index !== undefined) {
             let outTime = 60;
-            console.log(index, this.playersData);
+            
+            // 倒计时时钟位置
             const dataIndex = this.playersData[index].index;
             const { x, y } = dataIndex !== 0
                 ? FourCardsPlayers[dataIndex].cardCount.node.parent
@@ -344,27 +361,35 @@ export default class FourCardsGame extends cc.Component {
 
     /**
      * 扑克牌点击事件
-     * @param _e        - 事件体
+     * @param e         - 事件体
      * @param cardIndex - 扑克牌下标
      */
-    onClickCard(_e, cardIndex: string) {
+    onClickCard(e, cardIndex: string | number) {
         // 判断是为当前玩家的回合
         if (!this.setpBtn.node.active) return;
         const cardInfo = this.cardList[cardIndex];
         if (!cardInfo) return;
+        // cardInfo.buttonScipt.interactable = false;
+        // cardInfo.mask.opacity = 255;
+        if (!Object.keys(cardList).length && e) {
+            this.cardList.forEach((card, index) => {
+                if (card.number === cardInfo.number) {
+                    this.onClickCard(false, index);
+                }
+            });
+            return !0;
+        }
+
         const targetNode = cardInfo.node;
         targetNode.runAction(
             cc.moveTo(.2, targetNode.x, targetNode.y + ( cardInfo.isSelect ? -20 : 20 )).easing(cc.easeBackOut()),
         );
-        // cardInfo.buttonScipt.interactable = false;
-        // cardInfo.mask.opacity = 255;
         (cardInfo.isSelect = !cardInfo.isSelect)
             ? cardList[cardIndex] = cardInfo
             : delete cardList[cardIndex]
         ;
         
         this.setpBtn.interactable = !!Object.keys(cardList).length;
-        // this.setpBtn.scale = Object.keys(cardList).length ? 1 : 0;
     }
 
 
@@ -372,8 +397,8 @@ export default class FourCardsGame extends cc.Component {
      * Socket 连接时[通常情况下为重连]
      */
     onSocketConnect() {
-        this.node.removeAllChildren();
-        this.onLoad();
+        // this.node.removeAllChildren();
+        // window.history.go(0);
     }
 
 
