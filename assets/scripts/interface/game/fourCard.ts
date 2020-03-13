@@ -45,9 +45,9 @@ export interface FourCardsPlayers {
 export interface SendCardData {
     params: Array<{ r: number; c: number; n: number; }>;
     userId: number;
+    prveCard: '' | any[]; 
     next: {
         index: any;
-        timeout: number;
     };
 }
 
