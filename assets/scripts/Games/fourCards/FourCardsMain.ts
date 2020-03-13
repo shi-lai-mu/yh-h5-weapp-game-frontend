@@ -153,7 +153,7 @@ export default class FourCardsGame extends cc.Component {
         //     }
         // });
         const that = this;
-        const { setpBtn, skipBtn, clockBox } = that;
+        const { setpBtn, skipBtn } = that;
 
         that.fetchRoomInfo();
         State.io.on('fourcard/gameData', that.onGameData.bind(that));
@@ -180,9 +180,8 @@ export default class FourCardsGame extends cc.Component {
 
     /**
      * 允许当前玩家发牌时
-     * @param data - IO数据
      */
-    currentUser(data: ioOnData) {
+    currentUser() {
         const { setpBtn, skipBtn } = this;
         setpBtn.node.active = true;
         setpBtn.interactable = false;
@@ -196,14 +195,14 @@ export default class FourCardsGame extends cc.Component {
      */
     userSendCard(data: SendCardData) {
         const { clockBox, clockContent, playersData, FourCardsPlayers } = this;
-        if (data.userId !== this.roomInfoData.playerIndex) {
+        if (data.userId !== undefined && data.userId !== this.roomInfoData.playerIndex) {
             this.outCardActuin(data.params, playersData[data.userId]);
         }
         const { index } = data.next;
-        if (data.next.timeout) {
+        if (index !== undefined) {
             let outTime = 60;
-            clockContent.string = (data.next.timeout - Date.now()).toString();
-            const dataIndex = playersData[index].index;
+            console.log(index, this.playersData);
+            const dataIndex = this.playersData[index].index;
             const { x, y } = dataIndex !== 0
                 ? FourCardsPlayers[dataIndex].cardCount.node.parent
                 : { x: 0, y: 0 }
@@ -213,13 +212,11 @@ export default class FourCardsGame extends cc.Component {
             );
 
             // 房主负责与服务器通讯
-            if (playersData[0].id === State.userInfo.id) {
-                countDownClock && clearInterval(countDownClock);
-                countDownClock = setInterval(() => {
-                    clockContent.string = (--outTime).toString();
-                    this.skip();
-                }, 1000)
-            }
+            countDownClock && clearInterval(countDownClock);
+            countDownClock = setInterval(() => {
+                clockContent.string = (--outTime < 0 ? 0 : outTime).toString();
+                if (outTime <= 0 && playersData[0].id === State.userInfo.id) this.skip();
+            }, 1000);
         }
     }
 
@@ -228,7 +225,9 @@ export default class FourCardsGame extends cc.Component {
      * 跳过本轮
      */
     skip() {
-        State.io.emit('fourCards/skip', '');
+        State.io.emit('fourCards/setp', '');
+        this.setpBtn.node.active = false;
+        this.skipBtn.node.active = false;
     }
 
 
@@ -429,7 +428,7 @@ export default class FourCardsGame extends cc.Component {
         const cardsBox = this.FourCardsPlayers[index].cardPoint;
         const cardsReverse = [];
         // console.log(index, player);
-        if (!index) {
+        if (index === 0) {
             cards.reverse().forEach((card) => {
                 cardsReverse.push(cardList.splice(card, 1));
             });
@@ -450,7 +449,8 @@ export default class FourCardsGame extends cc.Component {
         } else {
             const cardKey = Object.keys(this.Card);
             cardsBox.removeAllChildren();
-            cards.forEach((card, offset) => {
+            console.log(cards);
+            (cards || []).forEach((card, offset) => {
                 // console.log(cardKey[card.r], cardKey, card.r, this.Card[cardKey[card.r]]);
                 const targetFrame = this.Card[cardKey[card.r]][card.c];
                 const newNode = new cc.Node();
@@ -532,7 +532,6 @@ export default class FourCardsGame extends cc.Component {
                 loadImg(`${avatarBase}/${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
                     this.FourCardsPlayers[0].avatarUrl.spriteFrame = spriteFrame;
                 });
-
                 this.playersData = res.players.map((player, index) => {
                     if (index !== res.playerIndex) {
                         const target = this.FourCardsPlayers[outherPlayer];
@@ -547,6 +546,17 @@ export default class FourCardsGame extends cc.Component {
                     }
                     return player;
                 });
+
+                // 判断自己是否可以先手出牌
+                const sendData: any = {
+                    next: {
+                        index: res.gameData.target,
+                    }
+                };
+                this.userSendCard(sendData);
+                if (res.gameData.target === res.playerIndex) {
+                    this.currentUser();
+                }
             }
             this.roomInfoData = res;
             this.roomIdLabel.string = `房间号: ${res.roomCode || '错误'}`;

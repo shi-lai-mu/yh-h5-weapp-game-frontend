@@ -222,7 +222,7 @@
       "array": [
         0,
         0,
-        536.9357503463519,
+        537.5898767410649,
         0,
         0,
         0,
@@ -6554,7 +6554,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6744,7 +6744,7 @@
         "__id__": 144
       }
     ],
-    "_N$interactable": false,
+    "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
     "transition": 3,

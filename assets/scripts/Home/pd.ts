@@ -46,7 +46,6 @@ export default class HomePD extends cc.Component {
     joinRoom() {
         const joinRoomPopup = cc.instantiate(this.keyboard);
         this.Canvas.node.addChild(joinRoomPopup);
-        console.log(joinRoomPopup.getComponent('keyboard'));
         joinRoomPopup.getComponent('keyboard').parentClass = {
             emit: (data) => {
                 axios.api('room_join', {
