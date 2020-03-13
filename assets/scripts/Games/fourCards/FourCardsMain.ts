@@ -27,48 +27,58 @@ const CardItem = cc.Class({
 /**
  * 玩家
  */
-const FourCardsPlayers = {
-    nickname: cc.Label,    // 昵称
-    score: cc.Label,       // 分数
-    noteScore: cc.Label,   // 抓分分数
-    cardCount: cc.Label,   // 剩余扑克牌数量
-    avatarUrl: cc.Sprite,  // 头像
-    cardPoint: cc.Node,    // 发牌位置
+interface FourCardsPlayers {
+    nickname: cc.Label;
+    score: cc.Label;
+    noteScore: cc.Label;
+    cardCount: cc.Label;
+    avatarUrl: cc.Sprite;
+    cardPoint: cc.Node;
 }
 const FourCardsPlayersItem = cc.Class({
     name: 'FourCardsPlayers',
-    properties: FourCardsPlayers,
+    properties: {
+        nickname: cc.Label,    // 昵称
+        score: cc.Label,       // 分数
+        noteScore: cc.Label,   // 抓分分数
+        cardCount: cc.Label,   // 剩余扑克牌数量
+        avatarUrl: cc.Sprite,  // 头像
+        cardPoint: cc.Node,    // 发牌位置
+    },
 });
 let clock = null;  // 计时器
 let cardList = {}; // 选中的扑克牌
 
 @ccclass
 export default class FourCardsGame extends cc.Component {
-
     /**
      * 发牌位置
      */
     @property(cc.Node) cardBox: cc.Node = null;
-
     /**
      * 房间号节点
      */
     @property(cc.Label) roomIdLabel: cc.Label = null;
-
     /**
      * 玩家节点数据
      */
-    @property(FourCardsPlayersItem) FourCardsPlayers: typeof FourCardsPlayers[] = [];
-
+    @property(FourCardsPlayersItem) FourCardsPlayers: FourCardsPlayers[] = [];
     /**
      * 扑克牌遮罩节点
      */
     @property(cc.Prefab) cardsMask: cc.Prefab = null;
-    
     /**
      * 结算界面资源
      */
     @property(cc.Prefab) chessPrefab: cc.Prefab = null;
+    /**
+     * 等待加入中 文字
+     */
+    @property(cc.Node) wait_player_join: cc.Node = null;
+    /**
+     * 弹窗资源
+     */
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
 
     /**
      * 发牌按钮
@@ -213,10 +223,9 @@ export default class FourCardsGame extends cc.Component {
      * @param cardData - 卡牌数组
      */
     gameStart(cardData: Array<{ [key: number]: number }>) {
-        // // 随机的卡牌
-        // const randomCard = [];
         const { Card } = this;
         const CardKey = Object.keys(Card);
+        this.wait_player_join.active = !1;
         // 模拟发牌
         const { node, cardList } = this;
         const screenHeight = node.height;
@@ -554,7 +563,41 @@ export default class FourCardsGame extends cc.Component {
     rommleave(data) {
         console.log(data);
     }
-    // update (dt) {}
+
+
+    /**
+     * 游戏结束
+     */
+    gameOver(data: any) {
+        console.log('gameOver!', data);
+        cc.director.loadScene('Home');
+    }
+    
+
+
+    /**
+     * 返回首页
+     */
+    backHome() {
+        const { playersData, node, popupPrefab } = this;
+        console.log(State, playersData);
+        if (!playersData.length || playersData.length === 1) {
+            return this.gameOver({});
+        }
+        const popup = cc.instantiate(popupPrefab);
+        const scriptPopup = popup.getComponent('popup');
+        node.parent.addChild(popup);
+        playersData.forEach((item, index: number) => {
+            if (item.id === State.userInfo.id) {
+                console.log(index);
+                scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
+                scriptPopup.setEvent('success', () => {
+                    this.gameOver({ type: index ? 0 : 1 });
+                });
+                scriptPopup.setEvent('close', () => {});
+            }
+        });
+    }
 
 
     /**
