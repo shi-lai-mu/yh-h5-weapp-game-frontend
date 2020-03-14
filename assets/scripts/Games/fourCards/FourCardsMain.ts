@@ -87,6 +87,10 @@ export default class FourCardsGame extends cc.Component {
      * 跳过的按钮
      */
     @property(cc.Button) skipBtn: cc.Button = null;
+    /**
+     * 不出文字
+     */
+    @property(cc.SpriteFrame) skipSpriteFrame: cc.SpriteFrame = null;
 
     /**
      * 桌面机制
@@ -380,7 +384,7 @@ export default class FourCardsGame extends cc.Component {
      */
     onClickCard(e, cardIndex: string | number) {
         // 判断是为当前玩家的回合
-        if (!this.setpBtn.node.active) return;
+        if (!this.setpBtn.node.active && e) return;
         const cardInfo = this.cardList[cardIndex];
         if (!cardInfo) return;
         // cardInfo.buttonScipt.interactable = false;
@@ -393,10 +397,9 @@ export default class FourCardsGame extends cc.Component {
             });
             return !0;
         }
-
         const targetNode = cardInfo.node;
         targetNode.runAction(
-            cc.moveTo(.2, targetNode.x, targetNode.y + ( cardInfo.isSelect ? -20 : 20 )).easing(cc.easeBackOut()),
+            cc.moveTo(.2, targetNode.x, targetNode.y + (cardInfo.isSelect ? -20 : 20 )).easing(cc.easeBackOut()),
         );
         (cardInfo.isSelect = !cardInfo.isSelect)
             ? cardList[cardIndex] = cardInfo
@@ -449,10 +452,9 @@ export default class FourCardsGame extends cc.Component {
                 });
             }
             item.node.children[0].active = false;
-            item.node.getComponent(cc.Button).interactable = true;
         });
-        cardList = {};
         this.resetCard();
+        cardList = {};
         State.io.emit('fourCards/setp', numberCard);
         this.outCardActuin(selectCard, this.playersData[this.roomInfoData.playerIndex]);
     }
@@ -464,12 +466,23 @@ export default class FourCardsGame extends cc.Component {
     skip() {
         this.resetCard();
         State.io.emit('fourCards/setp', '');
-        this.cardList.forEach((item) => item.node.children[0].active = false);
     }
 
+
+    /**
+     * 恢复初始状态
+     */
     resetCard() {
         this.setpBtn.node.active = false;
         this.skipBtn.node.active = false;
+        
+        this.cardList.forEach((item, index) => {
+            item.node.children[0].active = false;
+            item.node.getComponent(cc.Button).interactable = true;
+            if (item.isSelect) {
+                this.onClickCard(false, index);
+            }
+        });
     }
 
 
@@ -480,7 +493,7 @@ export default class FourCardsGame extends cc.Component {
         const { index } = player;
         const { cardList } = this;
         // console.log(this.FourCardsPlayers[index]);
-        const cardsBox = this.FourCardsPlayers[index].cardPoint;
+        const { cardPoint } = this.FourCardsPlayers[index];
         const cardsReverse = [];
         // console.log(index, player);
         if (index === 0) {
@@ -496,14 +509,14 @@ export default class FourCardsGame extends cc.Component {
                     }
                     // 扑克牌缓动效果
                     node.runAction(
-                        cc.moveTo(.2, cardsBox.x + (15 * offset) - 400, cardsBox.y).easing(cc.easeBackOut()),
+                        cc.moveTo(.2, cardPoint.x + (15 * offset) - 400, cardPoint.y).easing(cc.easeBackOut()),
                     );
                     this.desktop.card.push(node);
                 }
             });
         } else {
             const cardKey = Object.keys(this.Card);
-            cardsBox.removeAllChildren();
+            cardPoint.removeAllChildren();
             console.log(cards);
             (cards || []).forEach((card, offset) => {
                 // console.log(cardKey[card.r], cardKey, card.r, this.Card[cardKey[card.r]]);
@@ -511,11 +524,25 @@ export default class FourCardsGame extends cc.Component {
                 const newNode = new cc.Node();
                 newNode.scale = .4;
                 newNode.x += 10 * offset;
-                newNode.y = cardsBox.y;
+                newNode.y = cardPoint.y;
                 const nodeSprice = newNode.addComponent(cc.Sprite);
                 nodeSprice.spriteFrame = targetFrame;
-                cardsBox.addChild(newNode);
+                cardPoint.addChild(newNode);
             });
+        }
+
+        if (!cards) {
+            const newNode = new cc.Node();
+            newNode.addComponent(cc.Sprite).spriteFrame = this.skipSpriteFrame;
+            newNode.scale = .6;
+            cardPoint.addChild(newNode);
+            if (index === 0) {
+                newNode.x = 0;
+                newNode.y = 0;
+            }
+            setTimeout(() => {
+                newNode.destroy();
+            }, 1500);
         }
         this.updateCardPoint();
     }

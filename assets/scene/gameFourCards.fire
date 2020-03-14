@@ -7089,6 +7089,9 @@
     "skipBtn": {
       "__id__": 143
     },
+    "skipSpriteFrame": {
+      "__uuid__": "766cd67b-8ea5-4f58-a6e8-d17469b92edf"
+    },
     "Card": {
       "__id__": 156
     },
