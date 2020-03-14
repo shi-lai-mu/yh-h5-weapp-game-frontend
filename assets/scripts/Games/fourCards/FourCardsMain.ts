@@ -189,14 +189,34 @@ export default class FourCardsGame extends cc.Component {
 
         console.log(data);
         // 不可选择的扑克牌屏蔽
-        if (data && data.params !== '') {
+        if (data && data.prveCard[0]) {
+            let prveMaskShow = !1;
             this.cardList.forEach((card) => {
                 if (card.node.children.length === 2) {
                     const label = card.node.children[1].getComponent(cc.Label);
                     if (label) {
                         const cardNumber = Number(label.string);
-                        console.log(card.number, cardNumber, card.node.children);
+                        if (
+                            (data.prveCard.length >= 4 &&                                                   // 炸弹: 牌数必须大于出牌者的炸弹数量
+                                    cardNumber < data.prveCard.length                                       //       如果牌数量大于等于出牌者 
+                                || (cardNumber === data.prveCard.length && data.prveCard[0] <= card.number) //       如果牌数量等于出牌者，且牌值小于等于出牌者
+                            ) || (
+                                   (data.prveCard.length < 4 && cardNumber < 4)                             // 小于4张非炸弹
+                                && (cardNumber !== data.prveCard.length || data.prveCard[0] <= card.number  // 牌数必须与出牌者相等，并且值大于出牌者
+                                )
+                            )
+                        ) {
+                            console.log(cardNumber, data.prveCard[0], card.number, data.prveCard[0] > card.number);
+                            prveMaskShow = !0;
+                        } else {
+                            prveMaskShow = !1;
+                        }
                     }
+                }
+
+                if (prveMaskShow) {
+                    card.node.children[0].active = true;
+                    card.node.getComponent(cc.Button).interactable = false;
                 }
             });
         }
@@ -222,7 +242,7 @@ export default class FourCardsGame extends cc.Component {
             const dataIndex = this.playersData[index].index;
             const { x, y } = dataIndex !== 0
                 ? FourCardsPlayers[dataIndex].cardCount.node.parent
-                : { x: 0, y: 0 }
+                : { x: -85, y: -50 }
             ;
             clockBox.runAction(
                 cc.moveTo(.5, x + (clockBox.width * (dataIndex === 1 ? -1 : 1)), y).easing(cc.easeBackOut()),
@@ -232,19 +252,13 @@ export default class FourCardsGame extends cc.Component {
             countDownClock && clearInterval(countDownClock);
             countDownClock = setInterval(() => {
                 clockContent.string = (--outTime < 0 ? 0 : outTime).toString();
-                if (outTime <= 0 && playersData[0].id === State.userInfo.id) this.skip();
+                if (outTime <= 0 && playersData[0].id === State.userInfo.id) {
+                    this.setpBtn.node.active = false;
+                    this.skipBtn.node.active = false;
+                    this.skip();
+                }
             }, 1000);
         }
-    }
-
-
-    /**
-     * 跳过本轮
-     */
-    skip() {
-        State.io.emit('fourCards/setp', '');
-        this.setpBtn.node.active = false;
-        this.skipBtn.node.active = false;
     }
 
 
@@ -286,7 +300,7 @@ export default class FourCardsGame extends cc.Component {
         if (!Object.keys(cardData[0]).length) {
             sortCard[0] = [];
         }
-        console.log(sortCard);
+        console.log(sortCard, cardData);
         for (let row = 0; row < sortCard.length; row++) {
             const rowItem = sortCard[row];
             for (let col = 0; col < rowItem.length; col++) {
@@ -299,7 +313,7 @@ export default class FourCardsGame extends cc.Component {
                 const newNode = new cc.Node();
                 const mask = cc.instantiate(this.cardsMask);
                 newNode.addChild(mask);
-                mask.opacity = 0;
+                mask.active = false;
                 newNode.scale = .6;
                 const nodeSprice = newNode.addComponent(cc.Sprite);
                 nodeSprice.spriteFrame = targetFrame;
@@ -434,12 +448,28 @@ export default class FourCardsGame extends cc.Component {
                     n: item.number,
                 });
             }
+            item.node.children[0].active = false;
+            item.node.getComponent(cc.Button).interactable = true;
         });
         cardList = {};
-        this.setpBtn.node.active = false;
-        this.skipBtn.node.active = false;
+        this.resetCard();
         State.io.emit('fourCards/setp', numberCard);
         this.outCardActuin(selectCard, this.playersData[this.roomInfoData.playerIndex]);
+    }
+
+
+    /**
+     * 跳过本轮
+     */
+    skip() {
+        this.resetCard();
+        State.io.emit('fourCards/setp', '');
+        this.cardList.forEach((item) => item.node.children[0].active = false);
+    }
+
+    resetCard() {
+        this.setpBtn.node.active = false;
+        this.skipBtn.node.active = false;
     }
 
 
