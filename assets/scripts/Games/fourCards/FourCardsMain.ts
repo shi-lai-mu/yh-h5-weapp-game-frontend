@@ -193,13 +193,20 @@ export default class FourCardsGame extends cc.Component {
 
         console.log(data);
         // 不可选择的扑克牌屏蔽
-        if (data && data.prveCard[0]) {
+        if (data && data.prveCard[0] >= 0) { 
             let prveMaskShow = !1;
+            console.log(data.prveCard);
+
+            // 王炸处理
+            if (data.prveCard[0] === 0) {
+                console.log(data.prveCard);
+            }
             this.cardList.forEach((card) => {
                 if (card.node.children.length === 2) {
                     const label = card.node.children[1].getComponent(cc.Label);
                     if (label) {
                         const cardNumber = Number(label.string);
+                        prveMaskShow = !1;
                         if (
                             (data.prveCard.length >= 4 &&                                                   // 炸弹: 牌数必须大于出牌者的炸弹数量
                                     cardNumber < data.prveCard.length                                       //       如果牌数量大于等于出牌者 
@@ -210,10 +217,7 @@ export default class FourCardsGame extends cc.Component {
                                 )
                             )
                         ) {
-                            console.log(cardNumber, data.prveCard[0], card.number, data.prveCard[0] > card.number);
                             prveMaskShow = !0;
-                        } else {
-                            prveMaskShow = !1;
                         }
                     }
                 }
@@ -256,10 +260,13 @@ export default class FourCardsGame extends cc.Component {
             countDownClock && clearInterval(countDownClock);
             countDownClock = setInterval(() => {
                 clockContent.string = (--outTime < 0 ? 0 : outTime).toString();
-                if (outTime <= 0 && playersData[0].id === State.userInfo.id) {
-                    this.setpBtn.node.active = false;
-                    this.skipBtn.node.active = false;
-                    this.skip();
+                if (outTime <= 0) {
+                    // 如果为房主则执行io emit否则清除状态
+                    if (playersData[0].id === State.userInfo.id) {
+                        this.skip();
+                    } else {
+                        this.resetCard();
+                    }
                 }
             }, 1000);
         }
@@ -473,6 +480,7 @@ export default class FourCardsGame extends cc.Component {
      * 恢复初始状态
      */
     resetCard() {
+        console.log('clear  cards');
         this.setpBtn.node.active = false;
         this.skipBtn.node.active = false;
         
@@ -517,7 +525,6 @@ export default class FourCardsGame extends cc.Component {
         } else {
             const cardKey = Object.keys(this.Card);
             cardPoint.removeAllChildren();
-            console.log(cards);
             (cards || []).forEach((card, offset) => {
                 // console.log(cardKey[card.r], cardKey, card.r, this.Card[cardKey[card.r]]);
                 const targetFrame = this.Card[cardKey[card.r]][card.c];
@@ -563,26 +570,33 @@ export default class FourCardsGame extends cc.Component {
 
             // 如果判定到位最后一张非同类牌 进行重置
             if (prevNumber !== card.number || index === cardList.length - 1) {
-                if (prevNode && prevNumber !== 0) {
+                if (prevNode) {
                     // 如果为全部的最后一张牌
                     if (index == cardList.length - 1 && prevNumber !== card.number) { 
                         if (card.node.children.length !== 2) {
-                            this.addCardNumber('1', card.node);
+                            console.log(prevNumber, 1);
+                            this.addCardNumber('1', card.node, prevNumber);
                         } else {
                             const labelNode = card.node.children[1].getComponent(cc.Label);
                             if (labelNode.string && labelNode.string !== '1') {
                                 labelNode.string = '1';
+                                console.log(prevNumber, 1);
                             }
                         }
                     }
                     // 如果目标扑克牌存在文本节点则修改内容 否则 创建文本节点
-                    const prevCountStr = prevCount.toString();
+                    let prevCountStr = prevCount.toString();
                     if (prevNode.node.children.length !== 2) {
-                        this.addCardNumber(prevCountStr, prevNode.node);
+                        this.addCardNumber(prevCountStr, prevNode.node, prevNumber);
+                        console.log(prevNumber, prevCountStr);
                     } else {
                         const labelNode = prevNode.node.children[1].getComponent(cc.Label);
                         if (labelNode.string && labelNode.string !== prevCountStr) {
+                            if (index == cardList.length - 1) {
+                                prevCountStr = (++prevCount).toString();
+                            }
                             labelNode.string = prevCountStr;
+                            console.log(prevNumber, prevCountStr);
                         }
                     }
                 }
@@ -701,16 +715,18 @@ export default class FourCardsGame extends cc.Component {
 
     /**
      * 为扑克牌添加数量
-     * @param number  - 扑克牌数量
-     * @param newNode - 扑克牌节点
+     * @param number     - 扑克牌数量
+     * @param newNode    - 扑克牌节点
+     * @param cardNumber - 扑克牌点数
      */
-    addCardNumber(number: string, newNode: any) {
+    addCardNumber(number: string, newNode: any, cardNumber = number) {
+        console.log(cardNumber);
         const labelNode = new cc.Node();
         const label = labelNode.addComponent(cc.Label);
         label.string = number;
         labelNode.x = -50   ;
         labelNode.y += 20;
-        labelNode.color = cc.color(63, 110, 146);
+        labelNode.color = cardNumber ? cc.color(63, 110, 146) : cc.color(222, 222, 222);
         label.fontSize = 30;
         newNode.addChild(labelNode);
     }
