@@ -69,14 +69,33 @@ export default class HomePD extends cc.Component {
 
 
     /**
+     * 随机加入房间
+     */
+    roomRandom() {
+        axios.api('room_random').then(({ status, msg }) => {
+            if (status && msg && msg.scene) {
+                cc.director.loadScene(msg.scene);
+            } else {
+                const popup = cc.instantiate(this.popupPrefab);
+                this.Canvas.node.addChild(popup);
+                const scriptPopup = popup.getComponent('popup');
+                scriptPopup.init('加入房间失败!\n' + msg);
+                scriptPopup.setEvent('close', () => {});
+            }
+        });
+    }
+
+
+    /**
      * 创建房间点击事件
      */
-    showCreateRoomPopup(gameName?: string) {
+    showCreateRoomPopup(_e, gameName?: string) {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
         this.Canvas.node.addChild(createRoomPrefab);
         const createRoom = createRoomPrefab.getComponent('createRoom');
         createRoom.Canvas = this.Canvas;
-        if (gameName) {
+        console.log(gameName);
+        if (typeof gameName === 'string') {
             setTimeout(async () => {
                 createRoom.listItems['fourCards'].onClick();
                 const popup = await createRoom.onCreateRoom();

@@ -26,6 +26,7 @@ export default {
   room_join:         'post./room/join',                             // 加入房间
   room_exit:         'post./room/exit',                             // 退出房间
   room_isStart:      'get./room/:gameName/isStart',                 // 游戏是否开始
+  room_random:       '/room/random',                                // 随机加入房间
 
   // 商城
   shop_menu:         '/shop/main',                                  // 主商城菜单
