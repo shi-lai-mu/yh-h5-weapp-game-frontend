@@ -138,6 +138,11 @@ export default class FourCardsGame extends cc.Component {
          */
         joker: [],
     };
+    bindonGameData = (data) => this.onGameData(data);
+    bindfetchRoomInfo = () => this.fetchRoomInfo();
+    bindroomData = (data) => this.roomData(data);
+    bindrommleave = (data) => this.rommleave(data);
+    bindonSocketConnect = () => this.onSocketConnect();
 
     onLoad() {
         // // 创建房间伪逻辑
@@ -160,14 +165,13 @@ export default class FourCardsGame extends cc.Component {
         const { setpBtn, skipBtn } = that;
 
         that.fetchRoomInfo();
-        State.io.on('fourcard/gameData', that.onGameData.bind(that));
-        State.io.on('rommjoin', that.fetchRoomInfo.bind(that));
-        State.io.on('room/data', that.roomData.bind(that));
-        State.io.on('rommleave', that.rommleave.bind(that));
-        State.observer.on('socketConnect', that.onSocketConnect.bind(that));
+        State.io.on('fourcard/gameData', that.bindonGameData);
+        State.io.on('rommjoin', that.bindfetchRoomInfo);
+        State.io.on('room/data', that.bindroomData);
+        State.io.on('rommleave', that.bindrommleave);
+        State.observer.on('socketConnect', that.bindonSocketConnect);
         setpBtn.node.active = false;
         skipBtn.node.active = false;
-        // clockBox.active = false;
     }
 
 
@@ -177,7 +181,7 @@ export default class FourCardsGame extends cc.Component {
      */
     onGameData(data: any) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
-        console.log(typeof data, data);
+        // console.log(typeof data, data);
         data.callback && data.msg && this[data.callback](data.msg);
     }
 
@@ -191,19 +195,33 @@ export default class FourCardsGame extends cc.Component {
         setpBtn.interactable = false;
         skipBtn.node.active = true;
 
-        console.log(data);
+        // console.log(data);
         // 不可选择的扑克牌屏蔽
         if (data && data.prveCard[0] >= 0) { 
             let prveMaskShow = !1;
             const prveCardLength = data.prveCard.length;
             const prveCardNumber = data.prveCard[0];
-            console.log(data.prveCard);
+            // console.log(data.prveCard);
 
             // 王炸处理[必须为7线及以上]    0为大王（红）   0.1为小王（黑）
             // (4个混王: 7线, 5个混王: 8线, 6个混王: 9线)
             // (4个纯王开始，多一个王加2线)(5个10线, 6个12线, 7个14线, 8个16线)
             if ((prveCardNumber === 0 || prveCardNumber === 0.1) && prveCardLength >= 4) {
-                console.log(data.prveCard);
+                let redJoker = 0;
+                let blackJoker = 0;
+                let lintScore = 0;
+                data.prveCard.forEach((num: number) => num === 0 ? redJoker++ : blackJoker++);
+                console.log(redJoker, blackJoker);
+
+                // 4纯王 + 其他王
+                if ((redJoker === 4 || blackJoker === 4) && prveCardLength >= 5) {
+                    lintScore = 10 + (prveCardLength - 5 * 2);
+                } else { // 混王
+                    lintScore = 7 + (prveCardLength - 4);
+                }
+
+                // 王炸模拟牌数 并调至最大牌
+                data.prveCard = new Array(lintScore).fill(0);
             }
 
             // 普通扑克牌处理
@@ -212,7 +230,6 @@ export default class FourCardsGame extends cc.Component {
                     const label = card.node.children[1].getComponent(cc.Label);
                     if (label) {
                         const cardNumber = Number(label.string);
-                        console.log(card.number, cardNumber);
                         prveMaskShow = !1;
                         if (
                             (prveCardLength >= 4 &&                                                 // 炸弹: 牌数必须大于出牌者的炸弹数量
@@ -357,7 +374,7 @@ export default class FourCardsGame extends cc.Component {
 
                 // 显示数字
                 if (col === 0 && row !== 0) {
-                    this.addCardNumber(rowItem.length, newNode);
+                    this.addCardNumber(rowItem.length, newNode, row);
                 }
 
                 cardList.push({
@@ -452,10 +469,13 @@ export default class FourCardsGame extends cc.Component {
      */
     onDestroy() {
         // 接触IM玩家加入房间事件绑定
-        State.io.off('rommjoin', this.fetchRoomInfo.bind(this));
-        State.io.off('room/data', this.roomData.bind(this));
-        State.io.off('rommleave', this.rommleave.bind(this));
+        State.io.off('fourcard/gameData', this.bindonGameData);
+        State.io.off('rommjoin', this.bindfetchRoomInfo);
+        State.io.off('room/data', this.bindroomData);
+        State.io.off('rommleave', this.bindrommleave);
+        State.observer.off('socketConnect', this.bindonSocketConnect);
         clock && clearInterval(clock);
+        countDownClock && clearInterval(countDownClock);
     }
 
 
@@ -492,8 +512,8 @@ export default class FourCardsGame extends cc.Component {
      * 跳过本轮
      */
     skip() {
-        this.resetCard();
-        State.io.emit('fourCards/setp', '');
+        // this.resetCard();
+        // State.io.emit('fourCards/setp', '');
     }
 
 
@@ -501,7 +521,6 @@ export default class FourCardsGame extends cc.Component {
      * 恢复初始状态
      */
     resetCard() {
-        console.log('clear  cards');
         this.setpBtn.node.active = false;
         this.skipBtn.node.active = false;
         
@@ -595,13 +614,11 @@ export default class FourCardsGame extends cc.Component {
                     // 如果为全部的最后一张牌
                     if (index == cardList.length - 1 && prevNumber !== card.number) { 
                         if (card.node.children.length !== 2) {
-                            console.log(prevNumber, 1);
                             this.addCardNumber('1', card.node, prevNumber);
                         } else {
                             const labelNode = card.node.children[1].getComponent(cc.Label);
                             if (labelNode.string && labelNode.string !== '1') {
                                 labelNode.string = '1';
-                                console.log(prevNumber, 1);
                             }
                         }
                     }
@@ -609,7 +626,6 @@ export default class FourCardsGame extends cc.Component {
                     let prevCountStr = prevCount.toString();
                     if (prevNode.node.children.length !== 2) {
                         this.addCardNumber(prevCountStr, prevNode.node, prevNumber);
-                        console.log(prevNumber, prevCountStr);
                     } else {
                         const labelNode = prevNode.node.children[1].getComponent(cc.Label);
                         if (labelNode.string && labelNode.string !== prevCountStr) {
@@ -617,7 +633,6 @@ export default class FourCardsGame extends cc.Component {
                                 prevCountStr = (++prevCount).toString();
                             }
                             labelNode.string = prevCountStr;
-                            console.log(prevNumber, prevCountStr);
                         }
                     }
                 }
@@ -672,7 +687,7 @@ export default class FourCardsGame extends cc.Component {
                 };
                 this.userSendCard(sendData);
                 if (res.gameData.target === res.playerIndex) {
-                    this.currentUser();
+                    this.currentUser(false);
                 }
             }
             this.roomInfoData = res;
@@ -694,8 +709,12 @@ export default class FourCardsGame extends cc.Component {
      * 玩家离开游戏时
      * @param data - 数据
      */
-    rommleave(data) {
-        console.log(data);
+    rommleave(ioData) {
+        ioData = JSON.parse(ioData);
+        // console.log(ioData, ioData.data.id);
+        if (ioData && ioData.data && ioData.data.id === this.playersData[0].id) {
+            this.gameOver(false);
+        }
     }
 
 
@@ -704,9 +723,13 @@ export default class FourCardsGame extends cc.Component {
      */
     gameOver(data: any) {
         console.log('gameOver!', data);
+        axios.api('room_exit', {
+            data: {
+                roomCode: this.roomInfoData.id,
+            },
+        }).then(() => {});
         cc.director.loadScene('Home');
     }
-    
 
 
     /**
@@ -714,7 +737,7 @@ export default class FourCardsGame extends cc.Component {
      */
     backHome() {
         const { playersData, node, popupPrefab } = this;
-        console.log(State, playersData);
+        // console.log(State, playersData);
         if (!playersData.length || playersData.length === 1) {
             return this.gameOver({});
         }
@@ -723,9 +746,10 @@ export default class FourCardsGame extends cc.Component {
         node.parent.addChild(popup);
         playersData.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
-                console.log(index);
+                // console.log(index);
                 scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
                 scriptPopup.setEvent('success', () => {
+                    popup.destroy();
                     this.gameOver({ type: index ? 0 : 1 });
                 });
                 scriptPopup.setEvent('close', () => {});
@@ -740,8 +764,7 @@ export default class FourCardsGame extends cc.Component {
      * @param newNode    - 扑克牌节点
      * @param cardNumber - 扑克牌点数
      */
-    addCardNumber(number: string, newNode: any, cardNumber = number) {
-        console.log(cardNumber);
+    addCardNumber(number: string, newNode: any, cardNumber: number) {
         const labelNode = new cc.Node();
         const label = labelNode.addComponent(cc.Label);
         label.string = number;
