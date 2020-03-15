@@ -215,13 +215,14 @@ export default class FourCardsGame extends cc.Component {
 
                 // 4纯王 + 其他王
                 if ((redJoker === 4 || blackJoker === 4) && prveCardLength >= 5) {
-                    lintScore = 10 + (prveCardLength - 5 * 2);
+                    lintScore = 10 + ((prveCardLength - 5) * 2);
                 } else { // 混王
                     lintScore = 7 + (prveCardLength - 4);
                 }
 
                 // 王炸模拟牌数 并调至最大牌
                 data.prveCard = new Array(lintScore).fill(0);
+                console.log(lintScore + '线');
             }
 
             // 普通扑克牌处理
@@ -396,7 +397,7 @@ export default class FourCardsGame extends cc.Component {
         let updatePoint = 0;
         let clock = setInterval(() => {
             const target = cardList[updatePoint];
-            if (target && updatePoint < cardList.length) {
+            if (target && updatePoint < cardList.length && target.node) {
                 target.node.x = target.x;
                 target.node.y = target.y;
                 updatePoint++;
@@ -512,8 +513,8 @@ export default class FourCardsGame extends cc.Component {
      * 跳过本轮
      */
     skip() {
-        // this.resetCard();
-        // State.io.emit('fourCards/setp', '');
+        this.resetCard();
+        State.io.emit('fourCards/setp', '');
     }
 
 
