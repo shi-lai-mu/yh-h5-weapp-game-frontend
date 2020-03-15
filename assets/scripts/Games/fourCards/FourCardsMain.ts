@@ -195,25 +195,32 @@ export default class FourCardsGame extends cc.Component {
         // 不可选择的扑克牌屏蔽
         if (data && data.prveCard[0] >= 0) { 
             let prveMaskShow = !1;
+            const prveCardLength = data.prveCard.length;
+            const prveCardNumber = data.prveCard[0];
             console.log(data.prveCard);
 
-            // 王炸处理
-            if (data.prveCard[0] === 0) {
+            // 王炸处理[必须为7线及以上]    0为大王（红）   0.1为小王（黑）
+            // (4个混王: 7线, 5个混王: 8线, 6个混王: 9线)
+            // (4个纯王开始，多一个王加2线)(5个10线, 6个12线, 7个14线, 8个16线)
+            if ((prveCardNumber === 0 || prveCardNumber === 0.1) && prveCardLength >= 4) {
                 console.log(data.prveCard);
             }
+
+            // 普通扑克牌处理
             this.cardList.forEach((card) => {
                 if (card.node.children.length === 2) {
                     const label = card.node.children[1].getComponent(cc.Label);
                     if (label) {
                         const cardNumber = Number(label.string);
+                        console.log(card.number, cardNumber);
                         prveMaskShow = !1;
                         if (
-                            (data.prveCard.length >= 4 &&                                                   // 炸弹: 牌数必须大于出牌者的炸弹数量
-                                    cardNumber < data.prveCard.length                                       //       如果牌数量大于等于出牌者 
-                                || (cardNumber === data.prveCard.length && data.prveCard[0] <= card.number) //       如果牌数量等于出牌者，且牌值小于等于出牌者
+                            (prveCardLength >= 4 &&                                                 // 炸弹: 牌数必须大于出牌者的炸弹数量
+                                    cardNumber < prveCardLength                                     //       如果牌数量大于等于出牌者 
+                                || (cardNumber === prveCardLength && prveCardNumber <= card.number) //       如果牌数量等于出牌者，且牌值小于等于出牌者
                             ) || (
-                                   (data.prveCard.length < 4 && cardNumber < 4)                             // 小于4张非炸弹
-                                && (cardNumber !== data.prveCard.length || data.prveCard[0] <= card.number  // 牌数必须与出牌者相等，并且值大于出牌者
+                                   (prveCardLength < 4 && cardNumber < 4)                           // 小于4张非炸弹 且 不能组成炸弹
+                                && (cardNumber !== prveCardLength || prveCardNumber <= card.number  // 牌数必须与出牌者相等，并且值大于出牌者
                                 )
                             )
                         ) {
@@ -392,17 +399,31 @@ export default class FourCardsGame extends cc.Component {
     onClickCard(e, cardIndex: string | number) {
         // 判断是为当前玩家的回合
         if (!this.setpBtn.node.active && e) return;
-        const cardInfo = this.cardList[cardIndex];
+        const groupCardList = this.cardList;
+        const cardInfo = groupCardList[cardIndex];
         if (!cardInfo) return;
-        // cardInfo.buttonScipt.interactable = false;
-        // cardInfo.mask.opacity = 255;
-        if (!Object.keys(cardList).length && e) {
+
+        // 如果之前未点击牌则全选当前种类的牌
+        const cardListKeys = Object.keys(cardList);
+        if (!cardListKeys.length && e) {
             this.cardList.forEach((card, index) => {
                 if (card.number === cardInfo.number) {
                     this.onClickCard(false, index);
                 }
             });
             return !0;
+        } else {
+            // 如果选中的牌不同则重选
+            const first = cardList[cardListKeys[0]];
+            if (first && first.number && first.number !== cardInfo.number) {
+                this.cardList.forEach((card, index) => {
+                    if (card.number === first.number && groupCardList[index].isSelect) {
+                        this.onClickCard(e, index);
+                    }
+                });
+                this.onClickCard(e, cardIndex);
+                return !0;
+            }
         }
         const targetNode = cardInfo.node;
         targetNode.runAction(
