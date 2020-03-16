@@ -91,6 +91,10 @@ export default class FourCardsGame extends cc.Component {
      * 不出文字
      */
     @property(cc.SpriteFrame) skipSpriteFrame: cc.SpriteFrame = null;
+    /**
+     * 桌面分数
+     */
+    @property(cc.Label) desktopScore: cc.Label = null;
 
     /**
      * 桌面机制
@@ -197,7 +201,7 @@ export default class FourCardsGame extends cc.Component {
 
         // console.log(data);
         // 不可选择的扑克牌屏蔽
-        if (data && data.prveCard[0] >= 0) { 
+        if (data && data.prveCard && data.prveCard[0] >= 0) { 
             let prveMaskShow = !1;
             const prveCardLength = data.prveCard.length;
             const prveCardNumber = data.prveCard[0];
@@ -262,11 +266,14 @@ export default class FourCardsGame extends cc.Component {
      */
     userSendCard(data: SendCardData) {
         const { clockBox, clockContent, playersData, FourCardsPlayers } = this;
+        const targetUserId = data.userId || 0;
+        const userPointId = this.playersData[targetUserId].index;
+        const targetUser = FourCardsPlayers[userPointId];
         // 上次出牌的玩家出牌显示
-        if (data.userId !== undefined && data.userId !== this.roomInfoData.playerIndex) {
-            this.outCardActuin(data.params, playersData[data.userId]);
+        if (targetUserId !== undefined && targetUserId !== this.roomInfoData.playerIndex) {
+            this.outCardActuin(data.params, playersData[targetUserId]);
         }
-
+        console.log(data);
         const { index } = data.next;
         if (index !== undefined) {
             let outTime = 60;
@@ -294,6 +301,25 @@ export default class FourCardsGame extends cc.Component {
                     }
                 }
             }, 1000);
+        }
+
+        // 桌面分数显示
+        if (data.desktopScore !== undefined) {
+            this.desktopScore.string = data.desktopScore.toString();
+        }
+
+        // 判断是否为当前玩家发牌阶段
+        if (data.next.index === this.roomInfoData.playerIndex) {
+            this.currentUser(data.next);
+        }
+
+        // 分数修改
+        if (data.score) {
+            targetUser.score.string = data.score[targetUserId].toString();
+            targetUser.noteScore.string = data.noteScore[targetUserId].toString();
+            if (targetUser.cardCount) {
+                targetUser.cardCount.string = data.cardCount[targetUserId].toString();
+            }
         }
     }
 
@@ -541,11 +567,11 @@ export default class FourCardsGame extends cc.Component {
     outCardActuin(cards, player) {
         const { index } = player;
         const { cardList } = this;
-        // console.log(this.FourCardsPlayers[index]);
         const { cardPoint } = this.FourCardsPlayers[index];
         const cardsReverse = [];
-        // console.log(index, player);
+
         if (index === 0) {
+            console.log(cards);
             cards.reverse().forEach((card) => {
                 cardsReverse.push(cardList.splice(card, 1));
             });
@@ -662,8 +688,12 @@ export default class FourCardsGame extends cc.Component {
                 this.gameStart(res.players[res.playerIndex].card);
                 let outherPlayer = 1;
 
+                const myPlayer = this.FourCardsPlayers[0];
                 loadImg(`${avatarBase}/${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
-                    this.FourCardsPlayers[0].avatarUrl.spriteFrame = spriteFrame;
+                    myPlayer.avatarUrl.spriteFrame = spriteFrame;
+                    myPlayer.noteScore.string = '0';
+                    myPlayer.cardCount && (myPlayer.cardCount.string = '54');
+                    myPlayer.score.string = '0';
                 });
                 this.playersData = res.players.map((player, index) => {
                     if (index !== res.playerIndex) {
@@ -674,6 +704,9 @@ export default class FourCardsGame extends cc.Component {
                             target.avatarUrl.spriteFrame = spriteFrame;
                         });
                         outherPlayer++;
+                        target.noteScore.string = '0';
+                        target.cardCount.string = '54';
+                        target.score.string = '0';
                     } else {
                         player.index = 0;
                     }
