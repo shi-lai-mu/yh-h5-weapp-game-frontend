@@ -6,6 +6,26 @@ export interface ioOnData {
     msg: {
       prveCard: any,
       timeout?: number;
+      /**
+       * 桌面分数
+       */
+      desktopScore: 0,
+      /**
+       * 分数
+       */
+      score: number[];
+      /**
+       * 抓分分数
+       */
+      noteScore: number[];
+      /**
+       * 玩家牌数
+       */
+      cardCount: number[];
+      /**
+       * 玩家状态(0：未加入, 1：正常, 2：已打完手牌, -1：掉线, 3: 离开房间[游戏已开始, 1分钟内未连线])
+       */
+      playerState: number[];
     },
     callback?: string,
 }
@@ -49,6 +69,26 @@ export interface SendCardData {
     next: {
         index: any;
     };
+    /**
+     * 桌面分数
+     */
+    desktopScore: 0,
+    /**
+     * 分数
+     */
+    score: number[];
+    /**
+     * 抓分分数
+     */
+    noteScore: number[];
+    /**
+     * 玩家牌数
+     */
+    cardCount: number[];
+    /**
+     * 玩家状态(0：未加入, 1：正常, 2：已打完手牌, -1：掉线, 3: 离开房间[游戏已开始, 1分钟内未连线])
+     */
+    playerState: number[];
 }
 
 /**
