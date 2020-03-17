@@ -149,24 +149,11 @@ export default class FourCardsGame extends cc.Component {
     bindonSocketConnect = () => this.onSocketConnect();
 
     onLoad() {
-        // // 创建房间伪逻辑
-        // axios.api('create_room', {
-        //     params: {
-        //         gameName: 'fourCards',
-        //     },
-        //     data: {
-        //         people: 0,
-        //         frequency: 1,
-        //         payType: 0,
-        //         pwdType: 0,
-        //     },
-        // }).then((res) => {
-        //     if (res.status) {
-        //         this.fetchRoomInfo();
-        //     }
-        // });
         const that = this;
         const { setpBtn, skipBtn } = that;
+
+        setpBtn.node.active = false;
+        skipBtn.node.active = false;
 
         that.fetchRoomInfo();
         State.io.on('fourcard/gameData', that.bindonGameData);
@@ -174,8 +161,6 @@ export default class FourCardsGame extends cc.Component {
         State.io.on('room/data', that.bindroomData);
         State.io.on('rommleave', that.bindrommleave);
         State.observer.on('socketConnect', that.bindonSocketConnect);
-        setpBtn.node.active = false;
-        skipBtn.node.active = false;
     }
 
 
@@ -267,8 +252,8 @@ export default class FourCardsGame extends cc.Component {
     userSendCard(data: SendCardData) {
         const { clockBox, clockContent, playersData, FourCardsPlayers } = this;
         const targetUserId = data.userId || 0;
-        const userPointId = this.playersData[targetUserId].index;
-        const targetUser = FourCardsPlayers[userPointId];
+        // const userPointId = this.playersData[targetUserId].index;
+        // const targetUser = FourCardsPlayers[userPointId];
         // 上次出牌的玩家出牌显示
         if (targetUserId !== undefined && targetUserId !== this.roomInfoData.playerIndex) {
             this.outCardActuin(data.params, playersData[targetUserId]);
@@ -424,7 +409,7 @@ export default class FourCardsGame extends cc.Component {
             }
         }
 
-        let updatePoint = 0;
+        // let updatePoint = 0;
         // let clock = setInterval(() => {
         //     const target = cardList[updatePoint];
         //     if (target && updatePoint < cardList.length && target.node) {
@@ -572,6 +557,7 @@ export default class FourCardsGame extends cc.Component {
      * 发牌动作
      */
     outCardActuin(cards, player) {
+        if (!player) return;
         const { index } = player;
         const { cardList } = this;
         const { cardPoint } = this.FourCardsPlayers[index];
