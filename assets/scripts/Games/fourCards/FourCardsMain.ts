@@ -208,8 +208,8 @@ export default class FourCardsGame extends cc.Component {
             // console.log(data.prveCard);
 
             // 王炸处理[必须为7线及以上]    0为大王（红）   0.1为小王（黑）
-            // (4个混王: 7线, 5个混王: 8线, 6个混王: 9线)
-            // (4个纯王开始，多一个王加2线)(5个10线, 6个12线, 7个14线, 8个16线)
+            // (4个混王: 7线30分, 5个混王: 8线60分, 6个混王: 9线90分)
+            // (4个纯王开始，多一个王加2线)(5个10线120分, 6个12线180分, 7个14线240分, 8个16线300分)
             if ((prveCardNumber === 0 || prveCardNumber === 0.1) && prveCardLength >= 4) {
                 let redJoker = 0;
                 let blackJoker = 0;
@@ -261,7 +261,7 @@ export default class FourCardsGame extends cc.Component {
 
 
     /**
-     * 允玩家发牌时
+     * 玩家发牌时
      * @param data - IO数据
      */
     userSendCard(data: SendCardData) {
@@ -315,11 +315,14 @@ export default class FourCardsGame extends cc.Component {
 
         // 分数修改
         if (data.score) {
-            targetUser.score.string = data.score[targetUserId].toString();
-            targetUser.noteScore.string = data.noteScore[targetUserId].toString();
-            if (targetUser.cardCount) {
-                targetUser.cardCount.string = data.cardCount[targetUserId].toString();
-            }
+            this.playersData.forEach((player, i) => {
+                const target = FourCardsPlayers[player.index];
+                target.score.string = data.score[i].toString();
+                target.noteScore.string = data.noteScore[i].toString();
+                if (target.cardCount) {
+                    target.cardCount.string = data.cardCount[i].toString();
+                }
+            });
         }
     }
 
@@ -340,15 +343,14 @@ export default class FourCardsGame extends cc.Component {
         // 排序
         const sortCard = [];
         if (cardData.length === 4) {
-            cardData.unshift({});
+            cardData.push({});
         }
+        console.log(cardData.length);
         for (let num = 0; num < 13; num++) {
             sortCard[num] = [];
             for (let row = 0; row < cardData.length - 1; row++) {
                 const targetCard = cardData[row][num];
-                if (Object.keys(cardData[row]).length) {
-                    targetCard && sortCard[num].push(...Array(targetCard).fill(row));
-                }
+                targetCard && sortCard[num].push(...Array(targetCard).fill(row));
             }
         }
         // 大小王
@@ -397,8 +399,10 @@ export default class FourCardsGame extends cc.Component {
                 this.cardBox.addChild(newNode);
 
                 // 放置到屏幕最上方
-                newNode.y = newNode.height + screenHeight;
+                newNode.y = newNode.height + (screenHeight * 2);
 
+                newNode.x =x;
+                newNode.y =y;
                 // 显示数字
                 if (col === 0 && row !== 0) {
                     this.addCardNumber(rowItem.length, newNode, row);
@@ -421,17 +425,18 @@ export default class FourCardsGame extends cc.Component {
         }
 
         let updatePoint = 0;
-        let clock = setInterval(() => {
-            const target = cardList[updatePoint];
-            if (target && updatePoint < cardList.length && target.node) {
-                target.node.x = target.x;
-                target.node.y = target.y;
-                updatePoint++;
-            } else {
-                clearInterval(clock);
-            }
-        }, 50);
-
+        // let clock = setInterval(() => {
+        //     const target = cardList[updatePoint];
+        //     if (target && updatePoint < cardList.length && target.node) {
+        //         target.node.x = target.x;
+        //         target.node.y = target.y;
+        //         console.log(target.x);
+        //         updatePoint++;
+        //     } else {
+        //         clearInterval(clock);
+        //     }
+        // }, 50);
+        this.updateCardPoint();
     }
 
 
@@ -513,7 +518,9 @@ export default class FourCardsGame extends cc.Component {
     dealCards() {
         // 销毁桌前的扑克牌
         if (this.desktop.card.length) {
+            console.log('desktop destroy');
             this.desktop.card.forEach((card) => card.destroy());
+            this.desktop.card = [];
         }
         const selectCard = [];
         const numberCard = [];
@@ -580,6 +587,7 @@ export default class FourCardsGame extends cc.Component {
                     const node = card[0].node;
                     // 出牌后删除纸牌上的数字
                     if (node.children.length === 2) {
+                        console.log('card number destroy');
                         node.children[1].destroy();
                     }
                     // 扑克牌缓动效果
@@ -615,6 +623,7 @@ export default class FourCardsGame extends cc.Component {
                 newNode.y = 0;
             }
             setTimeout(() => {
+                console.log('?? destroy');
                 newNode.destroy();
             }, 1500);
         }
@@ -704,9 +713,6 @@ export default class FourCardsGame extends cc.Component {
                             target.avatarUrl.spriteFrame = spriteFrame;
                         });
                         outherPlayer++;
-                        target.noteScore.string = '0';
-                        target.cardCount.string = '54';
-                        target.score.string = '0';
                     } else {
                         player.index = 0;
                     }
