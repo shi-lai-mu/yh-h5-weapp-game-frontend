@@ -62,20 +62,18 @@ export default class Popup extends cc.Component {
         this[buttonName + 'Button'].runAction(cc.scaleTo(0.5, to, to).easing(cc.easeBackOut()));
     }
 
-    /**
-     * 
-     * @param message 设置文字
-     */
+
     message(message: string) {
         this.text.string = message;
     }
+
 
     reset() {
         this.resetEvent && this.resetEvent();
     }
 
+
     success() {
-        console.log(123456);
         this.successEvent && this.successEvent();
     }
 
