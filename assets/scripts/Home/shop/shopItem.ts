@@ -10,50 +10,39 @@
 
 const {ccclass, property} = cc._decorator;
 import { url, loadImg } from '../../utils/tool';
+import parentClass from './Shop';
 
 @ccclass
 export default class ShopListItem extends cc.Component {
+    // 物品名
+    @property(cc.Sprite) Name: cc.Sprite = null;
+    // 价格
+    @property(cc.Label) Price: cc.Label = null;
+    // 图标
+    @property(cc.Sprite) icon: cc.Sprite = null;
+    // 焦点样式
+    @property(cc.Sprite) focusSprite: cc.Sprite = null;
 
-    /**
-     * 物品名
-     */
-    @property(cc.Sprite)
-    Name: cc.Sprite = null;
 
-    /**
-     * 价格
-     */
-    @property(cc.Label)
-    Price: cc.Label = null;
-
-    /**
-     * 图标
-     */
-    @property(cc.Sprite)
-    icon: cc.Sprite = null;
-
-    /**
-     * 焦点样式
-     */
-    @property(cc.Sprite)
-    focusSprite: cc.Sprite = null;
-
-    /**
-     * 点击触发的事件
-     */
+    // 点击触发的事件
     clickEvent: any;
     data: any;
+    parentClass: parentClass;
 
 
-    init(data: any) {
-        this.Price.string = data.price;
-        this.data = data;
+    /**
+     * 初始化
+     * @param data - 数据
+     */
+    init(opaction: { price: number; icon: string }) {
+        this.Price.string = opaction.price.toString();
+        this.data = opaction;
        
-        loadImg(`${url}/text/shop/${data.icon}-text.png`, (spriteFrame) => {
+        loadImg(`${url}/text/shop/${opaction.icon}-text.png`, (spriteFrame) => {
             this.Name.spriteFrame = spriteFrame;
         });
         
-        loadImg(`${url}/H5Game/shop/${data.icon}.png`, (spriteFrame) => {
+        loadImg(`${url}/H5Game/shop/${opaction.icon}.png`, (spriteFrame) => {
             this.icon.spriteFrame = spriteFrame;
         });
     }
@@ -79,17 +68,15 @@ export default class ShopListItem extends cc.Component {
      * 点击事件
      */
     async onClick() {
-        console.log(123456);
         const { data, clickEvent } = this;
         clickEvent && await clickEvent(data);
     }
+
 
     /**
      * 点击购买
      */
     buy() {
-        console.log('buy', this.data);
+        this.parentClass.buyGoods(this.data);
     }
-
-    // update (dt) {}
 }

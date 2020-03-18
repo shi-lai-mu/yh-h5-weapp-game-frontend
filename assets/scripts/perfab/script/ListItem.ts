@@ -9,28 +9,21 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import { loadImg } from '../../utils/tool';
 
 @ccclass
 export default class EmailActivityListItem extends cc.Component {
-
-    @property()
-    id: number = 0;
-
-    @property(cc.Label)
-    itemPrice: cc.Label = null;
-    
-    @property(cc.SpriteFrame)
-    itemTarget: cc.SpriteFrame = null;
+    // 标识ID
+    @property() id: number = 0;
+    // 商品价格
+    @property(cc.Label) itemPrice: cc.Label = null;
+    // 选中状态样式
+    @property(cc.SpriteFrame) itemTarget: cc.SpriteFrame = null;
 
     ParentClass: any = null;
-
     data: any = {};
-
     Sprite = null;
-
-    /**
-     * 点击触发的事件
-     */
+    // 点击触发的事件
     clickEvent: any;
 
 
@@ -98,17 +91,4 @@ export default class EmailActivityListItem extends cc.Component {
         this.node.addChild(node);
     }
     // update (dt) {}
-}
-
-
-/**
- * 加载图片
- * @param url      - 图片url
- * @param callback - 回调函数
- */
-const loadImg = (url, callback) => {
-    cc.loader.load(url, (_error, texture) => {
-        _error && console.error(_error);
-        callback(new cc.SpriteFrame(texture));
-    });
 }
