@@ -56,8 +56,9 @@ export default class Popup extends cc.Component {
     setEvent(buttonName: 'close' | 'success' | 'reset', event: any, show?: number) {
         this[buttonName + 'Event'] = event;
         const to = show !== undefined
+        
             ? show
-            : event === null ? 0 : 1;
+            : event === null ? 0 : 1.202;
         this[buttonName + 'Button'].runAction(cc.scaleTo(0.5, to, to).easing(cc.easeBackOut()));
     }
 
