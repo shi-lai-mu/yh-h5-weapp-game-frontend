@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import { url, loadImg } from '../../utils/tool';
+import { ShopItem } from '../../interface/shop';
 import parentClass from './Shop';
 
 @ccclass
@@ -22,6 +23,10 @@ export default class ShopListItem extends cc.Component {
     @property(cc.Sprite) icon: cc.Sprite = null;
     // 焦点样式
     @property(cc.Sprite) focusSprite: cc.Sprite = null;
+    // 货币节点
+    @property(cc.Sprite) currencyNode: cc.Sprite = null;
+    // 货币样式
+    @property(cc.SpriteFrame) buyCurrency: cc.SpriteFrame[] = [];
 
 
     // 点击触发的事件
@@ -34,9 +39,11 @@ export default class ShopListItem extends cc.Component {
      * 初始化
      * @param data - 数据
      */
-    init(opaction: { price: number; icon: string }) {
+    init(opaction: ShopItem) {
         this.Price.string = opaction.price.toString();
         this.data = opaction;
+
+        this.currencyNode.spriteFrame = this.buyCurrency[opaction.bay_currency_id - 1];
        
         loadImg(`${url}/text/shop/${opaction.icon}-text.png`, (spriteFrame) => {
             this.Name.spriteFrame = spriteFrame;
@@ -77,6 +84,7 @@ export default class ShopListItem extends cc.Component {
      * 点击购买
      */
     buy() {
+        this.onClick();
         this.parentClass.buyGoods(this.data);
     }
 }

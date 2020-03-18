@@ -20,4 +20,5 @@ export interface ShopItem {
     get_currency_number: number;
     bay_currency_name: string;
     get_currency_name: string;
+    bay_currency_id: number;
 }

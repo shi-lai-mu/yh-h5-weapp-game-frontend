@@ -51,9 +51,14 @@ export default class Activity extends cc.Component {
 
     // 物品数据
     shopItemData: cc.Node[] = [];
+    defaultTarget: string = '金币';
+
+    init(option: { index: string; }) {
+        this.defaultTarget = option.index;
+    }
 
 
-    start () {
+    start() {
         axios.api('shop_menu').then((data: ShopMenu[]) => {
             // 当前左侧列表目标
             let targetItem = null;
@@ -61,6 +66,7 @@ export default class Activity extends cc.Component {
             let focusItem = null;
             data.forEach((item, index) => {
                 const prefab = cc.instantiate(this.ShopMenuListPrefab);
+                console.log(item);
                 const prefabScript = prefab.getComponent('ListItem');
                 if (item.imgName) {
                     item.sprite = `https://perfergame.oss-cn-beijing.aliyuncs.com/text/shop/${ item.imgName }.png`;
@@ -143,9 +149,9 @@ export default class Activity extends cc.Component {
                 })
 
                 // 默认点击第一个
-                if (index === 0) {
-                    prefabScript.onClick();
-                }
+                if (this.defaultTarget) {
+                    if (this.defaultTarget == item.name) prefabScript.onClick();
+                } else if (index === 0) prefabScript.onClick();
             });
         });
     }
@@ -157,6 +163,15 @@ export default class Activity extends cc.Component {
      */
     buyGoods(goodData) {
         console.log(goodData);
+        const popup = cc.instantiate(this.popup);
+        const scriptPopup = popup.getComponent('popup');
+        this.node.parent.addChild(popup);
+        
+        scriptPopup.init(`将使用 ${goodData.price + goodData.bay_currency_name} 购买,\n[ ${goodData.name} ]\n是否确定?`);
+        scriptPopup.setEvent('success', () => {
+            popup.destroy();
+        });
+        scriptPopup.setEvent('close', () => {});
     }
 
 
