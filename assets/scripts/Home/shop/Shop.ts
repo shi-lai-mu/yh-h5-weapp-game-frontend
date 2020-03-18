@@ -11,16 +11,7 @@
 import axios from '../../utils/axiosUtils';
 // import State from '../../utils/state';
 import { ShopMenu, ShopItem } from '../../interface/shop';
-
-// var Item = cc.Class({
-//     name: 'ShopMenuItem',
-//     properties: {
-//         id: 0,
-//         itemName: '',
-//         itemPrice: 0,
-//         iconSF: cc.SpriteFrame
-//     },
-// });
+import scriptPopup from '../../perfab/script/popup';
 
 const {ccclass, property} = cc._decorator;
 
@@ -51,7 +42,7 @@ export default class Activity extends cc.Component {
 
     // 物品数据
     shopItemData: cc.Node[] = [];
-    defaultTarget: string = '金币';
+    defaultTarget: string = '';
 
     init(option: { index: string; }) {
         this.defaultTarget = option.index;
@@ -159,17 +150,38 @@ export default class Activity extends cc.Component {
 
     /**
      * 购买商品时
-     * @param goodData - 商品数据
+     * @param goodsData - 商品数据
      */
-    buyGoods(goodData) {
-        console.log(goodData);
+    buyGoods(goodsData) {
+        console.log(goodsData);
         const popup = cc.instantiate(this.popup);
-        const scriptPopup = popup.getComponent('popup');
+        const scriptPopup: scriptPopup = popup.getComponent('popup');
         this.node.parent.addChild(popup);
         
-        scriptPopup.init(`将使用 ${goodData.price + goodData.bay_currency_name} 购买,\n[ ${goodData.name} ]\n是否确定?`);
+        scriptPopup.init(`将使用 ${goodsData.price + goodsData.bay_currency_name} 购买,\n[ ${goodsData.name} ]\n是否确定?`);
         scriptPopup.setEvent('success', () => {
-            popup.destroy();
+            scriptPopup.message('支付中...');
+            scriptPopup.setEvent('success', null);
+            scriptPopup.setEvent('close', null);
+            axios
+                .api('shop_buy', {
+                    params: {
+                        goodsId: goodsData.id,
+                    },
+                })
+                .then((query) => {
+                    if(query.status) {
+                        scriptPopup.message(`支付成功!获得\n[ ${goodsData.name} ]`);
+                    } else {
+                        scriptPopup.message('支付失败!\n' + query.msg);
+                    }
+                    scriptPopup.setEvent('success', () => {
+                        popup.destroy();
+                    });
+                    scriptPopup.setEvent('close', () => {});
+                })
+                .catch(() => scriptPopup.message('支付时发生错误!\n请稍后再试...'))
+            ;
         });
         scriptPopup.setEvent('close', () => {});
     }
