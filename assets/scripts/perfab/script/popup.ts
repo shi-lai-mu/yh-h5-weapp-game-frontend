@@ -12,12 +12,10 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Popup extends cc.Component {
-
-    @property(cc.Label)
-    text: cc.Label = null;
-
-    @property(cc.Node)
-    popupBox: cc.Node = null;
+    // 内容文本
+    @property(cc.Label) text: cc.Label = null;
+    // 弹窗主体
+    @property(cc.Node) popupBox: cc.Node = null;
     // 关闭按钮
     @property(cc.Node) closeButton: cc.Node = null;
     // 成功按钮
@@ -36,7 +34,7 @@ export default class Popup extends cc.Component {
         const { popupBox } = this;
         popupBox.scale = 0;
         popupBox.runAction(
-            cc.scaleTo(0.3, 1, 1).easing(cc.easeBackInOut()),
+            cc.scaleTo(.3, 1, 1).easing(cc.easeBackInOut()),
         );
     }
 
@@ -94,8 +92,4 @@ export default class Popup extends cc.Component {
         );
         this.closeEvent && this.closeEvent();
     }
-
-
-
-    // update (dt) {}
 }

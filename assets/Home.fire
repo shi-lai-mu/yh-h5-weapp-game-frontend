@@ -15,6 +15,9 @@
     "_children": [
       {
         "__id__": 2
+      },
+      {
+        "__id__": 198
       }
     ],
     "_active": false,
@@ -99,7 +102,7 @@
         "__id__": 170
       },
       {
-        "__id__": 194
+        "__id__": 195
       }
     ],
     "_active": true,
@@ -108,7 +111,7 @@
         "__id__": 40
       },
       {
-        "__id__": 196
+        "__id__": 197
       }
     ],
     "_prefab": null,
@@ -8414,7 +8417,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 193
+        "__id__": 194
       }
     ],
     "_prefab": null,
@@ -8668,16 +8671,16 @@
         "__id__": 180
       },
       {
-        "__id__": 184
+        "__id__": 185
       },
       {
-        "__id__": 188
+        "__id__": 189
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 192
+        "__id__": 193
       }
     ],
     "_prefab": null,
@@ -8929,7 +8932,7 @@
         "__id__": 182
       },
       {
-        "__id__": 183
+        "__id__": 184
       }
     ],
     "_prefab": null,
@@ -9026,7 +9029,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.1,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 183
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -9081,6 +9088,16 @@
     "_N$disabledSprite": null,
     "_N$target": null,
     "_id": "1euhje73xKNab3L9bns6wZ"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "b978fxAiepGxZh12NplIlBz",
+    "handler": "openPopup",
+    "customEventData": "PackBack"
   },
   {
     "__type__": "11c67So8a5CUrDnfCI99C+c",
@@ -9164,13 +9181,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 185
-      },
-      {
         "__id__": 186
       },
       {
         "__id__": 187
+      },
+      {
+        "__id__": 188
       }
     ],
     "_prefab": null,
@@ -9226,7 +9243,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 184
+      "__id__": 185
     },
     "_enabled": true,
     "_materials": [
@@ -9258,7 +9275,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 184
+      "__id__": 185
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -9328,7 +9345,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 184
+      "__id__": 185
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -9405,13 +9422,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 189
-      },
-      {
         "__id__": 190
       },
       {
         "__id__": 191
+      },
+      {
+        "__id__": 192
       }
     ],
     "_prefab": null,
@@ -9467,7 +9484,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 188
+      "__id__": 189
     },
     "_enabled": true,
     "_materials": [
@@ -9499,7 +9516,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 188
+      "__id__": 189
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -9569,7 +9586,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 188
+      "__id__": 189
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -9702,7 +9719,7 @@
     },
     "_id": "1bZAefnWZEvr56gAj0cGzh",
     "_prefab": {
-      "__id__": 195
+      "__id__": 196
     },
     "_name": "signal",
     "_active": true,
@@ -9732,7 +9749,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 194
+      "__id__": 195
     },
     "asset": {
       "__uuid__": "84c0fdcf-dc9e-42ed-ad89-7ec4a0194c3f"
@@ -9773,5 +9790,51 @@
       "__id__": 58
     },
     "_id": "11AkDWSPlE5rb3GpM1xb7u"
+  },
+  {
+    "__type__": "cc.Node",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_id": "28V+8gwqtBfoa8mRGjfnAH",
+    "_prefab": {
+      "__id__": 199
+    },
+    "_name": "ShopPopupBox",
+    "_active": true,
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        480,
+        320,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 198
+    },
+    "asset": {
+      "__uuid__": "581f049e-48ac-4ef2-b0cd-286103ff8dfe"
+    },
+    "fileId": "0fv4l+DLtDCZoUGp/DwJIf",
+    "sync": true
   }
 ]
