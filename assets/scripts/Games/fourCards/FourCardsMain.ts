@@ -12,7 +12,7 @@ const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
 import { loadImg } from '../../utils/tool';
-import { ioOnData, CardList, FourCardsPlayers, SendCardData, UserData } from '../../interface/game/fourCard';
+import { CardList, FourCardsPlayers, SendCardData, UserData } from '../../interface/game/fourCard';
 /**
  * 扑克牌
  */
@@ -144,9 +144,7 @@ export default class FourCardsGame extends cc.Component {
     };
     bindonGameData = (data) => this.onGameData(data);
     bindfetchRoomInfo = () => this.fetchRoomInfo();
-    bindroomData = (data) => this.roomData(data);
     bindrommleave = (data) => this.rommleave(data);
-    bindonSocketConnect = () => this.onSocketConnect();
     history = [];
 
     onLoad() {
@@ -159,9 +157,20 @@ export default class FourCardsGame extends cc.Component {
         that.fetchRoomInfo();
         State.io.on('fourcard/gameData', that.bindonGameData);
         State.io.on('rommjoin', that.bindfetchRoomInfo);
-        State.io.on('room/data', that.bindroomData);
         State.io.on('rommleave', that.bindrommleave);
-        State.observer.on('socketConnect', that.bindonSocketConnect);
+    }
+
+
+    /**
+     * 游戏场景销毁时
+     */
+    onDestroy() {
+        // 接触IM玩家加入房间事件绑定
+        State.io.off('fourcard/gameData', this.bindonGameData);
+        State.io.off('rommjoin', this.bindfetchRoomInfo);
+        State.io.off('rommleave', this.bindrommleave);
+        clock && clearInterval(clock);
+        countDownClock && clearInterval(countDownClock);
     }
 
 
@@ -171,7 +180,7 @@ export default class FourCardsGame extends cc.Component {
      */
     onGameData(data: any) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
-        // console.log(typeof data, data);
+        console.log(data.msg);
         data.callback && data.msg && this[data.callback](data.msg);
     }
 
@@ -269,7 +278,7 @@ export default class FourCardsGame extends cc.Component {
             const { history } = this;
             const prevCard = data.next.prveCard;
             history.push(prevCard.length ? prevCard : '');
-            if (history.length === 4) history.shift();
+            if (history.length === playersData.length) history.shift();
             if (history.join('') === '') this.history = [];
         }
 
@@ -483,30 +492,6 @@ export default class FourCardsGame extends cc.Component {
         ;
         
         this.setpBtn.interactable = !!Object.keys(cardList).length;
-    }
-
-
-    /**
-     * Socket 连接时[通常情况下为重连]
-     */
-    onSocketConnect() {
-        // this.node.removeAllChildren();
-        // window.history.go(0);
-    }
-
-
-    /**
-     * 游戏场景销毁时
-     */
-    onDestroy() {
-        // 接触IM玩家加入房间事件绑定
-        State.io.off('fourcard/gameData', this.bindonGameData);
-        State.io.off('rommjoin', this.bindfetchRoomInfo);
-        State.io.off('room/data', this.bindroomData);
-        State.io.off('rommleave', this.bindrommleave);
-        State.observer.off('socketConnect', this.bindonSocketConnect);
-        clock && clearInterval(clock);
-        countDownClock && clearInterval(countDownClock);
     }
 
 
@@ -731,15 +716,6 @@ export default class FourCardsGame extends cc.Component {
             this.roomIdLabel.string = `房间号: ${res.roomCode || '错误'}`;
         });
     }
- 
-
-    /**
-     * 房间内接收到数据时
-     * @param data - 房间内数据
-     */
-    roomData(data) {
-        console.log(data);
-    }
 
 
     /**
@@ -748,24 +724,71 @@ export default class FourCardsGame extends cc.Component {
      */
     rommleave(ioData) {
         ioData = JSON.parse(ioData);
-        // console.log(ioData, ioData.data.id);
         if (ioData && ioData.data && ioData.data.id === this.playersData[0].id) {
-            this.gameOver(false);
+            this.gameOver({ type: 0 });
         }
     }
 
 
     /**
      * 游戏结束
+     * @param data
+     *  - false: 房主离开游戏触发
+     * 
      */
-    gameOver(data: any) {
-        console.log('gameOver!', data);
+    gameOver(data: any | false) {
+        console.log(data);
+        const { playersData, node, popupPrefab, FourCardsPlayers } = this;
+        if (data && data.type !== 0) {
+            this.gameOver = () => {};
+            const chessPrefab = cc.instantiate(this.chessPrefab);
+            const chessScript = chessPrefab.getComponent('overScript');
+            const chessData: any = [];
+            console.log(data.gameData, data.gameData.score);
+            playersData.forEach((player, index) => {
+                const gamedata = data.gameData;
+                console.log(index);
+                chessData.push({
+                    nickname: player.nickname,
+                    avatarUrl: FourCardsPlayers[index].avatarUrl.spriteFrame,
+                    score: gamedata.score[index],
+                    item: {
+                        noteScore: gamedata.noteScore[index],
+                    },
+                });
+            });
+            chessScript.init({
+                players: chessData,
+                itemKey: {
+                    noteScore: '抓分',
+                },
+                time: data.gameData.createTime,
+                roomId: data.roomCode,
+            });
+            this.node.addChild(chessPrefab);
+        } else if (this.roomInfoData.playerIndex !== 0) {
+            const popup = cc.instantiate(popupPrefab);
+            const scriptPopup = popup.getComponent('popup');
+            node.parent.addChild(popup);
+            scriptPopup.init('房主已将房间解散!');
+            scriptPopup.setEvent('success', () => {
+                popup.destroy();
+                this.roomExit();
+                cc.director.loadScene('Home');
+            });
+        }
+    }
+
+    
+    /**
+     * 退出房间
+     */
+    roomExit() {
         axios.api('room_exit', {
             data: {
                 roomCode: this.roomInfoData.id,
             },
         }).then(() => {});
-        cc.director.loadScene('Home');
     }
 
 
@@ -776,18 +799,19 @@ export default class FourCardsGame extends cc.Component {
         const { playersData, node, popupPrefab } = this;
         // console.log(State, playersData);
         if (!playersData.length || playersData.length === 1) {
-            return this.gameOver({});
+            return this.gameOver(false);
         }
         const popup = cc.instantiate(popupPrefab);
         const scriptPopup = popup.getComponent('popup');
         node.parent.addChild(popup);
         playersData.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
-                // console.log(index);
+                console.log(index);
                 scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
                 scriptPopup.setEvent('success', () => {
                     popup.destroy();
-                    this.gameOver({ type: index ? 0 : 1 });
+                    this.roomExit();
+                    cc.director.loadScene('Home');
                 });
                 scriptPopup.setEvent('close', () => {});
             }
