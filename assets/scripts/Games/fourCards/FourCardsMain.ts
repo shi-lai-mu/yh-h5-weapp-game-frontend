@@ -147,6 +147,7 @@ export default class FourCardsGame extends cc.Component {
     bindroomData = (data) => this.roomData(data);
     bindrommleave = (data) => this.rommleave(data);
     bindonSocketConnect = () => this.onSocketConnect();
+    history = [];
 
     onLoad() {
         const that = this;
@@ -184,9 +185,16 @@ export default class FourCardsGame extends cc.Component {
         setpBtn.interactable = false;
         skipBtn.node.active = true;
 
+        // 玩家不出牌时
+        if (data && data.prveCard && !data.prveCard.length) {
+            const { history } = this;
+            data.prveCard = history[2] || history[1] || history[0] || [];
+            console.log(data.prveCard, history);
+        }
+
         // console.log(data);
         // 不可选择的扑克牌屏蔽
-        if (data && data.prveCard && data.prveCard[0] >= 0) { 
+        if (data && data.prveCard && data.prveCard.length) { 
             let prveMaskShow = !1;
             const prveCardLength = data.prveCard.length;
             const prveCardNumber = data.prveCard[0];
@@ -200,7 +208,6 @@ export default class FourCardsGame extends cc.Component {
                 let blackJoker = 0;
                 let lintScore = 0;
                 data.prveCard.forEach((num: number) => num === 0 ? redJoker++ : blackJoker++);
-                console.log(redJoker, blackJoker);
 
                 // 4纯王 + 其他王
                 if ((redJoker === 4 || blackJoker === 4) && prveCardLength >= 5) {
@@ -258,7 +265,14 @@ export default class FourCardsGame extends cc.Component {
         if (targetUserId !== undefined && targetUserId !== this.roomInfoData.playerIndex) {
             this.outCardActuin(data.params, playersData[targetUserId]);
         }
-        console.log(data);
+        if (data.next.prveCard) {
+            const { history } = this;
+            const prevCard = data.next.prveCard;
+            history.push(prevCard.length ? prevCard : '');
+            if (history.length === 4) history.shift();
+            if (history.join('') === '') this.history = [];
+        }
+
         const { index } = data.next;
         if (index !== undefined) {
             let outTime = 60;
@@ -503,7 +517,6 @@ export default class FourCardsGame extends cc.Component {
     dealCards() {
         // 销毁桌前的扑克牌
         if (this.desktop.card.length) {
-            console.log('desktop destroy');
             this.desktop.card.forEach((card) => card.destroy());
             this.desktop.card = [];
         }
@@ -573,7 +586,6 @@ export default class FourCardsGame extends cc.Component {
                     const node = card[0].node;
                     // 出牌后删除纸牌上的数字
                     if (node.children.length === 2) {
-                        console.log('card number destroy');
                         node.children[1].destroy();
                     }
                     // 扑克牌缓动效果
@@ -609,7 +621,6 @@ export default class FourCardsGame extends cc.Component {
                 newNode.y = 0;
             }
             setTimeout(() => {
-                console.log('?? destroy');
                 newNode.destroy();
             }, 1500);
         }

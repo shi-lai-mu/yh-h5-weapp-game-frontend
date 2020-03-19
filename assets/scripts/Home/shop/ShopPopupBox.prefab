@@ -57,14 +57,14 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0,
+      "y": 1
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        480,
+        0,
         320,
         0,
         0,
@@ -134,8 +134,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        480,
+        -320,
         0,
         0,
         0,
@@ -348,8 +348,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        355,
-        0,
+        835,
+        -320,
         0,
         0,
         0,
@@ -2687,8 +2687,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -360,
-        0,
+        120,
+        -320,
         0,
         0,
         0,
@@ -3603,8 +3603,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -30.504999999999995,
-        -8,
+        449.495,
+        -328,
         0,
         0,
         0,

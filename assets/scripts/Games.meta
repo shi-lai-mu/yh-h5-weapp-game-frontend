@@ -1,7 +1,7 @@
 {
   "ver": "1.0.1",
   "uuid": "703afcce-5b86-43ab-a7ee-52d659efa262",
-  "isSubpackage": true,
+  "isSubpackage": false,
   "subpackageName": "GamesScript",
   "subMetas": {}
 }

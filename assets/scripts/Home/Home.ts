@@ -55,6 +55,7 @@ export default class Home extends cc.Component {
      * @param gameName - 游戏名
      */
     openGame(_event, gameName: string) {
+        console.log(gameName);
         cc.director.loadScene(gameName);
     }
 
