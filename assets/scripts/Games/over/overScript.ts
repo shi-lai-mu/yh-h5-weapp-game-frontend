@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import { dateFrom } from '../../utils/tool';
+import axios from '../../utils/axiosUtils';
 
 const ItemData = cc.Class({
     name: 'itemData',
@@ -93,6 +94,7 @@ export default class NewClass extends cc.Component {
                 );
             }, index * 100);
             userItem.nickname.string = item.nickname;
+            console.log(item.score);
             userItem.score.string = String(item.score);
             userItem.avatarUrl.spriteFrame = item.avatarUrl;
 
@@ -122,6 +124,11 @@ export default class NewClass extends cc.Component {
      */
     backHome() {
         cc.director.loadScene('Home');
+        axios.api('room_exit', {
+            data: {
+                roomCode: this.roomId.string,
+            },
+        }).then(() => {});
     }
 
     // update (dt) {}
