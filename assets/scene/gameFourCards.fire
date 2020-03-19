@@ -289,7 +289,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "wzq-bg",
+    "_name": "fourCards-bg",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2

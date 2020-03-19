@@ -143,7 +143,7 @@ export default class FourCardsGame extends cc.Component {
         joker: [],
     };
     bindonGameData = (data) => this.onGameData(data);
-    bindfetchRoomInfo = () => this.fetchRoomInfo();
+    bindfetchRoomInfo = (data) => this.fetchRoomInfo(data);
     bindrommleave = (data) => this.rommleave(data);
     history = [];
 
@@ -154,7 +154,7 @@ export default class FourCardsGame extends cc.Component {
         setpBtn.node.active = false;
         skipBtn.node.active = false;
 
-        that.fetchRoomInfo();
+        that.fetchRoomInfo(false);
         State.io.on('fourcard/gameData', that.bindonGameData);
         State.io.on('rommjoin', that.bindfetchRoomInfo);
         State.io.on('rommleave', that.bindrommleave);
@@ -669,37 +669,37 @@ export default class FourCardsGame extends cc.Component {
     /**
      * 当玩家加入房间时
      */
-    fetchRoomInfo() {
+    fetchRoomInfo(data) {
         const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
         const MyUserData = State.userInfo;
         axios.api('room_info').then(res => {
-            console.log(res);
+            this.playersData = [];
+            const myPlayer = this.FourCardsPlayers[0];
+            let outherPlayer = 1;
+            loadImg(`${avatarBase}/${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
+                myPlayer.avatarUrl.spriteFrame = spriteFrame;
+                myPlayer.noteScore.string = '0';
+                myPlayer.cardCount && (myPlayer.cardCount.string = '54');
+                myPlayer.score.string = '0';
+            });
+            this.playersData = res.players.map((player, index) => {
+                if (index !== res.playerIndex) {
+                    const target = this.FourCardsPlayers[outherPlayer];
+                    player.index = outherPlayer;
+                    target.nickname.string = player.nickname;
+                    loadImg(`${avatarBase}/${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
+                        target.avatarUrl.spriteFrame = spriteFrame;
+                    });
+                    outherPlayer++;
+                } else {
+                    player.index = 0;
+                }
+                return player;
+            });
+
             // 检测是否已经开始游戏
             if (res.isStart && res.players[res.playerIndex]) {
                 this.gameStart(res.players[res.playerIndex].card);
-                let outherPlayer = 1;
-
-                const myPlayer = this.FourCardsPlayers[0];
-                loadImg(`${avatarBase}/${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
-                    myPlayer.avatarUrl.spriteFrame = spriteFrame;
-                    myPlayer.noteScore.string = '0';
-                    myPlayer.cardCount && (myPlayer.cardCount.string = '54');
-                    myPlayer.score.string = '0';
-                });
-                this.playersData = res.players.map((player, index) => {
-                    if (index !== res.playerIndex) {
-                        const target = this.FourCardsPlayers[outherPlayer];
-                        player.index = outherPlayer;
-                        target.nickname.string = player.nickname;
-                        loadImg(`${avatarBase}/${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
-                            target.avatarUrl.spriteFrame = spriteFrame;
-                        });
-                        outherPlayer++;
-                    } else {
-                        player.index = 0;
-                    }
-                    return player;
-                });
 
                 // 判断自己是否可以先手出牌
                 const sendData: any = {
@@ -776,7 +776,12 @@ export default class FourCardsGame extends cc.Component {
                 this.roomExit();
                 cc.director.loadScene('Home');
             });
+        } else if (this.playersData.length === 1) {
+            this.roomExit();
+            cc.director.loadScene('Home');
         }
+
+        console.log(this.playersData.length);
     }
 
     
