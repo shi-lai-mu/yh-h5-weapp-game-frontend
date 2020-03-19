@@ -180,7 +180,10 @@ export default class Activity extends cc.Component {
                     });
                     scriptPopup.setEvent('close', () => {});
                 })
-                .catch(() => scriptPopup.message('支付时发生错误!\n请稍后再试...'))
+                .catch(() => {
+                    scriptPopup.message('支付时发生错误!\n请稍后再试...');
+                    scriptPopup.setEvent('close', () => {});
+                })
             ;
         });
         scriptPopup.setEvent('close', () => {});
