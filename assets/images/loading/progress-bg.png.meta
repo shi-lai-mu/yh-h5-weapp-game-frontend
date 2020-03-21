@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "231b4b2f-c547-45c2-9390-4322093ef807",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 678,
+  "height": 66,
   "platformSettings": {},
   "subMetas": {
     "progress-bg": {

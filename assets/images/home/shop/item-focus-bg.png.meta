@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "83fddfbf-df12-414d-95d3-378b51ec49de",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 255,
+  "height": 327,
   "platformSettings": {},
   "subMetas": {
     "item-focus-bg": {

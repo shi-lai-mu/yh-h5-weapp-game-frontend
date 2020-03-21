@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "830d1873-efb0-4160-9646-a32fe671d790",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 800,
+  "height": 803,
   "platformSettings": {},
   "subMetas": {
     "checkerboard": {

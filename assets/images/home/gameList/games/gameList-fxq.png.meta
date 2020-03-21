@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "401237f1-1386-459c-907d-b2219310f6cd",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 114,
+  "height": 147,
   "platformSettings": {},
   "subMetas": {
     "gameList-fxq": {

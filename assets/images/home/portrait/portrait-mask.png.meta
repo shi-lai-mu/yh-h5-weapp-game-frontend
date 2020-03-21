@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "2c52bfd9-771c-497b-a25b-4b621bd054ea",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 207,
+  "height": 204,
   "platformSettings": {},
   "subMetas": {
     "portrait-mask": {

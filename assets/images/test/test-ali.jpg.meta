@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "f8f89182-d377-4ca2-83eb-f82ae5b918f0",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 640,
+  "height": 640,
   "platformSettings": {},
   "subMetas": {
     "test-ali": {

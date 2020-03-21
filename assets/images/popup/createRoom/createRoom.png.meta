@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "2fc7a4d6-8050-4fe7-ba2f-4b75afae3c49",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 297,
+  "height": 66,
   "platformSettings": {},
   "subMetas": {
     "createRoom": {

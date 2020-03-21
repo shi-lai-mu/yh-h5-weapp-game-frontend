@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "d7534daf-dcd4-40f2-a039-3b603d5dd845",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 682,
+  "height": 173,
   "platformSettings": {},
   "subMetas": {
     "pd-random-room": {

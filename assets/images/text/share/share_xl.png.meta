@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "620afa9a-39b1-4256-aca7-41263c719cd3",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 166,
+  "height": 48,
   "platformSettings": {},
   "subMetas": {
     "share_xl": {

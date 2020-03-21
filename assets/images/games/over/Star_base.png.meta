@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "93470ac8-f53a-4b3f-9cb0-57211ee780b6",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 125,
+  "height": 119,
   "platformSettings": {},
   "subMetas": {
     "Star_base": {

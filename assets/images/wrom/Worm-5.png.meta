@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "fa3d9605-4836-4bcd-90f5-c16d153b115c",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 146,
+  "height": 80,
   "platformSettings": {},
   "subMetas": {
     "Worm-5": {

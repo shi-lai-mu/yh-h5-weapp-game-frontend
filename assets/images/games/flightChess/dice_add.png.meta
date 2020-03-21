@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "8025efe6-2714-45ad-8577-7572da1ea691",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 295,
+  "height": 37,
   "platformSettings": {},
   "subMetas": {
     "dice_add": {

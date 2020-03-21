@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "6127c7cd-da14-43f4-957d-a08efaedb61e",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 290,
+  "height": 95,
   "platformSettings": {},
   "subMetas": {
     "createRoom_btn": {

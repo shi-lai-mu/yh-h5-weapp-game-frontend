@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "107a757c-c30b-4c95-8918-7ef5585284e3",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 653,
+  "height": 45,
   "platformSettings": {},
   "subMetas": {
     "Progress": {

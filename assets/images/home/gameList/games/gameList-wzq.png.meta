@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "fff9362d-fcee-4111-85ca-e1b646647c41",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 114,
+  "height": 146,
   "platformSettings": {},
   "subMetas": {
     "gameList-wzq": {
