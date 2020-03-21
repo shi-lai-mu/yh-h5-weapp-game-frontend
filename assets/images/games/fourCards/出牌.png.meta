@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "f5df33d9-7b97-494c-9df7-d5139efb9481",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 124,
+  "height": 70,
   "platformSettings": {},
   "subMetas": {
     "出牌": {

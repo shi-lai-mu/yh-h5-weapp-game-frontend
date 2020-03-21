@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "8bb451ba-9811-4e86-9fdb-4dd5677151f9",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 329,
+  "height": 87,
   "platformSettings": {},
   "subMetas": {
     "crystal-col": {

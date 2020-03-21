@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "716bf17d-7b15-4a19-9f47-faf9db8c417e",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 40,
+  "height": 33,
   "platformSettings": {},
   "subMetas": {
     "Basket icon": {

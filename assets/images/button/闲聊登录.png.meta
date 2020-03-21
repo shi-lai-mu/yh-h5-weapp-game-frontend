@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "9b6ce690-c484-4ffa-8d4b-0c88a7f3ea4d",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 291,
+  "height": 96,
   "platformSettings": {},
   "subMetas": {
     "闲聊登录": {

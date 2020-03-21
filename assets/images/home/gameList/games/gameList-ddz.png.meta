@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "77858e94-5b17-428d-900f-180a93397d60",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 160,
+  "height": 205,
   "platformSettings": {},
   "subMetas": {
     "gameList-ddz": {

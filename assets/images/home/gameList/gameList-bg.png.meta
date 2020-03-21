@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "e097b9c4-7242-4f07-a2b7-eaf521e42506",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 1180,
+  "height": 708,
   "platformSettings": {},
   "subMetas": {
     "gameList-bg": {

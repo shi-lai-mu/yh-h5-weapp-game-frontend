@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "1e34e600-22b4-4634-8e43-4645849cb2da",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 211,
+  "height": 70,
   "platformSettings": {},
   "subMetas": {
     "桌面分_": {

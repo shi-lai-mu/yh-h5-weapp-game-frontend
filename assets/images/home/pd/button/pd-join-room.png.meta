@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "807326dc-75bf-4f24-9c06-b3f6d4fd7c32",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 681,
+  "height": 174,
   "platformSettings": {},
   "subMetas": {
     "pd-join-room": {

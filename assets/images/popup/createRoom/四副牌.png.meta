@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "c6f01d51-5089-45ab-9069-6f7524e63f8f",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 166,
+  "height": 47,
   "platformSettings": {},
   "subMetas": {
     "四副牌": {

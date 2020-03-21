@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "45469052-9250-4562-9a99-b1a12c68d92c",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 289,
+  "height": 91,
   "platformSettings": {},
   "subMetas": {
     "pd-world": {

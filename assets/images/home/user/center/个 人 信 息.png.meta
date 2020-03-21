@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "3791d691-2779-47a5-aaa8-dff2a122e4d2",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 222,
+  "height": 51,
   "platformSettings": {},
   "subMetas": {
     "个 人 信 息": {

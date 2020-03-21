@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "62bfe03b-e6fa-493e-b731-3b9524cb51d0",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 432,
+  "height": 136,
   "platformSettings": {},
   "subMetas": {
     "login_but": {

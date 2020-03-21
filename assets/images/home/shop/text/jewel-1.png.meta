@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "c20ed94a-224e-4711-addd-619ec7d59d7b",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 46,
+  "height": 39,
   "platformSettings": {},
   "subMetas": {
     "jewel-1": {
