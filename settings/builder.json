@@ -1,7 +1,7 @@
 {
   "title": "You_Hui_Game",
   "packageName": "",
-  "startScene": "9526930a-7dbe-4167-bacd-90e90b4ad12c",
+  "startScene": "0b7da469-5226-4405-aad7-56210d04d191",
   "excludeScenes": [],
   "includeSDKBox": false,
   "orientation": {
@@ -15,7 +15,7 @@
   "inlineSpriteFrames_native": true,
   "mergeStartScene": false,
   "optimizeHotUpdate": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "encryptJs": false,
   "xxteaKey": "c660ec7f-b8ed-46",
   "zipCompressJs": true,
