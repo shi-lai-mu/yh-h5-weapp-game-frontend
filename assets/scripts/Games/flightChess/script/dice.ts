@@ -22,25 +22,27 @@ export default class NewClass extends cc.Component {
     targetIndex: number = 0;
 
     /**
+     * 点击时触发的事件
+     */
+    onClickEvent: any;
+
+    /**
      * 旋转秒数[ms]
      */
     time: number = 1000;
 
-    start () {
-
-    }
-
-    async onClick() {
+    async onClick(num: number) {
         return new Promise((resolve, reject) => {
             let updateCount = 0;
             const clock = setInterval(() => {
                 updateCount++;
-                this.dice[this.targetIndex].node.opacity = 0;
-                const random = Math.random() * 6 | 0;
-                this.dice[random].node.opacity = 255;
+                this.dice[this.targetIndex].node.active = false;
+                const random = typeof num === 'number' ? num : Math.random() * 6 | 0;
+                this.dice[random].node.active = true;
                 this.targetIndex = random;
                 if (updateCount === 30) {
                     resolve(random);
+                    this.onClickEvent && this.onClickEvent(random);
                     clearInterval(clock);
                 }
             }, this.time / 30);
