@@ -59,7 +59,7 @@ export default class FilghtChess extends cc.Component {
         playerIndex: 0,
     };
     // 允许起飞点数
-    takeOff = [ 6, 3 ];
+    takeOff = [ 1,2,3,4,5,6, 6, 3 ];
     // 行走点数
     setpNumber = -1;
 
@@ -173,10 +173,10 @@ export default class FilghtChess extends cc.Component {
                 this.moveChess(targetSprite, tStartPoint);
                 gameData.chess[playerIndex][chessIndex] = -1;
             } else if (targetChess !== -2) {
-                console.log((targetChess === -1 ? notePoint[playerIndex].out : targetChess) + setpNumber);
-                const nextIndex = (targetChess === -1 ? notePoint[playerIndex].out - 1 : targetChess) + setpNumber;
+                const outIndex =  notePoint[playerIndex].out - 1;
+                const nextIndex = (targetChess === -1 ? outIndex : targetChess) + setpNumber;
                 if (targetChess === -1) {
-                    gameData.chess[playerIndex][chessIndex] = notePoint[playerIndex].out - 1;
+                    gameData.chess[playerIndex][chessIndex] = outIndex;
                 }
                 this.moveChess(targetSprite, false, .5, {
                     to: nextIndex,
@@ -247,20 +247,48 @@ export default class FilghtChess extends cc.Component {
             to: number;
             from: number[];
             index: number;
+            noJump?: boolean;
         },
     ) {
-        console.log('move', point);
-
+        const { playerIndex } = this.roomInfo;
+        const tNotePoint = notePoint[playerIndex];
+        // 定位移动
         if (move) {
             let moveSpace = move.to - move.from[move.index];
+            moveSpace = moveSpace > 1 ? moveSpace + 1 : moveSpace;
             const moveTo = () => {
-                if (moveSpace <= 1) clearInterval(clock);
                 move.from[move.index]++;
                 moveSpace--;
                 this.moveChess(chess, chessPoint[move.from[move.index]]);
+                if (moveSpace <= 1) {
+                    clearInterval(clock);
+                    // 起飞点检测
+                    if (move.from[move.index] === tNotePoint.start) {
+                        // 跳到起飞点后再起飞
+                        setTimeout(() => {
+                            this.moveChess(chess, chessPoint[tNotePoint.end], 1.5);
+                            move.from[move.index] = tNotePoint.end;
+                            // 降落后跳四格
+                            setTimeout(() => {
+                                move.to = tNotePoint.end + 4;
+                                move.noJump = true;
+                                this.moveChess(chess, point, duration, move);
+                            }, 1500);
+                        }, 500);
+                    }
+                }
+            }
+            const clock = setInterval(moveTo, 500);
+            // 判断是否跳跃
+            const endIndex = move.from[move.index] + moveSpace + (moveSpace > 1 ? -1 : 0);
+            if (
+                (endIndex) % 4 === playerIndex
+                && endIndex !== tNotePoint.start
+                && !move.noJump
+            ) {
+                moveSpace += 4 + (moveSpace > 1 ? 0 : 1);
             }
             moveTo();
-            const clock = setInterval(moveTo, 500);
             return;
         }
 
