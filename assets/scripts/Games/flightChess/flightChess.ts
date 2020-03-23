@@ -168,15 +168,22 @@ export default class FilghtChess extends cc.Component {
             const targetChess = gameData.chess[playerIndex][chessIndex];
             const targetSprite = this.filghtPlayer[playerIndex].pedestal[chessIndex];
             // 检测是否允许玩家出棋
-            if (targetChess === -2 && this.takeOff.indexOf(setpNumber) !== -1) {
+            if (targetChess === -2 && takeOff.indexOf(setpNumber) !== -1) {
                 const tStartPoint = startPoint[playerIndex];
                 this.moveChess(targetSprite, tStartPoint);
                 gameData.chess[playerIndex][chessIndex] = -1;
             } else if (targetChess !== -2) {
                 console.log((targetChess === -1 ? notePoint[playerIndex].out : targetChess) + setpNumber);
                 const nextIndex = (targetChess === -1 ? notePoint[playerIndex].out - 1 : targetChess) + setpNumber;
-                this.moveChess(targetSprite, chessPoint[nextIndex]);
-                gameData.chess[playerIndex][chessIndex] = nextIndex;
+                if (targetChess === -1) {
+                    gameData.chess[playerIndex][chessIndex] = notePoint[playerIndex].out - 1;
+                }
+                this.moveChess(targetSprite, false, .5, {
+                    to: nextIndex,
+                    from: gameData.chess[playerIndex],
+                    index: chessIndex,
+                });
+                // gameData.chess[playerIndex][chessIndex] = nextIndex;
             }
         }
     }
@@ -232,16 +239,41 @@ export default class FilghtChess extends cc.Component {
      * @param point    坐标 [x, y, ?rotate, ?duration]
      * @param duration 动画过度时间
      */
-    moveChess(chess: cc.Sprite, point: number[], duration: number = .5) {
+    moveChess(
+        chess: cc.Sprite,
+        point: number[] | false,
+        duration: number = .5,
+        move?: {
+            to: number;
+            from: number[];
+            index: number;
+        },
+    ) {
         console.log('move', point);
-        chess.node.runAction(
-            cc.moveTo(point[3] || duration, point[0], point[1])
-        );
-        if (point[2] !== undefined) {
-            chess.node.runAction(
-                cc.rotateTo(duration, point[2])
-            );
+
+        if (move) {
+            let moveSpace = move.to - move.from[move.index];
+            const moveTo = () => {
+                if (moveSpace <= 1) clearInterval(clock);
+                move.from[move.index]++;
+                moveSpace--;
+                this.moveChess(chess, chessPoint[move.from[move.index]]);
+            }
+            moveTo();
+            const clock = setInterval(moveTo, 500);
+            return;
         }
-        this.setpNumber = -1;
+
+        if (point) {
+            chess.node.runAction(
+                cc.moveTo(point[3] || duration, point[0], point[1])
+            );
+            if (point[2] !== undefined) {
+                chess.node.runAction(
+                    cc.rotateTo(duration, point[2])
+                );
+            }
+            this.setpNumber = -1;
+        }
     }
 }
