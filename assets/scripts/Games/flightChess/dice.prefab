@@ -164,7 +164,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "1<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 2
@@ -222,7 +222,7 @@
     "_prefab": {
       "__id__": 7
     },
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -271,7 +271,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "2<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 5
@@ -329,7 +329,7 @@
     "_prefab": {
       "__id__": 10
     },
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -378,7 +378,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "3<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 8
@@ -436,7 +436,7 @@
     "_prefab": {
       "__id__": 13
     },
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -485,7 +485,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "4<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 11
@@ -543,7 +543,7 @@
     "_prefab": {
       "__id__": 16
     },
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -592,7 +592,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "5<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 14
@@ -650,7 +650,7 @@
     "_prefab": {
       "__id__": 19
     },
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -699,7 +699,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "6<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 17
@@ -742,7 +742,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "dice<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 1

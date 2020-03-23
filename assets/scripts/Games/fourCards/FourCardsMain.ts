@@ -181,7 +181,6 @@ export default class FourCardsGame extends cc.Component {
      */
     onGameData(data: any) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
-        console.log(data.msg);
         data.callback && data.msg && this[data.callback](data.msg);
     }
 

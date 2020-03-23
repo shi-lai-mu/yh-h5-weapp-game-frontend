@@ -31,13 +31,20 @@ export default class NewClass extends cc.Component {
      */
     time: number = 1000;
 
+
+    onLoad() {
+        this.dice.forEach(dice => dice.node.active = false);
+        this.dice[0].node.active = true;
+    }
+
+
     async onClick(num: number) {
         return new Promise((resolve, reject) => {
             let updateCount = 0;
             const clock = setInterval(() => {
                 updateCount++;
                 this.dice[this.targetIndex].node.active = false;
-                const random = typeof num === 'number' ? num : Math.random() * 6 | 0;
+                const random = typeof num === 'number' ? num : (Math.random() * 6 | 0);
                 this.dice[random].node.active = true;
                 this.targetIndex = random;
                 if (updateCount === 30) {
