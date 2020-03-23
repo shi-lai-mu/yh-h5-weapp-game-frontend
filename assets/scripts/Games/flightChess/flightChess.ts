@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import { startPoint, chessPoint, notePoint } from './flightGameData';
+import { startPoint, chessPoint, notePoint, centerPedestal } from './flightGameData';
 import { FlightPlayersData } from '../../interface/game/flightChess';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
@@ -134,16 +134,13 @@ export default class FilghtChess extends cc.Component {
         index: number;
         flyIndex: number; // 棋子下标 如果当前棋子下标为-1则为出棋，否则为行走步数
     }) {
-        console.log(ioData);
         const romm = this.roomInfo;
         // 获取目标棋子
         ioData.dice++;
         const targetChess = this.roomInfo.gameData.chess[ioData.index];
 
         // 为自己的回合
-        console.log('-> ' + ioData.dice, romm.playerIndex === ioData.index, romm.playerIndex, ioData.index);
         if (romm.playerIndex === ioData.index) {
-            console.log(ioData.dice);
             // 如果还有未起飞的棋子 且当前骰子点数为起飞点
             if (this.takeOff.indexOf(ioData.dice) !== -1 && targetChess.some(num => num === -2)) {
                 // 高亮闪动显示未起飞的飞机
@@ -250,20 +247,39 @@ export default class FilghtChess extends cc.Component {
             noJump?: boolean;
         },
     ) {
+        // console.log(move);
         const { playerIndex } = this.roomInfo;
         const tNotePoint = notePoint[playerIndex];
         // 定位移动
         if (move) {
             let moveSpace = move.to - move.from[move.index];
             moveSpace = moveSpace > 1 ? moveSpace + 1 : moveSpace;
+            console.log('moveSpace ', move.to, move.to - move.from[move.index], move.from[move.index]);
+            let moveSetp = 1;
             const moveTo = () => {
-                move.from[move.index]++;
+                move.from[move.index] += moveSetp;
                 moveSpace--;
-                this.moveChess(chess, chessPoint[move.from[move.index]]);
+                const moveIndex = move.from[move.index];
+                console.log(moveIndex, moveSpace);
+                // 前往中央转折
+                if (moveIndex > tNotePoint.in) {
+                    const centerMove = moveIndex - tNotePoint.in - 1;
+                    const centerPoint = centerPedestal[playerIndex][centerMove];
+                    this.moveChess(chess, centerPoint);
+                    if (!centerPoint) {
+                        moveSetp = -1;
+                        move.from[move.index] += moveSetp;
+                        this.moveChess(chess, centerPedestal[playerIndex][centerMove]);
+                    }
+                    console.log(moveIndex - tNotePoint.in, centerPoint);
+                } else {
+                    this.moveChess(chess, chessPoint[moveIndex]);
+                }
+
                 if (moveSpace <= 1) {
                     clearInterval(clock);
                     // 起飞点检测
-                    if (move.from[move.index] === tNotePoint.start) {
+                    if (moveIndex === tNotePoint.start) {
                         // 跳到起飞点后再起飞
                         setTimeout(() => {
                             this.moveChess(chess, chessPoint[tNotePoint.end], 1.5);
