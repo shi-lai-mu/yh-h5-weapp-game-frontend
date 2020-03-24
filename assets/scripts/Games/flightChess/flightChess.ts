@@ -14,8 +14,8 @@ import { FlightPlayersData } from '../../interface/game/flightChess';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
 
-const FilghtPlayer = cc.Class({
-    name: 'FilghtPlayer',
+const FlightPlayer = cc.Class({
+    name: 'FlightPlayer',
     properties: {
         id: -1,
         nickName: cc.Label,
@@ -29,9 +29,9 @@ const FilghtPlayer = cc.Class({
 let index = 0;
 
 @ccclass
-export default class FilghtChess extends cc.Component {
+export default class FlightChess extends cc.Component {
     // 玩家坐标数据
-    @property(FilghtPlayer) filghtPlayer: FlightPlayersData[] = [];
+    @property(FlightPlayer) FlightPlayer: FlightPlayersData[] = [];
     // 加一掷骰子的机会
     @property(cc.Node) addDiceCount: cc.Node = null;
     // 完成状态的图片
@@ -56,7 +56,7 @@ export default class FilghtChess extends cc.Component {
         },
         players: [],
         roomCode: '123456',
-        playerIndex: 0,
+        playerIndex: 1,
     };
     // 允许起飞点数
     takeOff = [ 1,2,3,4,5,6, 6, 3 ];
@@ -75,16 +75,29 @@ export default class FilghtChess extends cc.Component {
         this.dice.getComponent('dice').onClickEvent = this.diceOut.bind(this);
 
         // 初始化
-        this.filghtPlayer[this.roomInfo.playerIndex].pedestal.forEach((pedestal, index) => {
-            const eventHandler = new cc.Component.EventHandler();
-            eventHandler.target = this.node; 
-            eventHandler.component = 'flightChess';
-            eventHandler.handler = 'chessTakeOff';
-            eventHandler.customEventData = index.toString();
-            const newButton = pedestal.node.addComponent(cc.Button);
-            newButton.clickEvents.push(eventHandler);
-            console.log(index);
-        });
+        // this.FlightPlayer[this.roomInfo.playerIndex].pedestal.forEach((pedestal, index) => {
+        //     const eventHandler = new cc.Component.EventHandler();
+        //     eventHandler.target = this.node; 
+        //     eventHandler.component = 'flightChess';
+        //     eventHandler.handler = 'chessTakeOff';
+        //     eventHandler.customEventData = index.toString();
+        //     const newButton = pedestal.node.addComponent(cc.Button);
+        //     newButton.clickEvents.push(eventHandler);
+        //     console.log(index);
+        // });
+
+        this.FlightPlayer.forEach(player => {
+            player.pedestal.forEach((pedestal, index) => {
+                const eventHandler = new cc.Component.EventHandler();
+                eventHandler.target = this.node; 
+                eventHandler.component = 'flightChess';
+                eventHandler.handler = 'chessTakeOff';
+                eventHandler.customEventData = index.toString();
+                const newButton = pedestal.node.addComponent(cc.Button);
+                newButton.clickEvents.push(eventHandler);
+                console.log(index);
+            });
+        })
 
         // 模拟测试
         this.gameStart(this.roomInfo);
@@ -163,7 +176,7 @@ export default class FilghtChess extends cc.Component {
         console.log(setpNumber);
         if (setpNumber !== -1) {
             const targetChess = gameData.chess[playerIndex][chessIndex];
-            const targetSprite = this.filghtPlayer[playerIndex].pedestal[chessIndex];
+            const targetSprite = this.FlightPlayer[playerIndex].pedestal[chessIndex];
             // 检测是否允许玩家出棋
             if (targetChess === -2 && takeOff.indexOf(setpNumber) !== -1) {
                 const tStartPoint = startPoint[playerIndex];
@@ -223,7 +236,7 @@ export default class FilghtChess extends cc.Component {
             msg: {
                 dice,
                 // index: index++,
-                index: 0,
+                index: 1,
                 flyIndex: -1,
             },
         });
@@ -233,7 +246,7 @@ export default class FilghtChess extends cc.Component {
     /**
      * 移动棋子到指定位置
      * @param chess    棋子
-     * @param point    坐标 [x, y, ?rotate, ?duration]
+     * @param point    坐标 [x, y, rotate?, duration?]
      * @param duration 动画过度时间
      */
     moveChess(
@@ -265,16 +278,15 @@ export default class FilghtChess extends cc.Component {
                 if (moveIndex > tNotePoint.in) {
                     const centerMove = moveIndex - tNotePoint.in - 1;
                     const centerPoint = centerPedestal[playerIndex][centerMove];
-                    this.moveChess(chess, centerPoint);
+                    
                     if (!centerPoint) {
                         moveSetp = -1;
-                        move.from[move.index] += moveSetp;
                         this.moveChess(chess, centerPedestal[playerIndex][centerMove]);
+                        move.from[move.index] += moveSetp;
                     }
+                    this.moveChess(chess, centerPoint);
                     console.log(moveIndex - tNotePoint.in, centerPoint);
-                } else {
-                    this.moveChess(chess, chessPoint[moveIndex]);
-                }
+                } else this.moveChess(chess, chessPoint[moveIndex]);
 
                 if (moveSpace <= 1) {
                     clearInterval(clock);
@@ -301,7 +313,9 @@ export default class FilghtChess extends cc.Component {
                 (endIndex) % 4 === playerIndex
                 && endIndex !== tNotePoint.start
                 && !move.noJump
+                && move.from[move.index] + moveSpace < tNotePoint.in
             ) {
+                console.log('+4');
                 moveSpace += 4 + (moveSpace > 1 ? 0 : 1);
             }
             moveTo();
