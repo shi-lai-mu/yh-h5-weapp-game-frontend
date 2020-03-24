@@ -214,6 +214,7 @@ export default class FlightChess extends cc.Component {
     gameStart(gameData: any) {
         console.log(gameData);
         this.roomCode.string = '房间号: ' + gameData.roomCode;
+        // 初始化房主信息
     }
 
 
@@ -317,7 +318,7 @@ export default class FlightChess extends cc.Component {
                                 ? 180 : i === 2
                                 ? -90 : 0
                             ;
-                            console.log(flyData);
+                            // console.log(flyData);
                             this.moveChess(chess, flyData, 1.5);
                             move.from[move.index] = tNotePoint.end;
                             // 降落后跳四格
