@@ -303,7 +303,6 @@ export default class FlightChess extends cc.Component {
                 if (moveIndex > chessPoint.length - 1) {
                     moveIndex = move.from[move.index] = 1;
                 }
-                this.moveChess(chess, chessPoint[moveIndex]);
 
                 if (moveSpace <= 1) {
                     clearInterval(clock);
@@ -311,7 +310,15 @@ export default class FlightChess extends cc.Component {
                     if (moveIndex === tNotePoint.start) {
                         // 跳到起飞点后再起飞
                         setTimeout(() => {
-                            this.moveChess(chess, chessPoint[tNotePoint.end], 1.5);
+                            const flyData = chessPoint[tNotePoint.end];
+                            const i = playerIndex;
+                            flyData[2] = i === 0
+                                ? 90 : i === 1
+                                ? 180 : i === 2
+                                ? -90 : 0
+                            ;
+                            console.log(flyData);
+                            this.moveChess(chess, flyData, 1.5);
                             move.from[move.index] = tNotePoint.end;
                             // 降落后跳四格
                             setTimeout(() => {
@@ -322,6 +329,7 @@ export default class FlightChess extends cc.Component {
                         }, 500);
                     }
                 }
+                this.moveChess(chess, chessPoint[moveIndex]);
             }
             // const clock = setInterval(moveTo, 100);
             // 判断是否跳跃
