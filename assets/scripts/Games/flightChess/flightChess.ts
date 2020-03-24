@@ -48,10 +48,10 @@ export default class FlightChess extends cc.Component {
     roomInfo = {
         gameData: {
             chess: [
-              [-2, -2, -2, -2,],
-              [-2, -2, -2, -2,],
-              [-2, -2, -2, -2,],
-              [-2, -2, -2, -2,],
+              [ -2, -2, -2, -2 ],
+              [ -2, -2, -2, -2 ],
+              [ -2, -2, -2, -2 ],
+              [ -2, -2, -2, -2 ],
             ],
         },
         players: [],
@@ -263,30 +263,47 @@ export default class FlightChess extends cc.Component {
         // console.log(move);
         const { playerIndex } = this.roomInfo;
         const tNotePoint = notePoint[playerIndex];
+        let clock;
         // 定位移动
         if (move) {
             let moveSpace = move.to - move.from[move.index];
             moveSpace = moveSpace > 1 ? moveSpace + 1 : moveSpace;
-            console.log('moveSpace ', move.to, move.to - move.from[move.index], move.from[move.index]);
+            // console.log('moveSpace ', move.to, move.to - move.from[move.index], move.from[move.index]);
             let moveSetp = 1;
             const moveTo = () => {
-                move.from[move.index] += moveSetp;
-                moveSpace--;
-                const moveIndex = move.from[move.index];
-                console.log(moveIndex, moveSpace);
+                let moveIndex = move.from[move.index];
                 // 前往中央转折
-                if (moveIndex > tNotePoint.in) {
-                    const centerMove = moveIndex - tNotePoint.in - 1;
-                    const centerPoint = centerPedestal[playerIndex][centerMove];
-                    
-                    if (!centerPoint) {
-                        moveSetp = -1;
-                        this.moveChess(chess, centerPedestal[playerIndex][centerMove]);
-                        move.from[move.index] += moveSetp;
+                if (moveIndex === tNotePoint.in || moveIndex >> 0 === tNotePoint.in) {
+                    if (moveIndex >= tNotePoint.in + .6) moveSetp = -0.1;
+                    if (moveSetp === 1) {
+                        moveSetp = 0.1;
+                        playerIndex === 1 && moveSpace++;
+                    };
+                    console.log(moveSpace, moveIndex, moveSpace);
+                    moveIndex = move.from[move.index] += moveSetp;
+                    let moveI = (((moveIndex - tNotePoint.in) * 10) >> 0) - 1;
+                    if (moveI === -1) moveI = 0;
+                    const centerPoint = centerPedestal[playerIndex][moveI];
+                    console.log(moveI);
+                    // 如果当前剩余2次（因为延迟-1）或投中1点 进入最后一个位置则判定完成
+                    if ((moveSpace === 2 || moveSpace === 1) && moveI === 5) {
+                        console.log('fly over');
+                        clearInterval(clock);
                     }
                     this.moveChess(chess, centerPoint);
-                    console.log(moveIndex - tNotePoint.in, centerPoint);
-                } else this.moveChess(chess, chessPoint[moveIndex]);
+                    moveSpace--;
+                    if (moveSpace <= 1) clearInterval(clock);
+                    return;
+                }
+                move.from[move.index] += moveSetp;
+                moveSpace--;
+                
+                moveIndex = move.from[move.index];
+                // console.log(moveIndex, moveSpace, tNotePoint.in);
+                if (moveIndex > chessPoint.length - 1) {
+                    moveIndex = move.from[move.index] = 1;
+                }
+                this.moveChess(chess, chessPoint[moveIndex]);
 
                 if (moveSpace <= 1) {
                     clearInterval(clock);
@@ -306,17 +323,22 @@ export default class FlightChess extends cc.Component {
                     }
                 }
             }
-            const clock = setInterval(moveTo, 500);
+            // const clock = setInterval(moveTo, 100);
             // 判断是否跳跃
+            // console.log(move.from[move.index], moveSpace, tNotePoint.in);
             const endIndex = move.from[move.index] + moveSpace + (moveSpace > 1 ? -1 : 0);
             if (
                 (endIndex) % 4 === playerIndex
                 && endIndex !== tNotePoint.start
                 && !move.noJump
-                && move.from[move.index] + moveSpace < tNotePoint.in
+                && move.from[move.index] + moveSpace - 1 !== tNotePoint.in
+                && move.from[move.index] !== tNotePoint.in
             ) {
-                console.log('+4');
+                // console.log(move.index, moveSpace, '+4');
                 moveSpace += 4 + (moveSpace > 1 ? 0 : 1);
+            }
+            if (moveSpace !== 1) {
+                clock = setInterval(moveTo, 500);
             }
             moveTo();
             return;
@@ -331,7 +353,7 @@ export default class FlightChess extends cc.Component {
                     cc.rotateTo(duration, point[2])
                 );
             }
-            this.setpNumber = -1;
+            // this.setpNumber = -1;
         }
     }
 }

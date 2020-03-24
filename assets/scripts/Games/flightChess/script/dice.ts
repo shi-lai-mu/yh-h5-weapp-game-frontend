@@ -29,7 +29,7 @@ export default class NewClass extends cc.Component {
     /**
      * 旋转秒数[ms]
      */
-    time: number = 1000;
+    time: number = 1;
 
 
     onLoad() {
