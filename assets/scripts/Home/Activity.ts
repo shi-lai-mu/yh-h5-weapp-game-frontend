@@ -27,56 +27,27 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Activity extends cc.Component {
 
-    @property(cc.Node)
-    maskBox: cc.Node = null;
-
-    /**
-     * 主盒子
-     */
-    @property(cc.Node)
-    mainBox: cc.Node = null;
-
-    /**
-     * 主盒子内容
-     */
-    @property(cc.Label)
-    mainContent: cc.Label = null;
-
-    /**
-     * 左侧盒子
-     */
-    @property(cc.Node)
-    leftTopBox: cc.Node = null;
-
-    /**
-     * 左侧内容盒子节点
-     */
-    @property(cc.Node)
-    activityListBox: cc.Node = null;
-
-    /**
-     * prefab 资源
-     */
-    @property(cc.Prefab)
-    activityListPrefab: cc.Prefab = null;
-
-    /**
-     * 活动数据
-     */
-    @property(Item)
-    activityData: typeof Item[] = [];
-
-    /**
-     * 只初始化一次
-     */
-    @property({ visible: !1 })
-    rendererOnly: boolean = !1;
+    @property(cc.Node) maskBox: cc.Node = null;
+    // 主盒子
+    @property(cc.Node) mainBox: cc.Node = null;
+    // 主盒子内容
+    @property(cc.Label) mainContent: cc.Label = null;
+    // 左侧盒子
+    @property(cc.Node) leftTopBox: cc.Node = null;
+    // 左侧内容盒子节点
+    @property(cc.Node) activityListBox: cc.Node = null;
+    // prefab 资源
+    @property(cc.Prefab) activityListPrefab: cc.Prefab = null;
+    // 活动数据
+    @property(Item) activityData: typeof Item[] = [];
+    // 只初始化一次
+    @property({ visible: !1 }) rendererOnly: boolean = !1;
 
 
     start () {
-        // this.activityPopupHide();
-        // this.activityPopupShow();
         this.fetchactivityRequest();
+        console.log('active');
+        this.mainContent.string = '活动内容获取失败!';
     }
     
 
@@ -128,6 +99,6 @@ export default class Activity extends cc.Component {
             });
         });
     }
+    
 
-    // update (dt) {}
 }

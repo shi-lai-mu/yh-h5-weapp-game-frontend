@@ -27,5 +27,4 @@ export default class Toggle extends cc.Component {
         console.log(this.parent);
         this.parent.toggleEvent(this.value || text, text);
     }
-    // update (dt) {}
 }
