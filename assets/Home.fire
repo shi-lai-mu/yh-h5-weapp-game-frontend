@@ -201,7 +201,7 @@
       "array": [
         0,
         5,
-        545.9613588514179,
+        549.9261314031186,
         0,
         0,
         0,
@@ -6049,7 +6049,7 @@
     "component": "",
     "_componentId": "b978fxAiepGxZh12NplIlBz",
     "handler": "openGame",
-    "customEventData": "gamesFlightChess"
+    "customEventData": "gameFlightChess"
   },
   {
     "__type__": "cc.Sprite",

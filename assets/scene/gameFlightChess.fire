@@ -2206,8 +2206,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "玩家1",
-    "_N$string": "玩家1",
+    "_string": "...",
+    "_N$string": "...",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2782,8 +2782,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "玩家2",
-    "_N$string": "玩家2",
+    "_string": "...",
+    "_N$string": "...",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3126,8 +3126,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "玩家3",
-    "_N$string": "玩家3",
+    "_string": "...",
+    "_N$string": "...",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3470,8 +3470,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "玩家4",
-    "_N$string": "玩家4",
+    "_string": "...",
+    "_N$string": "...",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,

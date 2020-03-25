@@ -41,9 +41,14 @@ export default class NewClass extends cc.Component {
             ? radio3 : radio4.isChecked
             ? radio4 : false
         ;
+
+        radio1.getComponent('toggle').parent = this
+        radio2.getComponent('toggle').parent = this
+        radio3.getComponent('toggle').parent = this
+        radio4.getComponent('toggle').parent = this
+
         if (target) {
             const script = target.getComponent('toggle');
-            script.parent = this;
             script.onClick();
         }
     }

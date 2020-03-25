@@ -12,7 +12,7 @@ const {ccclass, property} = cc._decorator;
 
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Toggle extends cc.Component {
 
     parent: any = null;
 
@@ -24,6 +24,7 @@ export default class NewClass extends cc.Component {
 
     onClick() {
         const text = this.text.string;
+        console.log(this.parent);
         this.parent.toggleEvent(this.value || text, text);
     }
     // update (dt) {}

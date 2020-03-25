@@ -90,6 +90,7 @@ export default class GoBangMainService extends cc.Component {
         this.fetchRoomInfo();
         State.io.on('room/data', this.roomDataEevent);
         State.io.on('rommleave', this.roomExitEevent);
+        cc.loader.setAutoReleaseRecursively('fc30fbe0-1668-4af2-8dcb-a798b469719b', true);
     }
 
 

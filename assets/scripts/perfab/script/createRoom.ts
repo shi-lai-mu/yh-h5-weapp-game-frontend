@@ -37,6 +37,17 @@ const gameOption = {
         keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
         scene: 'gameFourCards',
     },
+    flightChess: {
+        name: '飞行棋',
+        room: [
+            [ '人数', '4人' ],
+            [ '局数', '1局' ],
+            [ '起飞', '6点', '3点', '3、6点' ],
+            [ '密码', '公开' ],
+        ],
+        keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
+        scene: 'gameFlightChess',
+    },
 }
 /**
  * 选项实例
