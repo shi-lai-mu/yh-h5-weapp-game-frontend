@@ -75,29 +75,29 @@ export default class FlightChess extends cc.Component {
         this.dice.getComponent('dice').onClickEvent = this.diceOut.bind(this);
 
         // 初始化
-        // this.FlightPlayer[this.roomInfo.playerIndex].pedestal.forEach((pedestal, index) => {
-        //     const eventHandler = new cc.Component.EventHandler();
-        //     eventHandler.target = this.node; 
-        //     eventHandler.component = 'flightChess';
-        //     eventHandler.handler = 'chessTakeOff';
-        //     eventHandler.customEventData = index.toString();
-        //     const newButton = pedestal.node.addComponent(cc.Button);
-        //     newButton.clickEvents.push(eventHandler);
-        //     console.log(index);
-        // });
+        this.FlightPlayer[this.roomInfo.playerIndex].pedestal.forEach((pedestal, index) => {
+            const eventHandler = new cc.Component.EventHandler();
+            eventHandler.target = this.node; 
+            eventHandler.component = 'flightChess';
+            eventHandler.handler = 'chessTakeOff';
+            eventHandler.customEventData = index.toString();
+            const newButton = pedestal.node.addComponent(cc.Button);
+            newButton.clickEvents.push(eventHandler);
+            console.log(index);
+        });
 
-        this.FlightPlayer.forEach(player => {
-            player.pedestal.forEach((pedestal, index) => {
-                const eventHandler = new cc.Component.EventHandler();
-                eventHandler.target = this.node; 
-                eventHandler.component = 'flightChess';
-                eventHandler.handler = 'chessTakeOff';
-                eventHandler.customEventData = index.toString();
-                const newButton = pedestal.node.addComponent(cc.Button);
-                newButton.clickEvents.push(eventHandler);
-                console.log(index);
-            });
-        })
+        // this.FlightPlayer.forEach(player => {
+        //     player.pedestal.forEach((pedestal, index) => {
+        //         const eventHandler = new cc.Component.EventHandler();
+        //         eventHandler.target = this.node; 
+        //         eventHandler.component = 'flightChess';
+        //         eventHandler.handler = 'chessTakeOff';
+        //         eventHandler.customEventData = index.toString();
+        //         const newButton = pedestal.node.addComponent(cc.Button);
+        //         newButton.clickEvents.push(eventHandler);
+        //         console.log(index);
+        //     });
+        // })
 
         // 模拟测试
         this.gameStart(this.roomInfo);
@@ -173,7 +173,7 @@ export default class FlightChess extends cc.Component {
         const { setpNumber, roomInfo, takeOff } = this;
         const { playerIndex, gameData } = roomInfo;
 
-        console.log(setpNumber);
+        // console.log(setpNumber);
         if (setpNumber !== -1) {
             const targetChess = gameData.chess[playerIndex][chessIndex];
             const targetSprite = this.FlightPlayer[playerIndex].pedestal[chessIndex];

@@ -39,6 +39,8 @@ export default class Activity extends cc.Component {
     @property(cc.Prefab) shopItemPrefab: cc.Prefab = null;
     // 弹窗资源
     @property(cc.Prefab) popup: cc.Prefab = null
+    // 没有商品字样
+    @property(cc.Node) notGoods: cc.Node = null;
 
     // 物品数据
     shopItemData: cc.Node[] = [];
@@ -50,6 +52,7 @@ export default class Activity extends cc.Component {
 
 
     start() {
+        this.notGoods.active = false;
         axios.api('shop_menu').then((data: ShopMenu[]) => {
             // 当前左侧列表目标
             let targetItem = null;
@@ -136,6 +139,8 @@ export default class Activity extends cc.Component {
                                 shopItemData[i].active = false;
                             }
                         }
+
+                        this.notGoods.active = !res.length ? true : false;
                     }
                 })
 
