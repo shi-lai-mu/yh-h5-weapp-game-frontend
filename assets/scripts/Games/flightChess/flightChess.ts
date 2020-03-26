@@ -13,6 +13,7 @@ import { startPoint, chessPoint, notePoint, centerPedestal } from './flightGameD
 import { FlightPlayersData } from '../../interface/game/flightChessInterface';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
+import { UserData } from '../../interface/game/fourCard';
 
 const FlightPlayer = cc.Class({
     name: 'FlightPlayer',
@@ -44,6 +45,10 @@ export default class FlightChess extends cc.Component {
     @property(cc.Node) dice: cc.Node = null;
     // 房间号
     @property(cc.Label) roomCode: cc.Label = null;
+    // 玩家数据
+    playersData: UserData[] = [];
+    // 弹窗资源
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
     // 玩家数据
     roomInfo = {
         gameData: {
@@ -83,39 +88,12 @@ export default class FlightChess extends cc.Component {
             eventHandler.customEventData = index.toString();
             const newButton = pedestal.node.addComponent(cc.Button);
             newButton.clickEvents.push(eventHandler);
-            console.log(index);
+            // console.log(index);
         });
 
-        // this.FlightPlayer.forEach(player => {
-        //     player.pedestal.forEach((pedestal, index) => {
-        //         const eventHandler = new cc.Component.EventHandler();
-        //         eventHandler.target = this.node; 
-        //         eventHandler.component = 'flightChess';
-        //         eventHandler.handler = 'chessTakeOff';
-        //         eventHandler.customEventData = index.toString();
-        //         const newButton = pedestal.node.addComponent(cc.Button);
-        //         newButton.clickEvents.push(eventHandler);
-        //         console.log(index);
-        //     });
-        // })
-
+        this.fetchRoomInfo();
         // 模拟测试
-        this.gameStart(this.roomInfo);
-        // let index = 0;
-        // setInterval(() => {
-        //     index++;
-        //     if (index === 52) index = 0;
-        //     const targetIndex = chessPoint[index];
-        //     console.log(index, targetIndex[0], targetIndex[1]);
-        //     this.test.runAction(
-        //         cc.moveTo(.5, targetIndex[0], targetIndex[1])
-        //     )
-        //     if (targetIndex[2] !== undefined) {
-        //         this.test.runAction(
-        //             cc.rotateTo(.5, targetIndex[2])
-        //         );
-        //     }
-        // }, 1500);
+        // this.gameStart(this.roomInfo);
     }
 
     /**
@@ -131,9 +109,13 @@ export default class FlightChess extends cc.Component {
     /**
      * 当玩家加入房间时
      */
-    fetchRoomInfo(data) {
-        const MyUserData = State.userInfo;
+    fetchRoomInfo() {
         axios.api('room_info').then(res => {
+            res.players.forEach((player, index) => {
+                this.FlightPlayer[index].nickName.string = player.nickname;
+            });
+            this.roomInfo = res;
+            if (res.isStart) this.gameStart(res);
         });
     }
 
@@ -364,5 +346,34 @@ export default class FlightChess extends cc.Component {
             }
             // this.setpNumber = -1;
         }
+    }
+
+
+    /**
+     * 返回首页
+     */
+    backHome() {
+        const { playersData, node, popupPrefab } = this;
+        cc.director.loadScene('Home');
+        return;
+        // console.log(State, playersData);
+        if (!playersData.length || playersData.length === 1) {
+            return this.gameOver(false);
+        }
+        const popup = cc.instantiate(popupPrefab);
+        const scriptPopup = popup.getComponent('popup');
+        node.parent.addChild(popup);
+        playersData.forEach((item, index: number) => {
+            if (item.id === State.userInfo.id) {
+                console.log(index);
+                scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
+                scriptPopup.setEvent('success', () => {
+                    popup.destroy();
+                    // this.roomExit();
+                    cc.director.loadScene('Home');
+                });
+                scriptPopup.setEvent('close', () => {});
+            }
+        });
     }
 }

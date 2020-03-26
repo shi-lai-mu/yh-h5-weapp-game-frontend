@@ -126,13 +126,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 123
-      },
-      {
         "__id__": 124
       },
       {
-        "__id__": 129
+        "__id__": 125
+      },
+      {
+        "__id__": 130
       }
     ],
     "_prefab": null,
@@ -222,7 +222,7 @@
       "array": [
         0,
         0,
-        536.0697249425675,
+        545.5960043841964,
         0,
         0,
         0,
@@ -2667,7 +2667,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 286,
-      "height": 222.99999999999991
+      "height": 223
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2678,8 +2678,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -347.89,
-        196.176,
+        -348,
+        196.00000000000003,
         0,
         0,
         0,
@@ -2956,10 +2956,10 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 13,
-    "_left": 49.59899999999999,
+    "_left": 49.488999999999976,
     "_right": 0,
-    "_top": 59.488500000000016,
-    "_bottom": 451.8405,
+    "_top": 59.664500000000004,
+    "_bottom": 451.66450000000003,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -5759,8 +5759,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -431.79799999999994,
-        295.6739999999999,
+        -415.121,
+        295.99999999999994,
         0,
         0,
         0,
@@ -5827,10 +5827,10 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 12,
-    "_left": 36.29200000000003,
+    "_left": 52.96899999999997,
     "_right": 899.8879999999999,
     "_top": 0,
-    "_bottom": 605.1534999999999,
+    "_bottom": 605.4794999999999,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -5857,7 +5857,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 123
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 1,
@@ -5914,6 +5918,16 @@
     "_id": "4eghsPnxBF35FkRiBbHrZv"
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "bb8b0dAoGpLBbzhdL7AyA6d",
+    "handler": "backHome",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -5940,9 +5954,6 @@
     "_enabled": true,
     "FlightPlayer": [
       {
-        "__id__": 125
-      },
-      {
         "__id__": 126
       },
       {
@@ -5950,6 +5961,9 @@
       },
       {
         "__id__": 128
+      },
+      {
+        "__id__": 129
       }
     ],
     "addDiceCount": {
@@ -5969,6 +5983,9 @@
     },
     "roomCode": {
       "__id__": 118
+    },
+    "popupPrefab": {
+      "__uuid__": "56cace53-26a8-45f0-af7c-f49e3233bbd5"
     },
     "_id": "431a0t3uRJCL5Py/rTRkAr"
   },

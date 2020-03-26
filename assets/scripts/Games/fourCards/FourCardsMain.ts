@@ -671,26 +671,25 @@ export default class FourCardsGame extends cc.Component {
      * 当玩家加入房间时
      */
     fetchRoomInfo(data) {
-        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
         const MyUserData = State.userInfo;
         axios.api('room_info').then(res => {
             this.playersData = [];
             const myPlayer = this.FourCardsPlayers[0];
             let outherPlayer = 1;
-            loadImg(`${avatarBase}/${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
+            loadImg(`${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
                 myPlayer.avatarUrl.spriteFrame = spriteFrame;
                 myPlayer.noteScore.string = '0';
                 myPlayer.cardCount && (myPlayer.cardCount.string = '54');
                 myPlayer.score.string = '0';
-            });
+            }, 'avatar');
             this.playersData = res.players.map((player, index) => {
                 if (index !== res.playerIndex) {
                     const target = this.FourCardsPlayers[outherPlayer];
                     player.index = outherPlayer;
                     target.nickname.string = player.nickname;
-                    loadImg(`${avatarBase}/${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
+                    loadImg(`${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
                         target.avatarUrl.spriteFrame = spriteFrame;
-                    });
+                    }, 'avatar');
                     outherPlayer++;
                 } else {
                     player.index = 0;

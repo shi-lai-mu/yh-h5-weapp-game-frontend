@@ -24,7 +24,6 @@ export default class Toggle extends cc.Component {
 
     onClick() {
         const text = this.text.string;
-        console.log(this.parent);
         this.parent.toggleEvent(this.value || text, text);
     }
 }
