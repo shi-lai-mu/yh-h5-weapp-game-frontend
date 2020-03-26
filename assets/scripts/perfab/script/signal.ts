@@ -69,6 +69,19 @@ export default class NewClass extends cc.Component {
     onLoad() {
         this.watch();
         State.observer.on('socketConnect', this.watch.bind(this));
+        // 账号在线监测
+        console.log(1);
+        State.observer.on('onLine', (content: string) => {
+            console.log(2);
+            const popup = cc.instantiate(this.popupPrefab);
+            this.node.parent.addChild(popup);
+            const scriptPopup = popup.getComponent('popup');
+            scriptPopup.init(content);
+            scriptPopup.setEvent('close', () => {
+                localStorage.clear();
+                cc.director.loadScene('loginPage');
+            });
+        });
     }
 
     watch() {

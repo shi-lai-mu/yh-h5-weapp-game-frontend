@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import { startPoint, chessPoint, notePoint, centerPedestal } from './flightGameData';
-import { FlightPlayersData } from '../../interface/game/flightChess';
+import { FlightPlayersData } from '../../interface/game/flightChessInterface';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
 

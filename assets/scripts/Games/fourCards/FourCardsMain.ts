@@ -159,6 +159,7 @@ export default class FourCardsGame extends cc.Component {
         State.io.on('rommjoin', that.bindfetchRoomInfo);
         State.io.on('rommleave', that.bindrommleave);
         cc.loader.setAutoReleaseRecursively('db61dc3a-8854-4824-a19a-472e74d7aa03', true);
+        cc.loader.setAutoReleaseRecursively('fc30fbe0-1668-4af2-8dcb-a798b469719b', true);
     }
 
 
