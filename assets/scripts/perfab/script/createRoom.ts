@@ -40,19 +40,19 @@ const gameOption = {
     flightChess: {
         name: '飞行棋',
         room: [
-            [ '人数', '4人' ],
+            [ '人数', '2人', '3人', '4人' ],
             [ '局数', '1局' ],
             [ '起飞', '6点', '3点', '3、6点' ],
             [ '密码', '公开' ],
         ],
-        keyword: [ 'people' ,'frequency' ,'payType' ,'pwdType' ],
+        keyword: [ 'people' ,'frequency' ,'takeOff' ,'pwdType' ],
         scene: 'gameFlightChess',
     },
 }
 /**
  * 选项实例
  */
-const radioOption: any = [];
+let radioOption: any = [];
 
 @ccclass
 export default class CreateRoom extends cc.Component {
@@ -162,6 +162,7 @@ export default class CreateRoom extends cc.Component {
         this.ContentBoxView.destroyAllChildren();
         const gameOpt = gameOption[prefabName];
         if (gameOpt) {
+            radioOption = [];
             gameOpt.room.forEach((opt: string[], index) => {
                 opt = Object.assign([], opt);
                 const optGroup = cc.instantiate(this.radioGroup);
@@ -218,7 +219,6 @@ export default class CreateRoom extends cc.Component {
         radioOption.forEach(item => {
             query[item.keyword] = item.script.value - 1;
         });
-        console.log(radioOption);
 
         return new Promise((resolve, reject) => {
             axios.api('create_room', {

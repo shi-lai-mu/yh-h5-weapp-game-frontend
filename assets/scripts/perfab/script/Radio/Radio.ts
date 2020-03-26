@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Radio extends cc.Component {
     @property({ visible: !1 })
     value: string = null;
 

@@ -94,7 +94,11 @@ export function dateFrom(fmt: string = 'yyyy-MM-dd HH:mm:ss', form?: number) {
  * @param url      - 图片url
  * @param callback - 回调函数
  */
-export function loadImg(url, callback) {
+const urlBase = {
+    avatar: 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/',
+};
+export function loadImg(url, callback, type?: 'avatar') {
+    type && (url = urlBase[type] + url);
     cc.loader.load(url, (_error, texture) => {
         _error && console.error(_error);
         callback(new cc.SpriteFrame(texture));
