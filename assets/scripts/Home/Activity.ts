@@ -9,7 +9,6 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import axios from '../utils/axiosUtils';
-import State from '../utils/state';
 import { ActivityItem } from '../interface/home';
 
 var Item = cc.Class({
@@ -52,7 +51,7 @@ export default class Activity extends cc.Component {
     
 
     /**
-     * 邮件界面显示
+     * 活动界面显示
      * @param Action - 是否显示动画
      */
     activityPopupShow(Action: boolean = !0) {
@@ -66,7 +65,7 @@ export default class Activity extends cc.Component {
 
     
     /**
-     * 邮件界面隐藏
+     * 活动界面隐藏
      * @param Action - 是否显示动画
      */
     activityPopupHide(Action: boolean = !0) {
@@ -79,7 +78,7 @@ export default class Activity extends cc.Component {
 
 
     /**
-     * 获取邮件消息
+     * 获取活动消息
      */
     fetchactivityRequest() {
         !this.rendererOnly && axios.api('home_activity').then((data) => {

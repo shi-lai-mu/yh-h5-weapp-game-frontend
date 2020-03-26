@@ -66,16 +66,17 @@ export default {
         transports:['websocket'],
       });
       socket.on('connect', () => {
-          State.io = socket;
-          console.log(`IO 连接成功!`);
-          // this.tipNode.color = cc.Color.GREEN
-          State.observer.emit('socketConnect');
-          socket.emit('connect/test');
-          // clock && clearInterval(clock);
+        State.io = socket;
+        console.log(`IO 连接成功!`);
+        // this.tipNode.color = cc.Color.GREEN
+        State.observer.emit('socketConnect');
+        socket.emit('connect/test');
+        // clock && clearInterval(clock);
       });
       // 链接处理
       socket.on('reconnect', data => console.log('IO重连中...', data));
       socket.on('disconnect', data => {
+        console.log(data);
         if (data === 'transport close') {
           // let clock = setInterval(() => {
           //   socket.reconnect();
@@ -85,6 +86,10 @@ export default {
       socket.on('disconnecting', data => console.log('IO断开中...', data));
       socket.on('test', console.log);
       
+      socket.on('onLine', data => {
+        console.log(data);
+        setTimeout(() => State.observer.emit('onLine', data), 1000);
+      });
       // 自定义事件
       socket.reconnect = () => {
         socket.disconnect();
