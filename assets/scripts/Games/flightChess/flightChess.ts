@@ -19,9 +19,8 @@ const FlightPlayer = cc.Class({
     name: 'FlightPlayer',
     properties: {
         id: -1,
+        box: cc.Node,
         nickName: cc.Label,
-        dicePoint: cc.Node,
-        arrawPoint: cc.Node,
         pedestal: [ cc.Sprite ],
     },
 });
@@ -71,7 +70,7 @@ export default class FlightChess extends cc.Component {
     setpNumber = -1;
 
     bindonGameData = (data) => this.onGameData(data);
-    bindfetchRoomInfo = (data) => this.fetchRoomInfo(data);
+    bindfetchRoomInfo = () => this.fetchRoomInfo();
     bindrommleave = (data) => this.rommleave(data);
 
     onLoad() {
@@ -173,10 +172,9 @@ export default class FlightChess extends cc.Component {
                     to: nextIndex,
                     from: gameData.chess[playerIndex],
                     index: chessIndex,
-                });
+                }, playerIndex);
                 // gameData.chess[playerIndex][chessIndex] = nextIndex;
             }
-            console.log(playerIndex, roomInfo.playerIndex);
             if (playerIndex === roomInfo.playerIndex) {
                 // 通讯下一步
                 State.io.emit('flightChess/setp', {
@@ -203,27 +201,26 @@ export default class FlightChess extends cc.Component {
             if (next.index === playerIndex) {
                 this.dice.getComponent(cc.Button).enabled = true;
             }
+            // 其他玩家数据更新
             if (next.prveChess && next.prveChess.index !== playerIndex) {
                 const { prveChess } = next;
                 if (prveChess) {
-                    // 其他玩家数据更新
-                    // this.setp({
-                    //     dice: chess.setpNumber,
-                    //     index: chess.chessIndex,
-                    //     flyIndex: -1,
-                    // });
+                    this.dice.getComponent('dice').onClick(prveChess.to - 1);
                     this.chessTakeOff(false, prveChess.chessIndex, prveChess.index, prveChess.to);
                 }
             }
         }
         const nextPlayer = this.FlightPlayer[index];
+        // console.log(this.node.convertToWorldSpaceAR(cc.v2(nextPlayer.dicePoint.x, nextPlayer.dicePoint.y)));
+        // console.log(index, nextPlayer, nextPlayer.dicePoint.x, nextPlayer.dicePoint.y);
+        const { x, y } = nextPlayer.box;
         // 移动骰子
         this.dice.runAction(
-            cc.moveTo(1, nextPlayer.dicePoint.x, nextPlayer.dicePoint.y).easing(cc.easeBackIn()),
+            cc.moveTo(1, x + 45, y - 5).easing(cc.easeBackIn()),
         );
         // 移动箭头
         this.arraw.runAction(
-            cc.moveTo(1, nextPlayer.arrawPoint.x, nextPlayer.arrawPoint.y).easing(cc.easeBackIn()),
+            cc.moveTo(1, x + 60, y + 45).easing(cc.easeBackIn()),
         );
     }
     
@@ -264,13 +261,11 @@ export default class FlightChess extends cc.Component {
             // console.log(index);
         });
         // 初始化房主信息
-        if (gameData.playerIndex === 0) {
-            this.userSendChess({
-                next: {
-                    index: 0,
-                },
-            });
-        }
+        this.userSendChess({
+            next: {
+                index: 0,
+            },
+        });
     }
 
 
@@ -321,9 +316,10 @@ export default class FlightChess extends cc.Component {
             index: number;
             noJump?: boolean;
         },
+        playerIndex?: number,
     ) {
         // console.log(move);
-        const { playerIndex } = this.roomInfo;
+        playerIndex = playerIndex === undefined ? this.roomInfo.playerIndex : playerIndex;
         const tNotePoint = notePoint[playerIndex];
         let clock;
         // 定位移动
