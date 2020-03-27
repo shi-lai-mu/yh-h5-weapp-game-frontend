@@ -35,6 +35,8 @@ export default class FlightChess extends cc.Component {
     @property(FlightPlayer) FlightPlayer: FlightPlayersData[] = [];
     // 加一掷骰子的机会
     @property(cc.Node) addDiceCount: cc.Node = null;
+    // 游戏开始字样
+    @property(cc.Node) gameStartNode: cc.Node = null;
     // 完成状态的图片
     @property(cc.Sprite) complete: cc.Sprite = null;
     // 爆炸动画
@@ -78,23 +80,12 @@ export default class FlightChess extends cc.Component {
         State.io.on('rommjoin', that.bindfetchRoomInfo);
         State.io.on('rommleave', that.bindrommleave);
         this.dice.getComponent('dice').onClickEvent = this.diceOut.bind(this);
-
-        // 初始化
-        this.FlightPlayer[this.roomInfo.playerIndex].pedestal.forEach((pedestal, index) => {
-            const eventHandler = new cc.Component.EventHandler();
-            eventHandler.target = this.node; 
-            eventHandler.component = 'flightChess';
-            eventHandler.handler = 'chessTakeOff';
-            eventHandler.customEventData = index.toString();
-            const newButton = pedestal.node.addComponent(cc.Button);
-            newButton.clickEvents.push(eventHandler);
-            // console.log(index);
-        });
-
+        this.dice.getComponent(cc.Button).enabled = false;
         this.fetchRoomInfo();
         // 模拟测试
         // this.gameStart(this.roomInfo);
     }
+
 
     /**
      * 接收到游戏数据时
@@ -114,6 +105,7 @@ export default class FlightChess extends cc.Component {
             res.players.forEach((player, index) => {
                 this.FlightPlayer[index].nickName.string = player.nickname;
             });
+            this.roomCode.string = '房间号: ' + res.roomCode;
             this.roomInfo = res;
             if (res.isStart) this.gameStart(res);
         });
@@ -135,6 +127,7 @@ export default class FlightChess extends cc.Component {
         const targetChess = this.roomInfo.gameData.chess[ioData.index];
 
         // 为自己的回合
+        console.log(romm.playerIndex, ioData.index);
         if (romm.playerIndex === ioData.index) {
             // 如果还有未起飞的棋子 且当前骰子点数为起飞点
             if (this.takeOff.indexOf(ioData.dice) !== -1 && targetChess.some(num => num === -2)) {
@@ -196,6 +189,26 @@ export default class FlightChess extends cc.Component {
     gameStart(gameData: any) {
         console.log(gameData);
         this.roomCode.string = '房间号: ' + gameData.roomCode;
+        const startNode = this.gameStartNode;
+        startNode.y = -startNode.height;
+        startNode.runAction(
+            cc.sequence(
+                cc.moveTo(3, 0, 0).easing(cc.easeBounceIn()),
+                cc.callFunc(() => startNode.active = false),
+            ),
+        );
+
+        // 初始化
+        this.FlightPlayer[gameData.playerIndex].pedestal.forEach((pedestal, index) => {
+            const eventHandler = new cc.Component.EventHandler();
+            eventHandler.target = this.node; 
+            eventHandler.component = 'flightChess';
+            eventHandler.handler = 'chessTakeOff';
+            eventHandler.customEventData = index.toString();
+            const newButton = pedestal.node.addComponent(cc.Button);
+            newButton.clickEvents.push(eventHandler);
+            // console.log(index);
+        });
         // 初始化房主信息
     }
 
@@ -210,6 +223,15 @@ export default class FlightChess extends cc.Component {
 
 
     /**
+     * 当前玩家回合
+     * @param data 
+     */
+    targetUser(data) {
+
+    }
+
+
+    /**
      * 投骰子时
      * @param diceNumber 数值
      */
@@ -218,8 +240,8 @@ export default class FlightChess extends cc.Component {
             callback: 'setp',
             msg: {
                 dice,
-                // index: index++,
-                index: 1,
+                index: index++,
+                // index: 1,
                 flyIndex: -1,
             },
         });
@@ -344,7 +366,7 @@ export default class FlightChess extends cc.Component {
                     cc.rotateTo(duration, point[2])
                 );
             }
-            // this.setpNumber = -1;
+            this.setpNumber = -1;
         }
     }
 
@@ -354,8 +376,8 @@ export default class FlightChess extends cc.Component {
      */
     backHome() {
         const { playersData, node, popupPrefab } = this;
-        cc.director.loadScene('Home');
-        return;
+        // cc.director.loadScene('Home');
+        // return;
         // console.log(State, playersData);
         if (!playersData.length || playersData.length === 1) {
             return this.gameOver(false);
