@@ -83,7 +83,10 @@ export default class FlightChess extends cc.Component {
         this.dice.getComponent(cc.Button).enabled = false;
         this.fetchRoomInfo();
         // 模拟测试
-        // this.gameStart(this.roomInfo);
+        // this.gameStart(this.roomInfo);       
+        cc.loader.setAutoReleaseRecursively('68b61513-780a-4964-9622-adbea2867cda', true);
+        cc.loader.setAutoReleaseRecursively('a9654289-ba14-4c09-8e65-5712b9174e2c', true);
+        cc.loader.setAutoReleaseRecursively('0bdee8a8-6a17-4c36-9433-644b6412515b', true);
     }
 
 
@@ -93,6 +96,7 @@ export default class FlightChess extends cc.Component {
      */
     onGameData(data: any) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
+        console.log(data);
         data.callback && data.msg && this[data.callback](data.msg);
     }
 
@@ -144,9 +148,11 @@ export default class FlightChess extends cc.Component {
     /**
      * 点击飞机事件
      */
-    chessTakeOff(_e, chessIndex: number) {
-        const { setpNumber, roomInfo, takeOff } = this;
-        const { playerIndex, gameData } = roomInfo;
+    chessTakeOff(_e, chessIndex: number, playerIndex?: number, setpNumber?: number) {
+        const { roomInfo, takeOff } = this;
+        const { gameData } = roomInfo;
+        playerIndex = playerIndex !== undefined ? playerIndex : roomInfo.playerIndex;
+        setpNumber = setpNumber || this.setpNumber;
 
         // console.log(setpNumber);
         if (setpNumber !== -1) {
@@ -170,7 +176,55 @@ export default class FlightChess extends cc.Component {
                 });
                 // gameData.chess[playerIndex][chessIndex] = nextIndex;
             }
+            console.log(playerIndex, roomInfo.playerIndex);
+            if (playerIndex === roomInfo.playerIndex) {
+                // 通讯下一步
+                State.io.emit('flightChess/setp', {
+                    to: setpNumber,
+                    chessIndex,
+                    index: playerIndex,
+                });
+            }
         }
+    }
+
+
+    /**
+     * 允许玩家发牌时
+     * @param data io数据
+     */
+    userSendChess(data: any) {
+        const { next } = data;
+        const { playerIndex } = this.roomInfo;
+        console.log(data);
+        if (next) {
+            index = next.index;
+            // 如果为当前玩家回合
+            if (next.index === playerIndex) {
+                this.dice.getComponent(cc.Button).enabled = true;
+            }
+            if (next.prveChess && next.prveChess.index !== playerIndex) {
+                const { prveChess } = next;
+                if (prveChess) {
+                    // 其他玩家数据更新
+                    // this.setp({
+                    //     dice: chess.setpNumber,
+                    //     index: chess.chessIndex,
+                    //     flyIndex: -1,
+                    // });
+                    this.chessTakeOff(false, prveChess.chessIndex, prveChess.index, prveChess.to);
+                }
+            }
+        }
+        const nextPlayer = this.FlightPlayer[index];
+        // 移动骰子
+        this.dice.runAction(
+            cc.moveTo(1, nextPlayer.dicePoint.x, nextPlayer.dicePoint.y).easing(cc.easeBackIn()),
+        );
+        // 移动箭头
+        this.arraw.runAction(
+            cc.moveTo(1, nextPlayer.arrawPoint.x, nextPlayer.arrawPoint.y).easing(cc.easeBackIn()),
+        );
     }
     
 
@@ -210,6 +264,13 @@ export default class FlightChess extends cc.Component {
             // console.log(index);
         });
         // 初始化房主信息
+        if (gameData.playerIndex === 0) {
+            this.userSendChess({
+                next: {
+                    index: 0,
+                },
+            });
+        }
     }
 
 
@@ -236,14 +297,10 @@ export default class FlightChess extends cc.Component {
      * @param diceNumber 数值
      */
     diceOut(dice: number) {
-        this.onGameData({
-            callback: 'setp',
-            msg: {
-                dice,
-                index: index++,
-                // index: 1,
-                flyIndex: -1,
-            },
+        this.setp({
+            dice,
+            index,
+            flyIndex: -1,
         });
     }
 
@@ -375,6 +432,7 @@ export default class FlightChess extends cc.Component {
      * 返回首页
      */
     backHome() {
+        console.log('click home');
         const { playersData, node, popupPrefab } = this;
         // cc.director.loadScene('Home');
         // return;
