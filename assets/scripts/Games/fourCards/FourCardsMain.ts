@@ -705,7 +705,7 @@ export default class FourCardsGame extends cc.Component {
                 const sendData: any = {
                     next: {
                         index: res.gameData.target,
-                    }
+                    },
                 };
                 this.userSendCard(sendData);
                 if (res.gameData.target === res.playerIndex) {

@@ -13,33 +13,22 @@ import axios from '../utils/axiosUtils';
 
 @ccclass
 export default class HomePD extends cc.Component {
-
     /**
      * 键盘资源
      */
-    @property(cc.Prefab)
-    keyboard: cc.Prefab = null;
-
-
+    @property(cc.Prefab) keyboard: cc.Prefab = null;
     /**
      * 创建房间资源
      */
-    @property(cc.Prefab)
-    createRoomPrefab: cc.Prefab = null;
-
+    @property(cc.Prefab) createRoomPrefab: cc.Prefab = null;
     /**
      * 弹窗
      */
-    @property(cc.Prefab)
-    popupPrefab: cc.Prefab = null;
-
-
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
     /**
      * Canvas
      */
-    @property(cc.Canvas)
-    Canvas: cc.Canvas = null;
-
+    @property(cc.Canvas) Canvas: cc.Canvas = null;
     /**
      * 加入房间
      */
@@ -97,7 +86,7 @@ export default class HomePD extends cc.Component {
         console.log(gameName);
         if (typeof gameName === 'string') {
             setTimeout(async () => {
-                createRoom.listItems['fourCards'].onClick();
+                createRoom.listItems[gameName].onClick();
                 const popup = await createRoom.onCreateRoom();
                 popup.success();
             }, 100);
