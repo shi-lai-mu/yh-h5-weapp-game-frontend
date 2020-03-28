@@ -45,11 +45,14 @@ export default class NewClass extends cc.Component {
                 updateCount++;
                 this.dice[this.targetIndex].node.active = false;
                 const random = typeof num === 'number' ? num : (Math.random() * 6 | 0);
-                this.dice[random].node.active = true;
+                const target = this.dice[random];
+                if (target) {
+                    target.node.active = true;
+                }
                 this.targetIndex = random;
                 if (updateCount === 30) {
                     resolve(random);
-                    this.onClickEvent && this.onClickEvent(random);
+                    this.onClickEvent && this.onClickEvent(random, num);
                     clearInterval(clock);
                 }
             }, this.time / 30);

@@ -354,7 +354,6 @@ export default class FourCardsGame extends cc.Component {
         if (cardData.length === 4) {
             cardData.push({});
         }
-        console.log(cardData.length);
         for (let num = 0; num < 13; num++) {
             sortCard[num] = [];
             for (let row = 0; row < cardData.length - 1; row++) {

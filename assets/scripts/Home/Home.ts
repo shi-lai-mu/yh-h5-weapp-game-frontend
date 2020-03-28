@@ -90,7 +90,4 @@ export default class Home extends cc.Component {
         instantiate.getComponent('Shop').defaultTarget = shopIndex;
         this.node.addChild(instantiate);
     }
-
-
-    // update (dt) {}
 }

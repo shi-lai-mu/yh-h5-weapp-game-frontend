@@ -60,7 +60,6 @@ export default class Activity extends cc.Component {
             let focusItem = null;
             data.forEach((item, index) => {
                 const prefab = cc.instantiate(this.ShopMenuListPrefab);
-                console.log(item);
                 const prefabScript = prefab.getComponent('ListItem');
                 if (item.imgName) {
                     item.sprite = `https://perfergame.oss-cn-beijing.aliyuncs.com/text/shop/${ item.imgName }.png`;
@@ -71,7 +70,6 @@ export default class Activity extends cc.Component {
                 prefabScript.init(item, index, !0);
                 // 左侧列表的点击事件处理
                 prefabScript.clickEvent = () => new Promise(async (resolve, reject) => {
-                    console.log(123451326);
                     this.ScrollView.scrollToTop();
                     if (!item.content) {
                         item.content = await axios.api('shop_menu_goods', {
@@ -158,7 +156,6 @@ export default class Activity extends cc.Component {
      * @param goodsData - 商品数据
      */
     buyGoods(goodsData) {
-        console.log(goodsData);
         const popup = cc.instantiate(this.popup);
         const scriptPopup: scriptPopup = popup.getComponent('popup');
         this.node.parent.addChild(popup);
