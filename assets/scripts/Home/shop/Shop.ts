@@ -46,8 +46,8 @@ export default class Activity extends cc.Component {
     shopItemData: cc.Node[] = [];
     defaultTarget: string = '';
 
-    init(option: { index: string; }) {
-        this.defaultTarget = option.index;
+    init(option: string) {
+        this.defaultTarget = option;
     }
 
 

@@ -13,29 +13,21 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Home extends cc.Component {
 
-    @property(cc.Prefab)
-    ActivityPrefab: cc.Prefab = null;
+    @property(cc.Prefab) ActivityPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    EmailPrefab: cc.Prefab = null;
+    @property(cc.Prefab) EmailPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    ShopPrefab: cc.Prefab = null;
+    @property(cc.Prefab) ShopPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    UserCenter: cc.Prefab = null;
+    @property(cc.Prefab) UserCenter: cc.Prefab = null;
 
-    @property(cc.Sprite)
-    bg: cc.Sprite = null;
+    @property(cc.Sprite) bg: cc.Sprite = null;
 
-    @property(cc.Sprite)
-    bg2: cc.Sprite = null;
+    @property(cc.Sprite) bg2: cc.Sprite = null;
 
-    @property(cc.Node)
-    bgIcon: cc.Node = null;
+    @property(cc.Node) bgIcon: cc.Node = null;
 
-    @property(cc.Node)
-    bg2Icon: cc.Node = null;
+    @property(cc.Node) bg2Icon: cc.Node = null;
 
     bgStatus = true;
 
@@ -85,6 +77,18 @@ export default class Home extends cc.Component {
         );
         this.bgIcon.scale = bgStatus ? 1 : 0;
         this.bg2Icon.scale = bgStatus ? 0 : 1;
+    }
+
+
+    /**
+     * 打开商城
+     * @param _e        - 事件
+     * @param shopIndex - 商城菜单
+     */
+    openShop(_e, shopIndex: string) {
+        const instantiate = cc.instantiate(this.ShopPrefab);
+        instantiate.getComponent('Shop').defaultTarget = shopIndex;
+        this.node.addChild(instantiate);
     }
 
 
