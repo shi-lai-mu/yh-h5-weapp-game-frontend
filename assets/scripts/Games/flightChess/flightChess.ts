@@ -143,7 +143,7 @@ export default class FlightChess extends cc.Component {
             //     // foces flght code...
             // }
             // 允许玩家点击棋
-            console.log(ioData.dice, ioData);
+            // console.log(ioData.dice, ioData);
             this.setpNumber = ioData.dice;
         }
     }
@@ -160,8 +160,7 @@ export default class FlightChess extends cc.Component {
 
         if (_e) {
             // 隐藏聚焦圈
-            this.FlightPlayer[playerIndex].pedestal.forEach(pedestal => pedestal.node.children[0].active = false);
-            clearInterval(pedestalFouse);
+            this.clearFouseState();
         }
 
         // console.log(setpNumber);
@@ -291,6 +290,7 @@ export default class FlightChess extends cc.Component {
                 this.chessSpawn[index].push([ pedestal.node.x, pedestal.node.y ]);
             });
         });
+        console.log(this.chessSpawn);
     }
 
 
@@ -313,6 +313,15 @@ export default class FlightChess extends cc.Component {
 
 
     /**
+     * 清除棋子聚焦状态
+     */
+    clearFouseState() {
+        this.FlightPlayer[this.roomInfo.playerIndex].pedestal.forEach(pedestal => pedestal.node.children[0].active = false);
+        clearInterval(pedestalFouse);
+    }
+
+
+    /**
      * 投骰子时
      * @param diceNumber 数值
      */
@@ -328,16 +337,32 @@ export default class FlightChess extends cc.Component {
                 index: playerIndex,
             });
             this.setpNumber = -1;
+            this.clearFouseState();
             return;
         }
         
         // 显示聚焦圈
-        this.FlightPlayer[playerIndex].pedestal.forEach(pedestal => pedestal.node.children[0].active = true);
+        this.FlightPlayer[playerIndex].pedestal.forEach((pedestal, index) => {
+            const targetChessIndex = this.roomInfo.gameData.chess[playerIndex][index];
+            if ((this.takeOff.indexOf(dice) !== -1 && targetChessIndex !== -3) || targetChessIndex > -1) {
+                pedestal.node.children[0].active = true
+            }
+        });
         let focseState = 0;
+        // this.takeOff.indexOf(ioData.dice) !== -1 && targetChess.some(num => num === -2)
+        // 聚焦闪动
+        clearInterval(pedestalFouse);
         pedestalFouse = setInterval(() => {
-            this.FlightPlayer[playerIndex].pedestal.forEach(pedestal => pedestal.node.children[0].runAction(
-                focseState ? cc.fadeOut(1) : cc.fadeIn(1),
-            ));
+            this.FlightPlayer[playerIndex].pedestal.forEach((pedestal, index) => {
+                const targetChessIndex = this.roomInfo.gameData.chess[playerIndex][index];
+                if ((this.takeOff.indexOf(dice) !== -1 && targetChessIndex !== -3) || targetChessIndex > -1) {
+                    pedestal.node.children[0].runAction(
+                        focseState ? cc.fadeOut(1) : cc.fadeIn(1),
+                    );
+                } else {
+                    pedestal.node.children[0].active = false;
+                }
+            });
             focseState = focseState ? 0 : 1;
         }, 1000);
         this.setp({
