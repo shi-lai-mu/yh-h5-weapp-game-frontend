@@ -98,6 +98,11 @@ export default class HomePD extends cc.Component {
         // }
     }
 
+    
+    onDestroy() {
+        // cc.loader.setAutoReleaseRecursively('pd', true);
+    }
+
 
     // update (dt) {}
 }

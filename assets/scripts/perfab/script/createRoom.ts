@@ -251,5 +251,10 @@ export default class CreateRoom extends cc.Component {
         });
     }
 
+    onDestroy() {
+        // console.log('createRoom');
+        // cc.loader.setAutoReleaseRecursively('59616007-2ef5-4ce8-ab91-057f1ea39436', true);
+    }
+
     // update (dt) {}
 }

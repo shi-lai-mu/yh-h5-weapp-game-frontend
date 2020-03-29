@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
-import { loadImg } from '../../utils/tool';
+import { loadImg, setAutoRecursively } from '../../utils/tool';
 import { CardList, FourCardsPlayers, SendCardData, UserData } from '../../interface/game/fourCard';
 /**
  * 扑克牌
@@ -158,8 +158,12 @@ export default class FourCardsGame extends cc.Component {
         State.io.on('fourcard/gameData', that.bindonGameData);
         State.io.on('rommjoin', that.bindfetchRoomInfo);
         State.io.on('rommleave', that.bindrommleave);
-        cc.loader.setAutoReleaseRecursively('db61dc3a-8854-4824-a19a-472e74d7aa03', true);
-        cc.loader.setAutoReleaseRecursively('fc30fbe0-1668-4af2-8dcb-a798b469719b', true);
+        setAutoRecursively([
+            'c3a88e04-eee8-42e6-ade2-27c6e1896203',
+            'db61dc3a-8854-4824-a19a-472e74d7aa03',
+            'fc30fbe0-1668-4af2-8dcb-a798b469719b',
+            '0b7da469-5226-4405-aad7-56210d04d191',
+        ]);
     }
 
 

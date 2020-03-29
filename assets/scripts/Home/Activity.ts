@@ -98,6 +98,9 @@ export default class Activity extends cc.Component {
             });
         });
     }
-    
 
+    
+    onDestroy() {
+        // cc.loader.setAutoReleaseRecursively('ActivityPopupBox', true);
+    }
 }

@@ -14,6 +14,7 @@ import { FlightPlayersData } from '../../interface/game/flightChessInterface';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
 import { UserData } from '../../interface/game/fourCard';
+import { loadImg, setAutoRecursively } from '../../utils/tool';
 
 const FlightPlayer = cc.Class({
     name: 'FlightPlayer',
@@ -22,6 +23,7 @@ const FlightPlayer = cc.Class({
         box: cc.Node,
         nickName: cc.Label,
         pedestal: [ cc.Sprite ],
+        avatarUrl: null,
     },
 });
 
@@ -52,24 +54,21 @@ export default class FlightChess extends cc.Component {
     playersData: UserData[] = [];
     // 弹窗资源
     @property(cc.Prefab) popupPrefab: cc.Prefab = null;
+    // 结算界面资源
+    @property(cc.Prefab) chessPrefab: cc.Prefab = null;
     // 玩家数据
     roomInfo = {
         gameData: {
-            chess: [
-              [ -2, -2, -2, -2 ],
-              [ -2, -2, -2, -2 ],
-              [ -2, -2, -2, -2 ],
-              [ -2, -2, -2, -2 ],
-            ],
+            chess: [],
         },
         players: [],
-        roomCode: '123456',
+        roomCode: '',
         playerIndex: 1,
     };
     // 棋子出生点
     chessSpawn: number[][][] = [];
     // 允许起飞点数
-    takeOff = [ 1,2,3,4,5,6, 6, 3 ];
+    takeOff = [];
     // 行走点数
     setpNumber = -1;
 
@@ -78,6 +77,18 @@ export default class FlightChess extends cc.Component {
     bindrommleave = (data) => this.rommleave(data);
 
     onLoad() {
+        setAutoRecursively([
+            // 'c3a88e04-eee8-42e6-ade2-27c6e1896203',
+            // '5f4ed9fe-1373-449f-b83d-ba7179f2410d',
+            // '0b7da469-5226-4405-aad7-56210d04d191',
+            // 'c3a88e04-eee8-42e6-ade2-27c6e1896203',
+            // 'db61dc3a-8854-4824-a19a-472e74d7aa03',
+            // 'fc30fbe0-1668-4af2-8dcb-a798b469719b',
+            // '9cf6f7b8-31d5-426f-9fc9-676a72df1701',
+        ]);
+        // cc.loader.setAutoRelease('5f4ed9fe-1373-449f-b83d-ba7179f2410d', true)
+        // cc.loader.setAutoRelease('5e22369e-2b0d-4e53-b521-3327e4ddfcb3', true)
+        console.log('load');
         const that = this;
         State.io.on('flightChess/gameData', that.bindonGameData);
         State.io.on('rommjoin', that.bindfetchRoomInfo);
@@ -86,10 +97,7 @@ export default class FlightChess extends cc.Component {
         this.dice.getComponent(cc.Button).enabled = false;
         this.fetchRoomInfo();
         // 模拟测试
-        // this.gameStart(this.roomInfo);       
-        cc.loader.setAutoReleaseRecursively('68b61513-780a-4964-9622-adbea2867cda', true);
-        cc.loader.setAutoReleaseRecursively('a9654289-ba14-4c09-8e65-5712b9174e2c', true);
-        cc.loader.setAutoReleaseRecursively('0bdee8a8-6a17-4c36-9433-644b6412515b', true);
+        // this.gameStart(this.roomInfo);
     }
 
 
@@ -109,12 +117,20 @@ export default class FlightChess extends cc.Component {
     fetchRoomInfo() {
         axios.api('room_info').then(res => {
             res.players.forEach((player, index) => {
-                this.FlightPlayer[index].nickName.string = player.nickname;
+                const target = this.FlightPlayer[index];
+                target.nickName.string = player.nickname;
+                loadImg(`${player.avatarUrl ? player.id : 'default'}.png`, spriteFrame => {
+                    target.avatarUrl = spriteFrame;
+                }, 'avatar');
             });
             this.roomCode.string = '房间号: ' + res.roomCode;
             this.roomInfo = res;
             if (res.isStart) this.gameStart(res);
         });
+    }
+
+    onDestroy() {
+        clearInterval(pedestalFouse);
     }
 
 
@@ -132,7 +148,7 @@ export default class FlightChess extends cc.Component {
         ioData.dice++;
 
         // 为自己的回合
-        console.log(romm.playerIndex, ioData.index , isPlayer);
+        // console.log(romm.playerIndex, ioData.index , isPlayer);
         if (romm.playerIndex === ioData.index && isPlayer) {
             // 如果还有未起飞的棋子 且当前骰子点数为起飞点
             this.setpNumber = ioData.dice;
@@ -230,6 +246,10 @@ export default class FlightChess extends cc.Component {
      * @param data - 数据
      */
     rommleave(ioData) {
+        ioData = JSON.parse(ioData);
+        if (ioData && ioData.data && ioData.data.id === this.roomInfo.players[0].id) {
+            this.gameOver({ type: 0 });
+        }
     }
 
 
@@ -282,7 +302,7 @@ export default class FlightChess extends cc.Component {
                 // pedestal.node.y = this.chessSpawn[index][o][1];
             });
         });
-        console.log(this.chessSpawn);
+        // console.log(this.chessSpawn);
     }
 
 
@@ -292,7 +312,64 @@ export default class FlightChess extends cc.Component {
      *  - false: 房主离开游戏触发
      */
     gameOver(data: any | false) {
+        console.log(data);
+        const { node, popupPrefab, FlightPlayer, roomInfo } = this;
+        if (data && data.type !== 0) {
+            this.gameOver = () => {};
+            const chessPrefab = cc.instantiate(this.chessPrefab);
+            const chessScript = chessPrefab.getComponent('overScript');
+            const chessData: any = [];
+            console.log(data.gameData, data.gameData.score);
+            roomInfo.players.forEach((player, index) => {
+                const gamedata = data.gameData;
+                console.log(index);
+                chessData.push({
+                    nickname: player.nickname,
+                    avatarUrl: FlightPlayer[index].avatarUrl,
+                    score: gamedata.score[index],
+                    item: {
+                        // noteScore: gamedata.noteScore[index],
+                    },
+                });
+            });
+            chessScript.init({
+                players: chessData,
+                // itemKey: {
+                //     noteScore: '抓分',
+                // },
+                time: data.gameData.createTime,
+                roomId: data.roomCode,
+            });
+            this.node.addChild(chessPrefab);
+        } else if (roomInfo.playerIndex !== 0) {
+            const popup = cc.instantiate(popupPrefab);
+            const scriptPopup = popup.getComponent('popup');
+            node.parent.addChild(popup);
+            scriptPopup.init('房主已将房间解散!');
+            scriptPopup.setEvent('success', () => {
+                popup.destroy();
+                this.roomExit();
+                cc.director.loadScene('Home');
+            });
+        } else if (roomInfo.players.length === 1) {
+            this.roomExit();
+            cc.director.loadScene('Home');
+        }
+        console.log(roomInfo.players.length);
     }
+
+    
+    /**
+     * 退出房间
+     */
+    roomExit() {
+        axios.api('room_exit', {
+            data: {
+                roomCode: this.roomInfo.roomCode,
+            },
+        }).then(() => {});
+    }
+
 
 
     /**
@@ -415,7 +492,7 @@ export default class FlightChess extends cc.Component {
                         chess.spriteFrame = this.complete;
                         this.moveChess(chess, this.chessSpawn[playerIndex][move.index]);
                         clearInterval(clock);
-                        console.log(this.roomInfo.gameData);
+                        // console.log(this.roomInfo.gameData);
                         return true;
                     }
                     this.moveChess(chess, centerPoint);
@@ -462,7 +539,7 @@ export default class FlightChess extends cc.Component {
                     // 如果覆盖则吃掉下方的飞机 并 同步数据
                     // let existsChess = false;
                     this.roomInfo.gameData.chess.forEach((chessArr, index) => {
-                        console.log(playerTarget);
+                        // console.log(playerTarget);
                         if (index !== playerTarget) {
                             chessArr.forEach((chessValue, chessIndex) => {
                                 // console.log(chessIndex, move.to);
@@ -486,8 +563,8 @@ export default class FlightChess extends cc.Component {
                         }
                     });
                     // if (existsChess) return true;
-                    console.log('降落完毕');
-                    console.log(move, this.roomInfo.gameData.chess);
+                    // console.log('降落完毕');
+                    // console.log(move, this.roomInfo.gameData.chess);
                 }
                 this.moveChess(chess, chessPoint[moveIndex]);
             }
@@ -528,17 +605,17 @@ export default class FlightChess extends cc.Component {
      * 返回首页
      */ 
     backHome() {
-        const { playersData, node, popupPrefab } = this;
+        const { roomInfo, node, popupPrefab } = this;
         // cc.director.loadScene('Home');
         // return;
         // console.log(State, playersData);
-        if (!playersData.length || playersData.length === 1) {
+        if (!roomInfo.players.length || roomInfo.players.length === 1) {
             return this.gameOver(false);
         }
         const popup = cc.instantiate(popupPrefab);
         const scriptPopup = popup.getComponent('popup');
         node.parent.addChild(popup);
-        playersData.forEach((item, index: number) => {
+        roomInfo.players.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
                 console.log(index);
                 scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));

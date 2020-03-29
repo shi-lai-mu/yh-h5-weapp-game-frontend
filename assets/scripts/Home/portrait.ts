@@ -60,5 +60,10 @@ export default class Portrait extends cc.Component {
         });
     }
 
+    
+    onDestroy() {
+        // cc.loader.setAutoReleaseRecursively('portrait', true);
+    }
+
     // update (dt) {}
 }
