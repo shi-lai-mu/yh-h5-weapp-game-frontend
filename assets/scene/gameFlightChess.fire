@@ -99,34 +99,31 @@
         "__id__": 103
       },
       {
-        "__id__": 106
+        "__id__": 105
       },
       {
-        "__id__": 108
+        "__id__": 107
       },
       {
-        "__id__": 110
+        "__id__": 109
       },
       {
-        "__id__": 112
+        "__id__": 114
       },
       {
-        "__id__": 117
-      },
-      {
-        "__id__": 119
+        "__id__": 116
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 123
+        "__id__": 120
       },
       {
-        "__id__": 124
+        "__id__": 121
       },
       {
-        "__id__": 129
+        "__id__": 126
       }
     ],
     "_prefab": null,
@@ -5047,122 +5044,6 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "exploade",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 104
-      },
-      {
-        "__id__": 105
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 82,
-      "height": 81
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        -50.596,
-        -376.465,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0.457,
-        0.457,
-        0.457
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "23Def6vNhP9o9uGB0/8e4W"
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 103
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "e262444a-7a6e-4055-8025-585b6d40fc11"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": "619uDbUglCgo79/sv6Iofc"
-  },
-  {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 103
-    },
-    "_enabled": true,
-    "_defaultClip": {
-      "__uuid__": "9ec801e1-96d0-478e-ac7d-9148b9fc0ba1"
-    },
-    "_clips": [
-      {
-        "__uuid__": "9ec801e1-96d0-478e-ac7d-9148b9fc0ba1"
-      }
-    ],
-    "playOnLoad": true,
-    "_id": "34TSHnsuBEg7d04siEgRok"
-  },
-  {
-    "__type__": "cc.Node",
     "_name": "dice_add",
     "_objFlags": 0,
     "_parent": {
@@ -5172,7 +5053,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 107
+        "__id__": 104
       }
     ],
     "_prefab": null,
@@ -5228,7 +5109,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 106
+      "__id__": 103
     },
     "_enabled": true,
     "_materials": [
@@ -5266,7 +5147,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 109
+        "__id__": 106
       }
     ],
     "_prefab": null,
@@ -5322,7 +5203,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 108
+      "__id__": 105
     },
     "_enabled": true,
     "_materials": [
@@ -5360,7 +5241,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 111
+        "__id__": 108
       }
     ],
     "_prefab": null,
@@ -5416,7 +5297,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 110
+      "__id__": 107
     },
     "_enabled": true,
     "_materials": [
@@ -5454,13 +5335,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 113
+        "__id__": 110
       },
       {
-        "__id__": 114
+        "__id__": 111
       },
       {
-        "__id__": 115
+        "__id__": 112
       }
     ],
     "_prefab": null,
@@ -5516,7 +5397,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 112
+      "__id__": 109
     },
     "_enabled": true,
     "_materials": [
@@ -5548,7 +5429,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 112
+      "__id__": 109
     },
     "_enabled": true,
     "alignMode": 1,
@@ -5575,7 +5456,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 112
+      "__id__": 109
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -5586,7 +5467,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 116
+        "__id__": 113
       }
     ],
     "_N$interactable": true,
@@ -5662,7 +5543,7 @@
     },
     "_id": "ccOiFmKKZIDZV05AiL2e8q",
     "_prefab": {
-      "__id__": 118
+      "__id__": 115
     },
     "_name": "dice",
     "_active": true,
@@ -5692,7 +5573,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 117
+      "__id__": 114
     },
     "asset": {
       "__uuid__": "ba8a5176-e5f9-4514-8939-e8b8d95da99a"
@@ -5709,7 +5590,7 @@
     },
     "_children": [
       {
-        "__id__": 120
+        "__id__": 117
       }
     ],
     "_active": true,
@@ -5767,16 +5648,16 @@
     "_name": "arraw",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 119
+      "__id__": 116
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 121
+        "__id__": 118
       },
       {
-        "__id__": 122
+        "__id__": 119
       }
     ],
     "_prefab": null,
@@ -5832,7 +5713,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 120
+      "__id__": 117
     },
     "_enabled": true,
     "_materials": [
@@ -5864,7 +5745,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 120
+      "__id__": 117
     },
     "_enabled": true,
     "_defaultClip": {
@@ -5905,38 +5786,36 @@
     "_enabled": true,
     "FlightPlayer": [
       {
+        "__id__": 122
+      },
+      {
+        "__id__": 123
+      },
+      {
+        "__id__": 124
+      },
+      {
         "__id__": 125
-      },
-      {
-        "__id__": 126
-      },
-      {
-        "__id__": 127
-      },
-      {
-        "__id__": 128
       }
     ],
     "addDiceCount": {
-      "__id__": 106
+      "__id__": 103
     },
     "gameStartNode": {
-      "__id__": 110
+      "__id__": 107
     },
     "complete": {
       "__uuid__": "a4c09914-ed7e-46d6-b260-4a53226030fd"
     },
-    "exploade": {
-      "__id__": 103
-    },
+    "exploade": null,
     "arraw": {
-      "__id__": 119
+      "__id__": 116
     },
     "dice": {
-      "__id__": 117
+      "__id__": 114
     },
     "roomCode": {
-      "__id__": 109
+      "__id__": 106
     },
     "popupPrefab": {
       "__uuid__": "56cace53-26a8-45f0-af7c-f49e3233bbd5"
