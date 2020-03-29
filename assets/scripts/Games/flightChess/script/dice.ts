@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+let clock = null;
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -41,7 +42,7 @@ export default class NewClass extends cc.Component {
     async onClick(num: number) {
         return new Promise((resolve, reject) => {
             let updateCount = 0;
-            const clock = setInterval(() => {
+            clock = setInterval(() => {
                 updateCount++;
                 this.dice[this.targetIndex].node.active = false;
                 const random = typeof num === 'number' ? num : (Math.random() * 6 | 0);
@@ -57,6 +58,11 @@ export default class NewClass extends cc.Component {
                 }
             }, this.time / 30);
         });
+    }
+
+
+    onDestroy() {
+        clearInterval(clock);
     }
 
     // update (dt) {}

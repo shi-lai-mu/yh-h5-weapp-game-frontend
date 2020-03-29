@@ -104,3 +104,13 @@ export function loadImg(url, callback, type?: 'avatar') {
         callback(new cc.SpriteFrame(texture));
     });
 }
+
+
+/**
+ * 设置资源是否被释放
+ * @param Recursively UID
+ * @param Auto        是否自动释放
+ */
+export const setAutoRecursively = (Recursively: string[], Auto: boolean = true) => {
+    Recursively.forEach(val => cc.loader.setAutoReleaseRecursively(val, Auto));
+}

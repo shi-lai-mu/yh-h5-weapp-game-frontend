@@ -11,6 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 import axios from '../../utils/axiosUtils';
+import { setAutoRecursively } from '../../utils/tool';
 
 /**
  * 玩家数据
@@ -90,7 +91,12 @@ export default class GoBangMainService extends cc.Component {
         this.fetchRoomInfo();
         State.io.on('room/data', this.roomDataEevent);
         State.io.on('rommleave', this.roomExitEevent);
-        cc.loader.setAutoReleaseRecursively('fc30fbe0-1668-4af2-8dcb-a798b469719b', true);
+        setAutoRecursively([
+            'c3a88e04-eee8-42e6-ade2-27c6e1896203',
+            'db61dc3a-8854-4824-a19a-472e74d7aa03',
+            'fc30fbe0-1668-4af2-8dcb-a798b469719b',
+            '0b7da469-5226-4405-aad7-56210d04d191',
+        ]);
     }
 
 

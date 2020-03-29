@@ -8,6 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 import State from '../utils/state';
+import { setAutoRecursively } from '../utils/tool';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -89,5 +90,14 @@ export default class Home extends cc.Component {
         const instantiate = cc.instantiate(this.ShopPrefab);
         instantiate.getComponent('Shop').defaultTarget = shopIndex;
         this.node.addChild(instantiate);
+    }
+
+    
+    onDestroy() {
+        console.log('res home');
+        setAutoRecursively([
+            '68b61513-780a-4964-9622-adbea2867cda',
+            '0b7da469-5226-4405-aad7-56210d04d191'
+        ]);
     }
 }
