@@ -43,19 +43,22 @@
       },
       {
         "__id__": 114
+      },
+      {
+        "__id__": 122
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 122
+        "__id__": 125
       },
       {
-        "__id__": 123
+        "__id__": 126
       }
     ],
     "_prefab": {
-      "__id__": 124
+      "__id__": 127
     },
     "_opacity": 255,
     "_color": {
@@ -1422,7 +1425,7 @@
     "_enabled": true,
     "_useOriginalSize": false,
     "_string": "",
-    "returnType": 4,
+    "returnType": 0,
     "maxLength": 20,
     "_tabIndex": 0,
     "editingDidBegan": [],
@@ -2056,16 +2059,16 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        26.943,
+        23.415,
         -2.6,
         0,
         0,
         0,
         0,
         1,
-        1.409,
-        1,
-        1
+        1.375,
+        0.854,
+        0.976
       ]
     },
     "_eulerAngles": {
@@ -2134,7 +2137,7 @@
     "_enabled": true,
     "_useOriginalSize": false,
     "_string": "",
-    "returnType": 4,
+    "returnType": 0,
     "maxLength": 20,
     "_tabIndex": 0,
     "editingDidBegan": [],
@@ -2776,7 +2779,7 @@
         0,
         1,
         1.224,
-        1,
+        0.928,
         1
       ]
     },
@@ -2846,7 +2849,7 @@
     "_enabled": true,
     "_useOriginalSize": false,
     "_string": "",
-    "returnType": 4,
+    "returnType": 0,
     "maxLength": 20,
     "_tabIndex": 0,
     "editingDidBegan": [],
@@ -2864,7 +2867,7 @@
     "_N$background": {
       "__id__": 61
     },
-    "_N$inputFlag": 0,
+    "_N$inputFlag": 5,
     "_N$inputMode": 6,
     "_N$stayOnTop": false,
     "_id": ""
@@ -3488,7 +3491,7 @@
         0,
         1,
         1.192,
-        1,
+        0.912,
         1
       ]
     },
@@ -3576,7 +3579,7 @@
     "_N$background": {
       "__id__": 80
     },
-    "_N$inputFlag": 0,
+    "_N$inputFlag": 5,
     "_N$inputMode": 6,
     "_N$stayOnTop": false,
     "_id": ""
@@ -4604,6 +4607,113 @@
     "sync": false
   },
   {
+    "__type__": "cc.Node",
+    "_name": "message",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 123
+      }
+    ],
+    "_prefab": {
+      "__id__": 124
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 158,
+      "g": 104,
+      "b": 36,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 180,
+      "height": 37.8
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -54.656,
+        -97.157,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0.83333,
+        0.57571,
+        0.83333
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 122
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "",
+    "_N$string": "",
+    "_fontSize": 30,
+    "_lineHeight": 30,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 0,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 2,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "e4fbd47e-8788-488e-a343-da2b54dac2d3"
+    },
+    "fileId": "71JI9xbDlDl4Cd925BSOWc",
+    "sync": false
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "登录弹窗<Sprite>",
     "_objFlags": 0,
@@ -4657,6 +4767,9 @@
     },
     "codeInput": {
       "__id__": 94
+    },
+    "message": {
+      "__id__": 123
     },
     "_id": ""
   },
