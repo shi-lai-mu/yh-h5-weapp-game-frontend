@@ -42,8 +42,8 @@ export default class FlightChess extends cc.Component {
     @property(cc.Node) gameStartNode: cc.Node = null;
     // 完成状态的图片
     @property(cc.SpriteFrame) complete: cc.SpriteFrame = null;
-    // 爆炸动画
-    @property(cc.Node) exploade: cc.Node = null;
+    // // 爆炸动画
+    // @property(cc.Node) exploade: cc.Node = null;
     // 箭头节点
     @property(cc.Node) arraw: cc.Node = null;
     // 骰子
@@ -69,8 +69,10 @@ export default class FlightChess extends cc.Component {
     chessSpawn: number[][][] = [];
     // 允许起飞点数
     takeOff = [];
-    // 行走点数
+    // 行走点数       
     setpNumber = -1;
+    // 骰子状态
+    diceState: boolean = false;
 
     bindonGameData = (data) => this.onGameData(data);
     bindfetchRoomInfo = () => this.fetchRoomInfo();
@@ -78,16 +80,9 @@ export default class FlightChess extends cc.Component {
 
     onLoad() {
         setAutoRecursively([
-            // 'c3a88e04-eee8-42e6-ade2-27c6e1896203',
-            // '5f4ed9fe-1373-449f-b83d-ba7179f2410d',
-            // '0b7da469-5226-4405-aad7-56210d04d191',
-            // 'c3a88e04-eee8-42e6-ade2-27c6e1896203',
-            // 'db61dc3a-8854-4824-a19a-472e74d7aa03',
-            // 'fc30fbe0-1668-4af2-8dcb-a798b469719b',
-            // '9cf6f7b8-31d5-426f-9fc9-676a72df1701',
+            'fc30fbe0-1668-4af2-8dcb-a798b469719b',
         ]);
-        // cc.loader.setAutoRelease('5f4ed9fe-1373-449f-b83d-ba7179f2410d', true)
-        // cc.loader.setAutoRelease('5e22369e-2b0d-4e53-b521-3327e4ddfcb3', true)
+        console.log(this.FlightPlayer);
         console.log('load');
         const that = this;
         State.io.on('flightChess/gameData', that.bindonGameData);
@@ -117,6 +112,7 @@ export default class FlightChess extends cc.Component {
     fetchRoomInfo() {
         axios.api('room_info').then(res => {
             res.players.forEach((player, index) => {
+                console.log(this.FlightPlayer);
                 const target = this.FlightPlayer[index];
                 target.nickName.string = player.nickname;
                 loadImg(`${player.avatarUrl ? player.id : 'default'}.png`, spriteFrame => {
@@ -129,8 +125,15 @@ export default class FlightChess extends cc.Component {
         });
     }
 
+
+    /**
+     * 被销毁时
+     */
     onDestroy() {
         clearInterval(pedestalFouse);
+        State.io.off('flightChess/gameData', this.bindonGameData);
+        State.io.off('rommjoin', this.bindfetchRoomInfo);
+        State.io.off('rommleave', this.bindrommleave);
     }
 
 

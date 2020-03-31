@@ -213,7 +213,7 @@
       "array": [
         0,
         0,
-        563.7825378636696,
+        562.0504870561007,
         0,
         0,
         0,
@@ -5820,6 +5820,9 @@
     "popupPrefab": {
       "__uuid__": "56cace53-26a8-45f0-af7c-f49e3233bbd5"
     },
+    "chessPrefab": {
+      "__uuid__": "c3a88e04-eee8-42e6-ade2-27c6e1896203"
+    },
     "_id": "431a0t3uRJCL5Py/rTRkAr"
   },
   {
@@ -5844,7 +5847,8 @@
       {
         "__id__": 23
       }
-    ]
+    ],
+    "avatarUrl": null
   },
   {
     "__type__": "FlightPlayer",
@@ -5868,7 +5872,8 @@
       {
         "__id__": 39
       }
-    ]
+    ],
+    "avatarUrl": null
   },
   {
     "__type__": "FlightPlayer",
@@ -5892,7 +5897,8 @@
       {
         "__id__": 55
       }
-    ]
+    ],
+    "avatarUrl": null
   },
   {
     "__type__": "FlightPlayer",
@@ -5916,7 +5922,8 @@
       {
         "__id__": 71
       }
-    ]
+    ],
+    "avatarUrl": null
   },
   {
     "__type__": "cc.Widget",
