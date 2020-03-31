@@ -4074,7 +4074,7 @@
     "component": "",
     "_componentId": "57262WaRA9NEaMOy/uiqaLD",
     "handler": "createPrefab",
-    "customEventData": "createPrefab"
+    "customEventData": "resetPasswordPrefab"
   },
   {
     "__type__": "cc.Node",
@@ -4253,7 +4253,7 @@
     "component": "",
     "_componentId": "57262WaRA9NEaMOy/uiqaLD",
     "handler": "createPrefab",
-    "customEventData": "resetPasswordPrefab"
+    "customEventData": "registerPrefab"
   },
   {
     "__type__": "cc.Sprite",
