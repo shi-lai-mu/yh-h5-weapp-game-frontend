@@ -45,7 +45,6 @@ export default class Activity extends cc.Component {
 
     start () {
         this.fetchactivityRequest();
-        console.log('active');
         this.mainContent.string = '活动内容获取失败!';
     }
     
@@ -83,11 +82,17 @@ export default class Activity extends cc.Component {
     fetchactivityRequest() {
         !this.rendererOnly && axios.api('home_activity').then((data) => {
             this.activityData = data;
+            let lastItem = null;
             data.forEach((item: ActivityItem, index: number) => {
                 const newItem = cc.instantiate(this.activityListPrefab);
                 this.activityListBox.addChild(newItem);
                 const newComponent = newItem.getComponent('ListItem');
                 newComponent.init(item);
+                newComponent.clickEvent = () => {
+                    this.mainContent.string = item.html || '活动获取失败!';
+                    lastItem && lastItem.blur();
+                    lastItem = newComponent;
+                };
                 newComponent.ParentClass = this;
                 newItem.y = (newItem.y - index * 40) - 200;
                 this.activityListBox.height += 40;
