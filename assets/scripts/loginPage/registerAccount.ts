@@ -53,15 +53,33 @@ export default class RegisterAccount extends cc.Component {
      * 点击注册事件
      */
     onRegisterEvent() {
+        this.message.string = '';
         console.log('注册账号点击');
         const {
-            password,
+            code,
+            mobile,
             account,
+            password,
+            twoPassword,
         } = this.input;
+        if (!code || !mobile || !account || !password || !twoPassword) {
+            return this.message.string = '请先填写完整的信息!';
+        }
+        // 校验
+        if (password.length < 6 || password.length > 20) {
+            return this.message.string = '密码长度6-20位!';
+        }
+        if (/[^a-zA-Z0-9]/.test(account)) {
+            return this.message.string = '账号只能由字母和数字组成!';
+        }
+        if (password !== twoPassword) {
+            return this.message.string = '两次输入的密码不相同!';
+        }
         if (!this.code) {
             return this.message.string = '请先发送验证码';
         }
-        console.log(password, account);
+
+        // 发送注册
         axios.api('user_reg', {
             data: {
                 nickname: this.input.account,
@@ -98,6 +116,13 @@ export default class RegisterAccount extends cc.Component {
      * 发送验证码
      */
     onSendCode() {
+        const { mobile } = this.input;
+        this.message.string = '';
+
+        if (!mobile || !(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(mobile))) {
+            return this.message.string = '手机号错误!';
+        }
+
         axios.api('get_regCode', {
             params: {
                 codeType: 'register',
