@@ -32,7 +32,7 @@ export default class Login extends cc.Component {
     // 密码输入框
     @property(cc.EditBox) passwordInput = null;
     // 重设密码资源
-    @property(cc.Prefab) resetPasswordPrefab = null;、
+    @property(cc.Prefab) resetPasswordPrefab = null;
     // 注册资源
     @property(cc.Prefab) registerPrefab = null;
     // 账号输入框

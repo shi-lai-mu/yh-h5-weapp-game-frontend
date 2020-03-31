@@ -10,10 +10,15 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-
-    // onLoad () {}
-
     start () {
+
+    }
+
+
+    /**
+     * 点击登录事件
+     */
+    onLogingEvent() {
 
     }
 
