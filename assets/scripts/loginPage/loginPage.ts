@@ -25,16 +25,18 @@ export default class Login extends cc.Component {
     @property(cc.Node) registerButton: cc.Node = null;
     // label 登录状态节点
     @property(cc.Label) LoginStatus: cc.Label = null;
+    // 忘记密码文字节点
+    @property(cc.Label) resetPasswordNode: cc.Label = null;
     // 加载资源
     @property(cc.Prefab) loadingPrefab: cc.Prefab = null;
+    // 重设密码资源
+    @property(cc.Prefab) resetPassword = null;
+    // 注册资源
+    @property(cc.Prefab) registerAccount = null;
     // 账户输入框
     @property(cc.EditBox) accountInput = null;
     // 密码输入框
     @property(cc.EditBox) passwordInput = null;
-    // 重设密码资源
-    @property(cc.Prefab) resetPasswordPrefab = null;
-    // 注册资源
-    @property(cc.Prefab) registerPrefab = null;
     // 账号输入框
     accountInputText: string = '';
     // 密码输入框
@@ -81,7 +83,12 @@ export default class Login extends cc.Component {
      * 注册按钮点击
      */
     createPrefab(_e, prefabName: string) {
-        this.node.addChild(cc.instantiate(this[prefabName]));
+        const instantiate = cc.instantiate(this[prefabName]);
+        const script = instantiate.getComponent(prefabName);
+        if (script) {
+            script.parentClass = this;
+        }
+        this.node.addChild(instantiate);
     }
 
 
@@ -150,6 +157,7 @@ export default class Login extends cc.Component {
             LoginStatus,
             LoginButton,
             registerButton,
+            resetPasswordNode,
         } = this;
         let {
             accountInputText,
@@ -159,10 +167,10 @@ export default class Login extends cc.Component {
         // 重新登录
         const { a, p } = JSON.parse(localStorage.getItem('account') || '{}');
         if (a && p) {
-            passwordInputText = p.split('-').map((pwd: string) => {
+            passwordInputText = passwordInputText || p.split('-').map((pwd: string) => {
                 return String.fromCharCode(+pwd - 10);
             }).join('');
-            accountInputText = a.split('-').map((acc: string) => {
+            accountInputText = accountInputText || a.split('-').map((acc: string) => {
                 return String.fromCharCode(+acc - 10);
             }).join('');
             this.onLoginClick();
@@ -175,12 +183,13 @@ export default class Login extends cc.Component {
         LoginStatus.string = '登录中...';
         accountInput.node.scale = 0;
         passwordInput.node.scale = 0;
-        registerButton.scale = 0;
-        LoginButton.scale = 0;
+        registerButton.active = false;
+        LoginButton.active = false;
+        resetPasswordNode.node.active = false;
 
         // 超时
         let buys = setTimeout(() => {
-            LoginStatus.string = `登录失败\n${res.msg || '服务器超时'}`;
+            LoginStatus.string = '登录失败\n服务器超时!';
             setTimeout(this.resetLoginUI.bind(this), 1500);
         }, 7000);
 
@@ -226,8 +235,9 @@ export default class Login extends cc.Component {
         this.LoginStatus.string = '';
         this.accountInput.node.scale = 1;
         this.passwordInput.node.scale = 1;
-        this.LoginButton.scale = 0.268;
-        this.registerButton.scale = 0.268;
+        this.resetPasswordNode.node.active = true;
+        this.LoginButton.active = true;
+        this.registerButton.active = true;
     }
 
 

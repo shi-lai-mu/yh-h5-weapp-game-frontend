@@ -4074,7 +4074,7 @@
     "component": "",
     "_componentId": "57262WaRA9NEaMOy/uiqaLD",
     "handler": "createPrefab",
-    "customEventData": "resetPasswordPrefab"
+    "customEventData": "registerAccount"
   },
   {
     "__type__": "cc.Node",
@@ -4253,7 +4253,7 @@
     "component": "",
     "_componentId": "57262WaRA9NEaMOy/uiqaLD",
     "handler": "createPrefab",
-    "customEventData": "registerPrefab"
+    "customEventData": "resetPassword"
   },
   {
     "__type__": "cc.Sprite",
@@ -4327,20 +4327,23 @@
     "LoginStatus": {
       "__id__": 89
     },
+    "resetPasswordNode": {
+      "__id__": 95
+    },
     "loadingPrefab": {
       "__uuid__": "a34de076-a82a-4c7c-85ea-b3737bbfb93f"
+    },
+    "resetPassword": {
+      "__uuid__": "d4d0d7f8-4c07-4582-b51a-4396ac8d5385"
+    },
+    "registerAccount": {
+      "__uuid__": "e4fbd47e-8788-488e-a343-da2b54dac2d3"
     },
     "accountInput": {
       "__id__": 59
     },
     "passwordInput": {
       "__id__": 79
-    },
-    "resetPasswordPrefab": {
-      "__uuid__": "d4d0d7f8-4c07-4582-b51a-4396ac8d5385"
-    },
-    "registerPrefab": {
-      "__uuid__": "e4fbd47e-8788-488e-a343-da2b54dac2d3"
     },
     "_id": "28r5Okb5BKhqR1Q9YmIRW9"
   },

@@ -14,8 +14,9 @@ export async function packLoading(
         sub?: string[],
         scene?: string[],
     },
-    callback?: (targetPack: string, successCount: number, allCount: number) => boolean
+    callback?: (targetPack: string, successCount: number, allCount: number) => boolean,
 ) {
+    console.log(Object.keys(cc.loader.downloader._subpackages).length);
     if (Object.keys(cc.loader.downloader._subpackages).length === 0) {
         return callback && callback('skip', 1, 1);
     }
