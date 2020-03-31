@@ -154,11 +154,4 @@ export default class NewClass extends cc.Component {
             });
         });
     }
-
-    
-    onDestroy() {
-        // cc.loader.setAutoReleaseRecursively('EmailPopupBox', true);
-    }
-
-    // update (dt) {}
 }

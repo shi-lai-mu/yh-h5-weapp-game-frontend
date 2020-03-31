@@ -12,7 +12,7 @@ const {ccclass, property} = cc._decorator;
 import { loadImg } from '../../utils/tool';
 
 @ccclass
-export default class EmailActivityListItem extends cc.Component {
+export default class ListItem extends cc.Component {
     // 标识ID
     @property() id: number = 0;
     // 商品价格
