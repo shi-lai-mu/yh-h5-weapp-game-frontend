@@ -103,9 +103,6 @@
       },
       {
         "__id__": 36
-      },
-      {
-        "__id__": 95
       }
     ],
     "_active": true,
@@ -207,7 +204,7 @@
       "array": [
         0,
         -12.211,
-        562.0504870561007,
+        572.4427919015139,
         0,
         0,
         0,
@@ -1819,7 +1816,7 @@
   {
     "__type__": "cc.Node",
     "_name": "登录弹窗",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 2
     },
@@ -1841,12 +1838,15 @@
       },
       {
         "__id__": 90
+      },
+      {
+        "__id__": 94
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 94
+        "__id__": 96
       }
     ],
     "_prefab": null,
@@ -3661,7 +3661,7 @@
       "ctor": "Float64Array",
       "array": [
         87.573,
-        -75.953,
+        -85.28,
         0,
         0,
         0,
@@ -3936,7 +3936,7 @@
       "ctor": "Float64Array",
       "array": [
         -84.942,
-        -75.953,
+        -85.28,
         0,
         0,
         0,
@@ -4075,6 +4075,100 @@
     "customEventData": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "New Label",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 36
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 95
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 65,
+      "g": 126,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 68.34,
+      "height": 18.9
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        113.838,
+        -45.208,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "caMjVXDy5EvJIMUVemXPhK"
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 94
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_useOriginalSize": false,
+    "_string": "忘记密码?",
+    "_N$string": "忘记密码?",
+    "_fontSize": 15,
+    "_lineHeight": 15,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": "67iBa99XNKhYBIkvB99m92"
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -4105,52 +4199,6 @@
     "_isTrimmedMode": true,
     "_atlas": null,
     "_id": "e0ZY2GIE5G/rGArJVhNibb"
-  },
-  {
-    "__type__": "cc.Node",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_id": "ba4fINBNJEbYVqPXBaP+Fs",
-    "_prefab": {
-      "__id__": 96
-    },
-    "_name": "registerAccount",
-    "_active": true,
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        12.489,
-        69.887,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    }
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 95
-    },
-    "asset": {
-      "__uuid__": "e4fbd47e-8788-488e-a343-da2b54dac2d3"
-    },
-    "fileId": "b3GDNp41JMKIlkXpnMdbq/",
-    "sync": true
   },
   {
     "__type__": "cc.Canvas",
