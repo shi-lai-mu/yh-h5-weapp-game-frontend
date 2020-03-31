@@ -111,11 +111,6 @@ export default class Login extends cc.Component {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
-
-        // await tool.subPackLoading([ 'HomeScript' ]);
-        // setTimeout(() => {
-        //     cc.director.preloadScene('Home');
-        // }, 2000);
     }
 
 
@@ -126,15 +121,6 @@ export default class Login extends cc.Component {
         if (event.keyCode === cc.macro.KEY.enter) {
             this.onLogin();
         }
-    }
-
-
-    inputClick() {
-        console.log(cc.sys);
-        // if (cc.sys.isMobile) {
-        //     this.LoginPopup.rotation = -90;
-        //     this.LoginPopup.x = this.node.width / 4;
-        // }
     }
 
 
@@ -243,6 +229,12 @@ export default class Login extends cc.Component {
         registerButton.scale = 0;
         LoginButton.scale = 0;
 
+        // 超时
+        let buys = setTimeout(() => {
+            LoginStatus.string = `登录失败\n${res.msg || '服务器超时'}`;
+            setTimeout(this.resetLoginUI.bind(this), 1500);
+        }, 7000);
+
         axios
             .api('login', {
                 data: {
@@ -251,6 +243,7 @@ export default class Login extends cc.Component {
                 }
             })
             .then((res) => {
+                clearTimeout(buys);
                 if (res.token) {
                     LoginStatus.string = '登录成功';
                     localStorage.setItem('userInfo', JSON.stringify(res));
@@ -270,16 +263,22 @@ export default class Login extends cc.Component {
                     State.observer.emit('tokenUpdate', res.token); 
                 } else {
                     LoginStatus.string = `登录失败\n${res.msg || '服务器繁忙'}`;
-                    setTimeout(() => {
-                        LoginStatus.string = '';
-                        accountInput.node.scale = 1;
-                        passwordInput.node.scale = 1;
-                        LoginButton.scale = 0.268;
-                        registerButton.scale = 0.268;
-                    }, 1500);
+                    setTimeout(this.resetLoginUI.bind(this), 1500);
                 }
             })
         ;
+    }
+
+
+    /**
+     * 重置登录界面
+     */
+    resetLoginUI() {
+        this.LoginStatus.string = '';
+        this.accountInput.node.scale = 1;
+        this.passwordInput.node.scale = 1;
+        this.LoginButton.scale = 0.268;
+        this.registerButton.scale = 0.268;
     }
 
 
