@@ -42,17 +42,20 @@
         "__id__": 106
       },
       {
-        "__id__": 111
+        "__id__": 112
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 117
+        "__id__": 118
+      },
+      {
+        "__id__": 119
       }
     ],
     "_prefab": {
-      "__id__": 118
+      "__id__": 120
     },
     "_opacity": 255,
     "_color": {
@@ -156,7 +159,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        31,
+        19.87,
         91,
         0,
         0,
@@ -866,7 +869,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        31,
+        19.87,
         54,
         0,
         0,
@@ -1578,7 +1581,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        31,
+        19.87,
         17,
         0,
         0,
@@ -2290,7 +2293,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        31,
+        19.87,
         -20,
         0,
         0,
@@ -3002,7 +3005,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        31,
+        19.87,
         -57,
         0,
         0,
@@ -3702,16 +3705,16 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        156.553,
+        151.896,
         -20.531,
         0,
         0,
         0,
         0,
         1,
-        0.18,
-        0.187,
-        0.275
+        0.217,
+        0.226,
+        0.332
       ]
     },
     "_eulerAngles": {
@@ -3793,7 +3796,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "发送<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 98
@@ -3836,7 +3839,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "发送按钮<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 97
@@ -3998,14 +4001,14 @@
         "__id__": 107
       },
       {
-        "__id__": 108
+        "__id__": 109
       },
       {
-        "__id__": 109
+        "__id__": 110
       }
     ],
     "_prefab": {
-      "__id__": 110
+      "__id__": 111
     },
     "_opacity": 255,
     "_color": {
@@ -4029,8 +4032,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        166.926,
-        103.63199999999999,
+        155.796,
+        103.63200000000002,
         0,
         0,
         0,
@@ -4069,7 +4072,9 @@
     "duration": 0.1,
     "zoomScale": 1.05,
     "clickEvents": [
-      null
+      {
+        "__id__": 108
+      }
     ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
@@ -4127,6 +4132,16 @@
     "_id": ""
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "63bd0pG2+lIY7NLVqSDMBwd",
+    "handler": "onClose",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "Background<Sprite>",
     "_objFlags": 0,
@@ -4170,8 +4185,8 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": -558.824,
-    "_right": -7.926000000000002,
-    "_top": -1.903899999999993,
+    "_right": 3.2039999999999935,
+    "_top": -1.9039000000000073,
     "_bottom": -349.996,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -4205,17 +4220,17 @@
     },
     "_children": [
       {
-        "__id__": 112
+        "__id__": 113
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 115
+        "__id__": 116
       }
     ],
     "_prefab": {
-      "__id__": 116
+      "__id__": 117
     },
     "_opacity": 255,
     "_color": {
@@ -4269,17 +4284,17 @@
     "_name": "注    册",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 111
+      "__id__": 112
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 113
+        "__id__": 114
       }
     ],
     "_prefab": {
-      "__id__": 114
+      "__id__": 115
     },
     "_opacity": 255,
     "_color": {
@@ -4330,10 +4345,10 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "注    册<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 112
+      "__id__": 113
     },
     "_enabled": true,
     "_materials": [
@@ -4373,10 +4388,10 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "注册按钮<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 111
+      "__id__": 112
     },
     "_enabled": true,
     "_materials": [
@@ -4444,6 +4459,18 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "63bd0pG2+lIY7NLVqSDMBwd",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "label": null,
+    "text": "hello",
     "_id": ""
   },
   {

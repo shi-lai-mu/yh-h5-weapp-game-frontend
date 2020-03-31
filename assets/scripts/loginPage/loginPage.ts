@@ -15,91 +15,32 @@ import { packLoading } from '../utils/tool';
 
 @ccclass
 export default class Login extends cc.Component {
-    /**
-     * 登录弹窗节点
-     */
-    @property({
-        type: cc.Node,
-        tooltip: '登录弹窗节点',
-        displayName: '登录弹窗节点',
-    })
-    LoginPopup: cc.Node = null;
-
-    /**
-     * 登录弹窗遮罩节点
-     */
-    @property({
-        type: cc.Node,
-        tooltip: '登录弹窗遮罩层',
-        displayName: '登录弹窗遮罩节点',
-    })
-    LoginPopupMask: cc.Node = null;
-
-    /**
-     * 登录按钮
-     */
-    @property({
-        type: cc.Node,
-        tooltip: '登录按钮',
-        displayName: '登录按钮节点',
-    })
-    LoginButton: cc.Node = null;
-
-
-    /**
-     * 注册按钮
-     */
-    @property({
-        type: cc.Node,
-        tooltip: '注册按钮',
-        displayName: '注册按钮节点',
-    })
-    registerButton: cc.Node = null;
-
-    /**
-     * label 登录状态节点
-     */
-    @property({
-        type: cc.Label,
-        displayName: '登录状态节点',
-    })
-    LoginStatus: cc.Label = null;
-
-    /**
-     * 当前登录弹窗状态
-     */
-    @property({
-        visible: false,
-        tooltip: '当前登录弹窗状态',
-    })
+    // 登录弹窗节点
+    @property(cc.Node) LoginPopup: cc.Node = null;
+    // 登录弹窗遮罩节点
+    @property(cc.Node) LoginPopupMask: cc.Node = null;
+    // 登录按钮
+    @property(cc.Node) LoginButton: cc.Node = null;
+    // 注册按钮
+    @property(cc.Node) registerButton: cc.Node = null;
+    // label 登录状态节点
+    @property(cc.Label) LoginStatus: cc.Label = null;
+    // 加载资源
+    @property(cc.Prefab) loadingPrefab: cc.Prefab = null;
+    // 账户输入框
+    @property(cc.EditBox) accountInput = null;
+    // 密码输入框
+    @property(cc.EditBox) passwordInput = null;
+    // 重设密码资源
+    @property(cc.Prefab) resetPasswordPrefab = null;、
+    // 注册资源
+    @property(cc.Prefab) registerPrefab = null;
+    // 账号输入框
+    accountInputText: string = '';
+    // 密码输入框
+    passwordInputText: string = '';
+    // 当前登录弹窗状态
     LoginPopupState = !0;
-
-    /**
-     * 账户输入框
-     */
-    @property({
-        type: cc.EditBox,
-        tooltip: '账户输入框',
-    })
-    accountInput = null;
-
-    /**
-     * 加载资源
-     */
-    @property(cc.Prefab)
-    loadingPrefab: cc.Prefab = null;
-
-    /**
-     * 密码输入框
-     */
-    @property({
-        type: cc.EditBox,
-        tooltip: '密码输入框',
-    })
-    passwordInput = null;
-
-    @property({ visible: false }) accountInputText: string = '';
-    @property({ visible: false }) passwordInputText: string = '';
 
     onLoad() {
         localStorage.getItem('account') && this.onLogin();
@@ -133,6 +74,14 @@ export default class Login extends cc.Component {
         LoginPopupMask.runAction(cc.fadeTo(0.3, 200));
         LoginPopupMask.runAction(cc.scaleTo(0.1, 1).easing(cc.easeBackInOut()));
         LoginPopup.runAction(cc.scaleTo(0.4, 1).easing(cc.easeBackInOut()));
+    }
+
+
+    /**
+     * 注册按钮点击
+     */
+    createPrefab(_e, prefabName: string) {
+        this.node.addChild(cc.instantiate(this[prefabName]));
     }
 
 

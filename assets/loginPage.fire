@@ -108,13 +108,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 97
-      },
-      {
-        "__id__": 98
-      },
-      {
         "__id__": 99
+      },
+      {
+        "__id__": 100
+      },
+      {
+        "__id__": 101
       }
     ],
     "_prefab": null,
@@ -288,7 +288,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1373,
+      "width": 1410,
       "height": 700
     },
     "_anchorPoint": {
@@ -300,15 +300,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        9,
-        4,
+        8.625,
+        0,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        1.1,
+        1.1,
         1
       ]
     },
@@ -1171,8 +1171,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1373,
-      "height": 120
+      "width": 1410,
+      "height": 160
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1183,14 +1183,14 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -6,
-        -289,
+        -8.79,
+        -306.04,
         0,
         0,
         0,
         0,
         1,
-        1,
+        1.1,
         1,
         1
       ]
@@ -1846,7 +1846,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 96
+        "__id__": 98
       }
     ],
     "_prefab": null,
@@ -4068,15 +4068,17 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "",
     "_componentId": "57262WaRA9NEaMOy/uiqaLD",
-    "handler": "onLogin",
-    "customEventData": ""
+    "handler": "createPrefab",
+    "customEventData": "createPrefab"
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label",
+    "_name": "忘记密码",
     "_objFlags": 0,
     "_parent": {
       "__id__": 36
@@ -4086,6 +4088,9 @@
     "_components": [
       {
         "__id__": 95
+      },
+      {
+        "__id__": 96
       }
     ],
     "_prefab": null,
@@ -4169,6 +4174,88 @@
     "_id": "67iBa99XNKhYBIkvB99m92"
   },
   {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 94
+    },
+    "_enabled": true,
+    "_normalMaterial": null,
+    "_grayMaterial": null,
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [
+      {
+        "__id__": 97
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 0,
+    "transition": 0,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "_N$hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$disabledColor": {
+      "__type__": "cc.Color",
+      "r": 124,
+      "g": 124,
+      "b": 124,
+      "a": 255
+    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
+    "_N$target": null,
+    "_id": "bayph2gDhCBIVonkjGUHMh"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "57262WaRA9NEaMOy/uiqaLD",
+    "handler": "createPrefab",
+    "customEventData": "resetPasswordPrefab"
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -4240,18 +4327,21 @@
     "LoginStatus": {
       "__id__": 89
     },
-    "LoginPopupState": true,
-    "accountInput": {
-      "__id__": 59
-    },
     "loadingPrefab": {
       "__uuid__": "a34de076-a82a-4c7c-85ea-b3737bbfb93f"
+    },
+    "accountInput": {
+      "__id__": 59
     },
     "passwordInput": {
       "__id__": 79
     },
-    "accountInputText": "",
-    "passwordInputText": "",
+    "resetPasswordPrefab": {
+      "__uuid__": "d4d0d7f8-4c07-4582-b51a-4396ac8d5385"
+    },
+    "registerPrefab": {
+      "__uuid__": "e4fbd47e-8788-488e-a343-da2b54dac2d3"
+    },
     "_id": "28r5Okb5BKhqR1Q9YmIRW9"
   },
   {
