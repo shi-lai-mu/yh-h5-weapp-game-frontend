@@ -13,7 +13,7 @@ import { dateFrom } from '../../utils/tool';
 import State from '../../utils/state';
 
 let prveStatus = 20;
-let statusUpdateTime = Date.now();
+let statusUpdateTime = 0;
 let clock = 0;
 
 @ccclass
@@ -91,7 +91,12 @@ export default class NewClass extends cc.Component {
             State.io.emit('signal', '');
             const time = Date.now();
 
+            if (statusUpdateTime === 0) {
+                console.log('retrun statusUpdateTime');
+                return;
+            }
             if (statusUpdateTime + (10 * 1000) < Date.now()) {
+                console.log(statusUpdateTime, statusUpdateTime + (10 * 1000), Date.now());
                 // 掉线二次检测
                 this.wifi.spriteFrame = this.wifiUnLinkFrame;
                 prveStatus = 2000;
@@ -154,6 +159,7 @@ export default class NewClass extends cc.Component {
      */
     unonline() {
         if (!this.scriptPopup) {
+            console.log('与服务器失去连接');
             const popup = cc.instantiate(this.popupPrefab);
             this.node.parent.addChild(popup);
             const scriptPopup = popup.getComponent('popup');
