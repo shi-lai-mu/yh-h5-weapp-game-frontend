@@ -91,6 +91,15 @@ export default class FlightChess extends cc.Component {
         this.dice.getComponent('dice').onClickEvent = this.diceOut.bind(this);
         this.dice.getComponent(cc.Button).enabled = false;
         this.fetchRoomInfo();
+
+        this.dice.getComponent('dice').event = () => {
+            // const state = this.diceState;
+            // if (state) {
+            //     this.diceState = false;
+            // }
+            // return state;
+            return true;
+        };
         // 模拟测试
         // this.gameStart(this.roomInfo);
     }
@@ -221,7 +230,7 @@ export default class FlightChess extends cc.Component {
         if (next) {
             index = next.index;
             // 如果为当前玩家回合
-            this.dice.getComponent(cc.Button).enabled = next.index === playerIndex;
+            this.dice.getComponent(cc.Button).enabled = index === playerIndex;
             // 其他玩家数据更新
             if (next.prveChess && next.prveChess.index !== playerIndex) {
                 const { prveChess } = next;
@@ -241,6 +250,9 @@ export default class FlightChess extends cc.Component {
         this.arraw.runAction(
             cc.moveTo(1, x + 60, y + 45).easing(cc.easeBackIn()),
         );
+        if (index === playerIndex) {
+            this.diceState = true;
+        }
     }
     
 
@@ -380,7 +392,7 @@ export default class FlightChess extends cc.Component {
      * @param data 
      */
     targetUser(data) {
-
+        console.log('targetUser');
     }
 
 
@@ -400,6 +412,7 @@ export default class FlightChess extends cc.Component {
     diceOut(dice: number, event: Event | number) {
         const { takeOff, roomInfo } = this;
         const { playerIndex } = roomInfo;
+        this.diceState = false;
         // 如果 非出棋的点数 且 无棋可走
         if (typeof event !== 'number' && takeOff.indexOf(dice + 1) === -1 && roomInfo.gameData.chess[playerIndex].every(num => num === -2)) {
             // 通讯下一步
@@ -469,28 +482,38 @@ export default class FlightChess extends cc.Component {
         let clock;
         // 定位移动
         if (move) {
-            let moveSpace = move.to - move.from[move.index];
+            let moveSpace = Number((move.to - move.from[move.index]).toFixed(1));
+            // console.log('////////////////////////////////');
+            // console.log(moveSpace);
             moveSpace = moveSpace > 1 ? moveSpace + 1 : moveSpace;
-            // console.log('moveSpace ', move.to, move.to - move.from[move.index], move.from[move.index]);
+            // console.log(moveSpace);
+            console.log('moveSpace ', move.to, move.to - move.from[move.index], move.from[move.index]);
             let moveSetp = 1;
             const moveTo = () => {
                 let moveIndex = move.from[move.index];
                 // 前往中央转折
                 if (moveIndex === tNotePoint.in || moveIndex >> 0 === tNotePoint.in) {
-                    if (moveIndex >= tNotePoint.in + .6) moveSetp = -0.1;
+                    if (moveSpace > 8) moveSpace -= 4; // 跳格修复
+                    // 超出底部进行回退
+                    if (moveIndex >= tNotePoint.in + .5) moveSetp = -0.1;
+                    // 通过刚进来则改为小数点
                     if (moveSetp === 1) {
                         moveSetp = 0.1;
-                        playerIndex === 1 && moveSpace++;
+                        // playerIndex === 1 && moveSpace++;
                     };
-                    console.log(moveSpace, moveIndex, moveSpace);
                     moveIndex = move.from[move.index] += moveSetp;
-                    let moveI = (((moveIndex - tNotePoint.in) * 10) >> 0) - 1;
+                    // console.log(moveIndex);
+                    let moveI = (Math.ceil(((moveIndex * 100) / 10) - tNotePoint.in * 10)) - 1;
                     if (moveI === -1) moveI = 0;
+                    console.log(
+                        '位置：'  + moveSpace,
+                        '点数：'  + (moveIndex >> 0),
+                        '绝对位:' + moveI,
+                    );
                     const centerPoint = centerPedestal[playerIndex][moveI];
-                    console.log(moveI);
                     // 如果当前剩余2次（因为延迟-1）或投中1点 进入最后一个位置则判定完成
-                    if ((moveSpace === 2 || moveSpace === 1) && moveI === 5) {
-                        // console.log('fly over');
+                    if (moveSpace === 1 && moveI === 5) {
+                        console.log('fly over');
                         move.from[move.index] = -3;
                         chess.spriteFrame = this.complete;
                         this.moveChess(chess, this.chessSpawn[playerIndex][move.index]);
@@ -507,7 +530,7 @@ export default class FlightChess extends cc.Component {
                 moveSpace--;
                 
                 moveIndex = move.from[move.index];
-                // console.log(moveIndex, moveSpace, tNotePoint.in);
+                console.log(moveIndex, moveSpace, tNotePoint.in);
                 if (moveIndex > chessPoint.length - 1) {
                     moveIndex = move.from[move.index] = 1;
                 }
@@ -560,7 +583,7 @@ export default class FlightChess extends cc.Component {
                                     ;
                                     this.moveChess(this.FlightPlayer[index].pedestal[chessIndex], backPoint);
                                     // existsChess = true;
-                                    console.log('被吃');
+                                    console.log('玩家' + index + '被吃', chessArr, chessIndex, move.to);
                                 }
                             })
                         }
@@ -579,6 +602,7 @@ export default class FlightChess extends cc.Component {
                 && !move.noJump
                 && move.from[move.index] + moveSpace - 1 !== tNotePoint.in
                 && move.from[move.index] !== tNotePoint.in
+                && endIndex !== tNotePoint.in
             ) {
                 const jumpSize = 4 + (moveSpace > 1 ? 0 : 1);
                 moveSpace += jumpSize;
@@ -599,8 +623,8 @@ export default class FlightChess extends cc.Component {
                     cc.rotateTo(duration, point[2]),
                 );
             }
-            this.setpNumber = -1;
         }
+        this.setpNumber = -1;
     }
 
 

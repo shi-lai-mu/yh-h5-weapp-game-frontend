@@ -30,7 +30,12 @@ export default class NewClass extends cc.Component {
     /**
      * 旋转秒数[ms]
      */
-    time: number = 1;
+    time: number = 50;
+
+    /**
+     * 事件
+     */
+    event;
 
 
     onLoad() {
@@ -40,8 +45,10 @@ export default class NewClass extends cc.Component {
 
 
     async onClick(num: number) {
+        if (this.event && !this.event()) return;
         return new Promise((resolve, reject) => {
             let updateCount = 0;
+            clearInterval(clock);
             clock = setInterval(() => {
                 updateCount++;
                 this.dice[this.targetIndex].node.active = false;
