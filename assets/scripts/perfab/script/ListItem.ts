@@ -44,6 +44,7 @@ export default class ListItem extends cc.Component {
         Sprite.spriteFrame = this.itemTarget;
     }
 
+
     /**
      * 失焦
      */
@@ -90,5 +91,4 @@ export default class ListItem extends cc.Component {
         node.scale = scale;
         this.node.addChild(node);
     }
-    // update (dt) {}
 }
