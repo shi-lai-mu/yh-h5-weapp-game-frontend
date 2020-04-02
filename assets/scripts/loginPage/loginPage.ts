@@ -43,6 +43,8 @@ export default class Login extends cc.Component {
     passwordInputText: string = '';
     // 当前登录弹窗状态
     LoginPopupState = !0;
+    // 缓冲计时器
+    befferClock: any = null;
 
     onLoad() {
         localStorage.getItem('account') && this.onLogin();
@@ -111,16 +113,31 @@ export default class Login extends cc.Component {
         const loadingScript = loading.getComponent('loading');
         this.node.addChild(loading);
         let timeout = null;
-        await packLoading(
-            {
-                sub: [
-                    'perfabScript', 'HomeScript', 'GamesScript',
-                ],
-                scene: [
-                    'Home',
-                ],
-            }, (_packname, count, all) => {
-            loadingScript.updateValue((count / all * 100) / 100);
+        await packLoading({
+            sub: [
+                'perfabScript', 'HomeScript', 'GamesScript',
+            ],
+            scene: [
+                'Home',
+            ],
+        }, (_packname, count, all, message) => {
+            const nextValue = ((count + 1) / all * 100) / 100;
+            const currentValue = (count / all * 100) / 100;
+            const averageValue = (nextValue - currentValue) / 20;
+            let befferIndex = 0;
+            console.log(message);
+            loadingScript.updateValue(currentValue, message);
+
+            // 缓冲效果
+            this.befferClock && clearInterval(this.befferClock);
+            if (nextValue < 1) {
+                this.befferClock = setInterval(() => {
+                    if (befferIndex < 19) {
+                        befferIndex++;
+                        loadingScript.updateValue(currentValue + befferIndex * averageValue);
+                    } else clearInterval(this.befferClock);
+                }, Math.random() * 200);
+            }
             
             // 资源加载完成
             if (count === all) {

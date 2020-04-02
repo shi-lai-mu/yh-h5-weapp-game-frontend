@@ -14,17 +14,36 @@ import axios from '../utils/axiosUtils';
 @ccclass
 export default class HomePD extends cc.Component {
     /**
-     * 键盘资源
+     * 弹窗
      */
-    @property(cc.Prefab) keyboard: cc.Prefab = null;
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
     /**
      * 创建房间资源
      */
     @property(cc.Prefab) createRoomPrefab: cc.Prefab = null;
     /**
-     * 弹窗
+     * 滚动消息条
      */
-    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
+    @property(cc.Node) MessageBox: cc.Node = null;
+    /**
+     * 滚动消息内容
+     */
+    @property(cc.Label) MessageContent: cc.Label = null;
+    /**
+     * 滚动消息列表
+     */
+    messageList: Array<{ id: number; content: string; }> = [];
+    /**
+     * 当前消息ID
+     */
+    messageId: number = 0;
+
+
+    start() {
+        axios.api('get_home_message').then(messageList => this.messageList = messageList);
+    }
+
+
     /**
      * 加入房间
      */
@@ -58,6 +77,7 @@ export default class HomePD extends cc.Component {
             }
         });
     }
+
 
 
     /**
@@ -99,5 +119,23 @@ export default class HomePD extends cc.Component {
         //         console.log(data);
         //     }
         // }
+    }
+
+
+    update() {
+        const { messageId, messageList, MessageContent } = this;
+        const MessageBoxWidth = this.MessageBox.width;
+        if (messageList[messageId]) {
+            //  如果完全超出最右方
+            if (MessageContent.node.x < -MessageContent.node.width) {
+                MessageContent.string = messageList[messageId].content;
+                MessageContent.node.x = MessageBoxWidth;
+                this.messageId++;
+            } else {
+                MessageContent.node.x -= 1;
+            }
+        } else {
+            this.messageId = 0;
+        }
     }
 }

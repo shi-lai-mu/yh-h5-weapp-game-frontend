@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "055e0d91-7caa-44d4-b784-4c3f2aa1a09d",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 163,
+  "height": 45,
+  "platformSettings": {},
+  "subMetas": {
+    "飞行棋": {
+      "ver": "1.0.4",
+      "uuid": "9bb98e16-f68b-4b95-93da-9837a3c5b016",
+      "rawTextureUuid": "055e0d91-7caa-44d4-b784-4c3f2aa1a09d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 163,
+      "height": 45,
+      "rawWidth": 163,
+      "rawHeight": 45,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

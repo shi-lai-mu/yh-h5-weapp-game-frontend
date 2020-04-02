@@ -175,8 +175,6 @@ export default class FourCardsGame extends cc.Component {
         State.io.off('fourcard/gameData', this.bindonGameData);
         State.io.off('rommjoin', this.bindfetchRoomInfo);
         State.io.off('rommleave', this.bindrommleave);
-        clock && clearInterval(clock);
-        countDownClock && clearInterval(countDownClock);
     }
 
 
@@ -784,6 +782,8 @@ export default class FourCardsGame extends cc.Component {
             cc.director.loadScene('Home');
         }
 
+        clock && clearInterval(clock);
+        countDownClock && clearInterval(countDownClock);
         console.log(this.playersData.length);
     }
 

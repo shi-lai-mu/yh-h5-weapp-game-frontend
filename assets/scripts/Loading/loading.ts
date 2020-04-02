@@ -11,41 +11,62 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.ProgressBar)
-    ProgressBar: cc.ProgressBar = null;
-
-    @property(cc.Label)
-    ProgressText: cc.Label = null;
-    
+export default class ProgressLoading extends cc.Component {
+    // 进度条
+    @property(cc.ProgressBar) ProgressBar: cc.ProgressBar = null;
+    // 进度百分比节点
+    @property(cc.Label) ProgressText: cc.Label = null;
+    // 加载状态信息
+    @property(cc.Label) ProgressMessage: cc.Label = null;
+    // 当前进度
     progress: number = 0;
-    
+    // 开始时的回调
     startLoadingCallBack: any;
+    // 结束时的回调
     endLoadingCallBack: any;
 
-    start () {
-        // setInterval(() => {
-        //     this.updateValue(this.progress > 1 ? 0 : this.progress += 0.01)
-        // }, 50)
-    }
+    // start () {
+    //     // setInterval(() => {
+    //     //     this.updateValue(this.progress > 1 ? 0 : this.progress += 0.01)
+    //     // }, 50)
+    // }
 
+
+    /**
+     * 完成时
+     * @param callback 回调
+     */
     startLoading(callback) {
         this.startLoadingCallBack = callback;
     }
 
 
+    /**
+     * 进度完成时
+     * @param callback 回调函数
+     */
     endLoading(callback) {
         this.endLoadingCallBack = callback;
     }
 
 
-    updateValue(progress) {
+    /**
+     * 更新进度
+     * @param progress 进度值
+     * @param message  进度内容
+     */
+    updateValue(progress: number, message?: string) {
         this.progress = progress;
         this.progressRender();
+        if (message) {
+            this.ProgressMessage.string = message;
+        }
     }
 
 
+    /**
+     * 加载渲染
+     */
     progressRender() {
         const progress = this.progress > 1 ? 1 : this.progress;
         this.ProgressBar.progress = progress;
