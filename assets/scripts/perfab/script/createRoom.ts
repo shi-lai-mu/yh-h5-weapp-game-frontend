@@ -29,7 +29,7 @@ const gameOption = {
     fourCards: {
         name: '四副牌',
         room: [
-            [ '人数', '4人' ],
+            [ '人数', '4人', '2人(测试用)' ],
             [ '局数', '1局' ],
             [ '支付', '房主支付' ],
             [ '密码', '公开' ],
@@ -163,19 +163,21 @@ export default class CreateRoom extends cc.Component {
         const gameOpt = gameOption[prefabName];
         if (gameOpt) {
             radioOption = [];
+            this.ContentBoxView.height = 70;
             gameOpt.room.forEach((opt: string[], index) => {
                 opt = Object.assign([], opt);
                 const optGroup = cc.instantiate(this.radioGroup);
                 const radioScript = optGroup.getComponent('Radio');
                 radioScript.init(opt.shift(), opt);
                 this.ContentBoxView.addChild(optGroup);
-                optGroup.y -= index * 60 - 210;
+                optGroup.y -= index * 60 - 150;
                 radioOption.push({
                     instantiate: optGroup,
                     script: radioScript,
                     config: opt[0],
                     keyword: gameOpt.keyword[index],
                 });
+                this.ContentBoxView.height += 70;
             });
             this._GANE_ = gameOpt;
             cc.director.preloadScene(gameOpt.scene);
@@ -236,6 +238,7 @@ export default class CreateRoom extends cc.Component {
                         scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
                         scriptPopup.setEvent('success', () => {
                             popup.destroy();
+                            this.node.destroy();
                             cc.director.loadScene(this._GANE_.scene);
                         });
                         resolve(scriptPopup);
