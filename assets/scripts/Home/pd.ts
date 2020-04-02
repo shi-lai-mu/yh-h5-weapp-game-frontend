@@ -29,31 +29,30 @@ export default class HomePD extends cc.Component {
      * 加入房间
      */
     joinRoom() {
-        const joinRoomPopup = cc.instantiate(this.keyboard);
-        cc.director.getScene().addChild(joinRoomPopup);
-
-        // cc.loader.loadRes('弹窗', cc.Prefab, (err, prefab) => {
-        //     if (err) {
-        //         cc.log(err);
-        //     } else {
-        //         console.log(prefab);
-        //     }
-        // });
-        joinRoomPopup && (joinRoomPopup.getComponent('keyboard').parentClass = {
-            emit: (data) => {
-                axios.api('room_join', {
-                    data: {
-                        roomCode: data,
-                    },
-                }).then(({ status, msg }) => {
-                    if (status && msg && msg.scene) {
-                        cc.director.loadScene(msg.scene);
-                    } else {
-                        const popup = cc.instantiate(this.popupPrefab);
-                        cc.director.getScene().addChild(popup);
-                        const scriptPopup = popup.getComponent('popup');
-                        scriptPopup.init('加入房间失败!\n' + msg);
-                        scriptPopup.setEvent('close', () => {});
+        cc.loader.loadRes('prefab/keyboard', cc.Prefab, (err, prefab) => {
+            if (err) {
+                cc.log(err);
+            } else {
+                const joinRoomPopup = cc.instantiate(prefab);
+                cc.director.getScene().addChild(joinRoomPopup);
+                console.log(joinRoomPopup.getComponent('keyboard'));
+                joinRoomPopup && (joinRoomPopup.getComponent('keyboard').parentClass = {
+                    emit: (data) => {
+                        axios.api('room_join', {
+                            data: {
+                                roomCode: data,
+                            },
+                        }).then(({ status, msg }) => {
+                            if (status && msg && msg.scene) {
+                                cc.director.loadScene(msg.scene);
+                            } else {
+                                const popup = cc.instantiate(this.popupPrefab);
+                                cc.director.getScene().addChild(popup);
+                                const scriptPopup = popup.getComponent('popup');
+                                scriptPopup.init('加入房间失败!\n' + msg);
+                                scriptPopup.setEvent('close', () => {});
+                            }
+                        });
                     }
                 });
             }
@@ -86,13 +85,14 @@ export default class HomePD extends cc.Component {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
         cc.director.getScene().addChild(createRoomPrefab);
         const createRoom = createRoomPrefab.getComponent('createRoom');
-        console.log(gameName);
         if (typeof gameName === 'string') {
             setTimeout(async () => {
                 createRoom.listItems[gameName].onClick();
                 const popup = await createRoom.onCreateRoom();
-                popup.success();
-            }, 100);
+                setTimeout(() => {
+                    popup.success();
+                }, 500);
+            }, 1000);
         }
         // createRoomPrefab.getComponent('keyboard').parentClass = {
         //     emit(data) {
