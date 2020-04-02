@@ -14,11 +14,25 @@ export async function packLoading(
         sub?: string[],
         scene?: string[],
     },
-    callback?: (targetPack: string, successCount: number, allCount: number) => boolean,
+    callback?: (
+        targetPack: string,
+        /**
+         * 当前加载下标
+         */
+        successCount: number,
+        /**
+         * 加载总数
+         */
+        allCount: number,
+        /**
+         * 回执消息内容
+         */
+        message: string
+    ) => boolean,
 ) {
-    console.log(Object.keys(cc.loader.downloader._subpackages).length);
+    // console.log(Object.keys(cc.loader.downloader._subpackages).length);
     if (Object.keys(cc.loader.downloader._subpackages).length === 0) {
-        return callback && callback('skip', 1, 1);
+        return callback && callback('skip', 1, 1, '跳过加载...');
     }
 
     const { scene, sub } = packages;
@@ -32,7 +46,7 @@ export async function packLoading(
                     return console.error(err);
                 }
                 resolve();
-                callback && callback(subName, Number(subIndex) + 1, allCount);
+                callback && callback(subName, Number(subIndex) + 1, allCount, `subPack/${subName}... [${subIndex + 1}/${sub.length}]`);
             });
         })
     }
@@ -45,7 +59,7 @@ export async function packLoading(
                     return console.error(err);
                 }
                 resolve();
-                callback && callback(sceneName, Number(sceneIndex) + 1 + sub.length, allCount);
+                callback && callback(sceneName, Number(sceneIndex) + 1 + sub.length, allCount, `scene/${sceneName}... [${sceneIndex + 1}/${scene.length}]`);
             });
         })
     }
