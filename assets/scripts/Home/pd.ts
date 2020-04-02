@@ -26,16 +26,20 @@ export default class HomePD extends cc.Component {
      */
     @property(cc.Prefab) popupPrefab: cc.Prefab = null;
     /**
-     * Canvas
-     */
-    @property(cc.Canvas) Canvas: cc.Canvas = null;
-    /**
      * 加入房间
      */
     joinRoom() {
         const joinRoomPopup = cc.instantiate(this.keyboard);
-        this.Canvas.node.addChild(joinRoomPopup);
-        joinRoomPopup.getComponent('keyboard').parentClass = {
+        cc.director.getScene().addChild(joinRoomPopup);
+
+        // cc.loader.loadRes('弹窗', cc.Prefab, (err, prefab) => {
+        //     if (err) {
+        //         cc.log(err);
+        //     } else {
+        //         console.log(prefab);
+        //     }
+        // });
+        joinRoomPopup && (joinRoomPopup.getComponent('keyboard').parentClass = {
             emit: (data) => {
                 axios.api('room_join', {
                     data: {
@@ -46,14 +50,14 @@ export default class HomePD extends cc.Component {
                         cc.director.loadScene(msg.scene);
                     } else {
                         const popup = cc.instantiate(this.popupPrefab);
-                        this.Canvas.node.addChild(popup);
+                        cc.director.getScene().addChild(popup);
                         const scriptPopup = popup.getComponent('popup');
                         scriptPopup.init('加入房间失败!\n' + msg);
                         scriptPopup.setEvent('close', () => {});
                     }
                 });
             }
-        }
+        });
     }
 
 
@@ -66,7 +70,7 @@ export default class HomePD extends cc.Component {
                 cc.director.loadScene(msg.scene);
             } else {
                 const popup = cc.instantiate(this.popupPrefab);
-                this.Canvas.node.addChild(popup);
+                cc.director.getScene().addChild(popup);
                 const scriptPopup = popup.getComponent('popup');
                 scriptPopup.init('加入房间失败!\n' + msg);
                 scriptPopup.setEvent('close', () => {});
@@ -80,9 +84,8 @@ export default class HomePD extends cc.Component {
      */
     showCreateRoomPopup(_e, gameName?: string) {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
-        this.Canvas.node.addChild(createRoomPrefab);
+        cc.director.getScene().addChild(createRoomPrefab);
         const createRoom = createRoomPrefab.getComponent('createRoom');
-        createRoom.Canvas = this.Canvas;
         console.log(gameName);
         if (typeof gameName === 'string') {
             setTimeout(async () => {
@@ -97,12 +100,4 @@ export default class HomePD extends cc.Component {
         //     }
         // }
     }
-
-    
-    onDestroy() {
-        // cc.loader.setAutoReleaseRecursively('pd', true);
-    }
-
-
-    // update (dt) {}
 }

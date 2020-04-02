@@ -70,9 +70,7 @@ export default class NewClass extends cc.Component {
         this.watch();
         State.observer.on('socketConnect', this.watch.bind(this));
         // 账号在线监测
-        console.log(1);
         State.observer.on('onLine', (content: string) => {
-            console.log(2);
             const popup = cc.instantiate(this.popupPrefab);
             this.node.parent.addChild(popup);
             const scriptPopup = popup.getComponent('popup');
@@ -180,6 +178,7 @@ export default class NewClass extends cc.Component {
         State.io.off('signal', this.onSignal.bind(this));
         State.observer.off('socketConnect', this.watch.bind(this));
         clock && clearInterval(clock);
+        statusUpdateTime = 0;
     }
 
     // update (dt) {}

@@ -144,6 +144,7 @@ export default class GoBangMainService extends cc.Component {
             player.timeOut.string = timeFrom(0);
             this.playersData[0].timeOut = cooling;
         });
+        console.log(clock);
         !clock && (clock = setInterval(() => {
             this.playersData.forEach((player, index) => {
                 if (player.timeOut) {
@@ -168,9 +169,6 @@ export default class GoBangMainService extends cc.Component {
      */
     gameOver(picec: any) {
         const { Players, playersData } = this;
-        const chessPrefab = cc.instantiate(this.chessPrefab);
-        this.node.parent.addChild(chessPrefab);
-        const chessScript = chessPrefab.getComponent('overScript');
         const winnerUser = playersData[picec.type];
         const loserUser = playersData[picec.type ? 0 : 1];
         axios.api('room_exit', {
@@ -184,6 +182,9 @@ export default class GoBangMainService extends cc.Component {
             return;
         }
 
+        const chessPrefab = cc.instantiate(this.chessPrefab);
+        this.node.parent.addChild(chessPrefab);
+        const chessScript = chessPrefab.getComponent('overScript');
         chessScript.init({
             players: [{ 
                 nickname: winnerUser.nickname,
