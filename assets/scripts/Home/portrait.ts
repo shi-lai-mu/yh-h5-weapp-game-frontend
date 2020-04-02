@@ -59,11 +59,4 @@ export default class Portrait extends cc.Component {
             this.avatar.spriteFrame = spriteFrame;
         });
     }
-
-    
-    onDestroy() {
-        // cc.loader.setAutoReleaseRecursively('portrait', true);
-    }
-
-    // update (dt) {}
 }

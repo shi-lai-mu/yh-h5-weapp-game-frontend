@@ -235,6 +235,7 @@ export default class CreateRoom extends cc.Component {
                     axios.api('room_info').then(res => {
                         scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
                         scriptPopup.setEvent('success', () => {
+                            popup.destroy();
                             cc.director.loadScene(this._GANE_.scene);
                         });
                         resolve(scriptPopup);
