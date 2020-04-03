@@ -89,10 +89,11 @@ export default class NewClass extends cc.Component {
             State.io.emit('signal', '');
             const time = Date.now();
 
-            // if (statusUpdateTime === 0) {
-            //     console.log('retrun statusUpdateTime');
-            //     return;
-            // }
+            if (statusUpdateTime === 0) {
+                console.log('retrun statusUpdateTime');
+                statusUpdateTime = Date.now();
+                return;
+            }
             if (statusUpdateTime + (10 * 1000) < Date.now()) {
                 console.log(statusUpdateTime, statusUpdateTime + (10 * 1000), Date.now());
                 // 掉线二次检测
