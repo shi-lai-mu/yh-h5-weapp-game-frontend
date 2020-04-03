@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "0eff3c70-3964-4ee0-9e6b-e1836916ed7c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 644,
+  "height": 1825,
+  "platformSettings": {},
+  "subMetas": {
+    "空温度计": {
+      "ver": "1.0.4",
+      "uuid": "dae0c315-5d04-4239-95a1-4f7da5303642",
+      "rawTextureUuid": "0eff3c70-3964-4ee0-9e6b-e1836916ed7c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -0.5,
+      "trimX": 3,
+      "trimY": 2,
+      "width": 638,
+      "height": 1822,
+      "rawWidth": 644,
+      "rawHeight": 1825,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
