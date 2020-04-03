@@ -73,6 +73,8 @@ export default class FlightChess extends cc.Component {
     setpNumber = -1;
     // 骰子状态
     diceState: boolean = false;
+    // 中间步数下标
+    centerChessIndex: number[][] = [[], [], [], []];
 
     bindonGameData = (data) => this.onGameData(data);
     bindfetchRoomInfo = () => this.fetchRoomInfo();
@@ -176,6 +178,7 @@ export default class FlightChess extends cc.Component {
         const { gameData } = roomInfo;
         playerIndex = playerIndex !== undefined ? playerIndex : roomInfo.playerIndex;
         setpNumber = setpNumber || this.setpNumber;
+        console.log('chessTakeOff.click ===============>', chessIndex);
 
         // 隐藏聚焦圈
         if (_e) this.clearFouseState();
@@ -187,9 +190,12 @@ export default class FlightChess extends cc.Component {
             const targetSprite = this.FlightPlayer[playerIndex].pedestal[chessIndex];
             // 检测是否允许玩家出棋
             if (targetChess === -2 && takeOff.indexOf(setpNumber) !== -1) {
+                console.log(gameData.chess[playerIndex], gameData);
                 const tStartPoint = startPoint[playerIndex];
                 this.moveChess(targetSprite, tStartPoint);
                 gameData.chess[playerIndex][chessIndex] = -1;
+                console.log('出棋',chessIndex, targetChess === -2, takeOff.indexOf(setpNumber) !== -1);
+                console.log(gameData.chess[playerIndex], gameData);
             } else if (targetChess > -2) {
                 const outIndex =  notePoint[playerIndex].out - 1;
                 const nextIndex = (targetChess === -1 ? outIndex : targetChess) + setpNumber;
@@ -213,8 +219,8 @@ export default class FlightChess extends cc.Component {
                     chessIndex,
                     index: playerIndex,
                 });
+                this.setpNumber = -1;
             }
-            this.setpNumber = -1;
         }
     }
 
@@ -482,37 +488,49 @@ export default class FlightChess extends cc.Component {
         let clock;
         // 定位移动
         if (move) {
-            let moveSpace = Number((move.to - move.from[move.index]).toFixed(1));
-            // console.log('////////////////////////////////');
+            let moveSpace = move.to - move.from[move.index];
+            console.log('////////////////////////////////', this.roomInfo);
             // console.log(moveSpace);
             moveSpace = moveSpace > 1 ? moveSpace + 1 : moveSpace;
             // console.log(moveSpace);
-            console.log('moveSpace ', move.to, move.to - move.from[move.index], move.from[move.index]);
+            console.log('move ', 
+                '到: ' + move.to,
+                '格' + (move.to - move.from[move.index]),
+                move.from[move.index]
+            );
             let moveSetp = 1;
+            const { centerChessIndex } = this;
+            const targetCenterChess = centerChessIndex[playerIndex];
             const moveTo = () => {
                 let moveIndex = move.from[move.index];
                 // 前往中央转折
-                if (moveIndex === tNotePoint.in || moveIndex >> 0 === tNotePoint.in) {
+                if (moveIndex === tNotePoint.in) {
+                    if (!targetCenterChess[move.index]) {
+                        targetCenterChess[move.index] = 0;
+                        if (moveSpace > 2) moveSpace -= 1;
+                        console.log(moveSpace);
+                    }
                     if (moveSpace > 8) moveSpace -= 4; // 跳格修复
                     // 超出底部进行回退
-                    if (moveIndex >= tNotePoint.in + .5) moveSetp = -0.1;
+                    // if (moveIndex >= tNotePoint.in + .5) moveSetp = -0.1;
+                    if (targetCenterChess[move.index] >= 5) moveSetp = -1;
                     // 通过刚进来则改为小数点
-                    if (moveSetp === 1) {
-                        moveSetp = 0.1;
-                        // playerIndex === 1 && moveSpace++;
-                    };
-                    moveIndex = move.from[move.index] += moveSetp;
+                    // if (moveSetp === 1) {
+                    //     moveSetp = 0.1;
+                    //     // playerIndex === 1 && moveSpace++;
+                    // };
+                    const moveI = targetCenterChess[move.index] += moveSetp;
                     // console.log(moveIndex);
-                    let moveI = (Math.ceil(((moveIndex * 100) / 10) - tNotePoint.in * 10)) - 1;
-                    if (moveI === -1) moveI = 0;
+                    // let moveI = (Math.ceil(((moveIndex * 100) / 10) - tNotePoint.in * 10)) - 1;
+                    // if (moveI === -1) moveI = 0;
                     console.log(
-                        '位置：'  + moveSpace,
-                        '点数：'  + (moveIndex >> 0),
+                        '剩余：'  + moveSpace,
+                        '位置：'  + moveIndex,
                         '绝对位:' + moveI,
                     );
                     const centerPoint = centerPedestal[playerIndex][moveI];
                     // 如果当前剩余2次（因为延迟-1）或投中1点 进入最后一个位置则判定完成
-                    if (moveSpace === 1 && moveI === 5) {
+                    if ((moveSpace === 1 || moveSpace === 2) && moveI === 5) {
                         console.log('fly over');
                         move.from[move.index] = -3;
                         chess.spriteFrame = this.complete;
@@ -530,7 +548,12 @@ export default class FlightChess extends cc.Component {
                 moveSpace--;
                 
                 moveIndex = move.from[move.index];
-                console.log(moveIndex, moveSpace, tNotePoint.in);
+                console.log(
+                    '玩家:' + playerIndex,
+                    '移动下标:' + moveIndex,
+                    '移动个数:' + moveSpace,
+                    '中:' + tNotePoint.in
+                );
                 if (moveIndex > chessPoint.length - 1) {
                     moveIndex = move.from[move.index] = 1;
                 }
@@ -572,8 +595,9 @@ export default class FlightChess extends cc.Component {
                                 if (chessValue === move.to) {
                                     // 覆盖中
                                     // console.log(move.from, chessArr, chessIndex, move.to, playerTarget, this.roomInfo.playerIndex, move);
-                                    move.from[chessIndex] = -2;
+                                    // move.from[chessIndex] = -2;
                                     this.roomInfo.gameData.chess[index][chessIndex] = -2;
+                                    console.log('覆盖');
                                     // console.log(move.from, this.chessSpawn[index], index, chessIndex);
                                     const backPoint = this.chessSpawn[index][chessIndex];
                                     backPoint[2] = index === 0
@@ -588,6 +612,7 @@ export default class FlightChess extends cc.Component {
                             })
                         }
                     });
+                    console.log('----> ', move.from);
                     // if (existsChess) return true;
                     // console.log('降落完毕');
                     // console.log(move, this.roomInfo.gameData.chess);
@@ -624,7 +649,6 @@ export default class FlightChess extends cc.Component {
                 );
             }
         }
-        this.setpNumber = -1;
     }
 
 
