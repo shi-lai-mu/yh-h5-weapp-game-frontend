@@ -56,6 +56,6 @@ export default class Portrait extends cc.Component {
         // avatarUrl === 1 时加载ID的头像否则加载Default头像
         loadImg(avatarUrl, spriteFrame => {
             this.avatar.spriteFrame = spriteFrame;
-        }, 'avatar');
+        }, 'avatar', id);
     }
 }
