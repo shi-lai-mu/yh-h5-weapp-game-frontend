@@ -98,7 +98,7 @@ export default class RegisterAccount extends cc.Component {
                 }).join('-');
                 localStorage.setItem('account', JSON.stringify({ a, p }));
                 localStorage.setItem('userInfo', JSON.stringify(res));
-                State.userInfo = res;;
+                State.userInfo = res;
                 State.observer.emit('tokenUpdate', res.token); 
                 this.parentClass.loadingScens();
             } else {

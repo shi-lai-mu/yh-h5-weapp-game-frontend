@@ -115,6 +115,9 @@
       },
       {
         "__id__": 103
+      },
+      {
+        "__id__": 104
       }
     ],
     "_prefab": null,
@@ -376,9 +379,6 @@
       },
       {
         "__id__": 11
-      },
-      {
-        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -571,7 +571,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.05,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 12
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -628,14 +632,14 @@
     "_id": "93e00HcgBAj4a2Teu5mj/5"
   },
   {
-    "__type__": "ddd93nvCDVDYozZ0JWOkj77",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 7
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
     },
-    "_enabled": true,
-    "_id": "a3/bcbyjdBbKooDGN7qyYi"
+    "component": "",
+    "_componentId": "ddd93nvCDVDYozZ0JWOkj77",
+    "handler": "onClickLoginButton",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Node",
@@ -4400,5 +4404,15 @@
     "_originalWidth": 0,
     "_originalHeight": 0,
     "_id": "9dTmrsxdVJnpjCad2fn2l1"
+  },
+  {
+    "__type__": "ddd93nvCDVDYozZ0JWOkj77",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_id": "baNXyIe7tAh72MsgfVYi6Y"
   }
 ]

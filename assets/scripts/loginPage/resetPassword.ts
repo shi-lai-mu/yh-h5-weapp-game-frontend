@@ -7,7 +7,6 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
-import State from '../utils/state';
 import LoginService from './loginPage';
 
 @ccclass
