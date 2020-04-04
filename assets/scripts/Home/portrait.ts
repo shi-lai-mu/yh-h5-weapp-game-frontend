@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import State from '../utils/state';
+import { loadImg } from '../utils/tool';
 
 @ccclass
 export default class Portrait extends cc.Component {
@@ -53,10 +54,8 @@ export default class Portrait extends cc.Component {
         this.gold.string = gold.toString();
         // 头像在线加载
         // avatarUrl === 1 时加载ID的头像否则加载Default头像
-        cc.loader.load(`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${avatarUrl ? id : 'default'}.png`, (error, texture) => {
-            if (error) return;
-            var spriteFrame = new cc.SpriteFrame(texture);
+        loadImg(avatarUrl, spriteFrame => {
             this.avatar.spriteFrame = spriteFrame;
-        });
+        }, 'avatar');
     }
 }
