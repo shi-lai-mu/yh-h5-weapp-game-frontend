@@ -46,7 +46,7 @@ export async function packLoading(
                     return console.error(err);
                 }
                 resolve();
-                callback && callback(subName, Number(subIndex) + 1, allCount, `subPack/${subName}... [${subIndex + 1}/${sub.length}]`);
+                callback && callback(subName, Number(subIndex) + 1, allCount, `subPack/${subName}... [${Number(subIndex + 1)}/${sub.length}]`);
             });
         })
     }
@@ -59,7 +59,7 @@ export async function packLoading(
                     return console.error(err);
                 }
                 resolve();
-                callback && callback(sceneName, Number(sceneIndex) + 1 + sub.length, allCount, `scene/${sceneName}... [${sceneIndex + 1}/${scene.length}]`);
+                callback && callback(sceneName, Number(sceneIndex) + 1 + sub.length, allCount, `scene/${sceneName}... [${Number(sceneIndex + 1)}/${scene.length}]`);
             });
         })
     }

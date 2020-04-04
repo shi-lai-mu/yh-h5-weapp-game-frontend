@@ -9,7 +9,10 @@ export default class wxLogin extends cc.Component {
     userInfo;
 
     start() {
-      const { width, height, x, y } = this.node;
+      const width = 210;
+      const height = 96;
+      const x = -284;
+      const y = -161.41;
       const that = this;
 
       if (window.wx) {
@@ -25,6 +28,9 @@ export default class wxLogin extends cc.Component {
                 success(res){
                   that.userInfo = res.userInfo;
                   //此时可进行登录操作
+                  if (State.userInfo) {
+                    that.onWxLogin(res.userInfo);
+                  }
                 }
               });
              } else {
@@ -37,7 +43,7 @@ export default class wxLogin extends cc.Component {
                   top: (screenHeight/2 - (height * 1.3)) - y,
                   width: width * .8,
                   height: height * .8,
-                  backgroundColor: '#000000',//最后两位为透明度
+                  backgroundColor: '#00000000',//最后两位为透明度
                   color: '#ffffff',
                   fontSize: 20,
                   textAlign: "center",
