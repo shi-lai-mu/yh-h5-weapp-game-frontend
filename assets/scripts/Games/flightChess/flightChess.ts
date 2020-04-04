@@ -126,9 +126,14 @@ export default class FlightChess extends cc.Component {
                 console.log(this.FlightPlayer);
                 const target = this.FlightPlayer[index];
                 target.nickName.string = player.nickname;
-                loadImg(`${player.avatarUrl ? player.id : 'default'}.png`, spriteFrame => {
-                    target.avatarUrl = spriteFrame;
-                }, 'avatar');
+                loadImg(
+                    player.avatarUrl,
+                    spriteFrame => {
+                        target.avatarUrl = spriteFrame;
+                    },
+                    'avatar',
+                    player.id
+                );
             });
             this.roomCode.string = '房间号: ' + res.roomCode;
             this.roomInfo = res;

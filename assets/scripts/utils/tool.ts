@@ -106,14 +106,26 @@ export function dateFrom(fmt: string = 'yyyy-MM-dd HH:mm:ss', form?: number) {
 
 /**
  * 加载图片
- * @param url      - 图片url
- * @param callback - 回调函数
+ * @param url       - 图片url
+ * @param callback  - 回调函数
+ * @param type      - 图片类型
+ * @param urlParams - 携带参数
+ * @param imgType   - 图片后缀
  */
 const urlBase = {
     avatar: 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/',
 };
-export function loadImg(url, callback, type?: 'avatar') {
-    type && (url = urlBase[type] + url);
+export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType: 'png' | false = 'png') {
+
+    if (type === 'avatar' && !/\/\//.test(url)) {
+        url = url ? urlParams : 'default';
+    }
+
+    if (!/\/\//.test(url)) {
+        type && (url = urlBase[type] + url);
+        if (imgType) url += `.${imgType}`;
+    }
+    console.log(url);
     cc.loader.load(url, (_error, texture) => {
         _error && console.error(_error);
         callback(new cc.SpriteFrame(texture));

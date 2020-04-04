@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 import axios from '../../utils/axiosUtils';
-import { setAutoRecursively } from '../../utils/tool';
+import { setAutoRecursively, loadImg } from '../../utils/tool';
 
 /**
  * 玩家数据
@@ -285,7 +285,6 @@ export default class GoBangMainService extends cc.Component {
      * @param userInfo - 玩家数据
      */
     playerJoin(userInfo: { id: number; nickname: string; avatarUrl: number; }) {
-        const avatarBase = 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar';
         const userIndex = this.playersData.push({
             ...userInfo,
             setp: 0,
@@ -294,9 +293,14 @@ export default class GoBangMainService extends cc.Component {
         }) - 1;
         const target = this.Players[userIndex];
         target.dataIndex = userIndex;
-        loadImg(`${avatarBase}/${userInfo.avatarUrl ? userInfo.id : 'default'}.png`, (spriteFrame) => {
-            target.avatar.spriteFrame = spriteFrame;
-        });
+        loadImg(
+            userInfo.avatarUrl,
+            spriteFrame => {
+                target.avatar.spriteFrame = spriteFrame;
+            },
+            'avatar',
+            userInfo.id
+        );
         target.nickName.string = userInfo.nickname;
     }
 
@@ -600,18 +604,6 @@ export default class GoBangMainService extends cc.Component {
  */
 function timeFrom(time) {
     return `00${Math.floor(time / 60)}`.substr(-2) + ':' + `00${Math.floor(time % 60)}`.substr(-2);
-}
-
-
-/**
- * 加载图片
- * @param url      - 图片url
- * @param callback - 回调函数
- */
-const loadImg = (url, callback) => {
-    cc.loader.load(url, (_error, texture) => {
-        callback(new cc.SpriteFrame(texture));
-    });
 }
 
 /**

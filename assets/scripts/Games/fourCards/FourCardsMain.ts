@@ -677,20 +677,30 @@ export default class FourCardsGame extends cc.Component {
             this.playersData = [];
             const myPlayer = this.FourCardsPlayers[0];
             let outherPlayer = 1;
-            loadImg(`${MyUserData.avatarUrl ? MyUserData.id : 'default'}.png`, (spriteFrame) => {
-                myPlayer.avatarUrl.spriteFrame = spriteFrame;
-                myPlayer.noteScore.string = '0';
-                myPlayer.cardCount && (myPlayer.cardCount.string = '54');
-                myPlayer.score.string = '0';
-            }, 'avatar');
+            loadImg(
+                MyUserData.avatarUrl,
+                spriteFrame => {
+                    myPlayer.avatarUrl.spriteFrame = spriteFrame;
+                    myPlayer.noteScore.string = '0';
+                    myPlayer.cardCount && (myPlayer.cardCount.string = '54');
+                    myPlayer.score.string = '0';
+                },
+                'avatar',
+                MyUserData.id
+            );
             this.playersData = res.players.map((player, index) => {
                 if (index !== res.playerIndex) {
                     const target = this.FourCardsPlayers[outherPlayer];
                     player.index = outherPlayer;
                     target.nickname.string = player.nickname;
-                    loadImg(`${player.avatarUrl ? player.id : 'default'}.png`, (spriteFrame) => {
-                        target.avatarUrl.spriteFrame = spriteFrame;
-                    }, 'avatar');
+                    loadImg(
+                        player.avatarUrl,
+                        (spriteFrame) => {
+                            target.avatarUrl.spriteFrame = spriteFrame;
+                        },
+                        'avatar',
+                        player.id
+                    );
                     outherPlayer++;
                 } else {
                     player.index = 0;
