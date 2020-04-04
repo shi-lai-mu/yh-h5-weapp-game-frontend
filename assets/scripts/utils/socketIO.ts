@@ -89,6 +89,7 @@ export default {
       
       socket.on('onLine', data => {
         console.log(data);
+        State.io.online = true;
         setTimeout(() => State.observer.emit('onLine', data), 1000);
       });
       // 自定义事件

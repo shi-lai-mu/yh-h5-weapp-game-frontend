@@ -69,8 +69,7 @@ export default class NewClass extends cc.Component {
     onLoad() {
         this.watch();
         State.observer.on('socketConnect', this.watch.bind(this));
-        // 账号在线监测
-        State.observer.on('onLine', (content: string) => {
+        const onLine = (content: string) => {
             const popup = cc.instantiate(this.popupPrefab);
             this.node.parent.addChild(popup);
             const scriptPopup = popup.getComponent('popup');
@@ -79,7 +78,13 @@ export default class NewClass extends cc.Component {
                 localStorage.clear();
                 cc.director.loadScene('loginPage');
             });
-        });
+        }
+
+        // 账号在线监测
+        State.observer.on('onLine', onLine);
+
+        // 提早得到在线通知时
+        if (State.io.online) onLine('当前账号已在其他设备上登录!');
     }
 
     watch() {
