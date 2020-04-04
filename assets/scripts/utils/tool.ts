@@ -118,14 +118,14 @@ const urlBase = {
 export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType: 'png' | false = 'png') {
 
     if (type === 'avatar' && !/\/\//.test(url)) {
-        url = url ? urlParams : 'default';
+        url = url ? (urlParams || 'default') : 'default';
     }
 
     if (!/\/\//.test(url)) {
         type && (url = urlBase[type] + url);
         if (imgType) url += `.${imgType}`;
     }
-    console.log(url);
+    // console.log(url);
     cc.loader.load(url, (_error, texture) => {
         _error && console.error(_error);
         callback(new cc.SpriteFrame(texture));

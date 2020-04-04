@@ -11,13 +11,12 @@ export default class wxLogin extends cc.Component {
     start() {
       const { width, height, x, y } = this.node;
       const that = this;
-      console.log(width, height);
-      let sysInfo = window.wx.getSystemInfoSync();
-      //获取微信界面大小
-      let screenWidth = sysInfo.screenWidth;
-      let screenHeight = sysInfo.screenHeight;
 
       if (window.wx) {
+        let sysInfo = window.wx.getSystemInfoSync();
+        //获取微信界面大小
+        let screenWidth = sysInfo.screenWidth;
+        let screenHeight = sysInfo.screenHeight;
         window.wx.getSetting({
           success (res) {
             console.log(res.authSetting);

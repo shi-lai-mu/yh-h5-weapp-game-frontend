@@ -11,6 +11,9 @@ import State from '../utils/state';
 import { setAutoRecursively } from '../utils/tool';
 const {ccclass, property} = cc._decorator;
 
+// 是否为第一次打开
+let onlyOpen = false;
+
 @ccclass
 export default class Home extends cc.Component {
 
@@ -38,6 +41,11 @@ export default class Home extends cc.Component {
         if (!userInfo) {
             cc.director.loadScene('loginPage');
             return !1;
+        }
+        // 默认打开的内容
+        if (!onlyOpen) {
+            // this.openPopup(false, 'ActivityPrefab');
+            onlyOpen = true;
         }
     }
 
