@@ -39,6 +39,7 @@ const State = {
         emit(keyword, callback) {},
         on(keyword, callback) {},
         off(keyword, callback) {},
+        online: false,
     },
 
     /**
