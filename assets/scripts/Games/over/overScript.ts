@@ -36,11 +36,10 @@ const UserItem = cc.Class({
 })
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GameOver extends cc.Component {
 
     @property(cc.Label)
     label: cc.Label = null;
-    
 
     @property(UserItem)
     UserItem: {
@@ -57,8 +56,6 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Label)
     Time: cc.Label = null;
-
-    // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.UserItem.forEach((item, index) => {

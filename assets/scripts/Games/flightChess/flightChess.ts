@@ -501,7 +501,8 @@ export default class FlightChess extends cc.Component {
             console.log('move ', 
                 '到: ' + move.to,
                 '格' + (move.to - move.from[move.index]),
-                move.from[move.index]
+                move.from[move.index],
+                '棋子下标: ' + move.index
             );
             let moveSetp = 1;
             const { centerChessIndex } = this;
@@ -618,8 +619,9 @@ export default class FlightChess extends cc.Component {
                         }
                     });
                     console.log('----> ', move.from);
+                    console.log('----|', this.roomInfo.gameData.chess);
                     // if (existsChess) return true;
-                    // console.log('降落完毕');
+                    console.log('降落完毕');
                     // console.log(move, this.roomInfo.gameData.chess);
                 }
                 this.moveChess(chess, chessPoint[moveIndex]);

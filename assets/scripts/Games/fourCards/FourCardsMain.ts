@@ -755,19 +755,31 @@ export default class FourCardsGame extends cc.Component {
             const chessPrefab = cc.instantiate(this.chessPrefab);
             const chessScript = chessPrefab.getComponent('overScript');
             const chessData: any = [];
-            console.log(data.gameData, data.gameData.score);
+            let winner = null;
             playersData.forEach((player, index) => {
                 const gamedata = data.gameData;
-                console.log(index);
+                const score = gamedata.score[index];
                 chessData.push({
                     nickname: player.nickname,
                     avatarUrl: FourCardsPlayers[index].avatarUrl.spriteFrame,
-                    score: gamedata.score[index],
+                    score,
                     item: {
                         noteScore: gamedata.noteScore[index],
                     },
                 });
+                if (!winner || winner.score < score) {
+                    winner = {
+                        player,
+                        score,
+                    };
+                }
             });
+
+            // 赢家显示
+            if (winner) {
+                winner.player.winner = true;
+            }
+
             chessScript.init({
                 players: chessData,
                 itemKey: {
@@ -777,6 +789,7 @@ export default class FourCardsGame extends cc.Component {
                 roomId: data.roomCode,
             });
             this.node.addChild(chessPrefab);
+            this.roomExit();
         } else if (this.roomInfoData.playerIndex !== 0) {
             const popup = cc.instantiate(popupPrefab);
             const scriptPopup = popup.getComponent('popup');

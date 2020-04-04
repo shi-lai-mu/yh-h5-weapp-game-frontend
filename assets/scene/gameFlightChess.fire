@@ -112,18 +112,21 @@
       },
       {
         "__id__": 116
+      },
+      {
+        "__id__": 120
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 120
+        "__id__": 122
       },
       {
-        "__id__": 121
+        "__id__": 123
       },
       {
-        "__id__": 126
+        "__id__": 128
       }
     ],
     "_prefab": null,
@@ -5367,16 +5370,16 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -415.121,
-        295.9999999999999,
+        -457.61000000000007,
+        273.933,
         0,
         0,
         0,
         0,
         1,
-        0.397,
-        0.397,
-        0.397
+        0.515,
+        0.515,
+        0.515
       ]
     },
     "_eulerAngles": {
@@ -5435,9 +5438,9 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 52.96899999999997,
+    "_left": 6.939999999999969,
     "_right": 899.8879999999999,
-    "_top": 13.479500000000098,
+    "_top": 32.41950000000004,
     "_bottom": 605.4795,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -5760,6 +5763,52 @@
     "_id": "d0/7+XNLZFU5/ph2Z5N8XS"
   },
   {
+    "__type__": "cc.Node",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_id": "1bdxgM4ONHvJBOGE9/votu",
+    "_prefab": {
+      "__id__": 121
+    },
+    "_name": "signal",
+    "_active": true,
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -481.501,
+        317.79,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 120
+    },
+    "asset": {
+      "__uuid__": "84c0fdcf-dc9e-42ed-ad89-7ec4a0194c3f"
+    },
+    "fileId": "265piaH89HCpZQ97dO4JM5",
+    "sync": true
+  },
+  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -5786,16 +5835,16 @@
     "_enabled": true,
     "FlightPlayer": [
       {
-        "__id__": 122
-      },
-      {
-        "__id__": 123
-      },
-      {
         "__id__": 124
       },
       {
         "__id__": 125
+      },
+      {
+        "__id__": 126
+      },
+      {
+        "__id__": 127
       }
     ],
     "addDiceCount": {

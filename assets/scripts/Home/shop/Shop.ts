@@ -96,7 +96,7 @@ export default class Activity extends cc.Component {
                         let offsetX = 0;
                         const col = mainContent.width > 600 ? 5 : 4;
                         res.forEach((item, index) => {
-                            if (index % 5 === 0) {
+                            if (index % col === 0) {
                                 offsetX = 0;
                             }
                             offsetX++;
