@@ -63,7 +63,8 @@ export default {
         query: {
           token: newToken,
         },
-        transports:['websocket'],
+        forceNew: true,
+        transports: [ 'websocket' ],
       });
       socket.on('connect', () => {
         State.io = socket;

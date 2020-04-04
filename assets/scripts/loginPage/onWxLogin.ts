@@ -2,10 +2,12 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
-import { packLoading } from '../utils/tool';
 
 @ccclass
 export default class wxLogin extends cc.Component {
+
+    userInfo;
+
     start() {
       const { width, height, x, y } = this.node;
       const that = this;
@@ -16,20 +18,17 @@ export default class wxLogin extends cc.Component {
       let screenHeight = sysInfo.screenHeight;
 
       if (window.wx) {
-        let exportJson = {};
         window.wx.getSetting({
           success (res) {
             console.log(res.authSetting);
             if (res.authSetting["scope.userInfo"]) {
-              console.log("用户已授权");
               window.wx.getUserInfo({
                 success(res){
-                  console.log(res);
-                  that.onWxLogin(res.userInfo);
+                  that.userInfo = res.userInfo;
                   //此时可进行登录操作
                 }
               });
-             }else {
+             } else {
               console.log("用户未授权");
               let button = window.wx.createUserInfoButton({
                 type: 'text',
@@ -48,11 +47,10 @@ export default class wxLogin extends cc.Component {
               });
               button.onTap((res) => {
                 if (res.userInfo) {
-                  console.log("用户授权:", res);
                   that.onWxLogin(res.userInfo);
                   //此时可进行登录操作
                   button.destroy();
-                }else {
+                } else {
                   console.log("用户拒绝授权:", res);
                 }
               });
@@ -62,7 +60,22 @@ export default class wxLogin extends cc.Component {
       }
     }
 
+
+    /**
+     * 点击用户登录按钮时
+     */
+    onClickLoginButton() {
+      if (this.userInfo) {
+        this.onWxLogin(this.userInfo);
+      }
+    }
+
+
+    /**
+     * 微信授权登录
+     */
     onWxLogin(userInfo) {
+      const that = this;
       window.wx.login({
         success (res) {
           if (res.errMsg === 'login:ok') {
@@ -73,7 +86,14 @@ export default class wxLogin extends cc.Component {
               },
               data: userInfo,
             }).then(res => {
-              console.log(res);
+              if (res.token) {
+                console.log(res);
+                State.userInfo = res;
+                localStorage.setItem('userInfo', JSON.stringify(res));
+                State.observer.emit('tokenUpdate', res.token);
+                console.log(that.node, that.node.getComponent('loginPage'));
+                that.node.getComponent('loginPage').loadingScens();
+              }
             });
           }
         }
