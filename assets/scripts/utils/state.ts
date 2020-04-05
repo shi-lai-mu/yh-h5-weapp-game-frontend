@@ -58,6 +58,15 @@ const State = {
     },
 
     /**
+     * 服务器配置
+     */
+    serverConfig: {
+        state: {
+            value: 0,
+        }
+    },
+
+    /**
      * 游戏数据
      */
     gameData: {

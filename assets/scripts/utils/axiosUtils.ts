@@ -188,6 +188,7 @@ export default class HttpUtil {
           }
         };
         xhr.send(method !== 'get' ? dataStr : '');
+        xhr.onerror = reject;
       });
   }
 
