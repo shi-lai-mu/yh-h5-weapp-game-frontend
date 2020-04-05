@@ -62,18 +62,7 @@ export default class Login extends cc.Component {
                 console.log(res);
                 State.serverConfig = res;
 
-                // 启动时需展现内容
-                const { startMessage } = res;
-                console.log(startMessage, startMessage.value);
-                if (startMessage && startMessage.value) {
-                    const popupMessage = cc.instantiate(this.messagePrefab);
-                    const loginMsgScript = popupMessage.getComponent('loginMessage');
-                    if (this.messageTitle[startMessage.value]) {
-                        loginMsgScript.setTitle(this.messageTitle[startMessage.value]);
-                    }
-                    loginMsgScript.setContent(startMessage.note);
-                    this.node.addChild(popupMessage);
-                }
+                this.showMessage();
 
                 // 服务器状态过滤
                 if (res.state.value !== '0') {
@@ -81,6 +70,7 @@ export default class Login extends cc.Component {
                     return this.popupMiniContent(res.state.note);
                 }
 
+                // 如果本地存在 account 数据 则尝试进行自动登录
                 localStorage.getItem('account') && this.onLogin();
             })
             .catch(() => {
@@ -97,6 +87,34 @@ export default class Login extends cc.Component {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
+    }
+
+
+    /**
+     * 显示通知弹窗
+     */
+    showMessage() {
+        // 启动时需展现内容
+        const { startMessage } = State.serverConfig;
+        if (startMessage && startMessage.value) {
+            const popupMessage = cc.instantiate(this.messagePrefab);
+            const loginMsgScript = popupMessage.getComponent('loginMessage');
+            if (this.messageTitle[startMessage.value]) {
+                loginMsgScript.setTitle(this.messageTitle[startMessage.value]);
+            }
+            loginMsgScript.setContent(startMessage.note);
+            this.node.addChild(popupMessage);
+        }
+    }
+
+
+    /**
+     * 重置资源
+     */
+    reset() {
+        State.io.disconnect && State.io.disconnect();
+        localStorage.clear();
+        location.reload();
     }
 
 
