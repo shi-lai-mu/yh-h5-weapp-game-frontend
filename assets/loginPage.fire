@@ -4297,6 +4297,15 @@
     "passwordInput": {
       "__id__": 74
     },
+    "messagePrefab": {
+      "__uuid__": "69b8820a-1fd5-4084-b5e6-01b8cf8c04e3"
+    },
+    "messageTitle": [
+      null,
+      {
+        "__uuid__": "f5eb5f2b-2f46-4998-8253-76da03ca8c68"
+      }
+    ],
     "_id": "28r5Okb5BKhqR1Q9YmIRW9"
   },
   {

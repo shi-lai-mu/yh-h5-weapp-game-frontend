@@ -39,6 +39,10 @@ export default class Login extends cc.Component {
     @property(cc.EditBox) accountInput = null;
     // 密码输入框
     @property(cc.EditBox) passwordInput = null;
+    // 弹窗消息内容资源
+    @property(cc.Prefab) messagePrefab: cc.Prefab = null;
+    // 弹窗标题图片资源
+    @property(cc.SpriteFrame) messageTitle: cc.SpriteFrame[] = [];
     // 账号输入框
     accountInputText: string = '';
     // 密码输入框
@@ -58,6 +62,19 @@ export default class Login extends cc.Component {
                 console.log(res);
                 State.serverConfig = res;
 
+                // 启动时需展现内容
+                const { startMessage } = res;
+                console.log(startMessage, startMessage.value);
+                if (startMessage && startMessage.value) {
+                    const popupMessage = cc.instantiate(this.messagePrefab);
+                    const loginMsgScript = popupMessage.getComponent('loginMessage');
+                    if (this.messageTitle[startMessage.value]) {
+                        loginMsgScript.setTitle(this.messageTitle[startMessage.value]);
+                    }
+                    loginMsgScript.setContent(startMessage.note);
+                    this.node.addChild(popupMessage);
+                }
+
                 // 服务器状态过滤
                 if (res.state.value !== '0') {
                     State.server.state = Number(res.state.value);
@@ -71,6 +88,8 @@ export default class Login extends cc.Component {
                 this.popupMiniContent('关服维护中...\n请稍后再试!');
             })
         ;
+
+        // 
     }
 
 
