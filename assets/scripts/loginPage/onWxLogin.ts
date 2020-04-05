@@ -22,7 +22,6 @@ export default class WxLogin extends cc.Component {
         let screenHeight = sysInfo.screenHeight;
         window.wx.getSetting({
           success (res) {
-            console.log(res.authSetting);
             if (res.authSetting["scope.userInfo"]) {
               window.wx.getUserInfo({
                 success(res){
@@ -34,7 +33,6 @@ export default class WxLogin extends cc.Component {
                 }
               });
              } else {
-              console.log("用户未授权");
               let button = window.wx.createUserInfoButton({
                 type: 'text',
                 text: '',
@@ -55,8 +53,6 @@ export default class WxLogin extends cc.Component {
                   that.onWxLogin(res.userInfo);
                   //此时可进行登录操作
                   button.destroy();
-                } else {
-                  console.log("用户拒绝授权:", res);
                 }
               });
             }
@@ -94,7 +90,7 @@ export default class WxLogin extends cc.Component {
         return false;
       }
 
-      const success = popup.popupMiniContent('获取授权成功!登录中...');
+      // const success = popup.popupMiniContent('获取授权成功!登录中...');
 
       window.wx.login({
         success (res) {
@@ -112,7 +108,6 @@ export default class WxLogin extends cc.Component {
                   State.userInfo = res;
                   localStorage.setItem('userInfo', JSON.stringify(res));
                   State.observer.emit('tokenUpdate', res.token);
-                  console.log(that.node, that.node.getComponent('loginPage'));
                   popup.loadingScens();
                 }
               })

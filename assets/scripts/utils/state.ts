@@ -63,6 +63,9 @@ const State = {
     serverConfig: {
         state: {
             value: 0,
+        },
+        startMessage: {
+            value: 0,
         }
     },
 
