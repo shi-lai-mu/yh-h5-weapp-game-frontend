@@ -1,10 +1,10 @@
 
-const {ccclass, property} = cc._decorator;
+const {ccclass} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
 
 @ccclass
-export default class wxLogin extends cc.Component {
+export default class WxLogin extends cc.Component {
 
     userInfo;
 
@@ -82,33 +82,45 @@ export default class wxLogin extends cc.Component {
      * 微信授权登录
      */
     onWxLogin(userInfo) {
+      const popup = this.node.getComponent('loginPage');
       const that = this;
+
       // 服务器状态检测
       if (State.server.state !== 0) {
+        popup.popupMiniContent(
+            State.serverConfig.state.note ||
+            '关服维护中...\n请稍后再试!'
+        );
         return false;
       }
-      
-      this.node.getComponent('loginPage').popupMiniContent('获取授权成功!登录中...');
+
+      const success = popup.popupMiniContent('获取授权成功!登录中...');
 
       window.wx.login({
         success (res) {
           if (res.errMsg === 'login:ok') {
-            console.log(res);
-            axios.api('wxLogin', {
-              params: {
-                code: res.code,
-              },
-              data: userInfo,
-            }).then(res => {
-              if (res.token) {
-                console.log(res);
-                State.userInfo = res;
-                localStorage.setItem('userInfo', JSON.stringify(res));
-                State.observer.emit('tokenUpdate', res.token);
-                console.log(that.node, that.node.getComponent('loginPage'));
-                that.node.getComponent('loginPage').loadingScens();
-              }
-            });
+            axios
+              .api('wxLogin', {
+                params: {
+                  code: res.code,
+                },
+                data: userInfo,
+              })
+              .then(res => {
+                if (res.token) {
+                  console.log(res);
+                  State.userInfo = res;
+                  localStorage.setItem('userInfo', JSON.stringify(res));
+                  State.observer.emit('tokenUpdate', res.token);
+                  console.log(that.node, that.node.getComponent('loginPage'));
+                  popup.loadingScens();
+                }
+              })
+              .catch(() => {
+                success.destroy();
+                popup.popupMiniContent('授权数据接口错误!\n请稍后再试!');
+              })
+            ;
           }
         }
       });
