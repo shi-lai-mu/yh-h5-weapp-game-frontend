@@ -128,7 +128,7 @@ const urlBase = {
 export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType: 'png' | false = 'png') {
 
     if (type === 'avatar' && !/\/\//.test(url)) {
-        url = url ? (urlParams || 'default') : 'default';
+        url = url !== '0' ? (urlParams || 'default') : 'default';
     }
 
     if (!/\/\//.test(url)) {
