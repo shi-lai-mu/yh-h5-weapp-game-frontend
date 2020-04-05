@@ -89,7 +89,7 @@ export default {
       // 账号已在线检测
       socket.on('onLine', data => {
         State.io.online = true;
-        setTimeout(() => State.observer.emit('onLine', data), 1000);
+        State.observer.emit('onLine', data);
       });
 
       // 自定义事件
@@ -97,6 +97,9 @@ export default {
         socket.disconnect();
         socket.connect();
       }
+
+      // 用户数据更新
+      socket.on('updateUserData', data => State.observer.emit('updateUserData', data));
       
       State.io = socket;
       window.socket = socket;

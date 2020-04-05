@@ -48,7 +48,6 @@ export default class Home extends cc.Component {
 
 
     start() {
-        console.log(onlyOpen);
         // 默认打开的内容
         if (!onlyOpen) {
             this.openPopup(false, 'ActivityPrefab');

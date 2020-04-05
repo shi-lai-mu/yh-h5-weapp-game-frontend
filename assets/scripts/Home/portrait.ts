@@ -57,5 +57,19 @@ export default class Portrait extends cc.Component {
         loadImg(avatarUrl, spriteFrame => {
             this.avatar.spriteFrame = spriteFrame;
         }, 'avatar', id);
+        State.observer.on('updateUserData', this.updateUserData.bind(this));
+    }
+
+
+    onDestroy() {
+        State.observer.off('updateUserData', this.updateUserData.bind(this));
+    }
+
+
+    /**
+     * 用户数据更新时
+     */
+    updateUserData(newUserData) {
+        console.log(newUserData);
     }
 }
