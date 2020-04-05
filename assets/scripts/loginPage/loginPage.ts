@@ -74,8 +74,6 @@ export default class Login extends cc.Component {
      */
     onLoginClick() {
         const { LoginPopup, LoginPopupMask } = this;
-        LoginPopup.runAction(cc.fadeTo(0.3, 255));
-        LoginPopupMask.runAction(cc.fadeTo(0.3, 200));
         LoginPopupMask.runAction(cc.scaleTo(0.1, 1).easing(cc.easeBackInOut()));
         LoginPopup.runAction(cc.scaleTo(0.4, 1).easing(cc.easeBackInOut()));
     }
@@ -99,7 +97,6 @@ export default class Login extends cc.Component {
      */
     onLoginClose() {
         const { LoginPopup, LoginPopupMask } = this;
-        LoginPopup.runAction(cc.fadeTo(255, 0));
         LoginPopup.runAction(cc.scaleTo(1, 0).easing(cc.easeBackInOut()));
         LoginPopupMask.scale = 0;
     }
@@ -109,6 +106,12 @@ export default class Login extends cc.Component {
      * 加载界面
      */
     async loadingScens() {
+
+        // 服务器状态检测
+        if (State.server.state !== 0) {
+            return false;
+        }
+
         const loading = cc.instantiate(this.loadingPrefab);
         const loadingScript = loading.getComponent('loading');
         this.node.addChild(loading);

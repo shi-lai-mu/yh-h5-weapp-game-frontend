@@ -81,6 +81,11 @@ export default class wxLogin extends cc.Component {
      */
     onWxLogin(userInfo) {
       const that = this;
+      // 服务器状态检测
+      if (State.server.state !== 0) {
+        return false;
+      }
+
       window.wx.login({
         success (res) {
           if (res.errMsg === 'login:ok') {

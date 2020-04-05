@@ -69,6 +69,7 @@ export default class NewClass extends cc.Component {
     onLoad() {
         this.watch();
         State.observer.on('socketConnect', this.watch.bind(this));
+        State.observer.on('serverClose', this.serverCloseEvent.bind(this));
         const onLine = (content: string) => {
             const popup = cc.instantiate(this.popupPrefab);
             this.node.parent.addChild(popup);
@@ -84,9 +85,27 @@ export default class NewClass extends cc.Component {
         State.observer.on('onLine', onLine);
 
         // 提早得到在线通知时
-        if (State.io.online) onLine('当前账号已在其他设备上登录!');
+        if (State.io.online) onLine('当前账号已在\n其他设备上登录!');
     }
 
+    
+    /**
+     * 服务器关闭检测
+     */
+    serverCloseEvent() {
+        const popup = cc.instantiate(this.popupPrefab);
+        this.node.parent.addChild(popup);
+        const scriptPopup = popup.getComponent('popup');
+        scriptPopup.init('服务器维护中...\n请退至首页!');
+        scriptPopup.setEvent('success', () => {
+            cc.director.loadScene('loginPage');
+        });
+    }
+
+
+    /**
+     * 监听数据回音事件
+     */
     watch() {
         clock && clearInterval(clock);
         clock = setInterval(() => {

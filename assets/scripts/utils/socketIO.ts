@@ -66,6 +66,8 @@ export default {
         forceNew: true,
         transports: [ 'websocket' ],
       });
+
+      // 连接成功
       socket.on('connect', () => {
         State.io = socket;
         console.log(`IO 连接成功!`);
@@ -74,24 +76,26 @@ export default {
         socket.emit('connect/test');
         // clock && clearInterval(clock);
       });
+
       // 链接处理
       socket.on('reconnect', data => console.log('IO重连中...', data));
+
+      // 断开连接
       socket.on('disconnect', data => {
         console.log(data);
+        // 服务器关闭
         if (data === 'transport close') {
-          // let clock = setInterval(() => {
-          //   socket.reconnect();
-          // }, 1000);
+          State.server.state = -1;
+          State.observer.emit('serverClose');
         }
       });
-      socket.on('disconnecting', data => console.log('IO断开中...', data));
-      socket.on('test', console.log);
       
+      // 账号已在线检测
       socket.on('onLine', data => {
-        console.log(data);
         State.io.online = true;
         setTimeout(() => State.observer.emit('onLine', data), 1000);
       });
+
       // 自定义事件
       socket.reconnect = () => {
         socket.disconnect();
