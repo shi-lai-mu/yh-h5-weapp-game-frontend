@@ -28,7 +28,7 @@ export default class wxLogin extends cc.Component {
                 success(res){
                   that.userInfo = res.userInfo;
                   //此时可进行登录操作
-                  if (State.userInfo) {
+                  if (State.userInfo.id !== '0000') {
                     that.onWxLogin(res.userInfo);
                   }
                 }

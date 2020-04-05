@@ -43,12 +43,17 @@ export default class Home extends cc.Component {
             cc.director.loadScene('loginPage');
             return !1;
         }
+        axios.api('room_exit').then(() => {});
+    }
+
+
+    start() {
+        console.log(onlyOpen);
         // 默认打开的内容
         if (!onlyOpen) {
             this.openPopup(false, 'ActivityPrefab');
             onlyOpen = true;
         }
-        axios.api('room_exit').then(() => {});
     }
 
 

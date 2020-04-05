@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
+import { loadImg } from '../../utils/tool';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -34,26 +35,15 @@ export default class NewClass extends cc.Component {
         this.nickName.string = nickname;
         this.id.string = 'ID: ' + (id || '000000').toString();
         this.account.string = account.toString();
-        this.loadAvatarUrl(id, avatarUrl);
+        loadImg(avatarUrl, spriteFrame => {
+            this.avatar.spriteFrame = spriteFrame;
+        }, 'avatar', id);
         const emptyRadio = this.woman.spriteFrame;
         gender === 1
             ? (this.woman.spriteFrame = this.man.spriteFrame) && (this.man.spriteFrame = emptyRadio)
             : null;
 
         this.mobile.string = mobile;
-    }
-
-
-    /**
-     * 加载头像
-     */
-    loadAvatarUrl(id, avatarUrl) {
-        // avatarUrl === 1 时加载ID的头像否则加载Default头像
-        cc.loader.load(`https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/${avatarUrl ? id : 'default'}.png`, (error, texture) => {
-            if (error) return;
-            var spriteFrame = new cc.SpriteFrame(texture);
-            this.avatar.spriteFrame = spriteFrame;
-        });
     }
 
 
@@ -72,6 +62,7 @@ export default class NewClass extends cc.Component {
         };
         localStorage.clear();
         cc.director.loadScene('loginPage');
+        State.io.disconnect();
     }
 
     

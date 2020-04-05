@@ -125,7 +125,6 @@ export default class Login extends cc.Component {
             const currentValue = (count / all * 100) / 100;
             const averageValue = (nextValue - currentValue) / 20;
             let befferIndex = 0;
-            console.log(message);
             loadingScript.updateValue(currentValue, message);
 
             // 缓冲效果

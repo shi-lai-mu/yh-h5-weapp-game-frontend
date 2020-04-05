@@ -139,8 +139,8 @@ export default class HomePD extends cc.Component {
                 const popup = await createRoom.onCreateRoom();
                 setTimeout(() => {
                     popup.success();
-                }, 500);
-            }, 1000);
+                }, 200);
+            }, 500);
         }
         // createRoomPrefab.getComponent('keyboard').parentClass = {
         //     emit(data) {
