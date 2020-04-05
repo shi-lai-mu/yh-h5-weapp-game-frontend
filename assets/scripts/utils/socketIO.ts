@@ -44,16 +44,12 @@ const IoConfig = defaultConfig.io;
 // 当前域
 const locaHostName = window.location.hostname;
 const localRegExp = /127\.0\.0\.1|localhost/;
-let clock = null;
+// let clock = null;
 
 export default {
   init() {
     console.log('IO 机制加载成功!');
     State.observer.on('tokenUpdate', (newToken) => {
-      // if (typeof State.io === 'object') {
-      //   // console.warn('断开了一次IO连接');
-      //   State.io.disconnect();
-      // }
       console.log(`IO 连接中...`, newToken);
       let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
         ? IoConfig.main.replace(localRegExp, locaHostName)

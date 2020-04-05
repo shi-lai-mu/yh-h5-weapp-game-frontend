@@ -72,6 +72,8 @@ export default class wxLogin extends cc.Component {
     onClickLoginButton() {
       if (this.userInfo) {
         this.onWxLogin(this.userInfo);
+      } else if (!window.wx) {
+        this.node.getComponent('loginPage').popupMiniContent('此功能只允许在\n微信小游戏或微信中使用!', 3000);
       }
     }
 
@@ -85,6 +87,8 @@ export default class wxLogin extends cc.Component {
       if (State.server.state !== 0) {
         return false;
       }
+      
+      this.node.getComponent('loginPage').popupMiniContent('获取授权成功!登录中...');
 
       window.wx.login({
         success (res) {

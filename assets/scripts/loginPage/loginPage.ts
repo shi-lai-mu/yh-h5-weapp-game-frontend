@@ -33,6 +33,8 @@ export default class Login extends cc.Component {
     @property(cc.Prefab) resetPassword = null;
     // 注册资源
     @property(cc.Prefab) registerAccount = null;
+    // 弹窗资源
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
     // 账户输入框
     @property(cc.EditBox) accountInput = null;
     // 密码输入框
@@ -47,8 +49,28 @@ export default class Login extends cc.Component {
     befferClock: any = null;
 
     onLoad() {
-        localStorage.getItem('account') && this.onLogin();
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.keyDown, this);
+        
+        // 服务器配置数据获取
+        axios
+            .api('server_config')
+            .then(res => {
+                console.log(res);
+                State.serverConfig = res;
+
+                // 服务器状态过滤
+                if (res.state.value !== '0') {
+                    State.server.state = Number(res.state.value);
+                    return this.popupMiniContent(res.state.note);
+                }
+
+                localStorage.getItem('account') && this.onLogin();
+            })
+            .catch(() => {
+                State.server.state = -1;
+                this.popupMiniContent('关服维护中...\n请稍后再试!');
+            })
+        ;
     }
 
 
@@ -56,6 +78,29 @@ export default class Login extends cc.Component {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
+    }
+
+
+    /**
+     * 弹出小弹窗
+     * @param content   内容
+     * @param closeTime 自动关闭时间
+     */
+    popupMiniContent(content: string, closeTime?: number) {
+        const popup = cc.instantiate(this.popupPrefab);
+        this.node.parent.addChild(popup);
+        const scriptPopup = popup.getComponent('popup');
+        scriptPopup.init(content);
+        scriptPopup.setEvent('success', () => {
+            popup.destroy();
+        });
+
+        // 自动关闭时间
+        if (closeTime) {
+            setTimeout(() => popup.destroy(), closeTime);
+        }
+
+        return scriptPopup;
     }
 
 
@@ -108,7 +153,12 @@ export default class Login extends cc.Component {
     async loadingScens() {
 
         // 服务器状态检测
+        console.log(State.server.state);
         if (State.server.state !== 0) {
+            this.popupMiniContent(
+                State.serverConfig.state.note ||
+                '关服维护中...\n请稍后再试!'
+            );
             return false;
         }
 
@@ -222,10 +272,15 @@ export default class Login extends cc.Component {
             .then((res) => {
                 clearTimeout(buys);
                 if (res.token) {
-                    LoginStatus.string = '登录成功';
+                    LoginStatus.string = `登录成功!\n欢迎回来\n${res.nickname}`;
                     localStorage.setItem('userInfo', JSON.stringify(res));
                     State.userInfo = res;
                     this.loadingScens();
+                    // 自动关闭并重置布局
+                    setTimeout(() => {
+                        this.onLoginClose();
+                        this.resetLoginUI();
+                    }, 2000);
                     // 简单的混淆
                     const account = (accountInputText || '').split('').map((pwd: string) => {
                       return pwd.charCodeAt(0) + 10;

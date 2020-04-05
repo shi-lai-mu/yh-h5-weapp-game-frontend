@@ -4288,6 +4288,9 @@
     "registerAccount": {
       "__uuid__": "e4fbd47e-8788-488e-a343-da2b54dac2d3"
     },
+    "popupPrefab": {
+      "__uuid__": "56cace53-26a8-45f0-af7c-f49e3233bbd5"
+    },
     "accountInput": {
       "__id__": 54
     },
