@@ -65,7 +65,7 @@
       "ctor": "Float64Array",
       "array": [
         -481.501,
-        317.79,
+        320,
         0,
         0,
         0,
@@ -530,7 +530,7 @@
     "_alignFlags": 9,
     "_left": -1.5009999999999764,
     "_right": 960,
-    "_top": 2.2099999999999795,
+    "_top": 0,
     "_bottom": 640,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,

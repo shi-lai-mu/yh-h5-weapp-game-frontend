@@ -131,6 +131,11 @@ const State = {
             }
         },
     },
+
+    /**
+     * 是否为微信游戏客户端
+     */
+    IS_WECHAT: cc.sys.platform === cc.sys.WECHAT_GAME,
 }
 
 export default State;
