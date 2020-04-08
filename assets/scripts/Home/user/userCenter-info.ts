@@ -17,7 +17,7 @@ export default class NewClass extends cc.Component {
     // 账号id
     @property(cc.Label) id: cc.Label = null;
     // 昵称
-    @property(cc.Label) nickName: cc.Label = null;
+    @property(cc.EditBox) nickName: cc.EditBox = null;
     // 头像
     @property(cc.Sprite) avatar: cc.Sprite = null;
     // gender man
