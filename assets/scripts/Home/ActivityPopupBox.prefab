@@ -30,14 +30,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 73
+        "__id__": 72
       },
       {
-        "__id__": 74
+        "__id__": 73
       }
     ],
     "_prefab": {
-      "__id__": 75
+      "__id__": 74
     },
     "_opacity": 255,
     "_color": {
@@ -1244,14 +1244,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 70
+        "__id__": 69
       },
       {
-        "__id__": 71
+        "__id__": 70
       }
     ],
     "_prefab": {
-      "__id__": 72
+      "__id__": 71
     },
     "_opacity": 255,
     "_color": {
@@ -2292,13 +2292,10 @@
     "_components": [
       {
         "__id__": 67
-      },
-      {
-        "__id__": 68
       }
     ],
     "_prefab": {
-      "__id__": 69
+      "__id__": 68
     },
     "_opacity": 255,
     "_color": {
@@ -2484,33 +2481,6 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": null,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Widget",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 63
-    },
-    "_enabled": true,
-    "alignMode": 1,
-    "_target": null,
-    "_alignFlags": 40,
-    "_left": 178.30200000000002,
-    "_right": 156.69799999999998,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": true,
-    "_isAbsRight": true,
-    "_isAbsTop": true,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 589,
-    "_originalHeight": 0,
     "_id": ""
   },
   {

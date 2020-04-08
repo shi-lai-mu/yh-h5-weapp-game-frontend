@@ -17,22 +17,24 @@ let onlyOpen = false;
 
 @ccclass
 export default class Home extends cc.Component {
-
+    // 活动资源
     @property(cc.Prefab) ActivityPrefab: cc.Prefab = null;
-
+    // 邮件资源
     @property(cc.Prefab) EmailPrefab: cc.Prefab = null;
-
+    // 商城资源
     @property(cc.Prefab) ShopPrefab: cc.Prefab = null;
-
+    // 用户中心
     @property(cc.Prefab) UserCenter: cc.Prefab = null;
-
+    // 背景一
     @property(cc.Sprite) bg: cc.Sprite = null;
-
+    // 背景二
     @property(cc.Sprite) bg2: cc.Sprite = null;
-
+    // 背景一 图标
     @property(cc.Node) bgIcon: cc.Node = null;
-
+    // 背景二 图标
     @property(cc.Node) bg2Icon: cc.Node = null;
+    // 右上角节点
+    @property(cc.Node) rightTopBar: cc.Node = null;
 
     bgStatus = true;
 
@@ -44,6 +46,11 @@ export default class Home extends cc.Component {
             return !1;
         }
         axios.api('room_exit').then(() => {});
+
+        // 如果非微信小游戏则不进行填充
+        if (!State.IS_WECHAT) {
+            this.rightTopBar.getComponent(cc.Widget).right = 0;
+        }
     }
 
 
@@ -108,7 +115,6 @@ export default class Home extends cc.Component {
 
     
     onDestroy() {
-        console.log('res home');
         setAutoRecursively([
             '68b61513-780a-4964-9622-adbea2867cda',
             '0b7da469-5226-4405-aad7-56210d04d191'

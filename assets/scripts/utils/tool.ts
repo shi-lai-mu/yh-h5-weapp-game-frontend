@@ -1,3 +1,5 @@
+import State from "./state";
+
 /**
  * 工具类
  */
@@ -128,7 +130,7 @@ const urlBase = {
 export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType: 'png' | false = 'png') {
 
     if (type === 'avatar' && !/\/\//.test(url)) {
-        url = url !== '0' ? (urlParams || 'default') : 'default';
+        url = ![ -1, '0' ].indexOf(url) ? (urlParams || 'default') : 'default';
     }
 
     if (!/\/\//.test(url)) {
@@ -140,6 +142,22 @@ export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType
         _error && console.error(_error);
         callback(new cc.SpriteFrame(texture));
     });
+}
+
+/**
+ * 分享转发
+ * @param title    转发标题，不传则默认使用当前小游戏的昵称
+ * @param imageUrl 转发显示图片的链接，可以是网络图片路径或本地图片文件路径或相对代码包根目录的图片文件路径。显示图片长宽比是 5:4
+ * @param query    查询字符串，从这条转发消息进入后，可通过 wx.getLaunchOptionsSync() 或 wx.onShow() 获取启动参数中的 query。必须是 key1=val1&key2=val2 的格式。
+ */
+export const shareAppMessage = (title: string, imageUrl: string, query: string | object) => {
+    if (State.IS_WECHAT) {
+        wx.shareAppMessage({
+            title,
+            imageUrl,
+            query,
+        });
+    }
 }
 
 

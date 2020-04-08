@@ -111,7 +111,7 @@ export default class HttpUtil {
    */
   static async request(method: ( 'post' | 'get' | 'delete' | 'put' ) = 'get', url: string, config: any = {}, api?: string) {
       if (!token) {
-        token = JSON.parse(localStorage.getItem('userInfo') || '{}').token;
+        token = localStorage.getItem('token') || JSON.parse(localStorage.getItem('userInfo') || '{}').token;
         if (token) {
           token = encodeURIComponent(token);
           observer.response.updateToken.forEach((cb: any) => cb(token));
@@ -179,6 +179,11 @@ export default class HttpUtil {
             let response = xhr.responseText;
             if (xhr.status >= 200 && xhr.status < 300) {
               const res = JSON.parse(response) || xhr;
+              const newToken = res.token || xhr.getResponseHeader('token');
+              if (newToken) {
+                token = newToken;
+                localStorage.setItem('token', newToken);
+              }
               resolve(res);
               observer.response.default.forEach((cb: any) => cb(res, api));
             } else {
