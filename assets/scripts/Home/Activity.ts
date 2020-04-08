@@ -48,31 +48,12 @@ export default class Activity extends cc.Component {
         this.mainContent.string = '活动内容获取失败!';
     }
     
-
-    /**
-     * 活动界面显示
-     * @param Action - 是否显示动画
-     */
-    activityPopupShow(Action: boolean = !0) {
-        this.fetchactivityRequest();
-        const { leftTopBox, maskBox } = this;
-        maskBox.scale = 1;
-        Action && leftTopBox.runAction(
-            cc.moveBy(1, cc.v2(-leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
-        );
-    }
-
     
     /**
      * 活动界面隐藏
-     * @param Action - 是否显示动画
      */
-    activityPopupHide(Action: boolean = !0) {
-        const { leftTopBox, maskBox } = this;
-        maskBox.scale = 0;
-        Action && leftTopBox.runAction(
-            cc.moveBy(0, cc.v2(leftTopBox.width, 0), 0).easing(cc.easeCubicActionOut()),
-        );
+    activityPopupHide() {
+        this.node.destroy();
     }
 
 
@@ -94,7 +75,7 @@ export default class Activity extends cc.Component {
                     lastItem = newComponent;
                 };
                 newComponent.ParentClass = this;
-                newItem.y = (newItem.y - index * 40) - 200;
+                newItem.y = (newItem.y - index * 50) - newItem.height;
                 this.activityListBox.height += 40;
                 this.rendererOnly = !this.rendererOnly;
                 if (index === 0) {

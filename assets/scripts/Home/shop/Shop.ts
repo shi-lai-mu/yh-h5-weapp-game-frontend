@@ -65,9 +65,10 @@ export default class Activity extends cc.Component {
                     item.sprite = `https://perfergame.oss-cn-beijing.aliyuncs.com/text/shop/${ item.imgName }.png`;
                 }
                 item.title = item.name;
-                prefab.y = (prefab.y - index * 40) - 200;
+                prefab.y = (prefab.y - index * 50) - prefab.height;
                 this.leftBoxContent.addChild(prefab);
                 prefabScript.init(item, index, !0);
+                prefab.scale = .8;
                 // 左侧列表的点击事件处理
                 prefabScript.clickEvent = () => new Promise(async (resolve, reject) => {
                     this.ScrollView.scrollToTop();
