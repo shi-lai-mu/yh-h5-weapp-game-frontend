@@ -189,7 +189,7 @@
       "array": [
         0,
         0,
-        562.1751532228866,
+        572.4427919015139,
         0,
         0,
         0,
@@ -2795,7 +2795,7 @@
     },
     "component": "",
     "_componentId": "665a40HOxxMH5Qj+8iNrXfS",
-    "handler": "backHome",
+    "handler": "stopGames",
     "customEventData": ""
   },
   {
@@ -2815,7 +2815,7 @@
       "ctor": "Float64Array",
       "array": [
         -481.501,
-        317.79,
+        320,
         0,
         0,
         0,

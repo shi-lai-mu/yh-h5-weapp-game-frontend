@@ -51,18 +51,9 @@ export default class NewClass extends cc.Component {
      * 退出登录
      */
     outLogin() {
-        State.userInfo = {
-            id: '0000',
-            nickname: '* * * * * *',
-            diamond: 0,
-            gold: 0,
-            token: false,
-            avatarUrl: false,
-            signal: 0,
-        };
         localStorage.clear();
-        cc.director.loadScene('loginPage');
         State.io.disconnect();
+        cc.game.restart();
     }
 
 

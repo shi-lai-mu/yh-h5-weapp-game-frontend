@@ -117,7 +117,7 @@ export default class Login extends cc.Component {
         const popup = this.popupMiniContent('资源 (重置/修复) 成功!', 2000).setEvent('success', () => {
             popup.destroy();
         });
-        location.reload();
+        cc.game.restart();
     }
 
 
