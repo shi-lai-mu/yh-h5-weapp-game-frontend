@@ -121,6 +121,12 @@ export default class GoBangMainService extends cc.Component {
                 stopGames.backHomeEvent = () => {
                     this.backHome();
                 };
+                // 设置分享
+                stopGames.shareData = {
+                    title: '饭点时间来盘棋，游戏优惠全拿下...',
+                    imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/gobang.jpg',
+                    query: this.isMachine ? `fn=joinRoom&roomCode=${State.gameData.roomCode}` : '',
+                }
             }
         });
     }
@@ -153,7 +159,7 @@ export default class GoBangMainService extends cc.Component {
     startGame() {
         this.initPiece();
         const { Players } = this;
-        Players.forEach((player: any, index) => {
+        Players.forEach((player: any) => {
             player.setp.string = 0;
             player.timeOut.string = timeFrom(0);
             this.playersData[0].timeOut = cooling;

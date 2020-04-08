@@ -53,7 +53,7 @@ export default class NewClass extends cc.Component {
     outLogin() {
         localStorage.clear();
         State.io.disconnect();
-        cc.game.restart();
+        cc.director.loadScene('loginPage');
     }
 
 

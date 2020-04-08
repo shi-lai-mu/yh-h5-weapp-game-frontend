@@ -16,6 +16,15 @@ export default class StopGames extends cc.Component {
     backHomeEvent = null;
 
     /**
+     * 分享数据
+     */
+    shareData = {
+        title: '',
+        imageUrl: undefined,
+        query: undefined,
+    }
+
+    /**
      * 继续按钮
      */
     back() {
@@ -37,6 +46,7 @@ export default class StopGames extends cc.Component {
      * 分享时
      */
     onShare() {
-        shareAppMessage('测试', 'https://slmblog.com/LOGO.png', 'test=1');
+        const { title, imageUrl, query } = this.shareData;
+        shareAppMessage(title, imageUrl, query);
     }
 }
