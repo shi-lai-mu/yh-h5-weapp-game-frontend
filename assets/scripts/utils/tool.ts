@@ -202,3 +202,16 @@ export const uploadFile = (unit?: string) => {
 export const setAutoRecursively = (Recursively: string[], Auto: boolean = true) => {
     Recursively.forEach(val => cc.loader.setAutoReleaseRecursively(val, Auto));
 }
+
+
+/**
+ * 获取启动时的参数
+ */
+export const luanchOptions = (() => {
+    let options;
+    if (State.IS_WECHAT) {
+        options = wx.getLaunchOptionsSync();
+        console.log(options);
+    }
+    return options;
+})();

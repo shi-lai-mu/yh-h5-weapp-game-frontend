@@ -338,7 +338,6 @@ export default class FlightChess extends cc.Component {
      *  - false: 房主离开游戏触发
      */
     gameOver(data: any | false) {
-        console.log(data);
         const { node, popupPrefab, FlightPlayer, roomInfo } = this;
         if (data && data.type !== 0) {
             this.gameOver = () => {};
@@ -381,7 +380,6 @@ export default class FlightChess extends cc.Component {
             this.roomExit();
             cc.director.loadScene('Home');
         }
-        console.log(roomInfo.players.length);
     }
 
     

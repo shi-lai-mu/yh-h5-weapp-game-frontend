@@ -111,6 +111,20 @@ export default class GoBangMainService extends cc.Component {
         clock && clearInterval(clock);
     }
 
+    
+    stopGames() {
+        cc.loader.loadRes('prefab/stopGames', cc.Prefab, (err, prefab) => {
+            if (prefab) {
+                const popup = cc.instantiate(prefab);
+                cc.director.getScene().addChild(popup);
+                const stopGames = popup.getComponent('stopGames');
+                stopGames.backHomeEvent = () => {
+                    this.backHome();
+                };
+            }
+        });
+    }
+
 
     /**
      * 返回首页

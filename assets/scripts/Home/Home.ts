@@ -7,14 +7,14 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-import State from '../utils/state';
 import { setAutoRecursively } from '../utils/tool';
 const {ccclass, property} = cc._decorator;
+import State from '../utils/state';
 import axios from '../utils/axiosUtils';
+import { luanchOptions } from '../utils/tool';
 
 // 是否为第一次打开
 let onlyOpen = false;
-
 @ccclass
 export default class Home extends cc.Component {
     // 活动资源
@@ -35,7 +35,7 @@ export default class Home extends cc.Component {
     @property(cc.Node) bg2Icon: cc.Node = null;
     // 右上角节点
     @property(cc.Node) rightTopBar: cc.Node = null;
-
+    // 背景状态
     bgStatus = true;
 
     onLoad () {
@@ -51,6 +51,7 @@ export default class Home extends cc.Component {
         if (!State.IS_WECHAT) {
             this.rightTopBar.getComponent(cc.Widget).right = 0;
         }
+        console.log(luanchOptions);
     }
 
 
