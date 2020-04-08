@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
-import { loadImg } from '../../utils/tool';
+import { loadImg, uploadFile } from '../../utils/tool';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -63,6 +63,14 @@ export default class NewClass extends cc.Component {
         localStorage.clear();
         cc.director.loadScene('loginPage');
         State.io.disconnect();
+    }
+
+
+    /**
+     * 更换头像
+     */
+    resetAvatar() {
+        uploadFile();
     }
 
     
