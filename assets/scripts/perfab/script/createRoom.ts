@@ -70,12 +70,6 @@ export default class CreateRoom extends cc.Component {
     leftTopBox: cc.Node = null;
 
     /**
-     * 大内容盒子
-     */
-    @property(cc.Node)
-    ContentBox: cc.Node = null;
-
-    /**
      * 大内容内容区域
      */
     @property(cc.Node)
@@ -121,7 +115,6 @@ export default class CreateRoom extends cc.Component {
     listItems = {};
 
     start() {
-        this.popupShow();
         let prveClick = null;
         // 创建按钮实例化
         Object.keys(gameOption).forEach((key, index) => {
@@ -135,7 +128,7 @@ export default class CreateRoom extends cc.Component {
                 sprite: this.itemSpriteFrame[index],
             });
             itemInstantiate.x -= itemInstantiate.x;
-            itemInstantiate.y -= index * 40;
+            itemInstantiate.y -= (index * 50) + itemInstantiate.height;
             this.leftTopBox.addChild(itemInstantiate);
 
             ListItem.clickEvent = () => {
@@ -186,30 +179,11 @@ export default class CreateRoom extends cc.Component {
 
 
     /**
-     * 界面显示
-     * @param Action - 是否显示动画
-     */
-    popupShow() {
-        const { leftTopBox } = this;
-        this.ContentBox.scale = 0;
-        leftTopBox.x = leftTopBox.x + leftTopBox.width;
-        this.ContentBox.runAction(
-            cc.scaleTo(.5, 1, 1).easing(cc.easeBackOut()),
-        );
-    }
-
-    
-    /**
      * 界面隐藏
      * @param Action - 是否显示动画
      */
     popupHide() {
-        this.ContentBox.runAction(
-            cc.sequence(
-                cc.scaleTo(.5, .5, .5).easing(cc.easeBackIn()),
-                cc.callFunc(() => this.node.destroy(), this),
-            ),
-        );
+        this.node.destroy();
     }
 
 
