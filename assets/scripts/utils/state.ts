@@ -136,6 +136,11 @@ const State = {
      * 是否为微信游戏客户端
      */
     IS_WECHAT: cc.sys.platform === cc.sys.WECHAT_GAME,
+
+    /**
+     * 是否为浏览器
+     */
+    IS_BROWSER: cc.sys.isBrowser,
 }
 
 export default State;

@@ -144,6 +144,7 @@ export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType
     });
 }
 
+
 /**
  * 分享转发
  * @param title    转发标题，不传则默认使用当前小游戏的昵称
@@ -157,6 +158,38 @@ export const shareAppMessage = (title: string, imageUrl: string, query: string |
             imageUrl,
             query,
         });
+    }
+}
+
+
+/**
+ * 上传文件
+ * @param unit 文件单位
+ */
+export const uploadFile = (unit?: string) => {
+    if (State.IS_WECHAT) {
+        wx.chooseImage({
+          success (res) {
+            const tempFilePaths = res.tempFilePaths
+            wx.uploadFile({
+              url: 'https://example.weixin.qq.com/upload',
+              filePath: tempFilePaths[0],
+              name: 'file',
+              formData: {
+                'user': 'test',
+              },
+              success (res){
+                const data = res.data
+                console.log(data);
+                //do something
+              },
+            });
+          },
+        });
+    } else if (State.IS_BROWSER) {
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.click();
     }
 }
 
