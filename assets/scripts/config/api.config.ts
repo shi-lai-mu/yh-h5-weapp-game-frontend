@@ -7,6 +7,7 @@ export default {
   get_regCode:       '/user/:codeType/:sendType/code',              // 获取注册所需的验证码
   check_code:        '/user/checkCode/:code/:inputCode',            // 校验验证码是否正确
   wxLogin:           'post./user/wx/:code',                         // 微信登录
+  get_reset_avatar:  '/user/reset/avatar',                          // 获取更换头像的ossKey
 
   // 反馈
   get_feedBack:      '/notice/feedback/type',                       // 获取反馈类型

@@ -1,4 +1,5 @@
 import State from "./state";
+import axios from './axiosUtils';
 
 /**
  * 工具类
@@ -166,31 +167,76 @@ export const shareAppMessage = (title: string, imageUrl?: string, query?: string
  * 上传文件
  * @param unit 文件单位
  */
-export const uploadFile = (unit?: string) => {
-    if (State.IS_WECHAT) {
-        wx.chooseImage({
-          success (res) {
-            const tempFilePaths = res.tempFilePaths
-            wx.uploadFile({
-              url: 'https://example.weixin.qq.com/upload',
-              filePath: tempFilePaths[0],
-              name: 'file',
-              formData: {
-                'user': 'test',
-              },
-              success (res){
-                const data = res.data
-                console.log(data);
-                //do something
-              },
+export const uploadFile = (ossOption, fileName, unit?: string) => {
+    return new Promise((reslove, reject) => {
+        console.log(ossOption);
+        if (State.IS_WECHAT) {
+            // 微信上传
+            wx.chooseImage({
+                success (res) {
+                    const tempFilePaths = res.tempFilePaths
+                    console.log(tempFilePaths);
+                    const suffix = tempFilePaths[0].match(/\.\w+$/);
+                    ossOption.key = ossOption.startsWith + fileName + suffix;
+
+                    if (!/^\.(png|jpg)/.test(suffix)) {
+                        return reject('文件类型错误!');
+                    }
+
+                    if (res.tempFiles[0].size > 1024 * 500) {
+                        return reject('文件不能大于500KB!');
+                    }
+
+                    wx.uploadFile({
+                        url: ossOption.host,
+                        filePath: tempFilePaths[0],
+                        name: 'file',
+                        formData: ossOption,
+                        header: {
+                            'content-type': 'application/json',
+                        },
+                        success_action_status: '200',
+                        success: reslove,
+                        fial: reject,
+                    });
+                },
+                fial: reject,
             });
-          },
-        });
-    } else if (State.IS_BROWSER) {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.click();
-    }
+        } else if (State.IS_BROWSER) {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.click();
+            const formData = new FormData();
+            Object.keys(ossOption).forEach(key => {
+                formData.append(key, ossOption[key]);
+            });
+
+            fileInput.onchange = (e) => {
+                // reslove(fileInput.files);
+                formData.append('file', fileInput.files[0]);
+                console.log(fileInput.files);
+                // axios.request('post', ossOption.host, {
+                //     data: formData,
+                // }).then(res => {
+                //     console.log(res);
+                // })
+                
+                let xhr = cc.loader.getXMLHttpRequest();
+                xhr.open('post', ossOption.host, true);
+                // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
+                xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8"); 
+                xhr.onreadystatechange = function () {
+                    
+                };
+                let dataStr = '';
+                Object.keys(formData || {}).forEach(key => {
+                    dataStr += key + '=' + encodeURIComponent(formData[key]) + '&';
+                })
+                console.log(dataStr);
+                xhr.send(formData);
+            }
+        }
+    });
 }
 
 

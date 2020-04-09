@@ -11,6 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 import { loadImg, uploadFile } from '../../utils/tool';
+import axios from '../../utils/axiosUtils';
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -62,7 +63,16 @@ export default class NewClass extends cc.Component {
      * 更换头像
      */
     resetAvatar() {
-        uploadFile();
+        axios.api('get_reset_avatar').then(res => {
+            uploadFile(res, State.userInfo.id)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            ;
+        });
     }
 
     

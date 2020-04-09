@@ -144,7 +144,7 @@ export default class HttpUtil {
       }
 
       // 统一处理路由
-      if (url) {
+      if (url && api) {
         const targetServer = (url.match(/^(\w+)(?=\:)/) || [])[0];
         if (targetServer) {
           const targetChild = serverConfig.children[targetServer];
@@ -168,7 +168,9 @@ export default class HttpUtil {
         requestClock[requestKey] = Date.now() + 1;
       }
 
-      url = HttpUtil.baseUrl + url;
+      if (api) {
+        url = HttpUtil.baseUrl + url;
+      }
       return new Promise((resolve, reject) => {
         let xhr = cc.loader.getXMLHttpRequest();
         xhr.open(method.toLocaleUpperCase(), url, true);
