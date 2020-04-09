@@ -208,10 +208,27 @@ export const setAutoRecursively = (Recursively: string[], Auto: boolean = true) 
  * 获取启动时的参数
  */
 export const luanchOptions = (() => {
+    let shareOption = {
+      title: '玩休闲游戏，赢优惠券，一起来玩~~',
+      imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/main.png',
+    };
     let options;
     if (State.IS_WECHAT) {
         options = wx.getLaunchOptionsSync();
         console.log(options);
+        wx.showShareMenu({
+            withShareTicket: true,
+        });
+        wx.onShareAppMessage(() => shareOption);
     }
-    return options;
+    return {
+        /**
+         * 分享参数
+         */
+        query: options,
+        /**
+         * 设置分享参数
+         */
+        setShareOption: (option: typeof shareOption) => shareOption = option,
+    };
 })();

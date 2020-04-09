@@ -41,7 +41,8 @@ export default class NewClass extends cc.Component {
         const emptyRadio = this.woman.spriteFrame;
         gender === 1
             ? (this.woman.spriteFrame = this.man.spriteFrame) && (this.man.spriteFrame = emptyRadio)
-            : null;
+            : null
+        ;
 
         this.mobile.string = mobile;
     }
