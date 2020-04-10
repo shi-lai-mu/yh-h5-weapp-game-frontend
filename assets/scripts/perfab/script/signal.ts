@@ -199,7 +199,6 @@ export default class NewClass extends cc.Component {
      * 销毁场景时进行清理
      */
     onDestroy() {
-        console.log('clear Signal');
         State.io.off('signal', this.onSignal.bind(this));
         State.observer.off('socketConnect', this.watch.bind(this));
         clock && clearInterval(clock);

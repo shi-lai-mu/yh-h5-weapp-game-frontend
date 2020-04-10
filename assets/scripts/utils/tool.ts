@@ -270,11 +270,10 @@ export const luanchOptions = (() => {
         /**
          * 分享参数
          */
-        query: options,
+        query: options || {},
         /**
          * 设置分享参数
          */
         setShareOption: (option: typeof shareOption) => shareOption = option,
     };
 })();
-console.log(luanchOptions);
