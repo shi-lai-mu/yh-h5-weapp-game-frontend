@@ -111,22 +111,22 @@
         "__id__": 113
       },
       {
-        "__id__": 118
+        "__id__": 119
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 122
-      },
-      {
-        "__id__": 123
-      },
-      {
         "__id__": 124
       },
       {
         "__id__": 125
+      },
+      {
+        "__id__": 126
+      },
+      {
+        "__id__": 127
       }
     ],
     "_prefab": null,
@@ -216,7 +216,7 @@
       "array": [
         0,
         -12.211,
-        572.4427919015139,
+        549.9261314031186,
         0,
         0,
         0,
@@ -4296,7 +4296,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -443,
+        -409.971,
         271,
         0,
         0,
@@ -4458,7 +4458,7 @@
     "alignMode": 0,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 22.67800000000002,
+    "_left": 55.707000000000015,
     "_right": 901.466,
     "_top": 35.37099999999998,
     "_bottom": 0,
@@ -4605,7 +4605,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -442,
+        -408.971,
         193,
         0,
         0,
@@ -4769,7 +4769,7 @@
       "__id__": 2
     },
     "_alignFlags": 9,
-    "_left": 25.064000000000043,
+    "_left": 58.09300000000004,
     "_right": 902.116,
     "_top": 112.21600000000001,
     "_bottom": 0,
@@ -4888,6 +4888,9 @@
       },
       {
         "__id__": 117
+      },
+      {
+        "__id__": 118
       }
     ],
     "_prefab": null,
@@ -4913,8 +4916,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -442,
-        115,
+        -408.971,
+        114.99999999999999,
         0,
         0,
         0,
@@ -5137,6 +5140,33 @@
     "_id": "61Bgkfa7tFkb4VHi0bpp1p"
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 113
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 9,
+    "_left": 56.81900000000002,
+    "_right": 0,
+    "_top": 190.312,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "587+LVFp1AaIcWyytKdxQl"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "关于",
     "_objFlags": 0,
@@ -5145,13 +5175,16 @@
     },
     "_children": [
       {
-        "__id__": 119
+        "__id__": 120
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 121
+        "__id__": 122
+      },
+      {
+        "__id__": 123
       }
     ],
     "_prefab": null,
@@ -5177,8 +5210,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -441,
-        37,
+        -407.971,
+        37.00000000000003,
         0,
         0,
         0,
@@ -5207,13 +5240,13 @@
     "_name": "label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 118
+      "__id__": 119
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 120
+        "__id__": 121
       }
     ],
     "_prefab": null,
@@ -5269,7 +5302,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 119
+      "__id__": 120
     },
     "_enabled": true,
     "_materials": [
@@ -5301,7 +5334,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 118
+      "__id__": 119
     },
     "_enabled": true,
     "_materials": [
@@ -5327,6 +5360,33 @@
     "_isTrimmedMode": true,
     "_atlas": null,
     "_id": "bdeZOjivRGOaII+MxBTHJj"
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 119
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 9,
+    "_left": 57.30899999999997,
+    "_right": 0,
+    "_top": 268.28,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "e2MQH55n1F4rQVv15WAkS/"
   },
   {
     "__type__": "cc.Canvas",
