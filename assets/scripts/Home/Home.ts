@@ -11,7 +11,6 @@ import { setAutoRecursively } from '../utils/tool';
 const {ccclass, property} = cc._decorator;
 import State from '../utils/state';
 import axios from '../utils/axiosUtils';
-import { luanchOptions } from '../utils/tool';
 
 // 是否为第一次打开
 let onlyOpen = false;
@@ -51,7 +50,6 @@ export default class Home extends cc.Component {
         if (!State.IS_WECHAT) {
             this.rightTopBar.getComponent(cc.Widget).right = 0;
         }
-        console.log(luanchOptions);
     }
 
 

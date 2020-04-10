@@ -260,8 +260,7 @@ export const luanchOptions = (() => {
     };
     let options;
     if (State.IS_WECHAT) {
-        options = wx.getLaunchOptionsSync();
-        console.log(options);
+        options = wx.getLaunchOptionsSync().query;
         wx.showShareMenu({
             withShareTicket: true,
         });
@@ -278,3 +277,4 @@ export const luanchOptions = (() => {
         setShareOption: (option: typeof shareOption) => shareOption = option,
     };
 })();
+console.log(luanchOptions);

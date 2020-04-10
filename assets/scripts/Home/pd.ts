@@ -10,6 +10,8 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
+import { luanchOptions } from '../utils/tool';
+import State from '../utils/state';
 
 @ccclass
 export default class HomePD extends cc.Component {
@@ -51,6 +53,34 @@ export default class HomePD extends cc.Component {
 
     start() {
         axios.api('get_home_message').then(messageList => this.messageList = messageList);
+        if (State.IS_WECHAT) {
+            wx.onShow(this.wxShow.bind(this));
+        }
+        this.joinUserRoom();
+    }
+
+
+    onDestroy() {
+        if (State.IS_WECHAT) {
+            wx.offShow(this.wxShow.bind(this));
+        }
+    }
+
+
+    wxShow(option) {
+        luanchOptions.query = option.query;
+        this.joinUserRoom();
+    }
+
+
+    /**
+     * 加入用户房间检测
+     */
+    joinUserRoom() {
+        if (luanchOptions.query.fn === 'joinRoom' && luanchOptions.query.roomCode) {
+            this.joinRoomEvent(luanchOptions.query.roomCode);
+            luanchOptions.query = {};
+        }
     }
 
 
@@ -58,32 +88,39 @@ export default class HomePD extends cc.Component {
      * 加入房间
      */
     joinRoom() {
+        const that = this;
         cc.loader.loadRes('prefab/keyboard', cc.Prefab, (err, prefab) => {
             if (err) {
                 cc.log(err);
             } else {
                 const joinRoomPopup = cc.instantiate(prefab);
                 cc.director.getScene().addChild(joinRoomPopup);
-                console.log(joinRoomPopup.getComponent('keyboard'));
                 joinRoomPopup && (joinRoomPopup.getComponent('keyboard').parentClass = {
-                    emit: (data) => {
-                        axios.api('room_join', {
-                            data: {
-                                roomCode: data,
-                            },
-                        }).then(({ status, msg }) => {
-                            if (status && msg && msg.scene) {
-                                cc.director.loadScene(msg.scene);
-                            } else {
-                                const popup = cc.instantiate(this.popupPrefab);
-                                cc.director.getScene().addChild(popup);
-                                const scriptPopup = popup.getComponent('popup');
-                                scriptPopup.init('加入房间失败!\n' + msg);
-                                scriptPopup.setEvent('close', () => {});
-                            }
-                        });
-                    }
+                    emit: that.joinRoomEvent,
                 });
+            }
+        });
+    }
+
+
+    /**
+     * 加入房间事件
+     * @param roomCode 房间号
+     */
+    joinRoomEvent(roomCode: number) {
+        axios.api('room_join', {
+            data: {
+                roomCode,
+            },
+        }).then(({ status, msg }) => {
+            if (status && msg && msg.scene) {
+                cc.director.loadScene(msg.scene);
+            } else {
+                const popup = cc.instantiate(this.popupPrefab);
+                cc.director.getScene().addChild(popup);
+                const scriptPopup = popup.getComponent('popup');
+                scriptPopup.init('加入房间失败!\n' + msg);
+                scriptPopup.setEvent('close', () => {});
             }
         });
     }

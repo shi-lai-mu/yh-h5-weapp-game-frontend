@@ -15,7 +15,7 @@ export default class WxLogin extends cc.Component {
       const y = -161.41;
       const that = this;
 
-      if (window.wx) {
+      if (State.IS_WECHAT) {
         let sysInfo = window.wx.getSystemInfoSync();
         //获取微信界面大小
         let screenWidth = sysInfo.screenWidth;
@@ -27,7 +27,7 @@ export default class WxLogin extends cc.Component {
                 success(res){
                   that.userInfo = res.userInfo;
                   //此时可进行登录操作
-                  if (State.userInfo.id !== '0000') {
+                  if (localStorage.getItem('userInfo') && !localStorage.getItem('account')) {
                     that.onWxLogin(res.userInfo);
                   }
                 }
