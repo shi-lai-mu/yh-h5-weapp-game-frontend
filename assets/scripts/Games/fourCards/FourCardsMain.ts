@@ -851,6 +851,30 @@ export default class FourCardsGame extends cc.Component {
 
 
     /**
+     * 暂停游戏
+     */
+    stopGames() {
+        cc.loader.loadRes('prefab/stopGames', cc.Prefab, (err, prefab) => {
+            if (prefab) {
+                const popup = cc.instantiate(prefab);
+                cc.director.getScene().addChild(popup);
+                const stopGames = popup.getComponent('stopGames');
+                stopGames.backHomeEvent = () => {
+                    this.backHome();
+                };
+                // 设置分享
+                const { roomCode } = this.roomInfoData;
+                stopGames.shareData = {
+                    title: `我们一起来[${roomCode}]玩四副牌吧!`,
+                    imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/FourCards.jpg',
+                    query: `fn=joinRoom&roomCode=${roomCode}`,
+                }
+            }
+        });
+    }
+
+
+    /**
      * 为扑克牌添加数量
      * @param number     - 扑克牌数量
      * @param newNode    - 扑克牌节点

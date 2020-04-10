@@ -130,7 +130,6 @@ export default class GoBangMainService extends cc.Component {
                     imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/gobang.jpg',
                     query: !this.isMachine ? `fn=joinRoom&roomCode=${State.gameData.roomCode}` : '',
                 }
-                console.log(this.roomInfo, this.isMachine);
             }
         });
     }
