@@ -56,10 +56,14 @@ export default class HomePD extends cc.Component {
         if (State.IS_WECHAT) {
             wx.onShow(this.wxShow.bind(this));
         }
+        // 加入房间检测
         this.joinUserRoom();
     }
 
 
+    /**
+     * 销毁时
+     */
     onDestroy() {
         if (State.IS_WECHAT) {
             wx.offShow(this.wxShow.bind(this));
@@ -67,6 +71,10 @@ export default class HomePD extends cc.Component {
     }
 
 
+    /**
+     * 显示为前台时
+     * @param option 参数
+     */
     wxShow(option) {
         luanchOptions.query = option.query;
         this.joinUserRoom();

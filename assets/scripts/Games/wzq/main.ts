@@ -74,9 +74,9 @@ export default class GoBangMainService extends cc.Component {
     // 加入事件容器
     roomJoinEvent = () => this.fetchRoomInfo();
     // 下棋事件容器
-    roomDataEevent = (data) => this.roomData(data);
+    roomDataEevent = data => this.roomData(data);
     // 离开事件容器
-    roomExitEevent = (data) => this.rommleave(data);
+    roomExitEevent = data => this.rommleave(data);
     // 是否为人机模式
     isMachine: boolean = !1;
 
@@ -111,7 +111,10 @@ export default class GoBangMainService extends cc.Component {
         clock && clearInterval(clock);
     }
 
-    
+
+    /**
+     * 暂停游戏
+     */
     stopGames() {
         cc.loader.loadRes('prefab/stopGames', cc.Prefab, (err, prefab) => {
             if (prefab) {
@@ -123,10 +126,11 @@ export default class GoBangMainService extends cc.Component {
                 };
                 // 设置分享
                 stopGames.shareData = {
-                    title: '饭点时间来盘棋，游戏优惠全拿下...',
+                    title: !this.isMachine ? `我在[${this.roomInfo.roomCode}]等你, 看谁先五子连珠!` : '饭点时间来盘棋，游戏优惠全拿下...',
                     imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/gobang.jpg',
-                    query: this.isMachine ? `fn=joinRoom&roomCode=${State.gameData.roomCode}` : '',
+                    query: !this.isMachine ? `fn=joinRoom&roomCode=${State.gameData.roomCode}` : '',
                 }
+                console.log(this.roomInfo, this.isMachine);
             }
         });
     }
@@ -139,7 +143,6 @@ export default class GoBangMainService extends cc.Component {
         const popup = cc.instantiate(this.popupPrefab);
         this.Canvas.node.addChild(popup);
         const scriptPopup = popup.getComponent('popup');
-        console.log(State, this.playersData);
         this.playersData.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
                 console.log(index);
