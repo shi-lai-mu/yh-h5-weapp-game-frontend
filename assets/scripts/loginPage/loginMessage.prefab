@@ -452,9 +452,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "7098a9d7-103f-43ef-96a9-4b1641e79abe"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -531,7 +529,7 @@
         1,
         1.05,
         1.001,
-        1.406
+        1
       ]
     },
     "_eulerAngles": {
@@ -1273,8 +1271,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 622.89,
-      "height": 50.4
+      "width": 1300,
+      "height": 63
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1292,8 +1290,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -1326,8 +1324,8 @@
     "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 20,
-    "_lineHeight": 40,
+    "_fontSize": 35,
+    "_lineHeight": 50,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,

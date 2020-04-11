@@ -29,8 +29,10 @@ export default class Activity extends cc.Component {
     @property(cc.Node) maskBox: cc.Node = null;
     // 主盒子
     @property(cc.Node) mainBox: cc.Node = null;
+    // 主盒子容器
+    @property(cc.Node) mainContent: cc.Node = null;
     // 主盒子内容
-    @property(cc.Label) mainContent: cc.Label = null;
+    @property(cc.Label) mainText: cc.Label = null;
     // 左侧盒子
     @property(cc.Node) leftTopBox: cc.Node = null;
     // 左侧内容盒子节点
@@ -45,7 +47,7 @@ export default class Activity extends cc.Component {
 
     start () {
         this.fetchactivityRequest();
-        this.mainContent.string = '活动内容获取失败!';
+        this.mainText.string = '活动内容获取失败!';
     }
     
     
@@ -70,11 +72,11 @@ export default class Activity extends cc.Component {
                 const newComponent = newItem.getComponent('ListItem');
                 newComponent.init(item);
                 newComponent.clickEvent = () => {
-                    this.mainContent.string = item.html || '活动获取失败!';
+                    this.mainText.string = item.html || '活动获取失败!';
+                    setTimeout(() => this.mainContent.height = this.mainText.node.height / 2, 100);
                     lastItem && lastItem.blur();
                     lastItem = newComponent;
                 };
-                newComponent.ParentClass = this;
                 newItem.y = (newItem.y - index * 50) - newItem.height;
                 this.activityListBox.height += 40;
                 this.rendererOnly = !this.rendererOnly;
