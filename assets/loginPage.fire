@@ -127,6 +127,9 @@
       },
       {
         "__id__": 127
+      },
+      {
+        "__id__": 128
       }
     ],
     "_prefab": null,
@@ -216,7 +219,7 @@
       "array": [
         0,
         -12.211,
-        549.9261314031186,
+        545.5960043841964,
         0,
         0,
         0,
@@ -4296,7 +4299,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -409.971,
+        -399.875,
         271,
         0,
         0,
@@ -4458,7 +4461,7 @@
     "alignMode": 0,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 55.707000000000015,
+    "_left": 65.80300000000003,
     "_right": 901.466,
     "_top": 35.37099999999998,
     "_bottom": 0,
@@ -4605,7 +4608,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -408.971,
+        -398.87500000000006,
         193,
         0,
         0,
@@ -4769,7 +4772,7 @@
       "__id__": 2
     },
     "_alignFlags": 9,
-    "_left": 58.09300000000004,
+    "_left": 68.189,
     "_right": 902.116,
     "_top": 112.21600000000001,
     "_bottom": 0,
@@ -4916,7 +4919,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -408.971,
+        -398.875,
         114.99999999999999,
         0,
         0,
@@ -5150,7 +5153,7 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 56.81900000000002,
+    "_left": 66.91500000000002,
     "_right": 0,
     "_top": 190.312,
     "_bottom": 0,
@@ -5188,7 +5191,7 @@
       }
     ],
     "_prefab": null,
-    "_opacity": 100,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -5210,7 +5213,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -407.971,
+        -397.875,
         37.00000000000003,
         0,
         0,
@@ -5372,7 +5375,7 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 57.30899999999997,
+    "_left": 67.40499999999997,
     "_right": 0,
     "_top": 268.28,
     "_bottom": 0,
@@ -5496,5 +5499,23 @@
     },
     "_enabled": true,
     "_id": "baNXyIe7tAh72MsgfVYi6Y"
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_clip": {
+      "__uuid__": "a32bb473-4429-4e95-bcec-119e1e8c0820"
+    },
+    "_volume": 1,
+    "_mute": false,
+    "_loop": true,
+    "playOnLoad": false,
+    "preload": false,
+    "_id": "3b7igpq/NNgaSLLHmrc0nj"
   }
 ]

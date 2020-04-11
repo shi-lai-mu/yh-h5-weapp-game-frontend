@@ -51,6 +51,8 @@ export default class Login extends cc.Component {
     LoginPopupState = !0;
     // 缓冲计时器
     befferClock: any = null;
+    // BGM
+    bgm: cc.AudioClip = null;
 
     onLoad() {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.keyDown, this);
@@ -62,14 +64,15 @@ export default class Login extends cc.Component {
                 console.log(res);
                 State.serverConfig = res;
 
-                this.showMessage();
-
                 // 服务器状态过滤
                 if (res.state.value !== '0') {
                     State.server.state = Number(res.state.value);
+                    this.showMessage();
                     return this.popupMiniContent(res.state.note);
                 }
 
+                // 如果之前未登录 则 显示弹窗
+                !localStorage.getItem('userInfo') && this.showMessage();
                 // 如果本地存在 account 数据 则尝试进行自动登录
                 localStorage.getItem('account') && this.onLogin();
             })
@@ -78,8 +81,6 @@ export default class Login extends cc.Component {
                 this.popupMiniContent('关服维护中...\n请稍后再试!');
             })
         ;
-
-        // 
     }
 
 
@@ -92,6 +93,10 @@ export default class Login extends cc.Component {
 
     /**
      * 显示通知弹窗
+     * - 此弹窗展示：
+     *   + 未登录
+     *   + 登录失败
+     *   + 服务器状态异常
      */
     showMessage() {
         // 启动时需展现内容
@@ -105,6 +110,7 @@ export default class Login extends cc.Component {
             loginMsgScript.setContent(startMessage.note);
             this.node.addChild(popupMessage);
         }
+        this.node.getComponent(cc.AudioSource).play();
     }
 
 
@@ -191,7 +197,6 @@ export default class Login extends cc.Component {
      * 加载界面
      */
     async loadingScens() {
-
         // 服务器状态检测
         console.log(State.server.state);
         if (State.server.state !== 0) {
