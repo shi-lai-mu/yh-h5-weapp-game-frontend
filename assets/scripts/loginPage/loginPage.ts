@@ -97,17 +97,19 @@ export default class Login extends cc.Component {
      *   + 未登录
      *   + 登录失败
      *   + 服务器状态异常
+     * @param content 内容
      */
-    showMessage() {
+    showMessage(content?: string, titleIndex?: number) {
         // 启动时需展现内容
         const { startMessage } = State.serverConfig;
         if (startMessage && startMessage.value) {
             const popupMessage = cc.instantiate(this.messagePrefab);
             const loginMsgScript = popupMessage.getComponent('loginMessage');
             if (this.messageTitle[startMessage.value]) {
-                loginMsgScript.setTitle(this.messageTitle[startMessage.value]);
+                const title = titleIndex || (!content ? startMessage.value : false);
+                title && loginMsgScript.setTitle(this.messageTitle[title]);
             }
-            loginMsgScript.setContent(startMessage.note);
+            loginMsgScript.setContent(content || startMessage.note);
             this.node.addChild(popupMessage);
         }
         this.node.getComponent(cc.AudioSource).play();
@@ -147,6 +149,18 @@ export default class Login extends cc.Component {
         }
 
         return scriptPopup;
+    }
+
+
+    /**
+     * 显示 关于
+     */
+    showAbout() {
+        this.showMessage(`
+            本游戏大部分资源来自 原创及基于CC0 1-4协议，如部分资源涉及版权请联系我们的开发人员（史莱姆），我们将第一时间对资源进行核实审查后修改。
+                邮件：admin@slmblog.com
+                Q Q：478889187
+        `);
     }
 
 
