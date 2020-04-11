@@ -100,6 +100,7 @@ export default class Login extends cc.Component {
      * @param content 内容
      */
     showMessage(content?: string, titleIndex?: number) {
+        if (typeof content !== 'string') content = '';
         // 启动时需展现内容
         const { startMessage } = State.serverConfig;
         if (startMessage && startMessage.value) {
