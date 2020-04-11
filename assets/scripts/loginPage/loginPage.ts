@@ -96,7 +96,7 @@ export default class Login extends cc.Component {
      * - 此弹窗展示：
      *   + 未登录
      *   + 登录失败
-     *   + 服务器状态异常
+     *   + 服务器状态异常 
      * @param content 内容
      */
     showMessage(content?: string, titleIndex?: number) {
@@ -157,11 +157,10 @@ export default class Login extends cc.Component {
      * 显示 关于
      */
     showAbout() {
-        this.showMessage(`
-            本游戏大部分资源来自 原创及基于CC0 1-4协议，如部分资源涉及版权请联系我们的开发人员（史莱姆），我们将第一时间对资源进行核实审查后修改。
-                邮件：admin@slmblog.com
-                Q Q：478889187
-        `);
+        this.showMessage(`    本游戏大部分资源来自 原创及基于CC0 1-4协议，如部分资源涉及版权请联系我们的开发人员（史莱姆），我们将第一时间对资源进行核实审查后修改。
+
+    邮件：admin@slmblog.com
+    Q Q：478889187`);
     }
 
 

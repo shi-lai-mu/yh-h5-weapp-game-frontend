@@ -3484,7 +3484,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 140,
+      "width": 210,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3496,15 +3496,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        111.003,
+        128.348,
         -62.801,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -3537,7 +3537,7 @@
     "_useOriginalSize": false,
     "_string": "点击内容可修改",
     "_N$string": "点击内容可修改",
-    "_fontSize": 20,
+    "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,

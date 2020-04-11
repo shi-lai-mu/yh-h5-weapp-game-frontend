@@ -1865,14 +1865,14 @@
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 1
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
         0,
-        -25,
+        211.887,
         0,
         0,
         0,
@@ -2055,13 +2055,13 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 520,
-      "height": 450
+      "width": 1040,
+      "height": 56.7
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 1
     },
     "_trs": {
       "__type__": "TypedArray",
@@ -2074,8 +2074,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -2108,8 +2108,8 @@
     "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 20,
-    "_lineHeight": 40,
+    "_fontSize": 35,
+    "_lineHeight": 45,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -2120,7 +2120,7 @@
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 3,
     "_N$cacheMode": 1,
     "_id": ""
   },
@@ -2176,7 +2176,7 @@
     "_left": 15,
     "_right": 15,
     "_top": -25,
-    "_bottom": -25,
+    "_bottom": -13.112999999999994,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -2606,6 +2606,9 @@
       "__id__": 34
     },
     "mainContent": {
+      "__id__": 48
+    },
+    "mainText": {
       "__id__": 54
     },
     "leftTopBox": {
