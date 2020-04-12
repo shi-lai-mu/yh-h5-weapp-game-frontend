@@ -32,7 +32,7 @@ export default class LoginMessage extends cc.Component {
      */
     setContent(content: string) {
         this.content.string = content;
-        setTimeout(() => this.contentBox.height = this.content.node.height + 70, 500)
+        setTimeout(() => this.contentBox.height = this.content.node.height / 2 + 70, 500)
     }
 
 

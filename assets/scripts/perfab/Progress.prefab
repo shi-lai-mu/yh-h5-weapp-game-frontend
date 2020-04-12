@@ -109,7 +109,7 @@
     "_prefab": {
       "__id__": 7
     },
-    "_opacity": 240,
+    "_opacity": 250,
     "_color": {
       "__type__": "cc.Color",
       "r": 51,
@@ -1228,8 +1228,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 620,
-      "height": 37.8
+      "width": 0,
+      "height": 63
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1240,16 +1240,16 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -141.935,
-        11.774,
+        -145.564,
+        12.187,
         0,
         0,
         0,
         0,
         1,
-        0.45269,
-        0.36092,
-        0.45269
+        0.2,
+        0.15,
+        1
       ]
     },
     "_eulerAngles": {
@@ -1281,8 +1281,8 @@
     "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 15,
-    "_lineHeight": 30,
+    "_fontSize": 40,
+    "_lineHeight": 50,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -1293,7 +1293,7 @@
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 2,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -1436,7 +1436,7 @@
       "array": [
         0,
         2.981,
-        572.4427919015139,
+        569.8447156901607,
         0,
         0,
         0,
