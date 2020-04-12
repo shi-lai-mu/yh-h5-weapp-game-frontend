@@ -2361,8 +2361,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 430,
-      "height": 410
+      "width": 860,
+      "height": 820
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2380,9 +2380,9 @@
         0,
         0,
         1,
-        -1,
-        1,
-        -1
+        -0.5,
+        0.5,
+        1
       ]
     },
     "_eulerAngles": {
@@ -2414,8 +2414,8 @@
     "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 40,
-    "_lineHeight": 40,
+    "_fontSize": 70,
+    "_lineHeight": 80,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -4790,8 +4790,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
-      "height": 90.4
+      "width": 180,
+      "height": 135.6
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4809,8 +4809,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -4843,8 +4843,8 @@
     "_useOriginalSize": false,
     "_string": "暂无商品\n敬请期待",
     "_N$string": "暂无商品\n敬请期待",
-    "_fontSize": 30,
-    "_lineHeight": 40,
+    "_fontSize": 45,
+    "_lineHeight": 60,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
