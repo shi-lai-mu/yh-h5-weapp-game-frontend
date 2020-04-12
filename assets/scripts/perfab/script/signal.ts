@@ -73,9 +73,10 @@ export default class NewClass extends cc.Component {
         State.observer.on('serverClose', this.serverCloseEvent.bind(this));
         const onLine = (content: string) => {
             const popup = cc.instantiate(this.popupPrefab);
-            this.node.parent.addChild(popup);
+            cc.director.getScene().addChild(popup);
             const scriptPopup = popup.getComponent('popup');
             scriptPopup.init(content);
+            clearInterval(clock);
             scriptPopup.setEvent('close', () => {
                 localStorage.clear();
                 cc.director.loadScene('loginPage');
@@ -95,12 +96,13 @@ export default class NewClass extends cc.Component {
      */
     serverCloseEvent() {
         const popup = cc.instantiate(this.popupPrefab);
-        this.node.parent.addChild(popup);
+        cc.director.getScene().addChild(popup);
         const scriptPopup = popup.getComponent('popup');
         scriptPopup.init('服务器维护中...\n请退至首页!');
         scriptPopup.setEvent('success', () => {
             cc.director.loadScene('loginPage');
         });
+        clearInterval(clock);
     }
 
 
@@ -120,7 +122,6 @@ export default class NewClass extends cc.Component {
                 return;
             }
             if (statusUpdateTime + (10 * 1000) < Date.now()) {
-                console.log(statusUpdateTime, statusUpdateTime + (10 * 1000), Date.now());
                 // 掉线二次检测
                 this.wifi.spriteFrame = this.wifiUnLinkFrame;
                 prveStatus = 2000;
