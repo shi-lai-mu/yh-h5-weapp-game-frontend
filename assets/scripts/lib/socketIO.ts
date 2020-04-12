@@ -46,6 +46,12 @@ const localRegExp = /127\.0\.0\.1|localhost/;
 // let clock = null;
 
 export default {
+
+  /**
+   * 唯一连接
+   */
+  onlyConnect: false,
+
   init() {
     console.log('IO 机制加载成功!');
     State.observer.on('tokenUpdate', this.connect.bind(this));
@@ -55,6 +61,7 @@ export default {
   },
 
   connect(token) {
+    if (this.onlyConnect) return;
     console.log(`IO 连接中...`, token);
     let socket = io.connect(`${
       (localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)) || CC_DEV
@@ -107,5 +114,6 @@ export default {
     
     State.io = socket;
     window.socket = socket;
+    this.onlyConnect = true;
   }
 };
