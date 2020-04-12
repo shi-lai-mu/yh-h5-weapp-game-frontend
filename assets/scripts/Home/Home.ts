@@ -7,11 +7,14 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-import { setAutoRecursively } from '../utils/tool';
+
+import { setAutoRecursively } from '../lib/tool';
 const {ccclass, property} = cc._decorator;
 import State from '../utils/state';
 import axios from '../utils/axiosUtils';
 
+import socket from '../lib/socketIO';
+socket.init();
 // 是否为第一次打开
 let onlyOpen = false;
 @ccclass
@@ -68,7 +71,6 @@ export default class Home extends cc.Component {
      * @param gameName - 游戏名
      */
     openGame(_event, gameName: string) {
-        console.log(gameName);
         cc.director.loadScene(gameName);
     }
 
@@ -79,7 +81,6 @@ export default class Home extends cc.Component {
      * @param popupName - 弹窗名
      */
     openPopup(_event, popupName: string) {
-        console.log(popupName);
         this.node.addChild(cc.instantiate(this[popupName]));
     }
 

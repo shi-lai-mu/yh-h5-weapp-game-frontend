@@ -8,6 +8,14 @@
     ]
   ],
   "excluded-modules": [
+    "Collider",
+    "DragonBones",
+    "Geom Utils",
+    "Intersection",
+    "MotionStreak",
+    "Physics",
+    "Spine Skeleton",
+    "StudioComponent",
     "TiledMap",
     "VideoPlayer",
     "3D",
@@ -38,6 +46,5 @@
     "live": {
       "enable": false
     }
-  },
-  "start-scene": "current"
+  }
 }

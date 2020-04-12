@@ -11,7 +11,8 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
-import { packLoading, confusion } from '../utils/tool';
+import { confusion } from '../utils/confusion';
+import packLoading from '../Loading/loadingPackage';
 
 @ccclass
 export default class Login extends cc.Component {
@@ -227,7 +228,7 @@ export default class Login extends cc.Component {
         let timeout = null;
         await packLoading({
             sub: [
-                'perfabScript', 'HomeScript', 'GamesScript',
+                'lib', 'resPrefabSub', 'perfabScript', 'HomeScript', 'GamesScript',
             ],
             scene: [
                 'Home',
