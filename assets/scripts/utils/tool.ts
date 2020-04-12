@@ -187,7 +187,7 @@ export const uploadFile = (ossOption, fileName, unit?: string) => {
                         return reject('文件不能大于500KB!');
                     }
 
-                    wx.uploadFile({
+                    Window.wx.uploadFile({
                         url: ossOption.host,
                         filePath: tempFilePaths[0],
                         name: 'file',
@@ -237,6 +237,15 @@ export const uploadFile = (ossOption, fileName, unit?: string) => {
             }
         }
     });
+}
+
+
+/**
+ * 混淆内容
+ */
+export const confusion = {
+    encrypt: content => content.split('').map(pwd => pwd.charCodeAt(0) + 10).join('-'),
+    decrypt: content => content.split('-').map(pwd => String.fromCharCode(+pwd - 10)).join(''),
 }
 
 

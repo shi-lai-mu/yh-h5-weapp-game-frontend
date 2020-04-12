@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
-import { packLoading } from '../utils/tool';
+import { packLoading, confusion } from '../utils/tool';
 
 @ccclass
 export default class Login extends cc.Component {
@@ -295,12 +295,8 @@ export default class Login extends cc.Component {
         // 重新登录
         const { a, p } = JSON.parse(localStorage.getItem('account') || '{}');
         if (a && p) {
-            passwordInputText = passwordInputText || p.split('-').map((pwd: string) => {
-                return String.fromCharCode(+pwd - 10);
-            }).join('');
-            accountInputText = accountInputText || a.split('-').map((acc: string) => {
-                return String.fromCharCode(+acc - 10);
-            }).join('');
+            passwordInputText = passwordInputText || confusion.decrypt(p);
+            accountInputText = accountInputText || confusion.decrypt(a);
             this.onLoginClick();
         }
 
@@ -341,12 +337,8 @@ export default class Login extends cc.Component {
                         this.resetLoginUI();
                     }, 2000);
                     // 简单的混淆
-                    const account = (accountInputText || '').split('').map((pwd: string) => {
-                      return pwd.charCodeAt(0) + 10;
-                    }).join('-');
-                    const password = (passwordInputText || '').split('').map((acc: string) => {
-                      return acc.charCodeAt(0) + 10;
-                    }).join('-');
+                    const account = confusion.encrypt(accountInputText);
+                    const password = confusion.encrypt(passwordInputText);
                     localStorage.setItem('account', JSON.stringify({
                       a: account,
                       p: password,

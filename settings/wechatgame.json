@@ -1,7 +1,7 @@
 {
   "appid": "wx0d616764c4b2b96a",
   "orientation": "landscape",
-  "separate_engine": false,
+  "separate_engine": true,
   "REMOTE_SERVER_ROOT": "https://slmblog.com/yh/public",
   "subContext": ""
 }
