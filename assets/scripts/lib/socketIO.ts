@@ -68,15 +68,19 @@ export default {
       forceNew: true,
       transports: [ 'websocket' ],
     });
+    
+    // 账号已在线检测
+    socket.on('onLine', data => {
+      State.io.online = true;
+      State.observer.emit('onLine', data);
+    });
 
     // 连接成功
     socket.on('connect', () => {
       State.io = socket;
       console.log(`IO 连接成功!`);
-      // this.tipNode.color = cc.Color.GREEN
       State.observer.emit('socketConnect');
       socket.emit('connect/test');
-      // clock && clearInterval(clock);
     });
 
     // 链接处理
@@ -90,12 +94,6 @@ export default {
         State.server.state = -1;
         State.observer.emit('serverClose');
       }
-    });
-    
-    // 账号已在线检测
-    socket.on('onLine', data => {
-      State.io.online = true;
-      State.observer.emit('onLine', data);
     });
 
     // 自定义事件
