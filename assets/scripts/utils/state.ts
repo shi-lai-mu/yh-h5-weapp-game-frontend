@@ -132,6 +132,11 @@ const State = {
      * 是否为浏览器
      */
     IS_BROWSER: cc.sys.isBrowser,
+
+    /**
+     * OSS对象加速
+     */
+    OSS_BASE: 'https://perfergame.oss-cn-beijing.aliyuncs.com',
 }
 
 export default State;

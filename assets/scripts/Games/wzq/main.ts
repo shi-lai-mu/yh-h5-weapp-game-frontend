@@ -86,7 +86,7 @@ export default class GoBangMainService extends cc.Component {
      */
     onLoad() {
         // 获取房间数据并且绑定事件
-        console.log(State.io);
+        // console.log(State.io);
         State.io.on('rommjoin', this.roomJoinEvent);
         this.fetchRoomInfo();
         State.io.on('room/data', this.roomDataEevent);
@@ -127,7 +127,7 @@ export default class GoBangMainService extends cc.Component {
                 // 设置分享
                 stopGames.shareData = {
                     title: !this.isMachine ? `我在[${this.roomInfo.roomCode}]等你, 看谁先五子连珠!` : '饭点时间来盘棋，游戏优惠全拿下...',
-                    imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/gobang.jpg',
+                    imageUrl: State.OSS_BASE + '/H5Game/share/gobang.jpg',
                     query: !this.isMachine ? `fn=joinRoom&roomCode=${State.gameData.roomCode}` : '',
                 }
             }
@@ -144,7 +144,7 @@ export default class GoBangMainService extends cc.Component {
         const scriptPopup = popup.getComponent('popup');
         this.playersData.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
-                console.log(index);
+                // console.log(index);
                 scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
                 scriptPopup.setEvent('success', () => {
                     this.gameOver({ type: index ? 0 : 1 });
@@ -166,7 +166,7 @@ export default class GoBangMainService extends cc.Component {
             player.timeOut.string = timeFrom(0);
             this.playersData[0].timeOut = cooling;
         });
-        console.log(clock);
+        // console.log(clock);
         !clock && (clock = setInterval(() => {
             this.playersData.forEach((player, index) => {
                 if (player.timeOut) {
@@ -333,9 +333,9 @@ export default class GoBangMainService extends cc.Component {
      */
     roomData(data: { x: number; y: number; s: number; }) {
         data = typeof data === 'string' ? JSON.parse(data) : data;
-        console.log(data);
+        // console.log(data);
         if (!data || data.y === undefined || data.x === undefined || data.s === undefined) return;
-        console.log(1);
+        // console.log(1);
         const arr = this.picecArray;
         const targetPiece = arr[data.y][data.x];
         const senderID = data.s;

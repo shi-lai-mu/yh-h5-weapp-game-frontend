@@ -84,8 +84,8 @@ export default class FlightChess extends cc.Component {
         setAutoRecursively([
             'fc30fbe0-1668-4af2-8dcb-a798b469719b',
         ]);
-        console.log(this.FlightPlayer);
-        console.log('load');
+        // console.log(this.FlightPlayer);
+        // console.log('load');
         const that = this;
         State.io.on('flightChess/gameData', that.bindonGameData);
         State.io.on('rommjoin', that.bindfetchRoomInfo);
@@ -183,7 +183,7 @@ export default class FlightChess extends cc.Component {
         const { gameData } = roomInfo;
         playerIndex = playerIndex !== undefined ? playerIndex : roomInfo.playerIndex;
         setpNumber = setpNumber || this.setpNumber;
-        console.log('chessTakeOff.click ===============>', chessIndex);
+        // console.log('chessTakeOff.click ===============>', chessIndex);
 
         // 隐藏聚焦圈
         if (_e) this.clearFouseState();
@@ -195,12 +195,12 @@ export default class FlightChess extends cc.Component {
             const targetSprite = this.FlightPlayer[playerIndex].pedestal[chessIndex];
             // 检测是否允许玩家出棋
             if (targetChess === -2 && takeOff.indexOf(setpNumber) !== -1) {
-                console.log(gameData.chess[playerIndex], gameData);
+                // console.log(gameData.chess[playerIndex], gameData);
                 const tStartPoint = startPoint[playerIndex];
                 this.moveChess(targetSprite, tStartPoint);
                 gameData.chess[playerIndex][chessIndex] = -1;
-                console.log('出棋',chessIndex, targetChess === -2, takeOff.indexOf(setpNumber) !== -1);
-                console.log(gameData.chess[playerIndex], gameData);
+                // console.log('出棋',chessIndex, targetChess === -2, takeOff.indexOf(setpNumber) !== -1);
+                // console.log(gameData.chess[playerIndex], gameData);
             } else if (targetChess > -2) {
                 const outIndex =  notePoint[playerIndex].out - 1;
                 const nextIndex = (targetChess === -1 ? outIndex : targetChess) + setpNumber;
@@ -347,7 +347,7 @@ export default class FlightChess extends cc.Component {
             console.log(data.gameData, data.gameData.score);
             roomInfo.players.forEach((player, index) => {
                 const gamedata = data.gameData;
-                console.log(index);
+                // console.log(index);
                 chessData.push({
                     nickname: player.nickname,
                     avatarUrl: FlightPlayer[index].avatarUrl,
@@ -492,16 +492,16 @@ export default class FlightChess extends cc.Component {
         // 定位移动
         if (move) {
             let moveSpace = move.to - move.from[move.index];
-            console.log('////////////////////////////////', this.roomInfo);
+            // console.log('////////////////////////////////', this.roomInfo);
             // console.log(moveSpace);
             moveSpace = moveSpace > 1 ? moveSpace + 1 : moveSpace;
             // console.log(moveSpace);
-            console.log('move ', 
-                '到: ' + move.to,
-                '格' + (move.to - move.from[move.index]),
-                move.from[move.index],
-                '棋子下标: ' + move.index
-            );
+            // console.log('move ', 
+            //     '到: ' + move.to,
+            //     '格' + (move.to - move.from[move.index]),
+            //     move.from[move.index],
+            //     '棋子下标: ' + move.index
+            // );
             let moveSetp = 1;
             const { centerChessIndex } = this;
             const targetCenterChess = centerChessIndex[playerIndex];
@@ -512,7 +512,7 @@ export default class FlightChess extends cc.Component {
                     if (!targetCenterChess[move.index]) {
                         targetCenterChess[move.index] = 0;
                         if (moveSpace > 2) moveSpace -= 1;
-                        console.log(moveSpace);
+                        // console.log(moveSpace);
                     }
                     if (moveSpace > 8) moveSpace -= 4; // 跳格修复
                     // 超出底部进行回退
@@ -527,11 +527,11 @@ export default class FlightChess extends cc.Component {
                     // console.log(moveIndex);
                     // let moveI = (Math.ceil(((moveIndex * 100) / 10) - tNotePoint.in * 10)) - 1;
                     // if (moveI === -1) moveI = 0;
-                    console.log(
-                        '剩余：'  + moveSpace,
-                        '位置：'  + moveIndex,
-                        '绝对位:' + moveI,
-                    );
+                    // console.log(
+                    //     '剩余：'  + moveSpace,
+                    //     '位置：'  + moveIndex,
+                    //     '绝对位:' + moveI,
+                    // );
                     const centerPoint = centerPedestal[playerIndex][moveI];
                     // 如果当前剩余2次（因为延迟-1）或投中1点 进入最后一个位置则判定完成
                     if ((moveSpace === 1 || moveSpace === 2) && moveI === 5) {
@@ -540,6 +540,7 @@ export default class FlightChess extends cc.Component {
                         chess.spriteFrame = this.complete;
                         this.moveChess(chess, this.chessSpawn[playerIndex][move.index]);
                         clearInterval(clock);
+                        this.flyOver();
                         // console.log(this.roomInfo.gameData);
                         return true;
                     }
@@ -552,12 +553,12 @@ export default class FlightChess extends cc.Component {
                 moveSpace--;
                 
                 moveIndex = move.from[move.index];
-                console.log(
-                    '玩家:' + playerIndex,
-                    '移动下标:' + moveIndex,
-                    '移动个数:' + moveSpace,
-                    '中:' + tNotePoint.in
-                );
+                // console.log(
+                //     '玩家:' + playerIndex,
+                //     '移动下标:' + moveIndex,
+                //     '移动个数:' + moveSpace,
+                //     '中:' + tNotePoint.in
+                // );
                 if (moveIndex > chessPoint.length - 1) {
                     moveIndex = move.from[move.index] = 1;
                 }
@@ -601,7 +602,7 @@ export default class FlightChess extends cc.Component {
                                     // console.log(move.from, chessArr, chessIndex, move.to, playerTarget, this.roomInfo.playerIndex, move);
                                     // move.from[chessIndex] = -2;
                                     this.roomInfo.gameData.chess[index][chessIndex] = -2;
-                                    console.log('覆盖');
+                                    // console.log('覆盖');
                                     // console.log(move.from, this.chessSpawn[index], index, chessIndex);
                                     const backPoint = this.chessSpawn[index][chessIndex];
                                     backPoint[2] = index === 0
@@ -611,15 +612,15 @@ export default class FlightChess extends cc.Component {
                                     ;
                                     this.moveChess(this.FlightPlayer[index].pedestal[chessIndex], backPoint);
                                     // existsChess = true;
-                                    console.log('玩家' + index + '被吃', chessArr, chessIndex, move.to);
+                                    // console.log('玩家' + index + '被吃', chessArr, chessIndex, move.to);
                                 }
                             })
                         }
                     });
-                    console.log('----> ', move.from);
-                    console.log('----|', this.roomInfo.gameData.chess);
+                    // console.log('----> ', move.from);
+                    // console.log('----|', this.roomInfo.gameData.chess);
                     // if (existsChess) return true;
-                    console.log('降落完毕');
+                    // console.log('降落完毕');
                     // console.log(move, this.roomInfo.gameData.chess);
                 }
                 this.moveChess(chess, chessPoint[moveIndex]);
@@ -658,6 +659,29 @@ export default class FlightChess extends cc.Component {
 
 
     /**
+     * 暂停游戏
+     */
+    stopGames() {
+        cc.loader.loadRes('prefab/subpack/stopGames', cc.Prefab, (_err, prefab) => {
+            if (prefab) {
+                const popup = cc.instantiate(prefab);
+                cc.director.getScene().addChild(popup);
+                const stopGames = popup.getComponent('stopGames');
+                stopGames.backHomeEvent = () => {
+                    this.backHome();
+                };
+                // 设置分享
+                // stopGames.shareData = {
+                //     title: `一起来玩飞行棋吧!`,
+                //     imageUrl: State.OSS_BASE + '/H5Game/share/gobang.jpg',
+                //     query: !this.isMachine ? `fn=joinRoom&roomCode=${State.gameData.roomCode}` : '',
+                // }
+            }
+        });
+    }
+
+
+    /**
      * 返回首页
      */ 
     backHome() {
@@ -673,7 +697,7 @@ export default class FlightChess extends cc.Component {
         node.parent.addChild(popup);
         roomInfo.players.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
-                console.log(index);
+                // console.log(index);
                 scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
                 scriptPopup.setEvent('success', () => {
                     popup.destroy();
@@ -683,5 +707,24 @@ export default class FlightChess extends cc.Component {
                 scriptPopup.setEvent('close', () => {});
             }
         });
+    }
+
+
+    /**
+     * 棋子走到终点时
+     */
+    flyOver() {
+        const { roomInfo } = this;
+        // 如果为房主则需要同步数据
+        if (roomInfo.playerIndex === 0) {
+            // 游戏结束检测
+            roomInfo.players.forEach((player, index) => {
+                console.log(roomInfo.gameData.chess[index].every((num => num === -3)));
+                if (roomInfo.gameData.chess[index].every((num => num === -3))) {
+                    State.io.emit('flightChess/over', roomInfo.gameData.chess);
+                    return;
+                }
+            });
+        }
     }
 }
