@@ -51,9 +51,10 @@ export default {
     console.log('IO 机制加载成功!');
     State.observer.on('tokenUpdate', (newToken) => {
       console.log(`IO 连接中...`, newToken);
-      let socket = io.connect(`${localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)
-        ? IoConfig.main.replace(localRegExp, locaHostName)
-        : IoConfig.main
+      let socket = io.connect(`${
+        (localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)) || CC_DEV
+          ? IoConfig.dev.main.replace(localRegExp, locaHostName)
+          : IoConfig.main
       }/`, 
       {
         query: {

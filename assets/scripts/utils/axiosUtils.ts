@@ -60,7 +60,7 @@ import API from '../config/api.config';
 // 配置文件
 import config from '../config/default.config';
 // 开发环境判断
-const isDEV = !0;
+const isDEV = CC_DEV;
 // token存储
 let token: any = false;
 // 服务器配置
@@ -95,7 +95,7 @@ let ObserverKey: ('response' | 'response.error' | 'response.updateToken');
 
 export default class HttpUtil {
 
-  private static baseUrl:string = !isDEV
+  private static baseUrl: string = !isDEV
   ? serverConfig.host
   : localRegExp.test(serverConfig.devHost) && !localRegExp.test(locaHostName)
     ? serverConfig.devHost.replace(localRegExp, locaHostName)
