@@ -231,7 +231,7 @@
       "array": [
         0,
         0,
-        545.5960043841964,
+        549.9261314031186,
         0,
         0,
         0,
@@ -699,14 +699,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 194,
-      "g": 255,
-      "b": 0,
+      "r": 40,
+      "g": 117,
+      "b": 162,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.85,
+      "width": 275.7,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -719,14 +719,14 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -226,
+        -229.504,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -759,7 +759,7 @@
     "_useOriginalSize": false,
     "_string": "房间号: 000000",
     "_N$string": "房间号: 000000",
-    "_fontSize": 20,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
@@ -786,10 +786,10 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 44,
-    "_left": 411.075,
-    "_right": 411.075,
+    "_left": 342.15,
+    "_right": 342.15,
     "_top": 0,
-    "_bottom": 68.80000000000001,
+    "_bottom": 77.89600000000002,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,

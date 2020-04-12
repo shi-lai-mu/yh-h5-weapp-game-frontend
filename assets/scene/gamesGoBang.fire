@@ -189,7 +189,7 @@
       "array": [
         0,
         0,
-        545.9613588514179,
+        549.9261314031186,
         0,
         0,
         0,
@@ -518,7 +518,7 @@
     "_useOriginalSize": false,
     "_string": "000000",
     "_N$string": "000000",
-    "_fontSize": 25,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
@@ -559,7 +559,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83.42,
+      "width": 133.48,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -571,15 +571,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        43.92,
+        34.293,
         -13.448,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
