@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
-import { loadImg, uploadFile } from '../../utils/tool';
+import { loadImg, uploadFile } from '../../lib/tool';
 import axios from '../../utils/axiosUtils';
 
 @ccclass

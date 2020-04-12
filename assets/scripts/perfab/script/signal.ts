@@ -8,8 +8,9 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+console.log(12);
 const {ccclass, property} = cc._decorator;
-import { dateFrom } from '../../utils/tool';
+import { dateFrom } from '../../lib/tool';
 import State from '../../utils/state';
 
 let prveStatus = 20;

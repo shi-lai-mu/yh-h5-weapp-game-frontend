@@ -14,7 +14,7 @@ import { FlightPlayersData } from '../../interface/game/flightChessInterface';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
 import { UserData } from '../../interface/game/fourCard';
-import { loadImg, setAutoRecursively } from '../../utils/tool';
+import { loadImg, setAutoRecursively } from '../../lib/tool';
 
 const FlightPlayer = cc.Class({
     name: 'FlightPlayer',

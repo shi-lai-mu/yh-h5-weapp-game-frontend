@@ -5,8 +5,7 @@
  */
 const userInfo = localStorage.getItem('userInfo');
 const observer = {};
-import socket from '../utils/socketIO';
-import { confusion } from './tool';
+import { confusion } from '../utils/confusion';
 
 
 const State = {
@@ -136,12 +135,11 @@ const State = {
 }
 
 export default State;
-socket.init();
 
 /**
  * 全局重登机制 [Bate]
  */
-import axios from './axiosUtils';
+import axios from '../utils/axiosUtils';
 localStorage.getItem('account') && onLogin();
 function onLogin() {
     let accountInputText = '';

@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import State from '../utils/state';
-import { loadImg } from '../utils/tool';
+import { loadImg } from '../lib/tool';
 
 @ccclass
 export default class Portrait extends cc.Component {

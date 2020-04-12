@@ -8,6 +8,7 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
 import State from '../utils/state';
+import { confusion } from '../utils/confusion';
 import LoginService from './loginPage';
 
 @ccclass
@@ -90,12 +91,8 @@ export default class RegisterAccount extends cc.Component {
         }).then(res => {
             if (res.status !== false) {
                 // 简单的混淆
-                const p = (password || '').split('').map((pwd: string) => {
-                  return pwd.charCodeAt(0) + 10;
-                }).join('-');
-                const a = (account || '').split('').map((acc: string) => {
-                  return acc.charCodeAt(0) + 10;
-                }).join('-');
+                const p = confusion.encrypt(password);
+                const a = confusion.encrypt(account);
                 localStorage.setItem('account', JSON.stringify({ a, p }));
                 localStorage.setItem('userInfo', JSON.stringify(res));
                 State.userInfo = res;

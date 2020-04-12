@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import { dateFrom } from '../../utils/tool';
+import { dateFrom } from '../../lib/tool';
 import axios from '../../utils/axiosUtils';
 
 const ItemData = cc.Class({

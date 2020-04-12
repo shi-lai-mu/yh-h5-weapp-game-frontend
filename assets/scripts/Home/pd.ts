@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
-import { luanchOptions } from '../utils/tool';
+import { luanchOptions } from '../lib/tool';
 import State from '../utils/state';
 
 @ccclass
@@ -97,7 +97,7 @@ export default class HomePD extends cc.Component {
      */
     joinRoom() {
         const that = this;
-        cc.loader.loadRes('prefab/keyboard', cc.Prefab, (err, prefab) => {
+        cc.loader.loadRes('prefab/subpack/keyboard', cc.Prefab, (err, prefab) => {
             if (err) {
                 cc.log(err);
             } else {
