@@ -22,7 +22,14 @@ export default class ButtonAudio extends cc.Button {
         if (!this.interactable || !this.enabledInHierarchy) return;
         cc.audioEngine.playEffect(this.clip, false);
         cc.Component.EventHandler.emitEvents(this.clickEvents, event);
-        this.node.emit('click', this);
+        // this.node.emit('click', this);
+        
+        if (this._pressed) {
+            // cc.Component.EventHandler.emitEvents(this.clickEvents, event);
+            this.node.emit('click', this);
+        }
+        this._pressed = false;
+        this._updateState();
         event.stopPropagation();
     }
     // update (dt) {}
