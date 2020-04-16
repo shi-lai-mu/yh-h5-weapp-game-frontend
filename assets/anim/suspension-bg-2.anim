@@ -1,0 +1,71 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "suspension-bg-2",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 21,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 22,
+  "curveData": {
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 15.676
+        },
+        {
+          "frame": 6,
+          "value": 46.506
+        },
+        {
+          "frame": 15,
+          "value": 251.893
+        },
+        {
+          "frame": 21,
+          "value": 450.3
+        }
+      ],
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 255
+        },
+        {
+          "frame": 4.3,
+          "value": 160
+        },
+        {
+          "frame": 6,
+          "value": 150
+        },
+        {
+          "frame": 7.4,
+          "value": 100
+        },
+        {
+          "frame": 9,
+          "value": 80
+        },
+        {
+          "frame": 13.3,
+          "value": 90
+        },
+        {
+          "frame": 15,
+          "value": 50
+        },
+        {
+          "frame": 18.4,
+          "value": 90
+        },
+        {
+          "frame": 21,
+          "value": 80
+        }
+      ]
+    }
+  },
+  "events": []
+}

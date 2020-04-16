@@ -866,7 +866,7 @@ export default class FourCardsGame extends cc.Component {
                 const { roomCode } = this.roomInfoData;
                 stopGames.shareData = {
                     title: `我们一起来[${roomCode}]玩四副牌吧!`,
-                    imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/FourCards.jpg',
+                    imageUrl: State.OSS_BASE + '/H5Game/share/FourCards.jpg',
                     query: `fn=joinRoom&roomCode=${roomCode}`,
                 }
             }

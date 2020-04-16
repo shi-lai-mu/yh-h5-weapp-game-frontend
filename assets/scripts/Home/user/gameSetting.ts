@@ -12,10 +12,6 @@ import State from '../../utils/state';
 export default class GameSetting extends cc.Component {
     // 音量调节
     @property(cc.ProgressBar) volume: cc.ProgressBar = null;
-    // BGM开关
-    @property(cc.ToggleGroup) BGM: cc.ToggleGroup = null;
-    // 游戏帧数
-    @property(cc.ToggleGroup) fps: cc.ToggleGroup = null;
 
     start () {
 
@@ -27,7 +23,8 @@ export default class GameSetting extends cc.Component {
      * @param e 参数
      */
     volumeChang(e) {
-        console.log(e.progress);
+        cc.audioEngine.setMusicVolume(e.progress);
+        cc.audioEngine.setEffectsVolume(e.progress);
     }
 
 

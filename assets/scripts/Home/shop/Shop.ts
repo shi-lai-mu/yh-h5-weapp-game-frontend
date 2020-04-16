@@ -11,7 +11,7 @@
 import axios from '../../utils/axiosUtils';
 // import State from '../../utils/state';
 import { ShopMenu, ShopItem } from '../../interface/shop';
-import scriptPopup from '../../perfab/script/popup';
+import State from '../../utils/state';
 
 const {ccclass, property} = cc._decorator;
 
@@ -62,7 +62,7 @@ export default class Activity extends cc.Component {
                 const prefab = cc.instantiate(this.ShopMenuListPrefab);
                 const prefabScript = prefab.getComponent('ListItem');
                 if (item.imgName) {
-                    item.sprite = `https://perfergame.oss-cn-beijing.aliyuncs.com/text/shop/${ item.imgName }.png`;
+                    item.sprite = `${State.OSS_BASE}/text/shop/${ item.imgName }.png`;
                 }
                 item.title = item.name;
                 prefab.y = (prefab.y - index * 50) - prefab.height;
@@ -158,7 +158,7 @@ export default class Activity extends cc.Component {
      */
     buyGoods(goodsData) {
         const popup = cc.instantiate(this.popup);
-        const scriptPopup: scriptPopup = popup.getComponent('popup');
+        const scriptPopup = popup.getComponent('popup');
         this.node.parent.addChild(popup);
         
         scriptPopup.init(`将使用 ${goodsData.price + goodsData.bay_currency_name} 购买,\n[ ${goodsData.name} ]\n是否确定?`);

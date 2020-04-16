@@ -96,7 +96,7 @@ export default class RegisterAccount extends cc.Component {
                 localStorage.setItem('account', JSON.stringify({ a, p }));
                 localStorage.setItem('userInfo', JSON.stringify(res));
                 State.userInfo = res;
-                State.observer.emit('tokenUpdate', res.token); 
+                cc.game.emit('tokenUpdate', res.token); 
                 this.parentClass.loadingScens();
             } else {
                 this.message.string = res.msg;

@@ -108,7 +108,7 @@ export default class WxLogin extends cc.Component {
                   State.userInfo = res;
                   localStorage.setItem('userInfo', JSON.stringify(res));
                   console.log(res.token);
-                  State.observer.emit('tokenUpdate', res.token);
+                  cc.game.emit('tokenUpdate', res.token);
                   popup.loadingScens();
                 }
               })
