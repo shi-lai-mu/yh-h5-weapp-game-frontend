@@ -4,7 +4,7 @@ import State from "../utils/state";
 /**
  * 工具类
  */
-export const url = 'https://perfergame.oss-cn-beijing.aliyuncs.com';
+export const url = State.OSS_BASE;
 
 
 
@@ -56,7 +56,7 @@ export function dateFrom(fmt: string = 'yyyy-MM-dd HH:mm:ss', form?: number) {
  * @param imgType   - 图片后缀
  */
 const urlBase = {
-    avatar: 'https://perfergame.oss-cn-beijing.aliyuncs.com/avatar/',
+    avatar: State.OSS_BASE + '/avatar/',
 };
 export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType: 'png' | false = 'png') {
 
@@ -186,7 +186,7 @@ export const setAutoRecursively = (Recursively: string[], Auto: boolean = true) 
 export const luanchOptions = (() => {
     let shareOption = {
       title: '玩休闲游戏，赢优惠券，一起来玩~~',
-      imageUrl: 'https://perfergame.oss-cn-beijing.aliyuncs.com/H5Game/share/main.png',
+      imageUrl: State.OSS_BASE + '/H5Game/share/main.png',
     };
     let options;
     if (State.IS_WECHAT) {

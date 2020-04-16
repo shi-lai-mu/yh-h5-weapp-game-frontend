@@ -344,7 +344,7 @@ export default class Login extends cc.Component {
                       a: account,
                       p: password,
                     }));
-                    State.observer.emit('tokenUpdate', res.token); 
+                    cc.game.emit('tokenUpdate', res.token); 
                 } else {
                     LoginStatus.string = `登录失败\n${res.msg || '服务器繁忙'}`;
                     setTimeout(this.resetLoginUI.bind(this), 1500);

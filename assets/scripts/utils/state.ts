@@ -3,10 +3,9 @@
  * 缓存数据
  * 负责数据缓存npm install --save socket.io-wxapp-client
  */
-const userInfo = localStorage.getItem('userInfo');
-const observer = {};
 import { confusion } from '../utils/confusion';
-
+import GameSetting from './gameSetting';
+const userInfo = localStorage.getItem('userInfo');
 
 const State = {
     /**
@@ -27,9 +26,12 @@ const State = {
      */
     io: {
         connected: false,
-        emit(keyword, callback) {},
-        on(keyword, callback) {},
-        off(keyword, callback) {},
+        emit(k, c) {},
+        on(k, c) {},
+        off(k, c) {},
+        /**
+         * 是否被占线
+         */
         online: false,
     },
 
@@ -52,9 +54,15 @@ const State = {
      * 服务器配置
      */
     serverConfig: {
+        /**
+         * 服务器状态
+         */
         state: {
             value: 0,
         },
+        /**
+         * 启动内容
+         */
         startMessage: {
             value: 0,
         }
@@ -76,51 +84,6 @@ const State = {
         // gameData: { createTime: 1582084691210, blackSetp: 0, whiteSetp: 0, target: 0 },
         // players: [],
         // isStart: !0,
-    },
-
-    /**
-     * Observer
-     */
-    observer: {
-
-        /**
-         * 订阅事件
-         * @param keyword  - 事件名
-         * @param callback - 回调
-         */
-        on(keyword: string, callback: any) {
-            !observer[keyword] && (observer[keyword] = []);
-            observer[keyword].push(callback);
-        },
-
-        /**
-         * 发布内容
-         * @param keyword - 事件名
-         * @param data    - 数据
-         */
-        emit(keyword: string, data?: any) {
-            if (observer[keyword]) {
-                observer[keyword].forEach((cb) => {
-                    cb(data);
-                });
-            }
-        },
-
-        /**
-         * 取消订阅
-         * @param keyword  - 事件名
-         * @param callback - 回调
-         */
-        off(keyword: string, callback: any) {
-            if (observer[keyword]) {
-                observer[keyword].forEach((cb, index) => {
-                    if (callback === cb) {
-                        delete observer[index];
-                    }
-                });
-                if (!observer[keyword].length) delete observer[keyword];
-            }
-        },
     },
 
     /**
@@ -170,7 +133,7 @@ function onLogin() {
             if (res.token) {
                 localStorage.setItem('userInfo', JSON.stringify(res));
                 State.userInfo = res;
-                State.observer.emit('tokenUpdate', res.token);
+                cc.game.emit('tokenUpdate', res.token);
             }
         })
     ;

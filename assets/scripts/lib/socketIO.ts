@@ -54,7 +54,7 @@ export default {
 
   init() {
     console.log('IO 机制加载成功!');
-    State.observer.on('tokenUpdate', this.connect.bind(this));
+    cc.game.on('tokenUpdate', this.connect.bind(this));
     if (State.userInfo.token) {
       this.connect(State.userInfo.token);
     }
@@ -79,14 +79,14 @@ export default {
     // 账号已在线检测
     socket.on('onLine', data => {
       State.io.online = true;
-      State.observer.emit('onLine', data);
+      cc.game.emit('onLine', data);
     });
 
     // 连接成功
     socket.on('connect', () => {
       State.io = socket;
       console.log(`IO 连接成功!`);
-      State.observer.emit('socketConnect');
+      cc.game.emit('socketConnect');
       socket.emit('connect/test');
     });
 
@@ -99,7 +99,7 @@ export default {
       // 服务器关闭
       if (data === 'transport close') {
         State.server.state = -1;
-        State.observer.emit('serverClose');
+        cc.game.emit('serverClose');
       }
     });
 
@@ -110,7 +110,7 @@ export default {
     }
 
     // 用户数据更新
-    socket.on('updateUserData', data => State.observer.emit('updateUserData', data));
+    socket.on('updateUserData', data => cc.game.emit('updateUserData', data));
     
     State.io = socket;
     window.socket = socket;

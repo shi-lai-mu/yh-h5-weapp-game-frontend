@@ -57,12 +57,12 @@ export default class Portrait extends cc.Component {
         loadImg(avatarUrl, spriteFrame => {
             this.avatar.spriteFrame = spriteFrame;
         }, 'avatar', id);
-        State.observer.on('updateUserData', this.updateUserData.bind(this));
+        cc.game.on('updateUserData', this.updateUserData.bind(this));
     }
 
 
     onDestroy() {
-        State.observer.off('updateUserData', this.updateUserData.bind(this));
+        cc.gameoff('updateUserData', this.updateUserData.bind(this));
     }
 
 

@@ -69,8 +69,8 @@ export default class NewClass extends cc.Component {
 
     onLoad() {
         this.watch();
-        State.observer.on('socketConnect', this.watch.bind(this));
-        State.observer.on('serverClose', this.serverCloseEvent.bind(this));
+        cc.game.on('socketConnect', this.watch.bind(this));
+        cc.game.on('serverClose', this.serverCloseEvent.bind(this));
         const onLine = (content: string) => {
             const popup = cc.instantiate(this.popupPrefab);
             cc.director.getScene().addChild(popup);
@@ -84,7 +84,7 @@ export default class NewClass extends cc.Component {
         }
 
         // 账号在线监测
-        State.observer.on('onLine', onLine);
+        cc.game.on('onLine', onLine);
 
         // 提早得到在线通知时
         if (State.io.online) onLine('当前账号已在\n其他设备上登录!');
@@ -202,7 +202,7 @@ export default class NewClass extends cc.Component {
      */
     onDestroy() {
         State.io.off('signal', this.onSignal.bind(this));
-        State.observer.off('socketConnect', this.watch.bind(this));
+        cc.gameoff('socketConnect', this.watch.bind(this));
         clock && clearInterval(clock);
         statusUpdateTime = 0;
     }
