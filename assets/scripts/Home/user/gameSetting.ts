@@ -23,8 +23,9 @@ export default class GameSetting extends cc.Component {
      * @param e 参数
      */
     volumeChang(e) {
-        cc.audioEngine.setMusicVolume(e.progress);
-        cc.audioEngine.setEffectsVolume(e.progress);
+        const { volume } = State.system.config;
+        volume.music = volume.effects = e.progress;
+        State.system.updateSetting();
     }
 
 
@@ -33,7 +34,8 @@ export default class GameSetting extends cc.Component {
      * @param e 参数
      */
     BgmChang(e) {
-        console.log(e.target.name);
+        State.system.config.bgm = e.target.name === 'on';
+        State.system.updateSetting();
     }
 
 
@@ -42,6 +44,7 @@ export default class GameSetting extends cc.Component {
      * @param e 参数
      */
     FpsChang(e) {
-        console.log(e.target.name);
+        State.system.config.fps = e.target.name;
+        State.system.updateSetting();
     }
 }

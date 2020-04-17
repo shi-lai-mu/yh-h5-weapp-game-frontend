@@ -202,7 +202,7 @@ export default class NewClass extends cc.Component {
      */
     onDestroy() {
         State.io.off('signal', this.onSignal.bind(this));
-        cc.gameoff('socketConnect', this.watch.bind(this));
+       cc.game.off('socketConnect', this.watch.bind(this));
         clock && clearInterval(clock);
         statusUpdateTime = 0;
     }

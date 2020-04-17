@@ -100,6 +100,11 @@ const State = {
      * OSS对象加速
      */
     OSS_BASE: 'https://perfergame.oss-cn-beijing.aliyuncs.com',
+
+    /**
+     * 系统设置
+     */
+    system: GameSetting,
 }
 
 export default State;
