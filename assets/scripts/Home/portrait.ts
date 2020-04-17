@@ -62,7 +62,7 @@ export default class Portrait extends cc.Component {
 
 
     onDestroy() {
-        cc.gameoff('updateUserData', this.updateUserData.bind(this));
+       cc.game.off('updateUserData', this.updateUserData.bind(this));
     }
 
 
