@@ -10,51 +10,35 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../utils/axiosUtils';
-import { luanchOptions } from '../lib/tool';
+import { luanchOptions, onShow, offShow } from '../lib/tool';
 import State from '../utils/state';
 
 @ccclass
 export default class HomePD extends cc.Component {
-    /**
-     * 弹窗
-     */
+    // 弹窗
     @property(cc.Prefab) popupPrefab: cc.Prefab = null;
-    /**
-     * 创建房间资源
-     */
+    // 创建房间资源
     @property(cc.Prefab) createRoomPrefab: cc.Prefab = null;
-    /**
-     * 滚动消息条
-     */
+    // 滚动消息条
     @property(cc.Node) MessageBox: cc.Node = null;
-    /**
-     * 滚动消息内容
-     */
+    // 滚动消息内容
     @property(cc.Label) MessageContent: cc.Label = null;
-    /**
-     * 房间的切换按钮
-     */
+    // 房间的切换按钮
     @property(cc.Node) roomNode: cc.Node = null;
-    /**
-     * 世界的切换按钮
-     */
+    // 世界的切换按钮
     @property(cc.Node) worldNode: cc.Node = null;
-
+    // 页面容器
     @property(cc.PageView) PageView: cc.PageView = null;
-    /**
-     * 滚动消息列表
-     */
+    // 滚动消息列表
     messageList: Array<{ id: number; content: string; }> = [];
-    /**
-     * 当前消息ID
-     */
+    // 当前消息ID
     messageId: number = 0;
 
 
     start() {
         axios.api('get_home_message').then(messageList => this.messageList = messageList);
         if (State.IS_WECHAT) {
-            wx.onShow(this.wxShow.bind(this));
+            onShow(this.wxShow, this);
         }
         // 加入房间检测
         this.joinUserRoom();
@@ -66,7 +50,7 @@ export default class HomePD extends cc.Component {
      */
     onDestroy() {
         if (State.IS_WECHAT) {
-            wx.offShow(this.wxShow.bind(this));
+            offShow(this.wxShow, this);
         }
     }
 

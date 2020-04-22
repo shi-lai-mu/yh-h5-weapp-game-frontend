@@ -207,3 +207,48 @@ export const luanchOptions = (() => {
         setShareOption: (option: typeof shareOption) => shareOption = option,
     };
 })();
+
+
+/**
+ * 监听小游戏回到前台的事件
+ * @param callback 回调
+ * @param that     this指向
+ */
+export const onShow = (callback, that = null) => {
+    if (State.IS_WECHAT) {
+        wx.onShow(callback.bind(that));
+    }
+};
+
+/**
+ * 监听小游戏回到前台的事件
+ * @param callback 回调
+ * @param that     this指向
+ */
+export const offShow = (callback, that = null) => {
+    if (State.IS_WECHAT) {
+        wx.offShow(callback.bind(that));
+    }
+};
+
+/**
+ * 监听小游戏回到前台的事件
+ * @param callback 回调
+ * @param that     this指向
+ */
+export const onHide = (callback, that = null) => {
+    if (State.IS_WECHAT) {
+        wx.onHide(callback.bind(that));
+    }
+};
+
+/**
+ * 监听小游戏回到前台的事件
+ * @param callback 回调
+ * @param that     this指向
+ */
+export const offHide = (callback, that = null) => {
+    if (State.IS_WECHAT) {
+        wx.offHide(callback.bind(that));
+    }
+};

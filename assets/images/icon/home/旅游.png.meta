@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "84a88fba-5cc0-4acc-88cf-239feed2adcc",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 69,
+  "height": 99,
+  "platformSettings": {},
+  "subMetas": {
+    "旅游": {
+      "ver": "1.0.4",
+      "uuid": "79fb8368-cafa-43f4-b8a8-ccf8e939240d",
+      "rawTextureUuid": "84a88fba-5cc0-4acc-88cf-239feed2adcc",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 69,
+      "height": 99,
+      "rawWidth": 69,
+      "rawHeight": 99,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
