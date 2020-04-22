@@ -9,13 +9,9 @@ const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 
 @ccclass
-export default class GameSetting extends cc.Component {
+export default class UserGameSetting extends cc.Component {
     // 音量调节
     @property(cc.ProgressBar) volume: cc.ProgressBar = null;
-
-    start () {
-
-    }
 
 
     /**
@@ -45,6 +41,6 @@ export default class GameSetting extends cc.Component {
      */
     FpsChang(e) {
         State.system.config.fps = e.target.name;
-        State.system.updateSetting();
+        State.system.updateSetting(true);
     }
 }

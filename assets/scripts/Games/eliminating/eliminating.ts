@@ -30,11 +30,4 @@ export default class NewClass extends cc.Component {
     backHome() {
         cc.director.loadScene('Home');
     }
-
-
-    test() {
-        console.log(123465);
-    }
-
-    // update (dt) {}
 }

@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "5b242123-771d-46f9-af33-4dd61e6ef4f8",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 99,
+  "height": 134,
+  "platformSettings": {},
+  "subMetas": {
+    "棋牌": {
+      "ver": "1.0.4",
+      "uuid": "6d1b0a35-9e89-49a4-b209-95aac423b92d",
+      "rawTextureUuid": "5b242123-771d-46f9-af33-4dd61e6ef4f8",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 99,
+      "height": 134,
+      "rawWidth": 99,
+      "rawHeight": 134,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "07dd4425-0d5d-4b9b-8ef8-edde9ebacefd",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 71,
+  "height": 99,
+  "platformSettings": {},
+  "subMetas": {
+    "电影": {
+      "ver": "1.0.4",
+      "uuid": "1b9540f9-31ba-485f-8c40-76482555757b",
+      "rawTextureUuid": "07dd4425-0d5d-4b9b-8ef8-edde9ebacefd",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 71,
+      "height": 99,
+      "rawWidth": 71,
+      "rawHeight": 99,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
