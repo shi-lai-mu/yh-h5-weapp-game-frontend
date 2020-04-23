@@ -10,13 +10,16 @@
 
 import { setAutoRecursively } from '../lib/tool';
 const {ccclass, property} = cc._decorator;
+import { screenFringe } from '../lib/tool';
 import State from '../utils/state';
 import axios from '../utils/axiosUtils';
-
 import socket from '../lib/socketIO';
+
+// socket初始化
 socket.init();
 // 是否为第一次打开
 let onlyOpen = false;
+
 @ccclass
 export default class Home extends cc.Component {
     // 活动资源
@@ -37,6 +40,8 @@ export default class Home extends cc.Component {
     @property(cc.Node) bg2Icon: cc.Node = null;
     // 右上角节点
     @property(cc.Node) rightTopBar: cc.Node = null;
+    // 左侧栏目
+    @property(cc.Node) leftBox: cc.Node = null;
     // 背景状态
     bgStatus = true;
 
@@ -62,6 +67,8 @@ export default class Home extends cc.Component {
             this.openPopup(false, 'ActivityPrefab');
             onlyOpen = true;
         }
+        // 刘海兼容适配
+        screenFringe([ this.leftBox ]);
     }
 
 
