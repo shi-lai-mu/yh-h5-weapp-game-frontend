@@ -6,9 +6,6 @@ import State from "../utils/state";
  */
 export const url = State.OSS_BASE;
 
-
-
-
 /**
  *  格式化日期
  *  @param fmt 日期格式 如：yyyy-MM-dd HH:mm:ss
@@ -46,6 +43,7 @@ export function dateFrom(fmt: string = 'yyyy-MM-dd HH:mm:ss', form?: number) {
     }
     return fmt;
 }
+
 
 /**
  * 加载图片
@@ -210,6 +208,21 @@ export const luanchOptions = (() => {
 
 
 /**
+ * 如果为刘海屏则进行适配
+ * @param node 节点
+ */
+export const screenFringe = (nodes: cc.Node[]) => {
+    const isFringe = hasScreenFringe();
+    console.log(isFringe, nodes);
+    if (isFringe) {
+        nodes.forEach(node => {
+            node.getComponent(cc.Widget).left += 60;
+        });
+    }
+}
+
+
+/**
  * 监听小游戏回到前台的事件
  * @param callback 回调
  * @param that     this指向
@@ -219,6 +232,7 @@ export const onShow = (callback, that = null) => {
         wx.onShow(callback.bind(that));
     }
 };
+
 
 /**
  * 监听小游戏回到前台的事件
@@ -231,6 +245,7 @@ export const offShow = (callback, that = null) => {
     }
 };
 
+
 /**
  * 监听小游戏回到前台的事件
  * @param callback 回调
@@ -242,6 +257,7 @@ export const onHide = (callback, that = null) => {
     }
 };
 
+
 /**
  * 监听小游戏回到前台的事件
  * @param callback 回调
@@ -252,3 +268,37 @@ export const offHide = (callback, that = null) => {
         wx.offHide(callback.bind(that));
     }
 };
+
+
+/**
+ * 判断是否为刘海
+ */
+const fringeScreenModels = [
+  'iPhone X', 'iPhone x', 'vivo X21A', 'ASUS Zenfone 5',
+  'Ulefone T2 Pro', 'Leagoo S9', 'HUAWEI P20', 'DooGee V',
+  'OPPO R15', 'LG G7', 'SAMSUNG S9', 'COR-AL00',
+  'vivo Y83A', 'LLD-AL20', 'vivo Z1', 'PACM00', 'PAAM00'
+];
+export const hasScreenFringe = () => {
+  const systemInfo = State.IS_WECHAT ? wx.getSystemInfoSync() : { model: null };
+
+  if (systemInfo.model != null) {
+      for (let i in fringeScreenModels) {
+          if (systemInfo.model.indexOf(fringeScreenModels[i]) > -1) {
+              // 是已知机型里的刘海手机
+              return true;
+          }
+      }
+  }
+  // 屏幕宽高比大于2，基本上90%的手机可以确定是刘海屏，就算个别手机不是也按刘海屏处理
+  // 竖屏游戏判断：
+  // if (systemInfo.windowHeight >= 800 || systemInfo.windowHeight / systemInfo.windowWidth > 2) {
+  //     return true;
+  // }
+
+  // 横屏游戏判断：
+  // if (this.systemInfo.windowWidth >= 800 || this.systemInfo.windowWidth / this.systemInfo.windowHeight > 2) {
+  //     return true;
+  // }
+  return false;
+}
