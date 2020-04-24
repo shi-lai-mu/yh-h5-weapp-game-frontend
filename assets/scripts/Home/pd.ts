@@ -23,12 +23,6 @@ export default class HomePD extends cc.Component {
     @property(cc.Node) MessageBox: cc.Node = null;
     // 滚动消息内容
     @property(cc.Label) MessageContent: cc.Label = null;
-    // 房间的切换按钮
-    @property(cc.Node) roomNode: cc.Node = null;
-    // 世界的切换按钮
-    @property(cc.Node) worldNode: cc.Node = null;
-    // 页面容器
-    @property(cc.PageView) PageView: cc.PageView = null;
     // 滚动消息列表
     messageList: Array<{ id: number; content: string; }> = [];
     // 当前消息ID
@@ -115,25 +109,6 @@ export default class HomePD extends cc.Component {
                 scriptPopup.setEvent('close', () => {});
             }
         });
-    }
-
-
-    /**
-     * 切换PD事件
-     */
-    togglePdModelEvent() {
-        const index = this.PageView.getCurrentPageIndex();
-        this.worldNode.getComponent(cc.Button).interactable = !!index;
-        this.roomNode.getComponent(cc.Button).interactable = !index;
-    }
-
-
-    /**
-     * 切换pageview
-     * @param pageIndex page下标
-     */
-    togglePdSet(pageIndex: number) {
-        this.PageView.scrollToPage(pageIndex, 1);
     }
 
 
