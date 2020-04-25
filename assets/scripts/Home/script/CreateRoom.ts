@@ -56,62 +56,25 @@ let radioOption: any = [];
 
 @ccclass
 export default class CreateRoom extends cc.Component {
-
-    /**
-     * 主盒子
-     */
-    @property(cc.Node)
-    mainBox: cc.Node = null;
-
-    /**
-     * 左侧盒子
-     */
-    @property(cc.Node)
-    leftTopBox: cc.Node = null;
-
-    /**
-     * 大内容内容区域
-     */
-    @property(cc.Node)
-    ContentBoxView: cc.Node = null;
-
-    /**
-     * 选项组资源
-     */
-    @property(cc.Prefab)
-    radioGroup: cc.Prefab = null;
-
-    /**
-     * 列表资源
-     */
-    @property(cc.Prefab)
-    listItem: cc.Prefab = null;
-
-    /**
-     * 项目资源
-     */
-    @property(cc.SpriteFrame)
-    itemSpriteFrame: cc.SpriteFrame[] = [];
-
-    /**
-     * 弹窗
-     */
-    @property(cc.Prefab)
-    popupPrefab: cc.Prefab = null;
-
-    /**
-     * 当前选中的游戏名
-     */
+    // 主盒子
+    @property(cc.Node) mainBox: cc.Node = null;
+    // 左侧盒子
+    @property(cc.Node) leftTopBox: cc.Node = null;
+    // 大内容内容区域
+    @property(cc.Node) ContentBoxView: cc.Node = null;
+    // 选项组资源
+    @property(cc.Prefab) radioGroup: cc.Prefab = null;
+    // 列表资源
+    @property(cc.Prefab) listItem: cc.Prefab = null;
+    // 项目资源
+    @property(cc.SpriteFrame) itemSpriteFrame: cc.SpriteFrame[] = [];
+    // 弹窗
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
+    // 当前选中的游戏名
     _ROOM_NAME_: string = '';
-
-    /**
-     * 当前选中的GAME
-     */
+    // 当前选中的GAME
     _GANE_: any = {};
-
-    /**
-     * 项目节点列表
-     */
+    // 项目节点列表
     listItems = {};
 
     start() {
@@ -228,11 +191,4 @@ export default class CreateRoom extends cc.Component {
             });
         });
     }
-
-    onDestroy() {
-        // console.log('createRoom');
-        // cc.loader.setAutoReleaseRecursively('59616007-2ef5-4ce8-ab91-057f1ea39436', true);
-    }
-
-    // update (dt) {}
 }
