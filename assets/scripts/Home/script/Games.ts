@@ -9,14 +9,12 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import axios from '../utils/axiosUtils';
-import { luanchOptions, onShow, offShow } from '../lib/tool';
-import State from '../utils/state';
+import axios from '../../utils/axiosUtils';
+import { luanchOptions, onShow, offShow } from '../../lib/tool';
+import State from '../../utils/state';
 
 @ccclass
-export default class HomePD extends cc.Component {
-    // 弹窗
-    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
+export default class HomeGames extends cc.Component {
     // 创建房间资源
     @property(cc.Prefab) createRoomPrefab: cc.Prefab = null;
     // 滚动消息条
@@ -76,9 +74,7 @@ export default class HomePD extends cc.Component {
     joinRoom() {
         const that = this;
         cc.loader.loadRes('prefab/subpack/keyboard', cc.Prefab, (err, prefab) => {
-            if (err) {
-                cc.log(err);
-            } else {
+            if (prefab) {
                 const joinRoomPopup = cc.instantiate(prefab);
                 cc.director.getScene().addChild(joinRoomPopup);
                 joinRoomPopup && (joinRoomPopup.getComponent('keyboard').parentClass = {
@@ -102,11 +98,15 @@ export default class HomePD extends cc.Component {
             if (status && msg && msg.scene) {
                 cc.director.loadScene(msg.scene);
             } else {
-                const popup = cc.instantiate(this.popupPrefab);
-                cc.director.getScene().addChild(popup);
-                const scriptPopup = popup.getComponent('popup');
-                scriptPopup.init('加入房间失败!\n' + msg);
-                scriptPopup.setEvent('close', () => {});
+                cc.loader.loadRes('prefab/popup', cc.Prefab, (_err, prefab) => {
+                    if (prefab) {
+                        const popup = cc.instantiate(prefab);
+                        cc.director.getScene().addChild(popup);
+                        const scriptPopup = popup.getComponent('popup');
+                        scriptPopup.init('加入房间失败!\n' + msg);
+                        scriptPopup.setEvent('close', () => {});
+                    }
+                });
             }
         });
     }
@@ -120,11 +120,15 @@ export default class HomePD extends cc.Component {
             if (status && msg && msg.scene) {
                 cc.director.loadScene(msg.scene);
             } else {
-                const popup = cc.instantiate(this.popupPrefab);
-                cc.director.getScene().addChild(popup);
-                const scriptPopup = popup.getComponent('popup');
-                scriptPopup.init('加入房间失败!\n' + msg);
-                scriptPopup.setEvent('close', () => {});
+                cc.loader.loadRes('prefab/popup', cc.Prefab, (_err, prefab) => {
+                    if (prefab) {
+                        const popup = cc.instantiate(prefab);
+                        cc.director.getScene().addChild(popup);
+                        const scriptPopup = popup.getComponent('popup');
+                        scriptPopup.init('加入房间失败!\n' + msg);
+                        scriptPopup.setEvent('close', () => {});
+                    }
+                });
             }
         });
     }
@@ -136,7 +140,7 @@ export default class HomePD extends cc.Component {
     showCreateRoomPopup(_e, gameName?: string) {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
         cc.director.getScene().addChild(createRoomPrefab);
-        const createRoom = createRoomPrefab.getComponent('createRoom');
+        const createRoom = createRoomPrefab.getComponent('CreateRoom');
         if (typeof gameName === 'string') {
             setTimeout(async () => {
                 createRoom.listItems[gameName].onClick();
@@ -146,11 +150,6 @@ export default class HomePD extends cc.Component {
                 }, 200);
             }, 500);
         }
-        // createRoomPrefab.getComponent('keyboard').parentClass = {
-        //     emit(data) {
-        //         console.log(data);
-        //     }
-        // }
     }
 
 
