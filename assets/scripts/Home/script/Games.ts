@@ -21,6 +21,8 @@ export default class HomeGames extends cc.Component {
     @property(cc.Node) MessageBox: cc.Node = null;
     // 滚动消息内容
     @property(cc.Label) MessageContent: cc.Label = null;
+    // 游戏列表
+    @property(cc.PageView) GameList: cc.PageView = null;
     // 滚动消息列表
     messageList: Array<{ id: number; content: string; }> = [];
     // 当前消息ID
@@ -54,6 +56,12 @@ export default class HomeGames extends cc.Component {
     wxShow(option) {
         luanchOptions.query = option.query;
         this.joinUserRoom();
+    }
+
+
+    jumpPage(e, pageIndex: number) {
+        this.GameList.scrollToPage(Number(pageIndex), .5);
+        // this.GameList.setCurrentPageIndex(pageIndex);
     }
 
 
