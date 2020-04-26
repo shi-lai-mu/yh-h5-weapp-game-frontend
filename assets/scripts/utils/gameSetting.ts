@@ -1,7 +1,7 @@
 import State from '../utils/state';
 
 // 帧率设置
-let storage: any = JSON.parse(localStorage.getItem('gameSetting') || '');
+let storage: any = JSON.parse(localStorage.getItem('gameSetting') || '{}');
 
 const _CONFIG_ = {
 
@@ -33,7 +33,7 @@ const _CONFIG_ = {
    */
   fps: -1,
 };
-const config = storage || this.config;
+const config = Object.keys(storage).length ? storage : _CONFIG_;
 cc.game.setFrameRate(config.fps);
 
 export default new class Setting {
