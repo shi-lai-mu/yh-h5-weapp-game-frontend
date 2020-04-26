@@ -16,6 +16,10 @@
   "packable": false,
   "premultiplyAlpha": false,
   "filterMode": "bilinear",
-  "platformSettings": {},
+  "platformSettings": {
+    "wechatgame": {
+      "formats": []
+    }
+  },
   "subMetas": {}
 }
