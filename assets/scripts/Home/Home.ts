@@ -69,6 +69,9 @@ export default class Home extends cc.Component {
         }
         // 刘海兼容适配
         screenFringe([ this.leftBox ]);
+
+        // BGM音量
+        this.node.getComponent(cc.AudioSource).volume = State.system.config.volume.music;
     }
 
 

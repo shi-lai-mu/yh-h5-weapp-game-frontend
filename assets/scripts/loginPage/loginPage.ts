@@ -89,6 +89,8 @@ export default class Login extends cc.Component {
         this.LoginPopupMask.scale = 0;
         this.accountInput.node.on('text-changed', (e) => this.accountInputText = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.passwordInputText = e.string, this);
+        // BGM音量
+        this.node.getComponent(cc.AudioSource).volume = State.system.config.volume.music || .4;
     }
 
 

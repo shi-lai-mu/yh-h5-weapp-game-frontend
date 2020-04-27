@@ -413,7 +413,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 0
+      "height": 100.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -592,7 +592,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "11c67So8a5CUrDnfCI99C+c",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -604,7 +604,7 @@
     },
     "_grayMaterial": null,
     "duration": 0.1,
-    "zoomScale": 1.1,
+    "zoomScale": 1.2,
     "clickEvents": [
       {
         "__id__": 15
@@ -663,6 +663,9 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
+    "clip": {
+      "__uuid__": "c86963e6-e8b6-41fb-af0b-815e50515f2f"
+    },
     "_id": ""
   },
   {
@@ -786,7 +789,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "11c67So8a5CUrDnfCI99C+c",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -798,7 +801,7 @@
     },
     "_grayMaterial": null,
     "duration": 0.1,
-    "zoomScale": 1.1,
+    "zoomScale": 1.2,
     "clickEvents": [
       {
         "__id__": 20
@@ -857,6 +860,9 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
+    "clip": {
+      "__uuid__": "74281b0a-8427-4f07-aba4-1b19b9be57f1"
+    },
     "_id": ""
   },
   {
@@ -980,7 +986,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "11c67So8a5CUrDnfCI99C+c",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -992,7 +998,7 @@
     },
     "_grayMaterial": null,
     "duration": 0.1,
-    "zoomScale": 1.1,
+    "zoomScale": 1.2,
     "clickEvents": [
       {
         "__id__": 25
@@ -1051,6 +1057,9 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
+    "clip": {
+      "__uuid__": "74281b0a-8427-4f07-aba4-1b19b9be57f1"
+    },
     "_id": ""
   },
   {
@@ -1193,6 +1202,9 @@
     },
     "resetButton": {
       "__id__": 22
+    },
+    "clip": {
+      "__uuid__": "ef766d32-e971-4939-bef9-cd9b52269cc4"
     },
     "_id": ""
   },

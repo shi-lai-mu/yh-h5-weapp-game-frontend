@@ -23,6 +23,8 @@ export default class Popup extends cc.Component {
     // 重置按钮
     @property(cc.Node) resetButton: cc.Node = null;
 
+    @property({ type: cc.AudioClip }) clip: cc.AudioClip = null;
+
     // 关闭事件
     closeEvent: any = null;
     // 确认事件
@@ -46,6 +48,7 @@ export default class Popup extends cc.Component {
      */
     init(message) {
         this.text.string = message;
+        cc.audioEngine.playEffect(this.clip, false);
     }
 
     /**
