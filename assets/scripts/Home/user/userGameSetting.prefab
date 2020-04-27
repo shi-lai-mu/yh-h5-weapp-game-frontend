@@ -94,7 +94,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "audioBox",
+    "_name": "musci",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -566,7 +566,7 @@
     },
     "component": "",
     "_componentId": "9ca39NtgeFMmpAcpXSt1FEi",
-    "handler": "volumeChang",
+    "handler": "MusicVolumeChang",
     "customEventData": ""
   },
   {
@@ -941,7 +941,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "audioBox",
+    "_name": "effect",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1413,7 +1413,7 @@
     },
     "component": "",
     "_componentId": "9ca39NtgeFMmpAcpXSt1FEi",
-    "handler": "volumeChang",
+    "handler": "EffectVolumeChang",
     "customEventData": ""
   },
   {
@@ -2175,7 +2175,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 54
@@ -2282,7 +2282,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "checkmark<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 57
@@ -2657,7 +2657,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 66
@@ -2764,13 +2764,17 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "checkmark<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 69
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -3465,7 +3469,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 88
@@ -3572,7 +3576,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "checkmark<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 91
@@ -3947,7 +3951,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 100
@@ -4054,13 +4058,17 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "checkmark<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 103
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -4425,7 +4433,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 112
@@ -4532,13 +4540,17 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "checkmark<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 115
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -4903,7 +4915,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 124
@@ -5010,13 +5022,17 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "checkmark<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 127
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -5381,7 +5397,18 @@
       "__id__": 1
     },
     "_enabled": true,
-    "volume": null,
+    "musicVolume": {
+      "__id__": 11
+    },
+    "effectVolume": {
+      "__id__": 34
+    },
+    "bgm": {
+      "__id__": 77
+    },
+    "fps": {
+      "__id__": 135
+    },
     "_id": ""
   },
   {
