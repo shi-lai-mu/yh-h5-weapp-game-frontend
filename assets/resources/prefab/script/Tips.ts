@@ -28,7 +28,7 @@ export default class NewClass extends cc.Component {
      */
     setContent(content: string, timeout?: number) {
         this.body.runAction(
-            cc.moveTo(.5, 0, 230).easing(cc.easeBounceInOut()),
+            cc.moveTo(.7, 0, 230).easing(cc.easeBounceInOut()),
         );
         this.text.string = content;
         if (timeout) {
