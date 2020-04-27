@@ -64,7 +64,19 @@ export default class Home extends cc.Component {
     start() {
         // 默认打开的内容
         if (!onlyOpen) {
-            this.openPopup(false, 'ActivityPrefab');
+            this.openPopup(false, 'ActivityPrefab', () => {
+                setTimeout(() => {
+                    // 回来提示
+                    cc.loader.loadRes('prefab/Tips', cc.Prefab, (_err, prefab) => {
+                        if (prefab) {
+                            const popup = cc.instantiate(prefab);
+                            cc.director.getScene().addChild(popup);
+                            const scriptPopup = popup.getComponent('Tips');
+                            scriptPopup.setContent(`欢迎回来, ${State.userInfo.nickname}!`, 5);
+                        }
+                    });
+                }, 700);
+            });
             onlyOpen = true;
         }
         // 刘海兼容适配
@@ -72,16 +84,6 @@ export default class Home extends cc.Component {
 
         // BGM音量
         this.node.getComponent(cc.AudioSource).volume = State.system.config.volume.music;
-
-        // 回来提示
-        cc.loader.loadRes('prefab/Tips', cc.Prefab, (_err, prefab) => {
-            if (prefab) {
-                const popup = cc.instantiate(prefab);
-                cc.director.getScene().addChild(popup);
-                const scriptPopup = popup.getComponent('Tips');
-                scriptPopup.setContent(`欢迎回来, ${State.userInfo.nickname}!`, 5);
-            }
-        });
     }
 
 
@@ -100,8 +102,11 @@ export default class Home extends cc.Component {
      * @param _event    - 事件体
      * @param popupName - 弹窗名
      */
-    openPopup(_event, popupName: string) {
-        this.node.addChild(cc.instantiate(this[popupName]));
+    openPopup(_event, popupName: string, closeCallBack?: any) {
+        const instantiate = cc.instantiate(this[popupName]);
+        const script = instantiate.getComponent(popupName.replace('Prefab', ''));
+        if (closeCallBack && script) script.closeCallBack = closeCallBack;
+        this.node.addChild(instantiate);
     }
 
 

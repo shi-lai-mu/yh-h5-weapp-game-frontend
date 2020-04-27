@@ -44,6 +44,8 @@ export default class Activity extends cc.Component {
     // 只初始化一次
     @property({ visible: !1 }) rendererOnly: boolean = !1;
 
+    closeCallBack;
+
 
     start () {
         this.fetchactivityRequest();
@@ -56,6 +58,7 @@ export default class Activity extends cc.Component {
      */
     activityPopupHide() {
         this.node.destroy();
+        this.closeCallBack && this.closeCallBack();
     }
 
 
