@@ -17,7 +17,7 @@ const _CONFIG_ = {
     /**
      * 背景音乐
      */
-    music: 1,
+    music: .4,
     /**
      * 音效
      */
@@ -44,6 +44,7 @@ export default new class Setting {
   config = _CONFIG_;
 
   constructor() {
+    this.config = config;
     this.updateSetting();
   }
 
@@ -59,7 +60,7 @@ export default new class Setting {
     console.log(config);
     cc.audioEngine.setMusicVolume(config.volume.music);
     // 音效音量
-    cc.audioEngine.setEffectsVolume(config.volume.effects);
+    // cc.audioEngine.setEffectsVolume(config.volume.effects);
 
     // 存储变更
     localStorage.setItem('gameSetting', JSON.stringify(this.config));

@@ -68,7 +68,7 @@ export default class WxLogin extends cc.Component {
     onClickLoginButton() {
       if (this.userInfo) {
         this.onWxLogin(this.userInfo);
-      } else if (!CC_WECHATGAME) {
+      } else if (!State.IS_WECHAT) {
         this.node.getComponent('loginPage').popupMiniContent('此功能只允许在\n微信小游戏或微信中使用!', 3000);
       }
     }

@@ -26,18 +26,22 @@ export default class HomeBusiness extends cc.Component {
         this.toggleSide();
     }
 
+    
+    /**
+     * 侧栏切换
+     */
     toggleSide() {
         const { sideState } = this;
         if (this.sideMoveState === false) {
             this.sideMoveState = true;
+            this.sideArrow.runAction(
+                cc.rotateTo(.5, sideState ? 0 : 180),
+            );
             this.sideBox.runAction(
                 cc.sequence(
                     cc.moveTo(.5, sideState ? 60 : 180, 0).easing(cc.easeBackIn()),
                     cc.callFunc(() => {
                         this.sideState = !sideState;
-                        this.sideArrow.runAction(
-                            cc.rotateTo(.5, sideState ? 0 : 180),
-                        );
                         this.sideMoveState = false;
                     }),
                 )
