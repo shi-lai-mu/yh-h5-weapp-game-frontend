@@ -72,6 +72,16 @@ export default class Home extends cc.Component {
 
         // BGM音量
         this.node.getComponent(cc.AudioSource).volume = State.system.config.volume.music;
+
+        // 回来提示
+        cc.loader.loadRes('prefab/Tips', cc.Prefab, (_err, prefab) => {
+            if (prefab) {
+                const popup = cc.instantiate(prefab);
+                cc.director.getScene().addChild(popup);
+                const scriptPopup = popup.getComponent('Tips');
+                scriptPopup.setContent(`欢迎回来, ${State.userInfo.nickname}!`, 5);
+            }
+        });
     }
 
 
