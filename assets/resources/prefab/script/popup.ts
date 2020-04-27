@@ -22,7 +22,7 @@ export default class Popup extends cc.Component {
     @property(cc.Node) successButton: cc.Node = null;
     // 重置按钮
     @property(cc.Node) resetButton: cc.Node = null;
-
+    // 音效
     @property({ type: cc.AudioClip }) clip: cc.AudioClip = null;
 
     // 关闭事件
