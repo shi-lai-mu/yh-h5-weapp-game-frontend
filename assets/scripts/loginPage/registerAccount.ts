@@ -101,7 +101,6 @@ export default class RegisterAccount extends cc.Component {
             } else {
                 this.message.string = res.msg;
             }
-            console.log(res);
         }).catch(() => {
             this.message.string = '账号系统繁忙, 请稍后再试!';
         });

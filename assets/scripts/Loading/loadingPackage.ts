@@ -36,13 +36,11 @@ export default async function packLoading(
   for (const subIndex in sub) {
       const subName = sub[subIndex];
       await new Promise((resolve) => {
-        console.log(`loading #${subName}....`);
           cc.loader.downloader.loadSubpackage(subName, (err) => {
               if (err) {
                   return console.error(err);
               }
               resolve();
-              console.log(subName);
               callback && callback(
                   subName,
                   +subIndex + 1,
