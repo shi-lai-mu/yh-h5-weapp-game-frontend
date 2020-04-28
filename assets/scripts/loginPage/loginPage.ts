@@ -62,7 +62,6 @@ export default class Login extends cc.Component {
         axios
             .api('server_config')
             .then(res => {
-                console.log(res);
                 State.serverConfig = res;
 
                 // 服务器状态过滤

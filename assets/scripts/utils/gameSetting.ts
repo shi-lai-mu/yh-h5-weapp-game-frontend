@@ -57,7 +57,6 @@ export default new class Setting {
     cc.game.emit('updateGameSetting', this);
 
     // 音乐音量
-    console.log(config);
     cc.audioEngine.setMusicVolume(config.volume.music);
     // 音效音量
     // cc.audioEngine.setEffectsVolume(config.volume.effects);
