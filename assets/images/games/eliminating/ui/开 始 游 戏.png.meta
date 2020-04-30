@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "de70def5-d79a-475f-98ec-2dceda6d63d1",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 199,
+  "height": 42,
+  "platformSettings": {},
+  "subMetas": {
+    "开 始 游 戏": {
+      "ver": "1.0.4",
+      "uuid": "0b2e88bb-e3fb-4fb7-819a-7d330907eccf",
+      "rawTextureUuid": "de70def5-d79a-475f-98ec-2dceda6d63d1",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 199,
+      "height": 42,
+      "rawWidth": 199,
+      "rawHeight": 42,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
