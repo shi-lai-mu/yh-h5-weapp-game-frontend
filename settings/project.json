@@ -14,7 +14,6 @@
     "Intersection",
     "MotionStreak",
     "Physics",
-    "Spine Skeleton",
     "StudioComponent",
     "TiledMap",
     "VideoPlayer",
@@ -47,6 +46,6 @@
       "enable": false
     }
   },
-  "start-scene": "current",
-  "migrate-history": []
+  "migrate-history": [],
+  "start-scene": "current"
 }

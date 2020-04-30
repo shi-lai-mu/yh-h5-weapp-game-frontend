@@ -16,50 +16,46 @@ let prveStatus = 20;
 let statusUpdateTime = 0;
 let clock = 0;
 
+cc.macro.CLEANUP_IMAGE_CACHE = false;
+cc.dynamicAtlasManager.enabled = true;
+
 @ccclass
 export default class NewClass extends cc.Component {
 
     /**
      * WIFI 连接正常
      */
-    @property(cc.SpriteFrame)
-    wifiSuccessFrame: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame) wifiSuccessFrame: cc.SpriteFrame = null;
 
     /**
      * WIFI 连接警告
      */
-    @property(cc.SpriteFrame)
-    wifiErrorFrame: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame) wifiErrorFrame: cc.SpriteFrame = null;
 
     /**
      * WIFI 连接断开
      */
-    @property(cc.SpriteFrame)
-    wifiUnLinkFrame: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame) wifiUnLinkFrame: cc.SpriteFrame = null;
 
     /**
      * WIFI
      */
-    @property(cc.Sprite)
-    wifi: cc.Sprite = null;
+    @property(cc.Sprite) wifi: cc.Sprite = null;
 
     /**
      * 时间文字
      */
-    @property(cc.Label)
-    time: cc.Label = null;
+    @property(cc.Label) time: cc.Label = null;
 
     /**
      * 延迟文字
      */
-    @property(cc.Label)
-    signal: cc.Label = null;
+    @property(cc.Label) signal: cc.Label = null;
 
     /**
      * 弹窗
      */
-    @property(cc.Prefab)
-    popupPrefab: cc.Prefab = null;
+    @property(cc.Prefab) popupPrefab: cc.Prefab = null;
 
     /**
      * 弹窗实例
