@@ -15,16 +15,12 @@ export default class NewClass extends cc.Component {
     @property(cc.Sprite) stars: cc.Sprite[] = [];
     // 获得星星音效
     @property({ type: cc.AudioClip }) starAudio: cc.AudioClip = null;
+    // 锁
+    @property(cc.Node) lock: cc.Node = null;
 
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-        setTimeout(() => this.setStar(3), 1000);
+    
+    start() {
+        this.lock.active = false;
     }
 
 
@@ -49,6 +45,4 @@ export default class NewClass extends cc.Component {
             ),
         );
     }
-
-    // update (dt) {}
 }
