@@ -21,6 +21,10 @@ export default class NewClass extends cc.Component {
         cc.audioEngine.playEffect(this.clip, false);
     }
 
+    onDestroy() {
+        clearTimeout(this.clock);
+    }
+
     /**
      * 设置内容
      * @param content 内容

@@ -93,7 +93,16 @@ export default class Home extends cc.Component {
      * @param gameName - 游戏名
      */
     openGame(_event, gameName: string) {
-        cc.director.loadScene(gameName);
+        cc.loader.loadRes('prefab/GroupLoading', (_err, prefab) => {
+            const instantiate = cc.instantiate(prefab);
+            cc.director.getScene().addChild(instantiate);
+            cc.director.preloadScene(gameName, (_err) => {
+                instantiate.getComponent('GroupLoading').close();
+                cc.director.loadScene(gameName);
+            });
+            
+            // cc.director.loadScene(gameName);
+        });
     }
 
 

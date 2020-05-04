@@ -43,8 +43,6 @@ export default class GroupLoading extends cc.Component {
      * 关计时器
      */
     close() {
-        console.log('132456498798');
-        
         clearInterval(this.clock);
         this.backage.runAction(
             cc.sequence(
@@ -52,5 +50,9 @@ export default class GroupLoading extends cc.Component {
                 cc.callFunc(() => this.node.destroy()),
             ),
         );
+    }
+
+    onDestroy() {
+        clearInterval(this.clock);
     }
 }
