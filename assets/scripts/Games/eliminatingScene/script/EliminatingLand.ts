@@ -17,8 +17,10 @@ export default class NewClass extends cc.Component {
     @property({ type: cc.AudioClip }) starAudio: cc.AudioClip = null;
     // 锁
     @property(cc.Node) lock: cc.Node = null;
+    // 关卡资源
+    @property(cc.Prefab) Checkpoint: cc.Node = null;
 
-    
+
     start() {
         this.lock.active = false;
     }
@@ -44,5 +46,20 @@ export default class NewClass extends cc.Component {
                 }),
             ),
         );
+    }
+
+
+    /**
+     * 点开关卡
+     */
+    openCheckpoint() {
+        const Checkpoint = cc.instantiate(this.Checkpoint);
+        const script = Checkpoint.getComponent('EliminatingPanel');
+        script.init({
+            names: 121,
+            star: 2,
+            score: 6666,
+        });
+        cc.director.getScene().addChild(Checkpoint);
     }
 }

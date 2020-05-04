@@ -100,7 +100,6 @@ export default class Home extends cc.Component {
                 instantiate.getComponent('GroupLoading').close();
                 cc.director.loadScene(gameName);
             });
-            
             // cc.director.loadScene(gameName);
         });
     }
