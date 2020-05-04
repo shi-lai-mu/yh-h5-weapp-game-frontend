@@ -763,6 +763,9 @@
     "lock": {
       "__id__": 15
     },
+    "Checkpoint": {
+      "__uuid__": "48bbdf3b-3610-4ad1-b1a0-d340ec13b329"
+    },
     "_id": ""
   },
   {
@@ -843,10 +846,12 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "",
-    "_componentId": "",
-    "handler": "",
+    "_componentId": "0472fk3yqtKu40uurIS9mxe",
+    "handler": "openCheckpoint",
     "customEventData": ""
   },
   {
