@@ -4,8 +4,8 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-import { info } from '../../utils/gameSetting';
 import axios from '../../utils/axiosUtils';
+import State from '../../utils/state';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -14,7 +14,7 @@ export default class EliminatingScene extends cc.Component {
      * 游戏信息
      */
     get info() {
-        return info('消消乐');
+        return State.system.info('消消乐');
     }
 
     mapData = [];
@@ -36,10 +36,19 @@ export default class EliminatingScene extends cc.Component {
         });
     }
 
+
+    /**
+     * 返回大厅
+     */
     backHome() {
         cc.director.loadScene('Home');
     }
 
+
+    /**
+     * 滚动场景时
+     * @param e 事件
+     */
     scrollScent(e) {
         console.log(e);
     }
