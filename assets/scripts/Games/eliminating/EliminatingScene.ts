@@ -10,6 +10,24 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class EliminatingScene extends cc.Component {
+
+    // 岛屿
+    @property(cc.Prefab) isLand: cc.Prefab = null;
+    // 地图区域
+    @property(cc.Node) mapBox: cc.Node = null;
+    // 地图数据
+    mapData = [
+        [ 480, -80 ],
+        [ 800, 85 ],
+        [ 1090, -180],
+        [ 1300, 105],
+        [ 1470, -200],
+        [ 1657, 135],
+        [ 1880, -70],
+        [ 2138, 120],
+    ];
+    // 战绩
+    record;
     /**
      * 游戏信息
      */
@@ -17,22 +35,38 @@ export default class EliminatingScene extends cc.Component {
         return State.system.info('消消乐');
     }
 
-    mapData = [];
-
 
     start () {
-        console.log(this.info);
         this.node.on(cc.Node.EventType.TOUCH_START, event => {
-            console.log(this, event);
-           // this.voiceNode.active = true;
+            console.log(event);
         }, this);
+        axios
+            .api('game_record', {
+                params: {
+                    gameId: this.info.id,  
+                },
+            })
+            .then(res => this.updateIsLand(res))
+            .catch(() => State.tips('战绩数据加载失败', 5, false, 2))
+        ;
+    }
 
-        axios.api('game_record', {
-            params: {
-                gameId: this.info.id,  
-            },
-        }).then(res => {
-            console.log(res);
+    
+    /**
+     * 加载岛屿
+     * @param recordData 战绩信息
+     */
+    updateIsLand(recordData: any[]) {
+        console.log(recordData);
+        this.mapData.forEach((point, index) => {
+            const island = cc.instantiate(this.isLand);
+            // 初始化岛屿
+            island.getComponent('EliminatingLand').init(recordData[index] || undefined, index);
+            island.x = point[0] - 190;
+            island.y = point[1];
+            this.mapBox.addChild(island);
+            console.log(island);
+            
         });
     }
 

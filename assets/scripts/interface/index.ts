@@ -160,5 +160,15 @@ export namespace Utils {
      * 系统设置
      */
     system: typeof GameSetting;
+
+    /**
+     * 
+     * 弹出提示
+     * @param content 内容
+     * @param timeout 收起时间
+     * @param effect  是否播放音效
+     * @param icon    图标（-1：不显示，1：成功，2：失败，3：警告）
+     */
+    tips: (content: string, timeout?: number, effect?: boolean, icon?: number) => Promise<any>;
   }
 }

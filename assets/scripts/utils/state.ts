@@ -112,6 +112,27 @@ const State: Utils.State = {
      * 系统设置
      */
     system: gameSetting,
+
+    /**
+     * 弹出提示
+     * @param content 内容
+     * @param timeout 收起时间
+     * @param effect  是否播放音效
+     * @param icon    图标（-1：不显示，1：成功，2：失败，3：警告）
+     */
+    tips(content: string, timeout: number = 2, effect: boolean = false, icon = -1) {
+        return new Promise((resolve, reject) => {
+            cc.loader.loadRes('prefab/Tips', cc.Prefab, (_err, prefab) => {
+                if (prefab) {
+                    const popup = cc.instantiate(prefab);
+                    cc.director.getScene().addChild(popup);
+                    const scriptPopup = popup.getComponent('Tips');
+                    scriptPopup.setContent(content, timeout, effect, icon);
+                    resolve(scriptPopup);
+                } else reject(_err);
+            });
+        });
+    }
 }
 
 export default State;
