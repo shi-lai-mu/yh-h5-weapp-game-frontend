@@ -7,7 +7,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class EliminatingLand extends cc.Component {
     // 实体星星
     @property(cc.SpriteFrame) starEntity: cc.SpriteFrame = null;
     // 三星
@@ -16,11 +16,37 @@ export default class NewClass extends cc.Component {
     @property({ type: cc.AudioClip }) starAudio: cc.AudioClip = null;
     // 锁
     @property(cc.Node) lock: cc.Node = null;
+    // 星父节点
+    @property(cc.Node) Stars: cc.Node = null;
     // 关卡资源
     @property(cc.Prefab) Checkpoint: cc.Node = null;
+    // 关卡名字
+    @property(cc.Label) names: cc.Label = null;
+    // 关卡分数
+    recordData;
 
     start() {
         this.lock.active = false;
+    }
+
+    init(recordData, id, state) {
+        console.log(recordData, id, state);
+
+        this.names.string = recordData ? recordData.id : id + 1;
+
+        if (recordData) {
+            this.recordData = recordData;
+            this.setStar(recordData.star);
+        }
+        if (state) {
+            setTimeout(() => {
+                const isLand = this.node.getComponent(cc.Button);
+                isLand.enabled = true;
+                isLand.interactable = false;
+                this.lock.active = true;
+                this.Stars.active = false;
+            }, 100);
+        }
     }
 
 

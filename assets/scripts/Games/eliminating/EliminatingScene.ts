@@ -47,7 +47,10 @@ export default class EliminatingScene extends cc.Component {
                 },
             })
             .then(res => this.updateIsLand(res))
-            .catch(() => State.tips('战绩数据加载失败', 5, false, 2))
+            .catch(err => {
+                console.log(err);
+                State.tips('战绩数据加载失败', 5, false, 2)
+            })
         ;
     }
 
@@ -58,10 +61,14 @@ export default class EliminatingScene extends cc.Component {
      */
     updateIsLand(recordData: any[]) {
         console.log(recordData);
+        // 是否被锁
+        let lock = false;
+        // 生成岛屿
         this.mapData.forEach((point, index) => {
             const island = cc.instantiate(this.isLand);
-            // 初始化岛屿
-            island.getComponent('EliminatingLand').init(recordData[index] || undefined, index);
+            // 初始化岛屿，EliminatingLand脚本在子节点下
+            island.children[0].getComponent('EliminatingLand').init(recordData[index] || undefined, index, lock);
+            if (!recordData[index]) lock = true;
             island.x = point[0] - 190;
             island.y = point[1];
             this.mapBox.addChild(island);
