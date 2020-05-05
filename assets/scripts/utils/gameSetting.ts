@@ -35,8 +35,7 @@ const _CONFIG_ = {
 };
 const config = Object.keys(storage).length ? storage : _CONFIG_;
 cc.game.setFrameRate(config.fps);
-
-export default new class Setting {
+export default new class System {
 
   /**
    * 游戏配置
@@ -67,19 +66,19 @@ export default new class Setting {
     // 判断是否重启
     reboot && cc.game.restart();
   }
-  
-}
 
-/**
- * 获取游戏信息
- * @param gameName 游戏名
- */
-export const info = (gameName: string) => {
-  const { games } = State;
-  for (const index in games) {
-    const currentGame = games[index];
-    if (currentGame.name === gameName || currentGame.name_en === gameName) {
-      return currentGame;
+
+  /**
+   * 获取游戏信息
+   * @param gameName 游戏名
+   */
+  info(gameName: string) {
+    const { games } = State;
+    for (const index in games) {
+      const currentGame = games[index];
+      if (currentGame.name === gameName || currentGame.name_en === gameName) {
+        return currentGame;
+      }
     }
   }
 }

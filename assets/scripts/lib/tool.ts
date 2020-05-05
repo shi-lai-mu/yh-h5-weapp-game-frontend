@@ -213,7 +213,6 @@ export const luanchOptions = (() => {
  */
 export const screenFringe = (nodes: cc.Node[]) => {
     const isFringe = hasScreenFringe();
-    console.log(isFringe, nodes);
     if (isFringe) {
         nodes.forEach(node => {
             node.getComponent(cc.Widget).left += 60;

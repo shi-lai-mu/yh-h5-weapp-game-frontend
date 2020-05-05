@@ -4,10 +4,11 @@
  * 负责数据缓存npm install --save socket.io-wxapp-client
  */
 import { confusion } from '../utils/confusion';
-import GameSetting from './gameSetting';
+import gameSetting from './gameSetting';
 import { Utils } from '../interface/index';
 const userInfo = localStorage.getItem('userInfo');
 
+console.log(gameSetting);
 const State: Utils.State = {
     /**
      * 用户数据
@@ -110,7 +111,7 @@ const State: Utils.State = {
     /**
      * 系统设置
      */
-    system: GameSetting,
+    system: gameSetting,
 }
 
 export default State;
