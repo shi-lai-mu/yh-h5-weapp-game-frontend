@@ -69,7 +69,7 @@ export default class EliminatingPanel extends cc.Component {
      * @param starNumber  星数
      * @param index       当前星下标
      * @param audioEffect 是否播放音效
-     */
+     */ 
     setStar(starNumber: number, index: number = 0, audioEffect: boolean = false) {
         const star = this.stars[index];
         star.spriteFrame = this.starEntity;
@@ -87,6 +87,9 @@ export default class EliminatingPanel extends cc.Component {
     }
 
 
+    /**
+     * 关闭
+     */
     close() {
         this.node.destroy();
     }

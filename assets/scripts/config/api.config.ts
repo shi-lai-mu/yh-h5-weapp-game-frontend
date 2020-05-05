@@ -18,6 +18,9 @@ export default {
   get_home_message:  '/game/home/message',                          // 获取首页滚动消息
   server_config:     '/game/server',                                // 获取服务器配置
 
+  // 游戏
+  game_record:       '/game/record/:gameId',                        // 获取游戏战绩
+  
   // 活动
   home_activity:     '/activity',                                   // 首页活动列表
 
