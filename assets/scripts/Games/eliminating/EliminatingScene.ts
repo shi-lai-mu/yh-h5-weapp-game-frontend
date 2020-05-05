@@ -4,17 +4,36 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
+import { info } from '../../utils/gameSetting';
+import axios from '../../utils/axiosUtils';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class EliminatingScene extends cc.Component {
+    /**
+     * 游戏信息
+     */
+    get info() {
+        return info('消消乐');
+    }
+
+    mapData = [];
+
 
     start () {
-        this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+        console.log(this.info);
+        this.node.on(cc.Node.EventType.TOUCH_START, event => {
             console.log(this, event);
            // this.voiceNode.active = true;
-        }.bind(this), this)
+        }, this);
+
+        axios.api('game_record', {
+            params: {
+                gameId: this.info.id,  
+            },
+        }).then(res => {
+            console.log(res);
+        });
     }
 
     backHome() {

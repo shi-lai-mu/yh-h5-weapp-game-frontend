@@ -5,9 +5,10 @@
  */
 import { confusion } from '../utils/confusion';
 import GameSetting from './gameSetting';
+import { Utils } from '../interface/index';
 const userInfo = localStorage.getItem('userInfo');
 
-const State = {
+const State: Utils.State = {
     /**
      * 用户数据
      */
@@ -69,6 +70,11 @@ const State = {
     },
 
     /**
+     * 游戏设置
+     */
+    games: [],
+
+    /**
      * 游戏数据
      */
     gameData: {
@@ -109,6 +115,7 @@ const State = {
 
 export default State;
 
+
 /**
  * 全局重登机制 [Bate]
  */
@@ -127,8 +134,7 @@ function onLogin() {
 
     if (!accountInputText || !passwordInputText) return;
 
-    axios
-        .api('login', {
+    axios.api('login', {
             data: {
                 account: accountInputText,
                 password: passwordInputText,
@@ -139,6 +145,9 @@ function onLogin() {
                 localStorage.setItem('userInfo', JSON.stringify(res));
                 State.userInfo = res;
                 cc.game.emit('tokenUpdate', res.token);
+
+                // 临时方案
+                axios.api('get_games_list').then((res: Utils.State['games']) => State.games = res);
             }
         })
     ;

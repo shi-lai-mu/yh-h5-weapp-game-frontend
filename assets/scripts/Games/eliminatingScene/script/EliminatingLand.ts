@@ -4,7 +4,6 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -19,7 +18,6 @@ export default class NewClass extends cc.Component {
     @property(cc.Node) lock: cc.Node = null;
     // 关卡资源
     @property(cc.Prefab) Checkpoint: cc.Node = null;
-
 
     start() {
         this.lock.active = false;

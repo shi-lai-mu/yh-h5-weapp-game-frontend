@@ -69,3 +69,17 @@ export default new class Setting {
   }
   
 }
+
+/**
+ * 获取游戏信息
+ * @param gameName 游戏名
+ */
+export const info = (gameName: string) => {
+  const { games } = State;
+  for (const index in games) {
+    const currentGame = games[index];
+    if (currentGame.name === gameName || currentGame.name_en === gameName) {
+      return currentGame;
+    }
+  }
+}
