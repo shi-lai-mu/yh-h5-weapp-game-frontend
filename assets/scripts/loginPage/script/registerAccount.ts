@@ -6,11 +6,15 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import axios from '../utils/axiosUtils';
+import axios from '../../utils/axiosUtils';
+import State from '../../utils/state';
+import { confusion } from '../../utils/confusion';
 import LoginService from './loginPage';
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class RegisterAccount extends cc.Component {
+    // 账号输入框
+    @property(cc.EditBox) accountInput = null;
     // 密码输入框
     @property(cc.EditBox) passwordInput = null;
     // 确认密码输入框
@@ -31,12 +35,14 @@ export default class NewClass extends cc.Component {
     input = {
         code: '',
         mobile: '',
+        account: '',
         password: '',
         twoPassword: '',
     }
-
+    
 
     start () {
+        this.accountInput.node.on('text-changed', (e) => this.input.account = e.string, this);
         this.passwordInput.node.on('text-changed', (e) => this.input.password = e.string, this);
         this.twoPasswordInput.node.on('text-changed', (e) => this.input.twoPassword = e.string, this);
         this.mobileInput.node.on('text-changed', (e) => this.input.mobile = e.string, this);
@@ -52,15 +58,19 @@ export default class NewClass extends cc.Component {
         const {
             code,
             mobile,
+            account,
             password,
             twoPassword,
         } = this.input;
-        if (!code || !mobile  || !password || !twoPassword) {
+        if (!code || !mobile || !account || !password || !twoPassword) {
             return this.message.string = '请先填写完整的信息!';
         }
         // 校验
         if (password.length < 6 || password.length > 20) {
             return this.message.string = '密码长度6-20位!';
+        }
+        if (/[^a-zA-Z0-9]/.test(account)) {
+            return this.message.string = '账号只能由字母和数字组成!';
         }
         if (password !== twoPassword) {
             return this.message.string = '两次输入的密码不相同!';
@@ -70,21 +80,24 @@ export default class NewClass extends cc.Component {
         }
 
         // 发送注册
-        axios.api('reset_pwd', {
+        axios.api('user_reg', {
             data: {
-                newPassword: this.input.password,
-                mobile: this.input.mobile,
-                code: this.input.code,
+                nickname: this.input.account,
+                ...this.input,
             },
             params: {
-                resetPasswordCode: this.code,
+                registerCode: this.code,
             },
         }).then(res => {
             if (res.status !== false) {
-                this.message.string = '密码修改成功, 请返回登录!';
-                setTimeout(() => {
-                    this.node.destroy();
-                }, 2000);
+                // 简单的混淆
+                const p = confusion.encrypt(password);
+                const a = confusion.encrypt(account);
+                localStorage.setItem('account', JSON.stringify({ a, p }));
+                localStorage.setItem('userInfo', JSON.stringify(res));
+                State.userInfo = res;
+                cc.game.emit('tokenUpdate', res.token); 
+                this.parentClass.loadingScens();
             } else {
                 this.message.string = res.msg;
             }
@@ -107,7 +120,7 @@ export default class NewClass extends cc.Component {
 
         axios.api('get_regCode', {
             params: {
-                codeType: 'resetPassword',
+                codeType: 'register',
                 sendType: 'sms',
             },
             data: {
@@ -119,14 +132,6 @@ export default class NewClass extends cc.Component {
         }).catch(() => {
             this.message.string = '短信系统繁忙, 请稍后再试!';
         });
-    }
-
-
-    /**
-     * 点击登录事件
-     */
-    onLogingEvent() {
-
     }
 
 

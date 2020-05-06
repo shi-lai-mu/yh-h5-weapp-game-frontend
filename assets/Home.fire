@@ -201,7 +201,7 @@
       "array": [
         0,
         5,
-        560.3184362485318,
+        561.1844616523163,
         0,
         0,
         0,
@@ -19218,9 +19218,7 @@
     "ActivityPrefab": {
       "__uuid__": "39036aca-4cb1-4048-9142-1c2adc9fc5d7"
     },
-    "EmailPrefab": {
-      "__uuid__": "f1b0fee1-d94c-4832-b8b3-5765eee0a928"
-    },
+    "EmailPrefab": null,
     "ShopPrefab": {
       "__uuid__": "581f049e-48ac-4ef2-b0cd-286103ff8dfe"
     },

@@ -37,7 +37,7 @@ export namespace Utils {
       /**
        * 信号
        */
-      signal: 0;
+      signal: number;
     };
 
 

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "list-bg",
+    "_name": "list",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -28,13 +28,10 @@
       },
       {
         "__id__": 6
-      },
-      {
-        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 7
     },
     "_opacity": 255,
     "_color": {
@@ -223,94 +220,7 @@
     "_id": ""
   },
   {
-    "__type__": "11c67So8a5CUrDnfCI99C+c",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_normalMaterial": {
-      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-    },
-    "_grayMaterial": null,
-    "duration": 0.1,
-    "zoomScale": 1.05,
-    "clickEvents": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$transition": 3,
-    "transition": 3,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "_N$hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": null,
-    "clip": {
-      "__uuid__": "7f607440-1e48-43a3-99e8-6b98648a8d37"
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1
-    },
-    "component": "",
-    "_componentId": "8e0bfpoaLtDi4dRah9sCWPC",
-    "handler": "onClick",
-    "customEventData": ""
-  },
-  {
-    "__type__": "8e0bfpoaLtDi4dRah9sCWPC",
+    "__type__": "397aaXBflBJiY0wqbNyGvVM",
     "_name": "",
     "_objFlags": 0,
     "node": {

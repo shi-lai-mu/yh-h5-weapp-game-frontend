@@ -1,7 +1,7 @@
 
 const {ccclass} = cc._decorator;
-import axios from '../utils/axiosUtils';
-import State from '../utils/state';
+import axios from '../../utils/axiosUtils';
+import State from '../../utils/state';
 
 @ccclass
 export default class WxLogin extends cc.Component {

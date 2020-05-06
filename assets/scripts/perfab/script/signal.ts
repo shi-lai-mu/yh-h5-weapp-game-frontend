@@ -66,6 +66,7 @@ export default class NewClass extends cc.Component {
         this.watch();
         cc.game.on('socketConnect', this.watch.bind(this));
         cc.game.on('serverClose', this.serverCloseEvent.bind(this));
+        console.log('signal loading ....');
         const onLine = (content: string) => {
             const popup = cc.instantiate(this.popupPrefab);
             cc.director.getScene().addChild(popup);
