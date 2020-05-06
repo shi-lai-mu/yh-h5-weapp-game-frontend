@@ -37,6 +37,7 @@ export default async function packLoading(
       const subName = sub[subIndex];
       await new Promise((resolve) => {
           cc.loader.downloader.loadSubpackage(subName, (err) => {
+            console.error(subName);
               if (err) {
                   return console.error(err);
               }

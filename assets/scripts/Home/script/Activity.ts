@@ -10,6 +10,7 @@
 
 import axios from '../../utils/axiosUtils';
 import { ActivityItem } from '../../interface/home';
+import State from '../../utils/state';
 
 var Item = cc.Class({
     name: 'Item',
@@ -73,19 +74,21 @@ export default class Activity extends cc.Component {
                 const newItem = cc.instantiate(this.activityListPrefab);
                 this.activityListBox.addChild(newItem);
                 const newComponent = newItem.getComponent('ListItem');
-                newComponent.init(item);
-                newComponent.clickEvent = () => {
-                    this.mainText.string = item.html || '活动获取失败!';
-                    setTimeout(() => this.mainContent.height = this.mainText.node.height / 2, 100);
-                    lastItem && lastItem.blur();
-                    lastItem = newComponent;
-                };
-                newItem.y = (newItem.y - index * 50) - newItem.height;
-                this.activityListBox.height += 40;
-                this.rendererOnly = !this.rendererOnly;
-                if (index === 0) {
-                    newComponent.onClick();
-                }
+                if (newComponent) {
+                    newComponent.init(item);
+                    newComponent.clickEvent = () => {
+                        this.mainText.string = item.html || '活动获取失败!';
+                        setTimeout(() => this.mainContent.height = this.mainText.node.height / 2, 100);
+                        lastItem && lastItem.blur();
+                        lastItem = newComponent;
+                    };
+                    newItem.y = (newItem.y - index * 50) - newItem.height;
+                    this.activityListBox.height += 40;
+                    this.rendererOnly = !this.rendererOnly;
+                    if (index === 0) {
+                        newComponent.onClick();
+                    }
+                } else State.tips('列表资源加载失败!', 5, false, 1);
             });
         });
     }

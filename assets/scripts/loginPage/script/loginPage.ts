@@ -9,10 +9,10 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import axios from '../utils/axiosUtils';
-import State from '../utils/state';
-import { confusion } from '../utils/confusion';
-import packLoading from '../Loading/loadingPackage';
+import axios from '../../utils/axiosUtils';
+import State from '../../utils/state';
+import { confusion } from '../../utils/confusion';
+import packLoading from '../../Loading/loadingPackage';
 
 @ccclass
 export default class Login extends cc.Component {
@@ -229,7 +229,7 @@ export default class Login extends cc.Component {
         let timeout = null;
         await packLoading({
             sub: [
-                'lib', 'resPrefabSub', 'perfabScript', 'HomeScript', 'GamesScript',
+                'lib', 'perfabScript', 'resPrefabSub', 'HomeScript', 'GamesScript',
             ],
             scene: [
                 'Home',

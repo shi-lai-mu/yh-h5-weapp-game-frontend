@@ -107,7 +107,7 @@ export default class Home extends cc.Component {
         const instantiate = cc.instantiate(this[popupName]);
         const script = instantiate.getComponent(popupName.replace('Prefab', ''));
         if (closeCallBack && script) script.closeCallBack = closeCallBack;
-        this.node.addChild(instantiate);
+        cc.director.getScene().addChild(instantiate);
     }
 
 

@@ -21,7 +21,7 @@ export default class ListItem extends cc.Component {
     @property(cc.SpriteFrame) itemTarget: cc.SpriteFrame = null;
 
     ParentClass: any = null;
-    data: any = {};
+    datas: any = {};
     Sprite = null;
     // 点击触发的事件
     clickEvent: any;
@@ -31,9 +31,9 @@ export default class ListItem extends cc.Component {
      * 点击事件
      */
     async onClick() {
-        const { data, id, clickEvent } = this;
-        clickEvent && await clickEvent(data, id);
-        const { html, content } = data;
+        const { datas, id, clickEvent } = this;
+        clickEvent && await clickEvent(datas, id);
+        const { html, content } = datas;
         if ((html || content) && typeof content === 'string') {
             this.ParentClass.mainContent.string = html || content;
         }
@@ -77,7 +77,7 @@ export default class ListItem extends cc.Component {
             this.itemPrice.string = title.length > 5 ? title.substr(0, 5) + '...' : title;
         }
         data.index = index;
-        this.data = data;
+        this.datas = data;
     }
 
 
