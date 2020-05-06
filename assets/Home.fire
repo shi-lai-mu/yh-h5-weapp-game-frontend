@@ -201,7 +201,7 @@
       "array": [
         0,
         5,
-        570.1559435696457,
+        560.3184362485318,
         0,
         0,
         0,
@@ -12044,7 +12044,7 @@
     "component": "",
     "_componentId": "b978fxAiepGxZh12NplIlBz",
     "handler": "openGame",
-    "customEventData": "gameEliminating"
+    "customEventData": "gameEliminatingScene"
   },
   {
     "__type__": "cc.Sprite",
@@ -19243,7 +19243,7 @@
       "__id__": 135
     },
     "leftBox": {
-      "__id__": 65
+      "__id__": 17
     },
     "_id": "11AkDWSPlE5rb3GpM1xb7u"
   },
