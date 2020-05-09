@@ -76,9 +76,13 @@ export default class CreateRoom extends cc.Component {
     _GANE_: any = {};
     // 项目节点列表
     listItems = {};
+    // 渲染完成后的回调
+    renderCallBack: any;
 
     start() {
         let prveClick = null;
+        console.log(12465);
+        
         // 创建按钮实例化
         Object.keys(gameOption).forEach((key, index) => {
             const item = gameOption[key];
@@ -107,6 +111,8 @@ export default class CreateRoom extends cc.Component {
 
             this.listItems[key] = ListItem;
         });
+        // 渲染完成 回调
+        this.renderCallBack && this.renderCallBack();
     }
 
 

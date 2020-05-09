@@ -10,19 +10,34 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Room extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
+    // 创建房间界面
+    @property(cc.Node) createNode: cc.Node = null;
+    // 公共房间界面
+    @property(cc.Node) publicNode: cc.Node = null;
+    // 加入房间类型选择界面
+    @property(cc.Node) typesNode: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-
+        this.createNode.opacity = 255;
+        this.publicNode.opacity = 255;
+        this.createNode.active = false;
+        this.publicNode.active = false;
     }
+
+
+    /**
+     * 创建房间模式
+     */
+    createRoomModel() {
+        this.createNode.active = true;
+        this.publicNode.active = false;
+        this.typesNode.active = false;
+    }
+
 
     close() {
         this.node.destroy();
