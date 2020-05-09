@@ -8,8 +8,6 @@
     ]
   ],
   "excluded-modules": [
-    "Collider",
-    "DragonBones",
     "Geom Utils",
     "Intersection",
     "MotionStreak",

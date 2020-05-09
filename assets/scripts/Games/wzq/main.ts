@@ -140,7 +140,7 @@ export default class GoBangMainService extends cc.Component {
      */
     backHome() {
         const popup = cc.instantiate(this.popupPrefab);
-        this.Canvas.node.addChild(popup);
+        cc.director.getScene().addChild(popup);
         const scriptPopup = popup.getComponent('popup');
         this.playersData.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {

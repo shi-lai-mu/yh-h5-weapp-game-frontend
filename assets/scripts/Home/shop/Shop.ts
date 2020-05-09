@@ -159,7 +159,7 @@ export default class Activity extends cc.Component {
     buyGoods(goodsData) {
         const popup = cc.instantiate(this.popup);
         const scriptPopup = popup.getComponent('popup');
-        this.node.parent.addChild(popup);
+        cc.director.getScene().addChild(popup);
         
         scriptPopup.init(`将使用 ${goodsData.price + goodsData.bay_currency_name} 购买,\n[ ${goodsData.name} ]\n是否确定?`);
         scriptPopup.setEvent('success', () => {

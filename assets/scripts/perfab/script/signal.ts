@@ -16,11 +16,8 @@ let prveStatus = 20;
 let statusUpdateTime = 0;
 let clock = 0;
 
-cc.macro.CLEANUP_IMAGE_CACHE = false;
-cc.dynamicAtlasManager.enabled = true;
-
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Signal extends cc.Component {
 
     /**
      * WIFI 连接正常
@@ -182,7 +179,7 @@ export default class NewClass extends cc.Component {
         if (!this.scriptPopup) {
             console.log('与服务器失去连接');
             const popup = cc.instantiate(this.popupPrefab);
-            this.node.parent.addChild(popup);
+            cc.director.getScene().addChild(popup);
             const scriptPopup = popup.getComponent('popup');
             scriptPopup.init('与服务器失去连接!\n重新连接中...');
             scriptPopup.setEvent('close', () => {

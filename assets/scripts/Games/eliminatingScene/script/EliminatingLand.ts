@@ -31,7 +31,6 @@ export default class EliminatingLand extends cc.Component {
 
     init(recordData, id, state) {
         console.log(recordData, id, state);
-
         this.names.string = recordData ? recordData.id : id + 1;
 
         if (recordData) {

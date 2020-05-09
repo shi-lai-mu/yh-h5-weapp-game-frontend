@@ -5,8 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
-import { shareAppMessage } from '../../../scripts/lib/tool';
+const {ccclass} = cc._decorator;
+import { shareAppMessage } from '../../../../scripts/lib/tool';
 
 @ccclass
 export default class StopGames extends cc.Component {

@@ -139,7 +139,7 @@ export default class Login extends cc.Component {
      */
     popupMiniContent(content: string, closeTime?: number) {
         const popup = cc.instantiate(this.popupPrefab);
-        this.node.parent.addChild(popup);
+        cc.director.getScene().addChild(popup);
         const scriptPopup = popup.getComponent('popup');
         scriptPopup.init(content);
         scriptPopup.setEvent('success', () => {
@@ -229,7 +229,7 @@ export default class Login extends cc.Component {
         let timeout = null;
         await packLoading({
             sub: [
-                'lib', 'perfabScript', 'resPrefabSub', 'HomeScript', 'GamesScript',
+                'lib', 'resPrefabSub', 'perfabScript', 'HomeScript', 'GamesScript',
             ],
             scene: [
                 'Home',

@@ -167,7 +167,7 @@ export default class CreateRoom extends cc.Component {
                 data: query,
             }).then((res) => {
                 const popup = cc.instantiate(this.popupPrefab);
-                this.node.addChild(popup);
+                cc.director.getScene().addChild(popup);
                 const scriptPopup = popup.getComponent('popup');
                 scriptPopup.init('创建中...');
                 if (res.status) {
