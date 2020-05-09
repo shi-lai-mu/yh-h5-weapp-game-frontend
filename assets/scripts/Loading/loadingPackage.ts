@@ -29,7 +29,6 @@ export default async function packLoading(
   if (Object.keys(cc.loader.downloader._subpackages).length === 0) {
       return callback && callback('skip', 1, 1, '跳过加载...');
   }
-
   const { scene, sub } = packages;
   const allCount = scene.length + sub.length;
 
@@ -37,7 +36,6 @@ export default async function packLoading(
       const subName = sub[subIndex];
       await new Promise((resolve) => {
           cc.loader.downloader.loadSubpackage(subName, (err) => {
-            console.error(subName);
               if (err) {
                   return console.error(err);
               }

@@ -163,8 +163,8 @@ export default class HomeGames extends cc.Component {
 
     update() {
         const { messageId, messageList, MessageContent } = this;
-        const MessageBoxWidth = this.MessageBox.width;
-        if (messageList[messageId]) {
+        if (MessageContent && messageList[messageId]) {
+            const MessageBoxWidth = this.MessageBox.width;
             //  如果完全超出最右方
             if (MessageContent.node.x < -MessageContent.node.width) {
                 MessageContent.string = messageList[messageId].content;

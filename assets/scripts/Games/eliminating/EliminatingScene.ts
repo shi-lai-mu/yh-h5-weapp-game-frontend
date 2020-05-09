@@ -91,6 +91,6 @@ export default class EliminatingScene extends cc.Component {
      * @param e 事件
      */
     scrollScent(e) {
-        console.log(e);
+        // console.log(e);
     }
 }

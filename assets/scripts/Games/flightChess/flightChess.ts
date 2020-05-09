@@ -634,7 +634,7 @@ export default class FlightChess extends cc.Component {
         }
         const popup = cc.instantiate(popupPrefab);
         const scriptPopup = popup.getComponent('popup');
-        node.parent.addChild(popup);
+        cc.director.getScene().addChild(popup);
         roomInfo.players.forEach((item, index: number) => {
             if (item.id === State.userInfo.id) {
                 // console.log(index);
@@ -687,7 +687,7 @@ export default class FlightChess extends cc.Component {
         } else if (roomInfo.playerIndex !== 0) {
             const popup = cc.instantiate(popupPrefab);
             const scriptPopup = popup.getComponent('popup');
-            node.parent.addChild(popup);
+            cc.director.getScene().addChild(popup);
             scriptPopup.init('房主已将房间解散!');
             scriptPopup.setEvent('success', () => {
                 popup.destroy();
