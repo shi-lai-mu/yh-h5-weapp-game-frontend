@@ -346,7 +346,7 @@
     "_prefab": {
       "__id__": 79
     },
-    "_opacity": 0,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -5106,7 +5106,7 @@
     "_prefab": {
       "__id__": 170
     },
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -6228,8 +6228,15 @@
       "__id__": 1
     },
     "_enabled": true,
-    "label": null,
-    "text": "hello",
+    "createNode": {
+      "__id__": 8
+    },
+    "publicNode": {
+      "__id__": 80
+    },
+    "typesNode": {
+      "__id__": 142
+    },
     "_id": ""
   },
   {
