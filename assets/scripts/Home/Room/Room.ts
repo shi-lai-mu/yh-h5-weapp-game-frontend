@@ -21,11 +21,13 @@ export default class Room extends cc.Component {
 
     // onLoad () {}
 
-    start () {
+    onLoad() {
         this.createNode.opacity = 255;
         this.publicNode.opacity = 255;
+        this.typesNode.opacity = 255;
         this.createNode.active = false;
         this.publicNode.active = false;
+        this.typesNode.active = false;
     }
 
 
@@ -33,11 +35,20 @@ export default class Room extends cc.Component {
      * 创建房间模式
      */
     createRoomModel() {
+        this.onLoad();
         this.createNode.active = true;
-        this.publicNode.active = false;
-        this.typesNode.active = false;
     }
 
+
+    /**
+     * 加入模式
+     */
+    typeRoomModel() {
+        this.onLoad();
+        console.log(1231456);
+        
+        this.typesNode.active = true;
+    }
 
     close() {
         this.node.destroy();

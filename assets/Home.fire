@@ -18842,7 +18842,7 @@
     },
     "component": "",
     "_componentId": "6294ev0mVZHS5ovUaaqYmUV",
-    "handler": "joinRoom",
+    "handler": "showCreateRoomPopup",
     "customEventData": ""
   },
   {
