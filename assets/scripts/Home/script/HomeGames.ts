@@ -148,21 +148,22 @@ export default class HomeGames extends cc.Component {
     showCreateRoomPopup(_e, gameName?: string) {
         const createRoomPrefab = cc.instantiate(this.createRoomPrefab);
         cc.director.getScene().addChild(createRoomPrefab);
+        const prefabScript = createRoomPrefab.getComponent('Room');
+        if (!gameName) {
+            return prefabScript.typeRoomModel();
+        }
         if (typeof gameName === 'string') {
-            const prefabScript = createRoomPrefab.getComponent('Room');
             const createRoom = prefabScript.createNode;
             const Room = createRoom.getComponent('CreateRoom');
-            setTimeout(() => {
-                prefabScript.createRoomModel();
-                Room.renderCallBack = () => {
-                    console.log(Room.listItems[gameName], gameName);
-                    const current = Room.listItems[gameName];
-                    if (current) {
-                        current.onClick();
-                        const popup = Room.onCreateRoom(() => popup.success());
-                    }
+            prefabScript.createRoomModel();
+            Room.renderCallBack = () => {
+                console.log(Room.listItems[gameName], gameName);
+                const current = Room.listItems[gameName];
+                if (current) {
+                    current.onClick();
+                    const popup = Room.onCreateRoom(() => popup.success());
                 }
-            }, 100);
+            }
         }
     }
 

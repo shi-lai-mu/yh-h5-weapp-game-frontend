@@ -111,6 +111,8 @@ export default class CreateRoom extends cc.Component {
 
             this.listItems[key] = ListItem;
         });
+        console.log(this.listItems);
+        
         // 渲染完成 回调
         this.renderCallBack && this.renderCallBack();
     }
