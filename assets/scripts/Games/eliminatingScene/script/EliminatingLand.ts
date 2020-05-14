@@ -24,14 +24,22 @@ export default class EliminatingLand extends cc.Component {
     @property(cc.Label) names: cc.Label = null;
     // 关卡分数
     recordData;
+    // 关卡ID
+    id: number = 0;
 
     start() {
         this.lock.active = false;
     }
 
+
+    /**
+     * 初始化
+     * @param recordData 历史数据
+     * @param id         id
+     * @param state      状态
+     */
     init(recordData, id, state) {
-        console.log(recordData, id, state);
-        this.names.string = recordData ? recordData.id : id + 1;
+        this.id = this.names.string = recordData ? recordData.id : id + 1;
 
         if (recordData) {
             this.recordData = recordData;
@@ -76,12 +84,15 @@ export default class EliminatingLand extends cc.Component {
      * 点开关卡
      */
     openCheckpoint() {
+        const { recordData } = this;
+        const { id, score, star } = recordData || {};
         const Checkpoint = cc.instantiate(this.Checkpoint);
         const script = Checkpoint.getComponent('EliminatingPanel');
+        
         script.init({
-            names: 121,
-            star: 2,
-            score: 6666,
+            names: id || this.id,
+            star,
+            score,
         });
         cc.director.getScene().addChild(Checkpoint);
     }

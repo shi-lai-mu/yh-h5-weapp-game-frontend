@@ -170,7 +170,7 @@ export default class CreateRoom extends cc.Component {
         return new Promise((resolve, reject) => {
             axios.api('create_room', {
                 params: {
-                    gameName: this._ROOM_NAME_,
+                    gameName: this._ROOM_NAME_, 
                 },
                 data: query,
             }).then((res) => {
