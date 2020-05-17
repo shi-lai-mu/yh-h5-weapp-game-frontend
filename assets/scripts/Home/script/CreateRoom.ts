@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
+import State from '../../utils/state';
 
 /**
  * 游戏房间配置
@@ -81,7 +82,6 @@ export default class CreateRoom extends cc.Component {
 
     start() {
         let prveClick = null;
-        console.log(12465);
         
         // 创建按钮实例化
         Object.keys(gameOption).forEach((key, index) => {
@@ -111,7 +111,6 @@ export default class CreateRoom extends cc.Component {
 
             this.listItems[key] = ListItem;
         });
-        console.log(this.listItems);
         
         // 渲染完成 回调
         this.renderCallBack && this.renderCallBack();
@@ -168,35 +167,39 @@ export default class CreateRoom extends cc.Component {
         });
 
         return new Promise((resolve, reject) => {
-            axios.api('create_room', {
-                params: {
-                    gameName: this._ROOM_NAME_, 
-                },
-                data: query,
-            }).then((res) => {
-                const popup = cc.instantiate(this.popupPrefab);
-                cc.director.getScene().addChild(popup);
-                const scriptPopup = popup.getComponent('popup');
-                scriptPopup.init('创建中...');
-                if (res.status) {
-                    axios.api('room_info').then(res => {
-                        scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
-                        scriptPopup.setEvent('success', () => {
-                            popup.destroy();
-                            this.node.destroy();
-                            cc.director.loadScene(this._GANE_.scene);
+            axios
+                .api('create_room', {
+                    params: {
+                        gameName: this._ROOM_NAME_, 
+                    },
+                    data: query,
+                })
+                .then((res) => {
+                    const popup = cc.instantiate(this.popupPrefab);
+                    cc.director.getScene().addChild(popup);
+                    const scriptPopup = popup.getComponent('popup');
+                    scriptPopup.init('创建中...');
+                    if (res.status) {
+                        axios.api('room_info').then(res => {
+                            scriptPopup.message(`创建成功!\n房间号: ${res.roomCode}`);
+                            scriptPopup.setEvent('success', () => {
+                                popup.destroy();
+                                this.node.destroy();
+                                cc.director.loadScene(this._GANE_.scene);
+                            });
+                            resolve(scriptPopup);
                         });
-                        resolve(scriptPopup);
-                    });
-                } else {
-                    scriptPopup.message(`创建失败!\n${res.msg}`);
-                    // scriptPopup.setEvent('reset', () => {
-                    //     this.createRoomClick();
-                    // });
-                    scriptPopup.setEvent('close', () => {});
-                    reject(scriptPopup);
-                }
-            });
+                    } else {
+                        scriptPopup.message(`创建失败!\n${res.msg}`);
+                        // scriptPopup.setEvent('reset', () => {
+                        //     this.createRoomClick();
+                        // });
+                        scriptPopup.setEvent('close', () => {});
+                        reject(scriptPopup);
+                    }
+                })
+                .catch(() => State.tips('界面打开失败!'))
+            ;
         });
     }
 }
