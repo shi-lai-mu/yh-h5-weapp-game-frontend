@@ -167,9 +167,6 @@ function onLogin() {
                 localStorage.setItem('userInfo', JSON.stringify(res));
                 State.userInfo = res;
                 cc.game.emit('tokenUpdate', res.token);
-
-                // 临时方案
-                axios.api('get_games_list').then((res: Utils.State['games']) => State.games = res);
             }
         })
     ;

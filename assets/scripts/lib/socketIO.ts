@@ -35,6 +35,9 @@ import * as io from './asocket.ioLib/asocket.io';
 // import State from './state';
 import State from '../utils/state';
 import defaultConfig from '../config/default.config';
+import axios from '../utils/axiosUtils';
+import { Utils } from '../interface/index';
+
 // IO配置文件引入
 const IoConfig = defaultConfig.io;
 // 子IO
@@ -63,6 +66,10 @@ export default {
   connect(token) {
     if (this.onlyConnect) return;
     console.log(`IO 连接中...`, token);
+
+    // 临时方案
+    axios.api('get_games_list').then((res: Utils.State['games']) => State.games = res);
+
     let socket = io.connect(`${
       (localRegExp.test(IoConfig.main) && !localRegExp.test(locaHostName)) || CC_DEV
         ? IoConfig.dev.main.replace(localRegExp, locaHostName)
