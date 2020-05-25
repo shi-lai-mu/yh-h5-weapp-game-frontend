@@ -38,6 +38,34 @@ export default class EliminatingBlock extends cc.Component {
       y,
       w: width,
       h: height,
+      node: this.node,
+      script: this,
     };
+  }
+
+
+  /**
+   * 移动节点
+   * @param offset   移动距离
+   * @param duration 动画时间
+   */
+  move(
+    offset: {
+      x: number;
+      y: number;
+    },
+    duration: number = .5,
+  ) {
+    const { width, height } = this.node;
+    const x = offset.x < 0 ? 1 : -1;
+    const y = offset.y < 0 ? 1 : -1;
+    
+    this.icon.node.runAction(
+      cc.moveBy(
+        duration,
+        offset.x ? width * x : 0,
+        offset.y ? height * y : 0,
+      ),
+    );
   }
 }

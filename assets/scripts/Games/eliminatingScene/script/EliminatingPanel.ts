@@ -72,8 +72,8 @@ export default class EliminatingPanel extends cc.Component {
      */ 
     setStar(starNumber: number, index: number = 0, audioEffect: boolean = false) {
         const star = this.stars[index];
-        star.spriteFrame = this.starEntity;
         const { scale } = star.node;
+        star.spriteFrame = this.starEntity;
         star.node.runAction(
             cc.sequence(
                 cc.scaleTo(.2, scale + .5),

@@ -26,6 +26,8 @@ export default class Eliminating extends cc.Component {
     blocks = [];
     // 当前目标方格
     currentBlock: number = -1;
+    // 横轴可放置点数
+    transverseCount = 12;
 
 
     start () {
@@ -36,7 +38,10 @@ export default class Eliminating extends cc.Component {
         // 测试
         for (let i = 0; i < 10; i++) {
             const prefab = cc.instantiate(this.block);
-            prefab.x += i * prefab.width + 200 ;
+            prefab.x += i * prefab.width + 200;
+            if (i < this.transverseCount) {
+                prefab.y -= prefab.height;
+            }
             const prefabScript: EliminatingBlock = prefab.getComponent('EliminatingBlock');
             const blockInfo = prefabScript.init({
                 type: 1,
@@ -81,7 +86,7 @@ export default class Eliminating extends cc.Component {
         // 移动方向参数计算
         const absX = Math.abs(touch.x - x);
         const absY = Math.abs(touch.y - y);
-        const move = {
+        const move: any = {
             x: absX > absY ? touch.x - x : 0,
             y: absY > absX ? touch.y - y : 0,
         };
@@ -90,7 +95,48 @@ export default class Eliminating extends cc.Component {
         move.right = move.x < 0;
         move.left = move.x > 0;
 
-        console.log(move);
+        // 执行移动操作
+        this.moveBlock(move);
+    }
+
+
+    /**
+     * 移动方块操作
+     */
+    moveBlock(moveInfo: {
+        x: number;   
+        y: number;
+        top: boolean;
+        bottom: boolean;
+        right: boolean;
+        left: boolean;
+    }) {
+        console.log(moveInfo);
+        // 方向动作操作
+        this.moveAnimation(this.blocks[this.currentBlock], moveInfo);
+    }
+
+
+    /**
+     * 移动动画
+     * @param currentNode 被移动节点
+     */
+    moveAnimation(
+        currentNode: {
+            node: cc.Node;
+            script: EliminatingBlock;
+            w: number;
+            h: number;
+            x: number;
+            y: number;
+        },
+        moveInfo: any,
+    ) {
+        console.log(currentNode);
+        currentNode.script.move({
+            x: moveInfo.x,
+            y: moveInfo.y,
+        })
     }
 
 
