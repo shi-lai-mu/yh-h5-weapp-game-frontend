@@ -13,10 +13,14 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Eliminating extends cc.Component {
 
-    // 方格资源
-    @property(cc.Prefab) block: cc.Prefab = null;
     // 方格容器
     @property(cc.Node) blockBox: cc.Node = null;
+    // 地图容器
+    @property(cc.Node) mapBox: cc.Node = null;
+    // 地图格资源
+    @property(cc.Prefab) mapPrefab: cc.Prefab = null;
+    // 方格资源
+    @property(cc.Prefab) block: cc.Prefab = null;
     // 触摸位置存储
     touch = {
         x: -1,
@@ -28,7 +32,8 @@ export default class Eliminating extends cc.Component {
     currentBlock: number = -1;
     // 横轴可放置点数
     transverseCount = 12;
-
+    // 地图
+    map: any[] = [];
 
     start () {
         // 为方格容器添加触摸事件
@@ -37,17 +42,7 @@ export default class Eliminating extends cc.Component {
 
         // 测试
         for (let i = 0; i < 10; i++) {
-            const prefab = cc.instantiate(this.block);
-            prefab.x += i * prefab.width + 200;
-            if (i < this.transverseCount) {
-                prefab.y -= prefab.height;
-            }
-            const prefabScript: EliminatingBlock = prefab.getComponent('EliminatingBlock');
-            const blockInfo = prefabScript.init({
-                type: 1,
-            });
-            this.blocks.push(blockInfo);
-            this.blockBox.addChild(prefab);
+            this.createMap(i);
         }
         console.log(this.blocks);
     }
@@ -104,7 +99,7 @@ export default class Eliminating extends cc.Component {
      * 移动方块操作
      */
     moveBlock(moveInfo: {
-        x: number;   
+        x: number;
         y: number;
         top: boolean;
         bottom: boolean;
@@ -132,11 +127,32 @@ export default class Eliminating extends cc.Component {
         },
         moveInfo: any,
     ) {
-        console.log(currentNode);
         currentNode.script.move({
             x: moveInfo.x,
             y: moveInfo.y,
         })
+    }
+
+
+    /**
+     * 创建地图
+     */
+    createMap(mapIndex) {
+        const mapInter = cc.instantiate(this.mapPrefab);
+        
+        const prefab = cc.instantiate(this.block);
+        prefab.x += mapIndex * prefab.width + 200;
+        console.log(mapIndex);
+        
+        if (mapIndex < this.transverseCount) {
+            prefab.y -= prefab.height;
+        }
+        const prefabScript: EliminatingBlock = prefab.getComponent('EliminatingBlock');
+        const blockInfo = prefabScript.init({
+            type: 1,
+        });
+        this.blockBox.addChild(prefab);
+        this.mapBox.addChild(mapInter);
     }
 
 
