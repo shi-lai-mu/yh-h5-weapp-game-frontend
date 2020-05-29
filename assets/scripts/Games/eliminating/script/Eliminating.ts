@@ -115,9 +115,14 @@ export default class Eliminating extends cc.Component {
         let target = -1;
         for (let i = 0, len = blocks.length; i < len; i++) {
             const currentBlock = blocks[i];
-            if ((currentBlock.x < x && currentBlock.x + currentBlock.w > x) && (currentBlock.y > y && currentBlock.y - currentBlock.h < y)) {
-                target = i;
-                break;
+            for (const block of currentBlock) {
+                if (block) {
+                    if ((block.x < x && block.x + block.w > x) && (block.y > y && block.y - block.h < y)) {
+                        target = block.index;
+                        break;
+                    }
+                }
+                if (target !== -1) break;
             }
         }
         return target;
@@ -128,14 +133,16 @@ export default class Eliminating extends cc.Component {
      * 移动方块操作
      */
     moveBlock(moveInfo: { bottom: boolean; left: boolean; right: boolean; top: boolean; x: number; y: number; }) {
-        if (this.currentBlock === -1) {
+        const { currentBlock } = this;
+        if (currentBlock === -1) {
             return;
         }
         console.log(moveInfo);
+        const point = currentBlock.toString().split('-');
         
         // 方向动作操作
         console.log(this.currentBlock);
-        this.moveAnimation(this.blocks[this.currentBlock], moveInfo);
+        this.moveAnimation(this.blocks[point[0]][point[1]], moveInfo);
         this.currentBlock = -1;
     }
 
@@ -208,10 +215,11 @@ export default class Eliminating extends cc.Component {
         
         blocks[y].push({
             x: mapInter.x - mapInter.width / 2,
-            y: mapInter.y,
+            y: mapInter.y + mapInter.height / 2,
             w: mapInter.width,
             h: mapInter.height,
             script: blockInfo.script,
+            index: `${y}-${blocks[y].length}`,
         });
         
         this.blockBox.addChild(prefab);
