@@ -65,7 +65,7 @@ export default class EliminatingBlock extends cc.Component {
         duration,
         offset.x ? width * x : 0,
         offset.y ? height * y : 0,
-      ),
+      ).easing(cc.easeSineIn()),
     );
   }
 }
