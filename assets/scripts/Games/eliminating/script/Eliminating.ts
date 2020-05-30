@@ -5,7 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import EliminatingBlock from './script/EliminatingBlock';
+import EliminatingBlock from './EliminatingBlock';
+import EliminatingInterface from '../../../interface/game/eliminating';
 const {ccclass, property} = cc._decorator;
 /**
  * 消消乐游戏场景类
@@ -27,9 +28,9 @@ export default class Eliminating extends cc.Component {
         y: -1,
     };
     // 方格位置
-    blocks = [];
+    blocks: EliminatingInterface.Block[][] = [];
     // 当前目标方格
-    currentBlock: number = -1;
+    currentBlock: string = '';
     // 横轴可放置点数
     // transverseCount = 4;
     // 地图
@@ -92,16 +93,46 @@ export default class Eliminating extends cc.Component {
         move.left = move.x > 0;
 
         // 执行移动操作
-        this.moveBlock(move);
-
+        const targetBlock = this.isAllowMove(move);
+        if (targetBlock) {
+            this.moveBlock(move);
+            // 反向移动
+            this.currentBlock = targetBlock.index;
+        }
     }
 
 
     /**
-     * 是否允许移动
+     * 是否允许指定方向移动
      */
-    isAllowMove(moveInfo: { bottom: boolean; left: boolean; right: boolean; top: boolean; }) {
+    isAllowMove(moveInfo: EliminatingInterface.MoveBoolean) {
+        const { currentBlock } = this;
+        const { blocks } = this;
+        let targetBlock: false | EliminatingInterface.Block = false;
 
+        if (!currentBlock) {
+            console.warn(currentBlock);
+            return targetBlock;
+        }
+
+        const point = currentBlock.toString().split('-');
+        const y = Number(point[0]);
+        const x = Number(point[1]);
+        const { top, right, bottom, left } = moveInfo;
+
+        if (top && blocks[y - 1] && blocks[y - 1][x]) {
+            targetBlock = blocks[y - 1][x];
+        }
+        if (right && blocks[y] && blocks[y][x + 1]) {
+            targetBlock = blocks[y][x + 1];
+        }
+        if (bottom && blocks[y + 1] && blocks[y + 1][x]) {
+            targetBlock = blocks[y + 1][x];
+        }
+        if (left && blocks[y] && blocks[y][x - 1]) {
+            targetBlock = blocks[y][x - 1];
+        }
+        return targetBlock;
     }
 
     
@@ -112,7 +143,7 @@ export default class Eliminating extends cc.Component {
      */
     targetBlock(x: number, y: number) {
         const { blocks } = this;
-        let target = -1;
+        let target = '';
         for (let i = 0, len = blocks.length; i < len; i++) {
             const currentBlock = blocks[i];
             for (const block of currentBlock) {
@@ -122,7 +153,7 @@ export default class Eliminating extends cc.Component {
                         break;
                     }
                 }
-                if (target !== -1) break;
+                if (target) break;
             }
         }
         return target;
@@ -134,16 +165,14 @@ export default class Eliminating extends cc.Component {
      */
     moveBlock(moveInfo: { bottom: boolean; left: boolean; right: boolean; top: boolean; x: number; y: number; }) {
         const { currentBlock } = this;
-        if (currentBlock === -1) {
+        if (!currentBlock) {
             return;
         }
-        console.log(moveInfo);
         const point = currentBlock.toString().split('-');
         
         // 方向动作操作
-        console.log(this.currentBlock);
         this.moveAnimation(this.blocks[point[0]][point[1]], moveInfo);
-        this.currentBlock = -1;
+        this.currentBlock = '';
     }
 
 
