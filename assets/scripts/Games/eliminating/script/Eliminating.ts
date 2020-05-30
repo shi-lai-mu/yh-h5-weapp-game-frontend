@@ -45,8 +45,8 @@ export default class Eliminating extends cc.Component {
         let index = 0;
         [
             [1,1,0,1,0,1,0],
-            [0,0,0,0,1,0,1],
-            [0,0,0,0,1,0,1],
+            [0,0,0,0,1,0,(Math.random() * 5) >> 0],
+            [0,0,0,0,1,0,(Math.random() * 5) >> 0],
         ].forEach((yItem, y) => {
             yItem.forEach((xItem, x) => {
                 index++;
@@ -95,9 +95,27 @@ export default class Eliminating extends cc.Component {
         // 执行移动操作
         const targetBlock = this.isAllowMove(move);
         if (targetBlock) {
+            const prevBlock = this.currentBlock.split('-');
+            const nextBlock = targetBlock.index.split('-');
             this.moveBlock(move);
-            // 反向移动
+            // 移动方向的方块反向移动
             this.currentBlock = targetBlock.index;
+            this.moveBlock({
+                top: move.bottom,
+                right: move.left,
+                bottom: move.top,
+                left: move.right,
+                x: -move.x,
+                y: -move.y,
+            });
+            // 反向互换方块脚本
+            const [ prevY, prevX ] = prevBlock;
+            const [ nextY, nextX ] = nextBlock;
+            const prev = this.blocks[prevY][prevX];
+            const next = this.blocks[nextY][nextX];
+            const prevScript = prev.script;
+            prev.script = next.script;
+            next.script = prevScript;
         }
     }
 
@@ -115,7 +133,7 @@ export default class Eliminating extends cc.Component {
             return targetBlock;
         }
 
-        const point = currentBlock.toString().split('-');
+        const point = currentBlock.split('-');
         const y = Number(point[0]);
         const x = Number(point[1]);
         const { top, right, bottom, left } = moveInfo;
@@ -163,16 +181,17 @@ export default class Eliminating extends cc.Component {
     /**
      * 移动方块操作
      */
-    moveBlock(moveInfo: { bottom: boolean; left: boolean; right: boolean; top: boolean; x: number; y: number; }) {
+    moveBlock(moveInfo: EliminatingInterface.MoveBooleanPoint) {
         const { currentBlock } = this;
         if (!currentBlock) {
-            return;
+            return false;
         }
         const point = currentBlock.toString().split('-');
         
         // 方向动作操作
         this.moveAnimation(this.blocks[point[0]][point[1]], moveInfo);
         this.currentBlock = '';
+        return true;
     }
 
 
@@ -239,7 +258,7 @@ export default class Eliminating extends cc.Component {
         prefab.y = mapInter.y + (prefab.height / 2);
         const prefabScript: EliminatingBlock = prefab.getComponent('EliminatingBlock');
         const blockInfo = prefabScript.init({
-            type: 1,
+            type: blockType,
         });
         
         blocks[y].push({
