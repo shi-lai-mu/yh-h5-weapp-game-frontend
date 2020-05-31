@@ -44,9 +44,11 @@ export default class Eliminating extends cc.Component {
         // 测试
         let index = 0;
         [
-            [1,1,0,1,0,1,0],
-            [0,0,0,0,1,0,(Math.random() * 5) >> 0],
-            [0,0,0,0,1,0,(Math.random() * 5) >> 0],
+            [1,1,1,1,1,1,2,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,1,1],
+            [1,1,1,1,1,1,2,1,1,1,1],
         ].forEach((yItem, y) => {
             yItem.forEach((xItem, x) => {
                 index++;
