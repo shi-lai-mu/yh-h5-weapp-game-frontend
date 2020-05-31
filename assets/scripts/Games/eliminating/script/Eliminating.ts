@@ -50,10 +50,7 @@ export default class Eliminating extends cc.Component {
             [1,1,1,1,1,1,2,1,1,1,1],
             [1,1,1,1,1,1,2,1,1,1,1],
         ].forEach((yItem, y) => {
-            yItem.forEach((xItem, x) => {
-                index++;
-                this.createMap(index, x, y, xItem);
-            })
+            yItem.forEach((xItem, x) => this.createMap(++index, x, y, xItem))
         })
         console.log(this.blocks);
     }
@@ -118,6 +115,8 @@ export default class Eliminating extends cc.Component {
             const prevScript = prev.script;
             prev.script = next.script;
             next.script = prevScript;
+            // 三连消除检测
+            this.eliminateCheck(Number(nextY), Number(nextX));
         }
     }
 
@@ -210,6 +209,41 @@ export default class Eliminating extends cc.Component {
             x: moveInfo.x,
             y: moveInfo.y,
         })
+    }
+
+
+    /**
+     * 消除检测 [检测四各方向是否达成三连消除条件]
+     * @param y 二维数组y轴
+     * @param x 二维数组x轴
+     */
+    eliminateCheck(y: number, x: number) {
+        const { blocks } = this;
+        // 获取目标方块
+        const target = blocks[y] ? blocks[y][x] : false;
+        if (!target) return;
+        const targetType = target.script.type;
+
+        // 达成三连数量
+        let count = 0;
+
+        // x轴三连检测
+        for (let startX = x - 2; startX <= x + 2; startX++) {
+            const chackBlock = blocks[y][startX];
+            if (chackBlock && chackBlock.script.type === targetType) {
+                count++;
+            }
+        }
+
+        // y轴三连检测
+        for (let startY = y - 2; startY <= y + 2; startY++) {
+            const chackBlock = blocks[startY] ? blocks[startY][x] : false;
+            if (chackBlock && chackBlock.script.type === targetType) {
+                count++;
+            }
+        }
+
+
     }
 
 

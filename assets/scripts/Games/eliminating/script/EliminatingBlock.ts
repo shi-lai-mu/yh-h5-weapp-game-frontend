@@ -18,8 +18,24 @@ export default class EliminatingBlock extends cc.Component {
    * 5：鸟
    */
   @property(cc.SpriteFrame) icons: cc.SpriteFrame[] = [];
+  /**
+   * 发光状态的icon资源
+   * 1：熊
+   * 2：狐狸
+   * 3：老鼠
+   * 4：青蛙
+   * 5：鸟
+   */
+  @property(cc.SpriteFrame) iconsGon: cc.SpriteFrame[] = [];
+  // 竖轴资源
+  @property(cc.SpriteFrame) Hove: cc.SpriteFrame = null;
+  // 横轴资源
+  @property(cc.SpriteFrame) Vove: cc.SpriteFrame = null;
   // icon Sprite 节点
   @property(cc.Sprite) icon: cc.Sprite = null;
+  // 块类型
+  type: number = 0;
+
 
   /**
    * 初始化入口
@@ -33,6 +49,7 @@ export default class EliminatingBlock extends cc.Component {
     this.icon.spriteFrame = this.icons[opt.type];
     const { node } = this;
     const { x, y, width, height } = node;
+    this.type = opt.type;
     return {
       x,
       y,
