@@ -657,8 +657,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1",
-    "_N$string": "1",
+    "_string": "---",
+    "_N$string": "---",
     "_fontSize": 100,
     "_lineHeight": 100,
     "_enableWrapText": true,
@@ -786,7 +786,7 @@
         1,
         0.86599,
         0.86599,
-        0
+        1
       ]
     },
     "_eulerAngles": {
