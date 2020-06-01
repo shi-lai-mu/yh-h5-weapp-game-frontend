@@ -35,6 +35,8 @@ export default class EliminatingBlock extends cc.Component {
   @property(cc.Sprite) icon: cc.Sprite = null;
   // 块类型
   type: number = 0;
+  // 轴体节点
+  oveNode: cc.Node;
 
 
   /**
@@ -46,10 +48,10 @@ export default class EliminatingBlock extends cc.Component {
      */
     type: number;
   }) {
-    this.icon.spriteFrame = this.icons[opt.type];
+    this.icon.spriteFrame = this.icons[opt.type - 1];
     const { node } = this;
     const { x, y, width, height } = node;
-    this.type = opt.type;
+    this.type = opt.type - 1;
     return {
       x,
       y,
@@ -84,5 +86,39 @@ export default class EliminatingBlock extends cc.Component {
         offset.y ? height * y : 0,
       ).easing(cc.easeSineIn()),
     );
+  }
+
+
+  /**
+   * 发光方法
+   * @param toggle 是否发光
+   */
+  toggleLuminescence(toggle: boolean) {
+    this.icon.spriteFrame = this[toggle ? 'iconsGon' : 'icons'][this.type];
+  }
+
+
+  /**
+   * 显示横轴或竖轴
+   * @param ovrType
+   * - false: 关闭显示
+   * - h: 竖轴
+   * - v: 横轴
+   */
+  toggleOve(ovrType: false | string) {
+    const node = new cc.Node();
+    const sprite = node.addComponent(cc.Sprite);
+    if (this.oveNode) {
+      this.oveNode.destroy();
+    }
+    if (typeof ovrType === 'string') {
+      sprite.spriteFrame = ovrType === 'h' ? this.Hove : this.Vove;
+      this.icon.node.addChild(node);
+      this.oveNode = node;
+      // this.node.addChild(node);
+      // node.height = this.node.height;
+      // node.y -= node.height / 2;
+      // node.x += this.node.width / 2;
+    }
   }
 }
