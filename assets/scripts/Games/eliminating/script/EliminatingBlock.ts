@@ -34,9 +34,13 @@ export default class EliminatingBlock extends cc.Component {
   // icon Sprite 节点
   @property(cc.Sprite) icon: cc.Sprite = null;
   // 块类型
-  type: number = 0;
+  blockType: number = 0;
   // 轴体节点
   oveNode: cc.Node;
+  // 块类型
+  get type() {
+    return this.node ? this.blockType : -1;
+  }
 
 
   /**
@@ -51,7 +55,7 @@ export default class EliminatingBlock extends cc.Component {
     this.icon.spriteFrame = this.icons[opt.type - 1];
     const { node } = this;
     const { x, y, width, height } = node;
-    this.type = opt.type - 1;
+    this.blockType = opt.type - 1;
     return {
       x,
       y,
@@ -75,17 +79,20 @@ export default class EliminatingBlock extends cc.Component {
     },
     duration: number = .5,
   ) {
-    const { width, height } = this.node;
-    const x = offset.x < 0 ? 1 : -1;
-    const y = offset.y < 0 ? 1 : -1;
-    
-    this.icon.node.runAction(
-      cc.moveBy(
-        duration,
-        offset.x ? width * x : 0,
-        offset.y ? height * y : 0,
-      ).easing(cc.easeSineIn()),
-    );
+    const { node } = this;
+    if (node) {
+      const { width, height } = node;
+      const x = offset.x < 0 ? 1 : -1;
+      const y = offset.y < 0 ? 1 : -1;
+      
+      this.icon.node.runAction(
+        cc.moveBy(
+          duration,
+          offset.x ? width * x : 0,
+          offset.y ? height * y : 0,
+        ).easing(cc.easeSineIn()),
+      );
+    }
   }
 
 
@@ -94,7 +101,7 @@ export default class EliminatingBlock extends cc.Component {
    * @param toggle 是否发光
    */
   toggleLuminescence(toggle: boolean) {
-    this.icon.spriteFrame = this[toggle ? 'iconsGon' : 'icons'][this.type];
+    this.icon.spriteFrame = this[toggle ? 'iconsGon' : 'icons'][this.blockType];
   }
 
 

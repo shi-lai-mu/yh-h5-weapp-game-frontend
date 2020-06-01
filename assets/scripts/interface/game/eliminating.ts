@@ -11,6 +11,7 @@ namespace Eliminating {
     h: number;
     script: EliminatingBlock;
     index: string;
+    node: cc.Node;
   }
 
   /**

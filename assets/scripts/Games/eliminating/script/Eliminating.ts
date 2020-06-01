@@ -99,6 +99,7 @@ export default class Eliminating extends cc.Component {
             this.moveBlock(move);
             // 移动方向的方块反向移动
             this.currentBlock = targetBlock.index;
+            console.log('移动');
             this.moveBlock({
                 top: move.bottom,
                 right: move.left,
@@ -116,6 +117,7 @@ export default class Eliminating extends cc.Component {
             prev.script = next.script;
             next.script = prevScript;
             // 三连消除检测
+            console.log('消除检测');
             this.eliminateCheck(Number(nextY), Number(nextX));
         }
     }
@@ -223,15 +225,22 @@ export default class Eliminating extends cc.Component {
         const target = blocks[y] ? blocks[y][x] : false;
         if (!target) return;
         const targetType = target.script.type;
+        console.log(targetType);
+        
 
         // 达成三连数量
-        let count = 0;
+        let xTarget: EliminatingInterface.Block[] = [];
+        let yTarget: EliminatingInterface.Block[] = [];
 
         // x轴三连检测
         for (let startX = x - 2; startX <= x + 2; startX++) {
             const chackBlock = blocks[y][startX];
             if (chackBlock && chackBlock.script.type === targetType) {
-                count++;
+                xTarget.push(chackBlock);
+            } else if (xTarget.length < 3) {
+                xTarget = [];
+            } else {
+                console.log(xTarget, startX);
             }
         }
 
@@ -239,11 +248,38 @@ export default class Eliminating extends cc.Component {
         for (let startY = y - 2; startY <= y + 2; startY++) {
             const chackBlock = blocks[startY] ? blocks[startY][x] : false;
             if (chackBlock && chackBlock.script.type === targetType) {
-                count++;
+                yTarget.push(chackBlock);
+            } else if (yTarget.length < 3) {
+                yTarget = [];
+            } else {
+                console.log(yTarget, startY);
             }
         }
 
+        if (xTarget.length === 5 || yTarget.length === 5) {         // 横或竖5连判断
+            console.log('彩色鸡');
+        } else if (xTarget.length + yTarget.length > 5) {           // L形判断
+            console.log('发光本体');
+            target.script.toggleLuminescence(true);
+        } else if (yTarget.length >= 3 || xTarget.length >= 3) {    // 三连判断
+            console.log('三连');
+            if (xTarget.length >= 3) {
+                xTarget.forEach(targets => targets.node.destroy());
+            }
+            if (yTarget.length >= 3) {
+                yTarget.forEach(targets => targets.node.destroy());
+            }
+        }
 
+        console.log(xTarget, yTarget);
+    }
+
+
+    destoryBlock(x: number, y: number) {
+        const cuurent = this.blocks[y] ? this.blocks[y][x] : false;
+        if (cuurent) {
+            cuurent.node.destroy();
+        }
     }
 
 
@@ -304,6 +340,7 @@ export default class Eliminating extends cc.Component {
             h: mapInter.height,
             script: blockInfo.script,
             index: `${y}-${blocks[y].length}`,
+            node: prefab,
         });
         
         this.blockBox.addChild(prefab);
