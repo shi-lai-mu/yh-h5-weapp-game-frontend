@@ -99,7 +99,6 @@ export default class Eliminating extends cc.Component {
             this.moveBlock(move);
             // 移动方向的方块反向移动
             this.currentBlock = targetBlock.index;
-            console.log('移动');
             this.moveBlock({
                 top: move.bottom,
                 right: move.left,
@@ -117,8 +116,7 @@ export default class Eliminating extends cc.Component {
             prev.script = next.script;
             next.script = prevScript;
             // 三连消除检测
-            console.log('消除检测');
-            this.eliminateCheck(Number(nextY), Number(nextX));
+            setTimeout(() => this.eliminateCheck(Number(nextY), Number(nextX)), 500);
         }
     }
 
@@ -225,7 +223,7 @@ export default class Eliminating extends cc.Component {
         const target = blocks[y] ? blocks[y][x] : false;
         if (!target) return;
         const targetType = target.script.type;
-        console.log(targetType);
+        console.log(targetType, target.index);
         
 
         // 达成三连数量
@@ -235,24 +233,31 @@ export default class Eliminating extends cc.Component {
         // x轴三连检测
         for (let startX = x - 2; startX <= x + 2; startX++) {
             const chackBlock = blocks[y][startX];
+            if (chackBlock) {
+                console.log(chackBlock.index, chackBlock.script.type, xTarget.length);
+            }
             if (chackBlock && chackBlock.script.type === targetType) {
                 xTarget.push(chackBlock);
             } else if (xTarget.length < 3) {
                 xTarget = [];
             } else {
-                console.log(xTarget, startX);
+                break;
             }
         }
 
         // y轴三连检测
         for (let startY = y - 2; startY <= y + 2; startY++) {
             const chackBlock = blocks[startY] ? blocks[startY][x] : false;
+            if (chackBlock) {
+                console.log(chackBlock.index);
+            }
+            
             if (chackBlock && chackBlock.script.type === targetType) {
                 yTarget.push(chackBlock);
             } else if (yTarget.length < 3) {
                 yTarget = [];
             } else {
-                console.log(yTarget, startY);
+                break;
             }
         }
 
@@ -264,10 +269,10 @@ export default class Eliminating extends cc.Component {
         } else if (yTarget.length >= 3 || xTarget.length >= 3) {    // 三连判断
             console.log('三连');
             if (xTarget.length >= 3) {
-                xTarget.forEach(targets => targets.node.destroy());
+                xTarget.forEach(targets => targets.script.node.destroy());
             }
             if (yTarget.length >= 3) {
-                yTarget.forEach(targets => targets.node.destroy());
+                yTarget.forEach(targets => targets.script.node.destroy());
             }
         }
 
@@ -278,7 +283,7 @@ export default class Eliminating extends cc.Component {
     destoryBlock(x: number, y: number) {
         const cuurent = this.blocks[y] ? this.blocks[y][x] : false;
         if (cuurent) {
-            cuurent.node.destroy();
+            cuurent.script.node.destroy();
         }
     }
 
