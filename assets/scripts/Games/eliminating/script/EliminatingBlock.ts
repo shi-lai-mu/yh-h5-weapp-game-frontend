@@ -79,13 +79,13 @@ export default class EliminatingBlock extends cc.Component {
     },
     duration: number = .5,
   ) {
-    const { node } = this;
-    if (node) {
+    const { node, icon } = this;
+    if (node && icon.node) {
       const { width, height } = node;
       const x = offset.x < 0 ? 1 : -1;
       const y = offset.y < 0 ? 1 : -1;
       
-      this.icon.node.runAction(
+      icon.node.runAction(
         cc.moveBy(
           duration,
           offset.x ? width * x : 0,
