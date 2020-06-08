@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import EliminatingBlock from './EliminatingBlock';
+import Service from './Service';
 import EliminatingInterface from '../../../interface/game/eliminating';
 const {ccclass, property} = cc._decorator;
 /**
@@ -43,16 +44,9 @@ export default class Eliminating extends cc.Component {
 
         // 测试
         let index = 0;
-        [
-            [1,1,1,1,1,1,2,1,1,1,1],
-            [1,1,1,1,1,1,2,1,1,1,1],
-            [1,1,1,1,1,1,2,1,1,1,1],
-            [1,1,1,1,1,1,2,1,1,1,1],
-            [1,1,1,1,1,1,2,1,1,1,1],
-        ].forEach((yItem, y) => {
+        Service.randomCreate(5, 11).forEach((yItem, y) => {
             yItem.forEach((xItem, x) => this.createMap(++index, x, y, xItem))
-        })
-        console.log(this.blocks);
+        });
     }
 
 
@@ -219,71 +213,30 @@ export default class Eliminating extends cc.Component {
      */
     eliminateCheck(y: number, x: number) {
         const { blocks } = this;
-        // 获取目标方块
-        const target = blocks[y] ? blocks[y][x] : false;
-        if (!target) return;
-        const targetType = target.script.type;
-        console.log(targetType, target.index);
-        
-
-        // 达成三连数量
-        let xTarget: EliminatingInterface.Block[] = [];
-        let yTarget: EliminatingInterface.Block[] = [];
-
-        // x轴三连检测
-        for (let startX = x - 2; startX <= x + 2; startX++) {
-            const chackBlock = blocks[y][startX];
-            if (chackBlock) {
-                console.log(chackBlock.index, chackBlock.script.type, xTarget.length);
-            }
-            if (chackBlock && chackBlock.script.type === targetType) {
-                xTarget.push(chackBlock);
-            } else if (xTarget.length < 3) {
-                xTarget = [];
-            } else {
-                break;
-            }
+        const checkQuery = Service.checkLine(blocks, y, x);
+        console.log(checkQuery);
+        if (checkQuery.destoryBlock.length) {
+            checkQuery.destoryBlock.forEach(targets => this.destoryBlock(0, 0, targets));
         }
-
-        // y轴三连检测
-        for (let startY = y - 2; startY <= y + 2; startY++) {
-            const chackBlock = blocks[startY] ? blocks[startY][x] : false;
-            if (chackBlock) {
-                console.log(chackBlock.index);
-            }
-            
-            if (chackBlock && chackBlock.script.type === targetType) {
-                yTarget.push(chackBlock);
-            } else if (yTarget.length < 3) {
-                yTarget = [];
-            } else {
-                break;
-            }
-        }
-
-        if (xTarget.length === 5 || yTarget.length === 5) {         // 横或竖5连判断
-            console.log('彩色鸡');
-        } else if (xTarget.length + yTarget.length > 5) {           // L形判断
-            console.log('发光本体');
-            target.script.toggleLuminescence(true);
-        } else if (yTarget.length >= 3 || xTarget.length >= 3) {    // 三连判断
-            console.log('三连');
-            if (xTarget.length >= 3) {
-                xTarget.forEach(targets => targets.script.node.destroy());
-            }
-            if (yTarget.length >= 3) {
-                yTarget.forEach(targets => targets.script.node.destroy());
-            }
-        }
-
-        console.log(xTarget, yTarget);
     }
 
 
-    destoryBlock(x: number, y: number) {
-        const cuurent = this.blocks[y] ? this.blocks[y][x] : false;
+    /**
+     * 销毁方块[动画]
+     * @param x      二维数组x
+     * @param y      二维数组y
+     * @param blocks 方块资源
+     */
+    destoryBlock(x: number, y: number, blocks?: EliminatingInterface.Block) {
+        const cuurent = blocks || (this.blocks[y] ? this.blocks[y][x] : false);
         if (cuurent) {
-            cuurent.script.node.destroy();
+            const { node } = cuurent.script.icon;
+            node.runAction(
+                cc.sequence(
+                    cc.scaleTo(.4, .3).easing(cc.easeBounceOut()),
+                    cc.callFunc(() => cuurent.script.node.destroy()),
+                ),
+            );
         }
     }
 
@@ -345,7 +298,6 @@ export default class Eliminating extends cc.Component {
             h: mapInter.height,
             script: blockInfo.script,
             index: `${y}-${blocks[y].length}`,
-            node: prefab,
         });
         
         this.blockBox.addChild(prefab);
