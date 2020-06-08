@@ -9,7 +9,10 @@ namespace Eliminating {
   export interface Block extends Point {
     w: number;
     h: number;
+    x: number;
+    y: number;
     script: EliminatingBlock;
+    node: cc.Node;
     index: string;
   }
 

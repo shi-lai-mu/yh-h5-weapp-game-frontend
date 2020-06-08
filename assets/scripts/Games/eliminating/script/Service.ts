@@ -17,8 +17,8 @@ export default class Service {
             }
             Map.push(xMap);
         }
-        // Map 相连过滤
 
+        // Map 相连过滤
         const transformData = Service.transformDataModel(Map);
         for (let y = 0, yLen = transformData.length - 1; y <= yLen; y++) {
             const targetY = transformData[y];
@@ -49,7 +49,6 @@ export default class Service {
      * @param dataModel  数据检索模式
      */
     static checkLine(blocks, y: number, x: number, targetType: number | false = false, dataModel: boolean = false) {
-
         // 数据格式转换
         if (dataModel) {
             blocks = Service.transformDataModel(blocks);
