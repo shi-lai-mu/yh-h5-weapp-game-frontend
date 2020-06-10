@@ -89,93 +89,35 @@ export default class Eliminating extends cc.Component {
         
 
         // 执行移动操作
-        const { targetBlock } = this.isAllowMove({
-            ...move,
-            top: move.y < 0,
-            bottom: move.y > 0,
-            right: move.x < 0,
-            left: move.x > 0,
-        });
+        const prevBlock = this.currentBlock.split('-');
+        const [ prevY, prevX ] = prevBlock;
+        const targetBlock = this.Map.isAllowMove(
+            Number(prevY),
+            Number(prevX),
+            {
+                ...move,
+                top: move.y < 0,
+                bottom: move.y > 0,
+                right: move.x < 0,
+                left: move.x > 0,
+            }
+        );
         if (targetBlock) {
-            const prevBlock = this.currentBlock.split('-');
             const nextBlock = targetBlock.index.split('-');
-            const [ prevY, prevX ] = prevBlock;
             const [nextY, nextX ] = nextBlock;
             const prev = this.blocks[prevY][prevX];
-            this.exchangeBlock(prev, targetBlock);
+            this.Map.exchangeBlock(prev, targetBlock);
             // 三连消除检测
             setTimeout(() => {
                 const p1Query = this.eliminateCheck(Number(nextY), Number(nextX));
                 const p2Query = this.eliminateCheck(Number(prevY), Number(prevX));
                 if (!p1Query && !p2Query) {
-                    this.exchangeBlock(targetBlock, prev);
+                    this.Map.exchangeBlock(targetBlock, prev);
                 }
             }, 500);
         }
     }
 
-    
-    /**
-     * 互换方块
-     * @param Point1 方块1
-     * @param Point2 方块2
-     */
-    exchangeBlock(Point1: EliminatingInterface.Block, Point2: EliminatingInterface.Block) {
-        const move: any = {
-            x: Point1.x - Point2.x,
-            y: Point1.y - Point2.y,
-        };
-        this.moveAnimation(Point1, move);
-        // 移动方向的方块反向移动
-        this.moveAnimation(Point2, move, true);
-        // 反向互换方块脚本
-        const Point1Script = Point1.script;
-        Point1.script = Point2.script;
-        Point2.script = Point1Script;
-    }
-
-
-    /**
-     * 是否允许指定方向移动
-     */
-    isAllowMove(moveInfo: EliminatingInterface.MoveBoolean): {
-        targetBlock: false | EliminatingInterface.Block;
-    } {
-        const { currentBlock } = this;
-        const { blocks } = this;
-        let targetBlock: false | EliminatingInterface.Block = false;
-
-        if (!currentBlock) {
-            console.warn(currentBlock);
-            return { targetBlock };
-        }
-
-        const point = currentBlock.split('-');
-        const y = Number(point[0]);
-        const x = Number(point[1]);
-        const { top, right, bottom, left } = moveInfo;
-
-        // 顶部检测
-        if (top && blocks[y - 1] && blocks[y - 1][x]) {
-            targetBlock = blocks[y - 1][x];
-        }
-        // 右侧检测
-        if (right && blocks[y] && blocks[y][x + 1]) {
-            targetBlock = blocks[y][x + 1];
-        }
-        // 底部检测
-        if (bottom && blocks[y + 1] && blocks[y + 1][x]) {
-            targetBlock = blocks[y + 1][x];
-        }
-        // 左侧检测
-        if (left && blocks[y] && blocks[y][x - 1]) {
-            targetBlock = blocks[y][x - 1];
-        }
-
-        return {
-            targetBlock,
-        };
-    }
 
     
     /**
@@ -213,27 +155,9 @@ export default class Eliminating extends cc.Component {
         const point = currentBlock.toString().split('-');
         
         // 方向动作操作
-        this.moveAnimation(this.blocks[point[0]][point[1]], moveInfo);
+        this.Map.moveAnimation(this.blocks[point[0]][point[1]], moveInfo);
         this.currentBlock = '';
         return true;
-    }
-
-
-    /**
-     * 移动动画
-     * @param currentNode 被移动节点
-     * @param moveInfo    移动距离
-     * @param reverse     是否逆向
-     */
-    moveAnimation(
-        currentNode: EliminatingInterface.Block,
-        moveInfo?: EliminatingInterface.Point,
-        reverse: boolean = false,
-    ) {
-        currentNode.script.move({
-            x: moveInfo.x * (reverse ? -1 : 1),
-            y: moveInfo.y * (reverse ? -1 : 1),
-        });
     }
 
 
@@ -243,50 +167,14 @@ export default class Eliminating extends cc.Component {
      * @param x 二维数组x轴
      */
     eliminateCheck(y: number, x: number) {
-        const { blocks } = this;
-        const checkQuery = Service.checkLine(y, x);
+        const checkQuery = this.Map.checkLine(y, x);
+        // console.log(checkQuery, y, x);
+        
         if (checkQuery.destoryBlock.length) {
-            checkQuery.destoryBlock.forEach(targets => this.destoryBlock(0, 0, targets));
+            checkQuery.destoryBlock.forEach(targets => this.Map.destoryBlock(0, 0, targets));
             return true;
         }
         return false;
-    }
-
-
-    /**
-     * 销毁方块[动画]
-     * @param x      二维数组x
-     * @param y      二维数组y
-     * @param blocks 方块资源
-     */
-    destoryBlock(x: number, y: number, block?: EliminatingInterface.Block) {
-        const cuurent = block || (this.blocks[y] ? this.blocks[y][x] : false);
-        if (cuurent) {
-            const { node } = cuurent.script.icon;
-            node.runAction(
-                cc.sequence(
-                    cc.scaleTo(.4, .3).easing(cc.easeBounceOut()),
-                    cc.callFunc(() => {
-                        cuurent.script.node.destroy();
-                        this.destoryFall(block.key.x);
-                    }),
-                ),
-            );
-        }
-    }
-
-
-    /**
-     * 消除下落逻辑
-     */
-    destoryFall(x: number) {
-        console.log(x);
-        const { blocks } = this;
-        let Ylen = blocks.length;
-        console.log(Ylen);
-        for (;Ylen < 0; Ylen--) {
-            console.log(Ylen);
-        }
     }
 
 
