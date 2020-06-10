@@ -17,6 +17,11 @@ class MapCreate {
     private _mapScript: EliminatingInterface.Block[][] = [];
 
     /**
+     * 是否设置过外部脚本
+     */
+    private _isSetMapScript = true;
+
+    /**
      * 地图数据
      */
     get data() {
@@ -59,9 +64,22 @@ class MapCreate {
 
 
     /**
+     * 设置指定位置的方块
+     * @param y         Y轴
+     * @param x         x轴
+     * @param blockType 方块类型
+     */
+    setBlock(y: number, x: number, blockType: number) {
+        this._map[y][x] = blockType + 1;
+        console.log(this._map, y, x, blockType);
+        
+    }
+
+
+    /**
      * 地图已相连检测
      */
-    mapCheckLine(): false | { y: number; x: number; }  {
+    mapCheckLine(): false | { y: number; x: number; } {
         let isLine: false | { y: number; x: number; } = false;
         this.earch((y, x) => {
             const checkQuery = this.checkLine(y, x);
@@ -84,16 +102,94 @@ class MapCreate {
         const { _map } = this;
         // 指定位置消除
         if (y !== undefined && x !== undefined) {
-          return _map[y][x] = Service.randomNumber(Service.MAX, Service.MIN, _map[y][x]);
+          return this.setBlock(y, x, Service.randomNumber(Service.MAX, Service.MIN, _map[y][x]) - 1);
         }
 
         // 全局扫描消除
         this.earch((y, x, map) => {
               const checkQuery = this.checkLine(y, x);
             if (checkQuery.type !== 0) {
-                map[y][x] = Service.randomNumber(Service.MAX, Service.MIN, checkQuery.index);
+                this.setBlock(y, x, Service.randomNumber(Service.MAX, Service.MIN, checkQuery.index) - 1);
             }
         });
+    }
+
+    
+    /**
+     * 互换方块
+     * @param Point1 方块1
+     * @param Point2 方块2
+     */
+    exchangeBlock(Point1: EliminatingInterface.Block, Point2: EliminatingInterface.Block) {
+        const move: any = {
+            x: Point1.x - Point2.x,
+            y: Point1.y - Point2.y,
+        };
+        this.moveAnimation(Point1, move);
+        // 移动方向的方块反向移动
+        this.moveAnimation(Point2, move, true);
+        // 反向互换方块脚本
+        const Point1Script = Point1.script;
+        Point1.script = Point2.script;
+        Point2.script = Point1Script;
+        // 更新地图数据
+        this.setBlock(Point1.key.y, Point1.key.x, Point1.script.type);
+        this.setBlock(Point2.key.y, Point2.key.x, Point2.script.type);
+    }
+
+
+    /**
+     * 移动动画
+     * @param currentNode 被移动节点
+     * @param moveInfo    移动距离
+     * @param reverse     是否逆向
+     */
+    moveAnimation(
+        currentNode: EliminatingInterface.Block,
+        moveInfo?: EliminatingInterface.Point,
+        reverse: boolean = false,
+    ) {
+        currentNode.script.move({
+            x: moveInfo.x * (reverse ? -1 : 1),
+            y: moveInfo.y * (reverse ? -1 : 1),
+        });
+    }
+
+
+    /**
+     * 销毁方块[动画]
+     * @param x      二维数组x
+     * @param y      二维数组y
+     * @param blocks 方块资源
+     */
+    destoryBlock(x: number, y: number, block?: EliminatingInterface.Block) {
+        const cuurent = block || (this._mapScript[y] ? this._mapScript[y][x] : false);
+        if (cuurent) {
+            const { node } = cuurent.script.icon;
+            node.runAction(
+                cc.sequence(
+                    cc.scaleTo(.4, .3).easing(cc.easeBounceOut()),
+                    cc.callFunc(() => {
+                        cuurent.script.node.destroy();
+                        this.destoryFall(block.key.x);
+                    }),
+                ),
+            );
+        }
+    }
+
+
+    /**
+     * 消除下落逻辑
+     */
+    destoryFall(x: number) {
+        console.log(x);
+        const { _map } = this;
+        let Ylen = _map.length;
+        console.log(Ylen);
+        for (;Ylen < 0; Ylen--) {
+            console.log(Ylen);
+        }
     }
     
     
@@ -125,7 +221,7 @@ class MapCreate {
         for (let pX = x - 2; pX <= x + 2; pX++) {
             const chackBlock = _map[y][pX];
             // if (chackBlock) {
-            //     console.log(chackBlock.index, chackBlock.script.type, xTarget.length);
+            //     console.log(chackBlock, index, y, pX);
             // }
             if (chackBlock && chackBlock === index) {
                 xTarget.push(_mapScript[y][pX]);
@@ -136,11 +232,12 @@ class MapCreate {
             }
         }
         
+        
         // y轴三连检测
         for (let pY = y - 2; pY <= y + 2; pY++) {
             const chackBlock = _map[pY] ? _map[pY][x] : false;
             // if (chackBlock) {
-            //     console.log(chackBlock.index, chackBlock.script.type, xTarget.length);
+            //     console.log(chackBlock, index, pY, x);
             // }
             if (chackBlock && chackBlock === index) {
                 yTarget.push(_mapScript[pY][x]);
@@ -173,6 +270,36 @@ class MapCreate {
         query.yTarget = yTarget;
 
         return query;
+    }
+
+
+    /**
+     * 是否允许指定方向移动
+     */
+    isAllowMove(y: number, x: number, moveInfo: EliminatingInterface.MoveBoolean): false | EliminatingInterface.Block {
+        let targetBlock: false | EliminatingInterface.Block = false;
+        const { _map, _mapScript } = this;
+
+        const { top, right, bottom, left } = moveInfo;
+
+        // 顶部检测
+        if (top && _map[y - 1] && _map[y - 1][x]) {
+            targetBlock = _mapScript[y - 1][x];
+        }
+        // 右侧检测
+        if (right && _map[y] && _map[y][x + 1]) {
+            targetBlock = _mapScript[y][x + 1];
+        }
+        // 底部检测
+        if (bottom && _map[y + 1] && _map[y + 1][x]) {
+            targetBlock = _mapScript[y + 1][x];
+        }
+        // 左侧检测
+        if (left && _map[y] && _map[y][x - 1]) {
+            targetBlock = _mapScript[y][x - 1];
+        }
+
+        return targetBlock;
     }
 
 
