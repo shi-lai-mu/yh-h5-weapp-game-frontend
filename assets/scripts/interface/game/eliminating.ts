@@ -12,8 +12,12 @@ namespace Eliminating {
     x: number;
     y: number;
     script: EliminatingBlock;
-    node: cc.Node;
+    // node: cc.Node;
     index: string;
+    key: {
+      x: number;
+      y: number;
+    };
   }
 
   /**
