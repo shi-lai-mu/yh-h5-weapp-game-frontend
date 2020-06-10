@@ -1,6 +1,11 @@
 import Service from './Service';
 import EliminatingInterface from '../../../interface/game/eliminating';
 
+/**
+ * 下落深度纪录
+ */
+let deepX = {};
+
 export default 
 /**
  * 地图生成器
@@ -34,12 +39,18 @@ class MapCreate {
     get script() {
         return this._mapScript;
     }
+
     /**
      * 全量设置地图脚本数据
      */
     set MapScript(mapScript: EliminatingInterface.Block[][]) {
         this._mapScript = mapScript;
     }
+
+    /**
+     * 下落检测事件
+     */
+    fallEvent: number = 0;
 
 
     constructor(ySize: number, xSize: number) {
@@ -71,8 +82,6 @@ class MapCreate {
      */
     setBlock(y: number, x: number, blockType: number) {
         this._map[y][x] = blockType + 1;
-        console.log(this._map, y, x, blockType);
-        
     }
 
 
@@ -158,11 +167,11 @@ class MapCreate {
 
     /**
      * 销毁方块[动画]
-     * @param x      二维数组x
-     * @param y      二维数组y
+     * @param y      Y轴
+     * @param x      X轴
      * @param blocks 方块资源
      */
-    destoryBlock(x: number, y: number, block?: EliminatingInterface.Block) {
+    destoryBlock(y: number, x: number, block?: EliminatingInterface.Block) {
         const cuurent = block || (this._mapScript[y] ? this._mapScript[y][x] : false);
         if (cuurent) {
             const { node } = cuurent.script.icon;
@@ -171,7 +180,8 @@ class MapCreate {
                     cc.scaleTo(.4, .3).easing(cc.easeBounceOut()),
                     cc.callFunc(() => {
                         cuurent.script.node.destroy();
-                        this.destoryFall(block.key.x);
+                        this.setBlock(cuurent.key.y, cuurent.key.x, -1);
+                        this.destoryFall(block.key.y, block.key.x);
                     }),
                 ),
             );
@@ -181,15 +191,48 @@ class MapCreate {
 
     /**
      * 消除下落逻辑
+     * @param y 二维数组y
+     * @param x 二维数组x
      */
-    destoryFall(x: number) {
-        console.log(x);
-        const { _map } = this;
-        let Ylen = _map.length;
-        console.log(Ylen);
-        for (;Ylen < 0; Ylen--) {
-            console.log(Ylen);
+    destoryFall(y: number, x: number) {
+        const { _map, fallEvent, _mapScript } = this;
+
+        // 深度纪录更新
+        console.log(deepX[x], y);
+        
+        if (deepX[x] === undefined) deepX[x] = y;
+        if (deepX[x] && deepX[x] < y) {
+            deepX[x] = y;
         }
+
+        fallEvent && clearTimeout(fallEvent);
+        this.fallEvent = setTimeout(() => {
+
+                // 下落
+            Object.keys(deepX).forEach(x => {
+                let fallCount = 0;
+                let y = deepX[x];
+                while (y) {
+                    const current = _map[--y][x];
+                    if (current) {
+                        const currentDeepY = deepX[x] - fallCount;
+                        this.exchangeBlock(_mapScript[currentDeepY][x], _mapScript[y][x]);
+                        fallCount++;
+                        setTimeout(() => {
+                            const checkQuery = this.checkLine(currentDeepY, Number(x));
+                            console.log(checkQuery);
+                            if (checkQuery.destoryBlock.length) {
+                                checkQuery.destoryBlock.forEach(targets => this.destoryBlock(0, 0, targets));
+                            }
+                        }, 500);
+                    }
+                }
+            });
+
+            this.fallEvent = 0;
+            // 深度清空
+            deepX = {};
+        }, 100);
     }
     
     
