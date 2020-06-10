@@ -7,6 +7,7 @@
 
 import EliminatingBlock from './EliminatingBlock';
 import Service from './Service';
+import Map from './Map';
 import EliminatingInterface from '../../../interface/game/eliminating';
 const {ccclass, property} = cc._decorator;
 /**
@@ -35,7 +36,7 @@ export default class Eliminating extends cc.Component {
     // 横轴可放置点数
     // transverseCount = 4;
     // 地图
-    map: any[] = [];
+    Map: Map;
 
     start () {
         // 为方格容器添加触摸事件
@@ -44,9 +45,13 @@ export default class Eliminating extends cc.Component {
 
         // 测试
         let index = 0;
-        Service.randomCreate(5, 11).forEach((yItem, y) => {
-            yItem.forEach((xItem, x) => this.createMap(++index, x, y, xItem))
+        const MapClass = Service.randomCreate(5, 11)
+        
+        MapClass.data.forEach((yItem, y) => {
+            yItem.forEach((xItem, x) => this.createMapScript(++index, x, y, xItem));
+            MapClass.MapScript = this.blocks;
         });
+        this.Map = MapClass;
     }
 
 
@@ -101,8 +106,8 @@ export default class Eliminating extends cc.Component {
             // 三连消除检测
             setTimeout(() => {
                 const p1Query = this.eliminateCheck(Number(nextY), Number(nextX));
-                this.eliminateCheck(Number(prevY), Number(prevX));
-                if (!p1Query) {
+                const p2Query = this.eliminateCheck(Number(prevY), Number(prevX));
+                if (!p1Query && !p2Query) {
                     this.exchangeBlock(targetBlock, prev);
                 }
             }, 500);
@@ -116,14 +121,10 @@ export default class Eliminating extends cc.Component {
      * @param Point2 方块2
      */
     exchangeBlock(Point1: EliminatingInterface.Block, Point2: EliminatingInterface.Block) {
-        const absX = Math.abs(Point1.x - Point2.x);
-        const absY = Math.abs(Point1.y - Point2.y);
-        
         const move: any = {
             x: Point1.x - Point2.x,
             y: Point1.y - Point2.y,
         };
-        
         this.moveAnimation(Point1, move);
         // 移动方向的方块反向移动
         this.moveAnimation(Point2, move, true);
@@ -225,7 +226,7 @@ export default class Eliminating extends cc.Component {
      * @param reverse     是否逆向
      */
     moveAnimation(
-        currentNode: { node: cc.Node; script: EliminatingBlock; w: number; h: number; x: number; y: number; },
+        currentNode: EliminatingInterface.Block,
         moveInfo?: EliminatingInterface.Point,
         reverse: boolean = false,
     ) {
@@ -243,8 +244,7 @@ export default class Eliminating extends cc.Component {
      */
     eliminateCheck(y: number, x: number) {
         const { blocks } = this;
-        const checkQuery = Service.checkLine(blocks, y, x);
-        console.log(checkQuery);
+        const checkQuery = Service.checkLine(y, x);
         if (checkQuery.destoryBlock.length) {
             checkQuery.destoryBlock.forEach(targets => this.destoryBlock(0, 0, targets));
             return true;
@@ -259,14 +259,17 @@ export default class Eliminating extends cc.Component {
      * @param y      二维数组y
      * @param blocks 方块资源
      */
-    destoryBlock(x: number, y: number, blocks?: EliminatingInterface.Block) {
-        const cuurent = blocks || (this.blocks[y] ? this.blocks[y][x] : false);
+    destoryBlock(x: number, y: number, block?: EliminatingInterface.Block) {
+        const cuurent = block || (this.blocks[y] ? this.blocks[y][x] : false);
         if (cuurent) {
             const { node } = cuurent.script.icon;
             node.runAction(
                 cc.sequence(
                     cc.scaleTo(.4, .3).easing(cc.easeBounceOut()),
-                    cc.callFunc(() => cuurent.script.node.destroy()),
+                    cc.callFunc(() => {
+                        cuurent.script.node.destroy();
+                        this.destoryFall(block.key.x);
+                    }),
                 ),
             );
         }
@@ -274,13 +277,27 @@ export default class Eliminating extends cc.Component {
 
 
     /**
-     * 创建地图
+     * 消除下落逻辑
+     */
+    destoryFall(x: number) {
+        console.log(x);
+        const { blocks } = this;
+        let Ylen = blocks.length;
+        console.log(Ylen);
+        for (;Ylen < 0; Ylen--) {
+            console.log(Ylen);
+        }
+    }
+
+
+    /**
+     * 创建地图脚本
      * @param mapIndex  地图下标
      * @param x         X轴
      * @param y         Y轴
      * @param blockType 类型
      */
-    createMap(mapIndex: number, x: number, y: number, blockType: number) {
+    createMapScript(mapIndex: number, x: number, y: number, blockType: number) {
 
         // 类型空则跳出
         if (typeof blockType !== 'number') {
@@ -330,6 +347,10 @@ export default class Eliminating extends cc.Component {
             h: mapInter.height,
             script: blockInfo.script,
             index: `${y}-${blocks[y].length}`,
+            key: {
+                y,
+                x: blocks[y].length,
+            },
         });
         
         this.blockBox.addChild(prefab);
