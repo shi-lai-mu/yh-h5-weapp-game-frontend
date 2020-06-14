@@ -2,7 +2,6 @@ import EliminatingBlock from '../../Games/eliminating/script/EliminatingBlock';
 
 namespace Eliminating {
 
-
   /**
    * 方块资源信息
    */
@@ -44,6 +43,32 @@ namespace Eliminating {
   export interface MoveBooleanPoint extends MoveBoolean {
     x: number;
     y: number;
+  }
+
+
+  /**
+   * Map 类
+   */
+  export interface MapInterface {
+    /**
+     * 内置CCC节点类
+     */
+    mapBox: cc.Node;
+
+    /**
+     * 内置方格容器
+     */
+    blockBox: cc.Node;
+
+    /**
+     * 内置方块资源
+     */
+    blockPrefab: cc.Prefab;
+
+    /**
+     * 内置地图资源
+     */
+    mapPrefab: cc.Prefab;
   }
 }
 
