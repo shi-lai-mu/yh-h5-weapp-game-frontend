@@ -1,4 +1,5 @@
 import Service from './Service';
+import Block from './Block';
 import EliminatingInterface from '../../../interface/game/eliminating';
 
 /**
@@ -19,12 +20,12 @@ class MapCreate {
     /**
      * 附带脚本的复杂地图数据
      */
-    private _mapScript: EliminatingInterface.Block[][] = [];
+    private _mapScript: Block[][] = [];
 
     /**
-     * 是否设置过外部脚本
+     * 地图容器
      */
-    private _isSetMapScript = true;
+    private ccc: EliminatingInterface.MapInterface;
 
     /**
      * 地图数据
@@ -36,15 +37,8 @@ class MapCreate {
     /**
      * 附带脚本的复杂地图数据
      */
-    get script() {
+    get mapScript() {
         return this._mapScript;
-    }
-
-    /**
-     * 全量设置地图脚本数据
-     */
-    set MapScript(mapScript: EliminatingInterface.Block[][]) {
-        this._mapScript = mapScript;
     }
 
     /**
@@ -53,8 +47,15 @@ class MapCreate {
     fallEvent: number = 0;
 
 
-    constructor(ySize: number, xSize: number) {
+    /**
+     * 地图生成器
+     * @param ySize      y轴
+     * @param xSize      x轴
+     * @param cccOptions ccc内置资源
+     */
+    constructor(ySize: number, xSize: number, cccOptions: EliminatingInterface.MapInterface) {
         let Map = [];
+        this.ccc = cccOptions;
         for (let pointX = 0; pointX < xSize; pointX++) {
             const xMap = [];
             for (let pointY = 0; pointY < ySize; pointY++) {
@@ -70,7 +71,40 @@ class MapCreate {
         while (checkQuery = this.mapCheckLine()) {
           this.mapEliminateLine(checkQuery.y, checkQuery.x);
         }
+        checkQuery = null;
         console.log('地图中是否有相连：' + this.mapCheckLine());
+
+        // 执行删除地图方法
+        this.mapCreate(Map);
+    }
+
+
+    /**
+     * 创建地图
+     * @param mapData 地图资源
+     */
+    mapCreate(mapData: number[][]) {
+        // 顶部偏移值
+        const offsetTop = 50;
+        // 左侧偏移值
+        const offsetLeft = 200;
+
+        this._mapScript = [];
+        const { _mapScript } = this;
+        mapData.forEach((yMap, y) => {
+            _mapScript.push([]);
+            yMap.forEach((blockType, x) => {
+                const mapInter = cc.instantiate(this.ccc.mapPrefab);
+                const { width, height } = mapInter;
+                mapInter.x += x * width + offsetLeft;
+                mapInter.y -= y * height + offsetTop;
+                this.ccc.mapBox.addChild(mapInter);
+
+                const block = new Block(y, x, blockType, mapInter, this.ccc, _mapScript);
+
+                _mapScript[y].push(block);
+            });
+        });
     }
 
 
@@ -129,7 +163,7 @@ class MapCreate {
      * @param Point1 方块1
      * @param Point2 方块2
      */
-    exchangeBlock(Point1: EliminatingInterface.Block, Point2: EliminatingInterface.Block) {
+    exchangeBlock(Point1: Block, Point2: Block) {
         const move: any = {
             x: Point1.x - Point2.x,
             y: Point1.y - Point2.y,
@@ -154,7 +188,7 @@ class MapCreate {
      * @param reverse     是否逆向
      */
     moveAnimation(
-        currentNode: EliminatingInterface.Block,
+        currentNode: Block,
         moveInfo?: EliminatingInterface.Point,
         reverse: boolean = false,
     ) {
@@ -171,7 +205,7 @@ class MapCreate {
      * @param x      X轴
      * @param blocks 方块资源
      */
-    destoryBlock(y: number, x: number, block?: EliminatingInterface.Block) {
+    destoryBlock(y: number, x: number, block?: Block) {
         const cuurent = block || (this._mapScript[y] ? this._mapScript[y][x] : false);
         if (cuurent) {
             const { node } = cuurent.script.icon;
@@ -225,6 +259,8 @@ class MapCreate {
                                 checkQuery.destoryBlock.forEach(targets => this.destoryBlock(0, 0, targets));
                             }
                         }, 500);
+                    } else {
+
                     }
                 }
             });
@@ -245,8 +281,8 @@ class MapCreate {
     checkLine(y: number, x: number) {
         const { _map, _mapScript } = this;
         // 达成三连数量
-        let xTarget: EliminatingInterface.Block[] = [];
-        let yTarget: EliminatingInterface.Block[] = [];
+        let xTarget: Block[] = [];
+        let yTarget: Block[] = [];
         // 获取目标方块
         
         const index = _map[y] ? _map[y][x] : false;
@@ -319,8 +355,8 @@ class MapCreate {
     /**
      * 是否允许指定方向移动
      */
-    isAllowMove(y: number, x: number, moveInfo: EliminatingInterface.MoveBoolean): false | EliminatingInterface.Block {
-        let targetBlock: false | EliminatingInterface.Block = false;
+    isAllowMove(y: number, x: number, moveInfo: EliminatingInterface.MoveBoolean): false | Block {
+        let targetBlock: false | Block = false;
         const { _map, _mapScript } = this;
 
         const { top, right, bottom, left } = moveInfo;

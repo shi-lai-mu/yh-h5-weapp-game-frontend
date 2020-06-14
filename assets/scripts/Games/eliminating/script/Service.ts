@@ -18,14 +18,13 @@ export default class Service {
 
     /**
      * 随机生成地图
-     * @param xSize 横轴数量
-     * @param ySize 竖轴数量
+     * @param xSize  横轴数量
+     * @param ySize  竖轴数量
+     * @param mapBox 地图容器
      */
-    static randomCreate(xSize: number, ySize: number): MapCreate {
-        return new MapCreate(ySize, xSize);
+    static randomCreate(xSize: number, ySize: number, cccOptions: EliminatingInterface.MapInterface): MapCreate {
+        return new MapCreate(ySize, xSize, cccOptions);
     }
-
-
 
 
     /**
