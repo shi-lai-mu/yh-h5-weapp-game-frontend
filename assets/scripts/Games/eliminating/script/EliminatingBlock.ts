@@ -41,6 +41,9 @@ export default class EliminatingBlock extends cc.Component {
   get type() {
     return this.node ? this.blockType : -1;
   }
+  set type(type: number) {
+    this.blockType = type - 1;
+  }
 
 
   /**
@@ -52,10 +55,10 @@ export default class EliminatingBlock extends cc.Component {
      */
     type: number;
   }) {
-    this.icon.spriteFrame = this.icons[opt.type - 1];
     const { node } = this;
     const { x, y, width, height } = node;
-    this.blockType = opt.type - 1;
+    this.type = opt.type;
+    this.icon.spriteFrame = this.icons[opt.type - 1];
     return {
       x,
       y,
@@ -64,6 +67,14 @@ export default class EliminatingBlock extends cc.Component {
       node: this.node,
       script: this,
     };
+  }
+
+  /**
+   * 设置方块贴图
+   * @param num 类型
+   */
+  setFrame(num: number) {
+    this.icon.spriteFrame = this.icons[num];
   }
 
 
@@ -78,6 +89,7 @@ export default class EliminatingBlock extends cc.Component {
       y: number;
     },
     duration: number = .5,
+    callbackFn?: any,
   ) {
     const { node, icon } = this;
     if (node && icon.node) {
@@ -86,13 +98,16 @@ export default class EliminatingBlock extends cc.Component {
       // const y = offset.y < 0 ? 1 : -1;
       
       icon.node.runAction(
-        cc.moveBy(
-          duration,
-          -offset.x,
-          -offset.y,
-          // offset.x ? width * x : 0,
-          // offset.y ? height * y : 0,
-        ).easing(cc.easeSineIn()),
+        cc.sequence(
+          cc.moveBy(
+            duration,
+            -offset.x,
+            -offset.y,
+            // offset.x ? width * x : 0,
+            // offset.y ? height * y : 0,
+          ).easing(cc.easeSineIn()),
+          cc.callFunc(() => callbackFn ? callbackFn() : {}),
+        ),
       );
     }
   }

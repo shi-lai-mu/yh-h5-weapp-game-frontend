@@ -54,12 +54,9 @@ export default class Service {
      */
     static randomNumber(max: number, min: number = 0, num: number | false = false) {
         let randomNumber = (Math.random() * max + min) >> 0;
-        if (num !== false) {
-            if (randomNumber === min) {
-                randomNumber = max;
-            } else if (randomNumber === max) {
-                randomNumber = min;
-            }
+        if (num !== false && num === randomNumber) {
+            this.randomNumber(max, min, num);
+            // randomNumber = randomNumber === min ? max : min
         }
         return randomNumber;
     }

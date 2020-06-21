@@ -42,6 +42,11 @@ class Block {
      * 地图位置
      */
     key: EliminatingInterface.Block['key'];
+    
+    /**
+     * map资源
+     */
+    map: cc.Node;
 
     /**
      * 实例化方块
@@ -55,6 +60,7 @@ class Block {
         const prefab = cc.instantiate(ccc.blockPrefab);
         prefab.x = map.x - (prefab.width / 2);
         prefab.y = map.y + (prefab.height / 2);
+        
         const prefabScript: EliminatingBlock = prefab.getComponent('EliminatingBlock');
         const blockInfo = prefabScript.init({
             type,
@@ -67,6 +73,7 @@ class Block {
         this.height = map.height;
         this.script = blockInfo.script;
         this.index = `${y}-${_mapScripts[y].length}`;
+        this.map = map;
         this.key = {
             y,
             x: _mapScripts[y].length,
