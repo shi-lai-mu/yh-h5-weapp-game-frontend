@@ -30,8 +30,6 @@ export default class Eliminating extends cc.Component {
         x: -1,
         y: -1,
     };
-    // 方格位置
-    blocks: EliminatingInterface.Block[][] = [];
     // 当前目标方格
     currentBlock: Block;
     // 横轴可放置点数
@@ -94,8 +92,6 @@ export default class Eliminating extends cc.Component {
 
         // 执行移动操作
         const prevBlock = this.currentBlock.index.split('-');
-        console.log(prevBlock);
-        
         const [ prevY, prevX ] = prevBlock;
         const targetBlock = this.Map.isAllowMove(
             Number(prevY),
@@ -162,7 +158,7 @@ export default class Eliminating extends cc.Component {
         const point = currentBlock.toString().split('-');
         
         // 方向动作操作
-        this.Map.moveAnimation(this.blocks[point[0]][point[1]], moveInfo);
+        this.Map.moveAnimation(this.Map.mapScript[point[0]][point[1]], moveInfo);
         this.currentBlock = null;
         return true;
     }
@@ -182,73 +178,6 @@ export default class Eliminating extends cc.Component {
             return true;
         }
         return false;
-    }
-
-
-    /**
-     * 创建地图脚本
-     * @param mapIndex  地图下标
-     * @param x         X轴
-     * @param y         Y轴
-     * @param blockType 类型
-     */
-    createMapScript(mapIndex: number, x: number, y: number, blockType: number) {
-
-        // 类型空则跳出
-        if (typeof blockType !== 'number') {
-            return false;
-        }
-        
-        const { blocks } = this;
-
-        // 存储数据
-        if (!blocks[y]) {
-            blocks[y] = [];
-        }
-
-        // 为0跳出
-        if (blockType === 0) {
-            blocks[y].push(null);
-            return true;
-        }
-
-        // 顶部偏移值
-        const offsetTop = 50;
-        // 左侧偏移值
-        const offsetLeft = 200;
-        // 横轴偏移
-        let h = 0;
-        // 地图生成
-        const mapInter = cc.instantiate(this.mapPrefab);
-        const { width, height } = mapInter;
-        
-        mapInter.x += x * width + offsetLeft;
-        mapInter.y -= y * height + offsetTop;
-        this.mapBox.addChild(mapInter);
-
-        // 动物生成
-        const prefab = cc.instantiate(this.block);
-        prefab.x = mapInter.x - (prefab.width / 2);
-        prefab.y = mapInter.y + (prefab.height / 2);
-        const prefabScript: EliminatingBlock = prefab.getComponent('EliminatingBlock');
-        const blockInfo = prefabScript.init({
-            type: blockType,
-        });
-        
-        blocks[y].push({
-            x: mapInter.x - mapInter.width / 2,
-            y: mapInter.y + mapInter.height / 2,
-            w: mapInter.width,
-            h: mapInter.height,
-            script: blockInfo.script,
-            index: `${y}-${blocks[y].length}`,
-            key: {
-                y,
-                x: blocks[y].length,
-            },
-        });
-        
-        this.blockBox.addChild(prefab);
     }
 
 
