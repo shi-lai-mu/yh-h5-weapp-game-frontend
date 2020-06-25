@@ -4,7 +4,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
+import Service from './Service';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -37,6 +37,8 @@ export default class EliminatingBlock extends cc.Component {
   blockType: number = 0;
   // 轴体节点
   oveNode: cc.Node;
+  // 资源下标
+  setFrameType: number = 0;
   // 块类型
   get type() {
     return this.node ? this.blockType : -1;
@@ -59,6 +61,7 @@ export default class EliminatingBlock extends cc.Component {
     const { x, y, width, height } = node;
     this.type = opt.type;
     this.icon.spriteFrame = this.icons[opt.type - 1];
+    this.setFrameType = opt.type - 1;
     return {
       x,
       y,
@@ -73,8 +76,10 @@ export default class EliminatingBlock extends cc.Component {
    * 设置方块贴图
    * @param num 类型
    */
-  setFrame(num: number) {
+  setFrame(num?: number) {
+    if (num === undefined) num = Service.randomNumber(Service.MAX - 1, Service.MIN);
     this.icon.spriteFrame = this.icons[num];
+    this.setFrameType = num;
   }
 
 
