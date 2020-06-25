@@ -104,11 +104,11 @@ export default class Eliminating extends cc.Component {
                 left: move.x > 0,
             }
         );
-        console.log(targetBlock);
         if (targetBlock) {
             const nextBlock = targetBlock.index.split('-');
             const [nextY, nextX ] = nextBlock;
             const prev = this.Map.mapScript[prevY][prevX];
+            // console.log(targetBlock, prev.script.type, targetBlock.script.type);
             this.Map.exchangeBlock(prev, targetBlock);
             // 三连消除检测
             setTimeout(() => {
@@ -116,11 +116,18 @@ export default class Eliminating extends cc.Component {
                 const p2Query = this.eliminateCheck(Number(prevY), Number(prevX));
                 if (!p1Query && !p2Query) {
                     this.Map.exchangeBlock(targetBlock, prev);
+                } else {
+                    const asynData = {};
+                    this.destroyBlocks([ ...p1Query.destoryBlock, ...p2Query.destoryBlock ].filter(item => {
+                        console.log(item);
+                        if (item && !asynData[item.index]) {
+                            return asynData[item.index] = true;
+                        }
+                    }));
                 }
             }, 500);
         }
     }
-
 
     
     /**
@@ -171,10 +178,20 @@ export default class Eliminating extends cc.Component {
      */
     eliminateCheck(y: number, x: number) {
         const checkQuery = this.Map.checkLine(y, x);
-        // console.log(checkQuery, y, x);
+        return checkQuery.destoryBlock.length ? checkQuery : false;
+    }
+
+    destroyBlocks(blocks: any[]) {
+        console.log(blocks);
         
-        if (checkQuery.destoryBlock.length) {
-            checkQuery.destoryBlock.forEach(targets => this.Map.destoryBlock(0, 0, targets));
+        if (blocks.length) {
+            const hash = Math.random().toString(16).substr(-10);
+            console.warn(`-> ${hash} : eliminateCheck`);
+            blocks.forEach(targets => {
+                // console.log(targets.index);
+                if (targets) this.Map.destoryBlock(0, 0, targets, hash);
+            });
+            console.log(`<- ${hash}`);
             return true;
         }
         return false;
