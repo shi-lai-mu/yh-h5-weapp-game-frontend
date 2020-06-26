@@ -118,12 +118,14 @@ export default class Eliminating extends cc.Component {
                     this.Map.exchangeBlock(targetBlock, prev);
                 } else {
                     const asynData = {};
-                    this.destroyBlocks([ ...p1Query.destoryBlock, ...p2Query.destoryBlock ].filter(item => {
-                        console.log(item);
-                        if (item && !asynData[item.index]) {
-                            return asynData[item.index] = true;
-                        }
-                    }));
+                    this.destroyBlocks(
+                        [ ...(p1Query.destoryBlock || []), ...(p2Query.destoryBlock || []) ]
+                        .filter(item => {
+                            if (item && !asynData[item.index]) {
+                                return asynData[item.index] = true;
+                            }
+                        })
+                    );
                 }
             }, 500);
         }
@@ -181,9 +183,12 @@ export default class Eliminating extends cc.Component {
         return checkQuery.destoryBlock.length ? checkQuery : false;
     }
 
+
+    /**
+     * 销毁方块
+     * @param blocks 方块合集
+     */
     destroyBlocks(blocks: any[]) {
-        console.log(blocks);
-        
         if (blocks.length) {
             const hash = Math.random().toString(16).substr(-10);
             console.warn(`-> ${hash} : eliminateCheck`);
