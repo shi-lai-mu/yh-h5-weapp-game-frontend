@@ -77,7 +77,7 @@ export default class EliminatingBlock extends cc.Component {
    * @param num 类型
    */
   setFrame(num?: number) {
-    if (num === undefined) num = Service.randomNumber(Service.MAX - 1, Service.MIN);
+    if (num === undefined) num = Service.randomNumber(Service.MAX - 1, Service.MIN, this.type);
     this.icon.spriteFrame = this.icons[num];
     this.setFrameType = num;
   }
