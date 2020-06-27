@@ -62,7 +62,7 @@ export default class Signal extends cc.Component {
     onLoad() {
         this.watch();
         cc.game.on('socketConnect', this.watch.bind(this));
-        cc.game.on('serverClose', this.serverCloseEvent.bind(this));
+        // cc.game.on('serverClose', this.serverCloseEvent.bind(this));
         console.log('signal loading ....');
         const onLine = (content: string) => {
             const popup = cc.instantiate(this.popupPrefab);
@@ -87,16 +87,16 @@ export default class Signal extends cc.Component {
     /**
      * 服务器关闭检测
      */
-    serverCloseEvent() {
-        const popup = cc.instantiate(this.popupPrefab);
-        cc.director.getScene().addChild(popup);
-        const scriptPopup = popup.getComponent('popup');
-        scriptPopup.init('服务器维护中...\n请退至首页!');
-        scriptPopup.setEvent('success', () => {
-            cc.director.loadScene('loginPage');
-        });
-        clearInterval(clock);
-    }
+    // serverCloseEvent() {
+    //     const popup = cc.instantiate(this.popupPrefab);
+    //     cc.director.getScene().addChild(popup);
+    //     const scriptPopup = popup.getComponent('popup');
+    //     scriptPopup.init('服务器维护中...\n请退至首页!');
+    //     scriptPopup.setEvent('success', () => {
+    //         cc.director.loadScene('loginPage');
+    //     });
+    //     clearInterval(clock);
+    // }
 
 
     /**

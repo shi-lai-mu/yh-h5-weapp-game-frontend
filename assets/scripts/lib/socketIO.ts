@@ -104,10 +104,10 @@ export default {
     socket.on('disconnect', data => {
       console.log(data);
       // 服务器关闭
-      if (data === 'transport close') {
-        State.server.state = -1;
-        cc.game.emit('serverClose');
-      }
+      // if (data === 'transport close') {
+      //   State.server.state = -1;
+      //   cc.game.emit('serverClose');
+      // }
     });
 
     // 自定义事件

@@ -70,7 +70,7 @@ export namespace Utils {
       /**
        * 是否被占线
        */
-      online: false,
+      online: boolean,
     };
 
 
@@ -86,7 +86,7 @@ export namespace Utils {
        *  -  2: 拥挤
        *   
        */
-      state: 0;
+      state: number;
     };
 
 
