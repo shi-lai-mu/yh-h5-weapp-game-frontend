@@ -136,7 +136,7 @@ export default class Home extends cc.Component {
     openShop(_e, shopIndex: string) {
         const instantiate = cc.instantiate(this.ShopPrefab);
         instantiate.getComponent('Shop').defaultTarget = shopIndex;
-        this.node.addChild(instantiate);
+        cc.director.getScene().addChild(instantiate);
     }
 
     

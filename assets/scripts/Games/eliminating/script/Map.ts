@@ -2,7 +2,8 @@ import Service from './Service';
 import Block from './Block';
 import EliminatingInterface from '../../../interface/game/eliminating';
 import EliminatingBlock from './EliminatingBlock';
-
+// TODO: 掉落后顺序可能错乱
+// TODO: 掉落时如果出现三连等现象可能出现方块消失
 /**
  * 下落深度纪录
  */
@@ -318,7 +319,7 @@ class MapCreate {
      * @param x 二维数组x
      * @param hash   HASH
      */
-    destoryFall(y: number, x: number, hash?: string, down) {
+    destoryFall(y: number, x: number, hash?: string) {
         const { _map, fallEvent, _mapScript } = this;
 
         // 深度纪录更新

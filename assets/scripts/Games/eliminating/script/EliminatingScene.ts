@@ -4,8 +4,8 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-import axios from '../../utils/axiosUtils';
-import State from '../../utils/state';
+import axios from '../../../utils/axiosUtils';
+import State from '../../../utils/state';
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -37,9 +37,11 @@ export default class EliminatingScene extends cc.Component {
 
 
     start () {
-        this.node.on(cc.Node.EventType.TOUCH_START, event => {
-            console.log(event);
-        }, this);
+        // this.node.on(cc.Node.EventType.TOUCH_START, event => {
+        //     console.log(event);
+        // }, this);
+        console.log(1334654679);
+        
         axios
             .api('game_record', {
                 params: {
