@@ -8,6 +8,7 @@ export default {
   check_code:        '/user/checkCode/:code/:inputCode',            // 校验验证码是否正确
   wxLogin:           'post./user/wx/:code',                         // 微信登录
   get_reset_avatar:  '/user/reset/avatar',                          // 获取更换头像的ossKey
+  get_assets:        '/user/assets',                                // 获取用户资产
 
   // 反馈
   get_feedBack:      '/notice/feedback/type',                       // 获取反馈类型

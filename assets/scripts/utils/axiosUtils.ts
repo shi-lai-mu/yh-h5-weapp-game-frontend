@@ -218,16 +218,8 @@ export default class HttpUtil {
     //   api = api.key;
     // }
   
-    const methods: any = {
-      // get:        (res = {}) => HttpUtil.get(URL,    { api, ...res }),
-      // put:        (res = {}) => HttpUtil.put(URL,    { api, ...res }),
-      // post:       (res)      => HttpUtil.post(URL,   { api, ...res }),
-      // delete:     (res)      => HttpUtil.delete(URL, { api, ...res }),
-    };
-  
     return {
-      ...methods,
-      then: async (res) => {
+      then: async (res?: any) => {
         const regExp = /((\w+)(?=\:))?(post|get|put|delete)(?=\.)/ig;
         const method: any = (URL.match(regExp) || [])[0];
         return await HttpUtil.request(method || 'get', URL, axiosRequest, api).then(res);

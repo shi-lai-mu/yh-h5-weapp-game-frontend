@@ -175,6 +175,7 @@ export default class Activity extends cc.Component {
                 .then((query) => {
                     if(query.status) {
                         scriptPopup.message(`支付成功!获得\n[ ${goodsData.name} ]`);
+                        cc.game.emit('updateUserData');
                     } else {
                         scriptPopup.message('支付失败!\n' + query.msg);
                     }

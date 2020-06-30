@@ -148,6 +148,7 @@ export default class GoBangMainService extends cc.Component {
                 scriptPopup.init('是否要返回大厅?\n' + (index ? '将退出房间' : '房间将被解散'));
                 scriptPopup.setEvent('success', () => {
                     this.gameOver({ type: index ? 0 : 1 });
+                    popup.destroy();
                 });
                 scriptPopup.setEvent('close', () => {});
             }
