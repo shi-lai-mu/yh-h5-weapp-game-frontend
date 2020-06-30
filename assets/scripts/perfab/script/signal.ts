@@ -195,7 +195,7 @@ export default class Signal extends cc.Component {
      */
     onDestroy() {
         State.io.off('signal', this.onSignal.bind(this));
-       cc.game.off('socketConnect', this.watch.bind(this));
+        cc.game.off('socketConnect', this.watch.bind(this));
         clock && clearInterval(clock);
         statusUpdateTime = 0;
     }
