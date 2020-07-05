@@ -353,7 +353,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Chess-settlement",
+    "_name": "title",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -460,7 +460,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "4-1-bg",
+    "_name": "1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -2301,7 +2301,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "4-1-bg",
+    "_name": "2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -4142,7 +4142,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "4-1-bg",
+    "_name": "3",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -5983,7 +5983,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "4-1-bg",
+    "_name": "4",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
