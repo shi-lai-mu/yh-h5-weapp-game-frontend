@@ -81,7 +81,9 @@ export default class EliminatingScene extends cc.Component {
      * 无限模式
      */
     infiniteModel() {
-        cc.director.loadScene('gameEliminating');
+        cc.loader.loadRes('prefab/GroupLoading', (_err, prefab) => {
+            cc.director.loadScene('gameEliminating');
+        });
     }
 
 
