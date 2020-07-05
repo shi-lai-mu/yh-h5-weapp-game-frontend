@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+import State from '../../../utils/state';
 
 @ccclass
 export default class EliminatingPanel extends cc.Component {
@@ -52,15 +53,17 @@ export default class EliminatingPanel extends cc.Component {
      * 按下开始游戏
      */
     playGame() {
-        cc.loader.loadRes('prefab/GroupLoading', (_err, prefab) => {
-            const instantiate = cc.instantiate(prefab);
-            cc.director.getScene().addChild(instantiate);
-            cc.director.preloadScene('gameEliminating', (_err) => {
-                instantiate.getComponent('GroupLoading').close();
-                cc.director.loadScene('gameEliminating');
-            });
-            // cc.director.loadScene(gameName);
-        });
+        State.tips('功能暂未开放, 请选择 "无限模式"!', 5, false, 2)
+        // TODO: 暂未开放的关卡内容
+        // cc.loader.loadRes('prefab/GroupLoading', (_err, prefab) => {
+        //     const instantiate = cc.instantiate(prefab);
+        //     cc.director.getScene().addChild(instantiate);
+        //     cc.director.preloadScene('gameEliminating', (_err) => {
+        //         instantiate.getComponent('GroupLoading').close();
+        //         cc.director.loadScene('gameEliminating');
+        //     });
+        //     cc.director.loadScene(gameName);
+        // });
     }
 
 
