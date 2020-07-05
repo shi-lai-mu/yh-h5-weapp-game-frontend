@@ -6,6 +6,8 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
+// 第一次切换
+let onlyToggle = true;
 
 /**
  * 首页左侧商家脚本
@@ -30,16 +32,18 @@ export default class HomeBusiness extends cc.Component {
     /**
      * 侧栏切换
      */
-    toggleSide() {
+    toggleSide(_e?: Event, eventType?: string) {
         const { sideState } = this;
         if (this.sideMoveState === false) {
             this.sideMoveState = true;
+            const duration = eventType === 'userEvent' ? .5 : 0;
+
             this.sideArrow.runAction(
-                cc.rotateTo(.5, sideState ? 0 : 180),
+                cc.rotateTo(duration, sideState ? 0 : 180),
             );
             this.sideBox.runAction(
                 cc.sequence(
-                    cc.moveTo(.5, sideState ? 60 : 180, 0).easing(cc.easeBackIn()),
+                    cc.moveTo(duration, sideState ? 60 : 180, 0).easing(cc.easeBackIn()),
                     cc.callFunc(() => {
                         this.sideState = !sideState;
                         this.sideMoveState = false;
