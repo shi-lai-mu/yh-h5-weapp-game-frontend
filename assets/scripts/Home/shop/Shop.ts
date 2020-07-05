@@ -126,10 +126,10 @@ export default class Activity extends cc.Component {
                                     shopIcon.spriteFrame = shopItemScript.icon.spriteFrame; 
                                 }
                             }
-                            // 点击第一个
-                            if (index === 0) {
-                                shopItemData[0] && shopItemData[0].getComponent('shopItem').onClick();
-                            }
+                            // // 点击第一个
+                            // if (index === 0) {
+                            //     shopItemData[0] && shopItemData[0].getComponent('shopItem').onClick();
+                            // }
                         });
 
                         // 重渲染 多余数据隐藏

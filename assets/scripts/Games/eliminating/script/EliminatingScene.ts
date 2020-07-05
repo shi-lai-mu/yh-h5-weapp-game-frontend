@@ -19,12 +19,12 @@ export default class EliminatingScene extends cc.Component {
     mapData = [
         [ 480, -80 ],
         [ 800, 85 ],
-        [ 1090, -180],
-        [ 1300, 105],
-        [ 1470, -200],
-        [ 1657, 135],
-        [ 1880, -70],
-        [ 2138, 120],
+        [ 1090, -180 ],
+        [ 1300, 105 ],
+        [ 1470, -200 ],
+        [ 1657, 135 ],
+        [ 1880, -70 ],
+        [ 2138, 120 ],
     ];
     // 战绩
     record;
@@ -40,8 +40,6 @@ export default class EliminatingScene extends cc.Component {
         // this.node.on(cc.Node.EventType.TOUCH_START, event => {
         //     console.log(event);
         // }, this);
-        console.log(1334654679);
-        
         axios
             .api('game_record', {
                 params: {
@@ -54,6 +52,7 @@ export default class EliminatingScene extends cc.Component {
                 State.tips('战绩数据加载失败', 5, false, 2)
             })
         ;
+        cc.director.preloadScene('gameEliminating');
     }
 
     
@@ -74,9 +73,15 @@ export default class EliminatingScene extends cc.Component {
             island.x = point[0] - 190;
             island.y = point[1];
             this.mapBox.addChild(island);
-            console.log(island);
-            
         });
+    }
+
+
+    /**
+     * 无限模式
+     */
+    infiniteModel() {
+        cc.director.loadScene('gameEliminating');
     }
 
 
