@@ -110,8 +110,8 @@ class MapCreate {
         // 顶部偏移值
         const offsetTop = 50;
         // 左侧偏移值
-        const offsetLeft = 200;
-
+        const screenWidth = cc.view.getFrameSize().width;
+        const offsetLeft = ((screenWidth - 610) / 2) + 90;
         this._mapScript = [];
         const { _mapScript } = this;
         mapData.forEach((yMap, y) => {
