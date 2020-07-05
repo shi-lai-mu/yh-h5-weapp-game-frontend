@@ -1321,7 +1321,7 @@
     "component": "",
     "_componentId": "b702acSjzVPT6p5ypKA35ta",
     "handler": "toggleSide",
-    "customEventData": ""
+    "customEventData": "userEvent"
   },
   {
     "__type__": "cc.Node",
@@ -3828,8 +3828,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "广告1店面名称",
-    "_N$string": "广告1店面名称",
+    "_string": "[示范] 广告1店面名称",
+    "_N$string": "[示范] 广告1店面名称",
     "_fontSize": 35,
     "_lineHeight": 35,
     "_enableWrapText": true,
@@ -4385,7 +4385,7 @@
       "ctor": "Float64Array",
       "array": [
         -288,
-        -256.5,
+        -366.276,
         0,
         0,
         0,
@@ -5261,7 +5261,7 @@
     "_left": -8,
     "_right": 0,
     "_top": 0,
-    "_bottom": 20,
+    "_bottom": -89.77600000000001,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,

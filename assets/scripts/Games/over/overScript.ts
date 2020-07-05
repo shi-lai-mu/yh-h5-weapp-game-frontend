@@ -38,11 +38,7 @@ const UserItem = cc.Class({
 @ccclass
 export default class GameOver extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property(UserItem)
-    UserItem: {
+    @property(UserItem) UserItem: {
         nickname: cc.Label;
         avatarUrl: cc.Sprite;
         score: cc.Label;
@@ -50,17 +46,21 @@ export default class GameOver extends cc.Component {
         winner: cc.Node;
         Node: cc.Node;
     }[] = [];
-
-    @property(cc.Label)
-    roomId: cc.Label = null;
-
-    @property(cc.Label)
-    Time: cc.Label = null;
+    // 房间ID
+    @property(cc.Label) roomId: cc.Label = null;
+    // 时间
+    @property(cc.Label) Time: cc.Label = null;
+    // 预览节点
+    @property(cc.Sprite) preview: cc.Sprite = null;
+    // 预览容器
+    @property(cc.Node) previewBox: cc.Node = null;
+    // 预览状态
+    privateState: boolean = false;
+    // 预览节点 图像
+    @property(cc.SpriteFrame) previewSprite: cc.SpriteFrame[] = [];
 
     onLoad () {
-        this.UserItem.forEach((item, index) => {
-            item.Node.scale = 0;
-        });
+        this.UserItem.forEach(item => (item.Node.scale = 0));
     }
 
     /**
@@ -113,6 +113,17 @@ export default class GameOver extends cc.Component {
         });
         this.roomId.string = '房间号：' + ( '000000' + initData.roomId).substr(-6);
         this.Time.string = dateFrom('yyyy/MM/dd HH:mm:ss', initData.time);
+    }
+
+
+    /**
+     * 预览切换
+     */
+    previewToggle() {
+        const { privateState } = this;
+        this.previewBox.active = privateState;
+        this.preview.spriteFrame = this.previewSprite[privateState ? 0 : 1];
+        this.privateState = !privateState;
     }
 
 
