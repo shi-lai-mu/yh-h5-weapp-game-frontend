@@ -1,7 +1,20 @@
 {
-  "ver": "1.0.1",
+  "ver": "1.1.2",
   "uuid": "703afcce-5b86-43ab-a7ee-52d659efa262",
-  "isSubpackage": true,
-  "subpackageName": "GamesScript",
+  "isBundle": true,
+  "bundleName": "GamesScript",
+  "priority": 5,
+  "compressionType": {
+    "wechatgame": "subpackage",
+    "baidugame": "subpackage",
+    "xiaomi": "subpackage",
+    "quickgame": "subpackage",
+    "qgame": "subpackage",
+    "huawei": "subpackage",
+    "cocos-runtime": "subpackage"
+  },
+  "optimizeHotUpdate": {},
+  "inlineSpriteFrames": {},
+  "isRemoteBundle": {},
   "subMetas": {}
 }

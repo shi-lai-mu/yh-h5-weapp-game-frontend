@@ -59,7 +59,11 @@ export default class HomeGames extends cc.Component {
     }
 
 
-    jumpPage(e, pageIndex: number) {
+    /**
+     * 跳转到指定页面
+     * @param pageIndex 页面下标
+     */
+    jumpPage(_e, pageIndex: number) {
         this.GameList.scrollToPage(Number(pageIndex), .5);
         // this.GameList.setCurrentPageIndex(pageIndex);
     }
@@ -169,16 +173,18 @@ export default class HomeGames extends cc.Component {
 
 
     update() {
+        // 消息滚动逻辑
         const { messageId, messageList, MessageContent } = this;
         if (MessageContent && messageList[messageId]) {
+            const { node } = MessageContent;
             const MessageBoxWidth = this.MessageBox.width;
             //  如果完全超出最右方
-            if (MessageContent.node.x < -MessageContent.node.width) {
+            if (node.x < -node.width) {
                 MessageContent.string = messageList[messageId].content;
-                MessageContent.node.x = MessageBoxWidth;
+                node.x = MessageBoxWidth;
                 this.messageId++;
             } else {
-                MessageContent.node.x -= 1;
+                node.x -= 1;
             }
         } else {
             this.messageId = 0;

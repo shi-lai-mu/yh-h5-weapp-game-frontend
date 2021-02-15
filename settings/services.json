@@ -1,6 +1,33 @@
 {
 	"game": {
-		"name": "未知游戏",
-		"appid": "UNKNOW"
-	}
+		"name": "游惠",
+		"appid": "634007628",
+		"cid": "0"
+	},
+	"configs": [
+		{
+			"appid": "634007628",
+			"services": [
+				{
+					"service_id": "303",
+					"enable": false
+				},
+				{
+					"service_id": "312",
+					"enable": false
+				},
+				{
+					"service_id": "235",
+					"enable": false,
+					"params": {
+						"appid": "634007628",
+						"store_id": "",
+						"store_id_platform": "",
+						"plugin_version": "1.3.7_2.2.1"
+					}
+				}
+			]
+		}
+	],
+	"needExecNative": true
 }

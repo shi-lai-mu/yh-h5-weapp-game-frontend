@@ -70,7 +70,7 @@ export default class Activity extends cc.Component {
                 prefabScript.init(item, index, !0);
                 prefab.scale = .8;
                 // 左侧列表的点击事件处理
-                prefabScript.clickEvent = () => new Promise(async (resolve, reject) => {
+                prefabScript.clickEvent = () => new Promise(async (resolve) => {
                     this.ScrollView.scrollToTop();
                     if (!item.content) {
                         item.content = await axios.api('shop_menu_goods', {

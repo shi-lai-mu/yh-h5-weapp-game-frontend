@@ -38,6 +38,10 @@ export namespace Utils {
        * 信号
        */
       signal: number;
+      /**
+       * 最后登录时间
+       */
+      last_login_time: number;
     };
 
 
@@ -71,6 +75,10 @@ export namespace Utils {
        * 是否被占线
        */
       online: boolean,
+      /**
+       * 断开链接
+       */
+      disconnect: () => void;
     };
 
 
@@ -98,13 +106,15 @@ export namespace Utils {
        * 服务器状态
        */
       state: {
-        value: 0;
+        value: number;
+        note?: string;
       };
       /**
        * 启动内容
        */
       startMessage: {
-        value: 0,
+        value: number;
+        note?: string;
       };
     };
 

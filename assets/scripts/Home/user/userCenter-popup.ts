@@ -18,6 +18,11 @@ export default class UserCenterPopup extends cc.Component {
         this.ItemOnClick(false, 0);
     }
 
+
+    /**
+     * item点击事件
+     * @param loadPrefabIndex 加载资源下标
+     */
     ItemOnClick(_e, loadPrefabIndex: number) {
         this.content.removeAllChildren();
         const instantiate = cc.instantiate(this.itemUI[loadPrefabIndex]);

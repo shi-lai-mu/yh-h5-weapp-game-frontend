@@ -78,7 +78,8 @@ export default class Signal extends cc.Component {
 
         // 账号在线监测
         cc.game.on('onLine', onLine);
-
+        console.log({online: State.io.online}, 1);
+        
         // 提早得到在线通知时
         if (State.io.online) onLine('当前账号已在\n其他设备上登录!');
     }

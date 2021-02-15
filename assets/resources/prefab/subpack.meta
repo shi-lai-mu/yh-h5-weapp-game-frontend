@@ -1,7 +1,20 @@
 {
-  "ver": "1.0.1",
+  "ver": "1.1.2",
   "uuid": "4f9f4fa2-1e1d-44ef-974d-be13e74f7257",
-  "isSubpackage": true,
-  "subpackageName": "resPrefabSub",
+  "isBundle": true,
+  "bundleName": "resPrefabSub",
+  "priority": 5,
+  "compressionType": {
+    "wechatgame": "subpackage",
+    "baidugame": "subpackage",
+    "xiaomi": "subpackage",
+    "quickgame": "subpackage",
+    "qgame": "subpackage",
+    "huawei": "subpackage",
+    "cocos-runtime": "subpackage"
+  },
+  "optimizeHotUpdate": {},
+  "inlineSpriteFrames": {},
+  "isRemoteBundle": {},
   "subMetas": {}
 }

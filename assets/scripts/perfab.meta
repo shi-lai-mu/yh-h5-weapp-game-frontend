@@ -1,7 +1,20 @@
 {
-  "ver": "1.0.1",
+  "ver": "1.1.2",
   "uuid": "028a50f4-9f24-4465-8999-4a290ab0105a",
-  "isSubpackage": true,
-  "subpackageName": "perfabScript",
+  "isBundle": true,
+  "bundleName": "perfabScript",
+  "priority": 5,
+  "compressionType": {
+    "wechatgame": "subpackage",
+    "baidugame": "subpackage",
+    "xiaomi": "subpackage",
+    "quickgame": "subpackage",
+    "qgame": "subpackage",
+    "huawei": "subpackage",
+    "cocos-runtime": "subpackage"
+  },
+  "optimizeHotUpdate": {},
+  "inlineSpriteFrames": {},
+  "isRemoteBundle": {},
   "subMetas": {}
 }

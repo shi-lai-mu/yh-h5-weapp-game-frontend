@@ -25,16 +25,23 @@ export default async function packLoading(
       message: string
   ) => boolean,
 ) {
-  // console.log(Object.keys(cc.loader.downloader._subpackages).length);
-  if (Object.keys(cc.loader.downloader._subpackages).length === 0) {
-      return callback && callback('skip', 1, 1, '跳过加载...');
-  }
+//   console.log(cc.loader);
+//   // console.log(Object.keys(cc.loader.downloader._subpackages).length);
+//   console.log(cc.assetManager.bundles);
+//   cc.loader.onProgress = (...params) => {
+//       console.log('onProgress', params);
+      
+//   }
+  
+//   if (Object.keys(cc.loader.downloader._subpackages).length === 0) {
+//       return callback && callback('skip', 1, 1, '跳过加载...');
+//   }
   const { scene, sub } = packages;
   const allCount = scene.length + sub.length;
 
   for (const subIndex in sub) {
       const subName = sub[subIndex];
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
           cc.loader.downloader.loadSubpackage(subName, (err) => {
               if (err) {
                   return console.error(err);
@@ -52,7 +59,7 @@ export default async function packLoading(
 
   for (const sceneIndex in scene) {
       const sceneName = scene[sceneIndex];
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
           cc.director.preloadScene(sceneName, (err) => {
               if (err) {
                   return console.error(err);
