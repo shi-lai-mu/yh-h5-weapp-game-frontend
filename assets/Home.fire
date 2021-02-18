@@ -3827,7 +3827,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "[示范] 广告1店面名称",
     "_N$string": "[示范] 广告1店面名称",
     "_fontSize": 35,
@@ -3921,7 +3922,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "浙江省xxx市xxxx村xxxx号",
     "_N$string": "浙江省xxx市xxxx村xxxx号",
     "_fontSize": 40,
@@ -4188,7 +4190,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "暂无数据",
     "_N$string": "暂无数据",
     "_fontSize": 40,
@@ -5402,7 +5405,7 @@
         1,
         0.4315,
         0.4315,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5755,7 +5758,7 @@
         1,
         0.43152,
         0.43152,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6111,7 +6114,7 @@
         1,
         0.4315,
         0.4315,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -7069,7 +7072,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "* * * * * * ",
     "_N$string": "* * * * * * ",
     "_fontSize": 40,
@@ -7163,7 +7167,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "ID: 0000",
     "_N$string": "ID: 0000",
     "_fontSize": 20,
@@ -7331,7 +7336,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "--",
     "_N$string": "--",
     "_fontSize": 40,
@@ -7705,7 +7711,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "--",
     "_N$string": "--",
     "_fontSize": 40,
@@ -9626,7 +9633,7 @@
         1,
         1.289,
         1.289,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -9911,7 +9918,7 @@
         1,
         1.314,
         1.314,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -10278,7 +10285,7 @@
         1,
         1.314,
         1.314,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -12207,7 +12214,7 @@
         1,
         1.289,
         1.289,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -12492,7 +12499,7 @@
         1,
         1.314,
         1.314,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -12859,7 +12866,7 @@
         1,
         1.314,
         1.314,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -15893,7 +15900,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 80,
@@ -17869,7 +17877,6 @@
     "_parent": {
       "__id__": 2
     },
-    "_id": "1bZAefnWZEvr56gAj0cGzh",
     "_prefab": {
       "__id__": 370
     },
@@ -17896,7 +17903,8 @@
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_id": "1bZAefnWZEvr56gAj0cGzh"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -18005,6 +18013,7 @@
     "_volume": 1,
     "_mute": false,
     "_loop": true,
+    "_firstlyEnabled": true,
     "playOnLoad": true,
     "preload": false,
     "_id": "95F8zDj99HErl1Fc5sc1Tt"

@@ -14,6 +14,8 @@ const {ccclass, property} = cc._decorator;
 export default class ButtonAudio extends cc.Button {
 
     @property({ type: cc.AudioClip }) clip: cc.AudioClip = null;
+    
+    private _pressed: any;
 
     _onTouchEnded(event: any) {
         if (!this.interactable || !this.enabledInHierarchy) return;

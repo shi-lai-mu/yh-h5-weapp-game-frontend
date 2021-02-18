@@ -1470,7 +1470,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "10/10",
     "_N$string": "10/10",
     "_fontSize": 35,
@@ -1906,7 +1907,7 @@
       "ctor": "Float64Array",
       "array": [
         -123.39600000000002,
-        255,
+        274.62800000000004,
         0,
         0,
         0,
@@ -2005,7 +2006,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "无限模式",
     "_N$string": "无限模式",
     "_fontSize": 40,
@@ -2050,7 +2052,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 95,
-      "height": 99
+      "height": 98
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2131,7 +2133,7 @@
     "_alignFlags": 9,
     "_left": 321.604,
     "_right": 0,
-    "_top": 30,
+    "_top": 10.371999999999986,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,

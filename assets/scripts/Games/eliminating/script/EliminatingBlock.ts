@@ -88,7 +88,7 @@ export default class EliminatingBlock extends cc.Component {
    * @param offset   移动距离
    * @param duration 动画时间
    */
-  move(
+  async move(
     offset: {
       x: number;
       y: number;
@@ -101,19 +101,20 @@ export default class EliminatingBlock extends cc.Component {
       // const { width, height } = node;
       // const x = offset.x < 0 ? 1 : -1;
       // const y = offset.y < 0 ? 1 : -1;
-      
-      icon.node.runAction(
-        cc.sequence(
-          cc.moveBy(
-            duration,
-            -offset.x,
-            -offset.y,
-            // offset.x ? width * x : 0,
-            // offset.y ? height * y : 0,
-          ).easing(cc.easeSineIn()),
-          cc.callFunc(() => callbackFn ? callbackFn() : {}),
-        ),
-      );
+      return new Promise((res, rej) => {
+        icon.node.runAction(
+          cc.sequence(
+            cc.moveBy(
+              duration,
+              -offset.x,
+              -offset.y,
+              // offset.x ? width * x : 0,
+              // offset.y ? height * y : 0,
+            ).easing(cc.easeSineIn()),
+            cc.callFunc(() => res(callbackFn ? callbackFn() : {})),
+          ),
+        );
+      })
     }
   }
 

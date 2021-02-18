@@ -10,7 +10,7 @@ import Service from './Service';
 import Map from './Map';
 import EliminatingInterface from '../../../interface/game/eliminating';
 import Block from './Block';
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 /**
  * 消消乐游戏场景类
  */
@@ -36,8 +36,10 @@ export default class Eliminating extends cc.Component {
     // transverseCount = 4;
     // 地图
     Map: Map;
+    // 是否正在交换
+    exchanging = false;
 
-    start () {
+    start() {
         // 为方格容器添加触摸事件
         this.blockBox.on(cc.Node.EventType.TOUCH_START, this.TOUCH_START, this);
         this.blockBox.on(cc.Node.EventType.TOUCH_END, this.TOUCH_END, this);
@@ -49,7 +51,7 @@ export default class Eliminating extends cc.Component {
             mapPrefab: this.mapPrefab,
             blockBox: this.blockBox,
         });
-        
+
         // MapClass.data.forEach((yItem, y) => {
         //     yItem.forEach((xItem, x) => this.createMapScript(++index, x, y, xItem));
         //     MapClass.MapScript = this.blocks;
@@ -75,6 +77,7 @@ export default class Eliminating extends cc.Component {
      * 触摸结束
      */
     TOUCH_END(event) {
+        if (this.exchanging) return false;
         const { touch } = this;
         const { target } = event;
         let { x, y } = event.touch._point;
@@ -88,11 +91,11 @@ export default class Eliminating extends cc.Component {
             x: absX > absY ? touch.x - x : 0,
             y: absY > absX ? touch.y - y : 0,
         };
-        
+
 
         // 执行移动操作
         const prevBlock = this.currentBlock.index.split('-');
-        const [ prevY, prevX ] = prevBlock;
+        const [prevY, prevX] = prevBlock;
         const targetBlock = this.Map.isAllowMove(
             Number(prevY),
             Number(prevX),
@@ -104,34 +107,38 @@ export default class Eliminating extends cc.Component {
                 left: move.x > 0,
             }
         );
+        // 如果允许移动
         if (targetBlock) {
             const nextBlock = targetBlock.index.split('-');
-            const [nextY, nextX ] = nextBlock;
+            const [nextY, nextX] = nextBlock;
             const prev = this.Map.mapScript[prevY][prevX];
             // console.log(targetBlock, prev.script.type, targetBlock.script.type);
             this.Map.exchangeBlock(prev, targetBlock);
+            this.exchanging = true;
             // 三连消除检测
-            setTimeout(() => {
+            setTimeout(async () => {
                 const p1Query = this.eliminateCheck(Number(nextY), Number(nextX));
                 const p2Query = this.eliminateCheck(Number(prevY), Number(prevX));
                 if (!p1Query && !p2Query) {
                     this.Map.exchangeBlock(targetBlock, prev);
                 } else {
                     const asynData = {};
-                    this.destroyBlocks(
-                        [ ...(p1Query.destoryBlock || []), ...(p2Query.destoryBlock || []) ]
+                    const destroyBlocks = [...(p1Query.destoryBlock || []), ...(p2Query.destoryBlock || [])]
                         .filter(item => {
                             if (item && !asynData[item.index]) {
                                 return asynData[item.index] = true;
                             }
                         })
-                    );
+                    ;
+                    await this.destroyBlocks(destroyBlocks);
+					await this.Map.destoryFall();
                 }
+                this.exchanging = false;
             }, 500);
         }
     }
 
-    
+
     /**
      * 定位block资源
      * @param x x轴
@@ -165,7 +172,7 @@ export default class Eliminating extends cc.Component {
             return false;
         }
         const point = currentBlock.toString().split('-');
-        
+
         // 方向动作操作
         this.Map.moveAnimation(this.Map.mapScript[point[0]][point[1]], moveInfo);
         this.currentBlock = null;
@@ -188,14 +195,14 @@ export default class Eliminating extends cc.Component {
      * 销毁方块
      * @param blocks 方块合集
      */
-    destroyBlocks(blocks: any[]) {
+    async destroyBlocks(blocks: any[]) {
         if (blocks.length) {
             const hash = Math.random().toString(16).substr(-10);
             console.warn(`-> ${hash} : eliminateCheck`);
-            blocks.forEach(targets => {
-                // console.log(targets.index);
-                if (targets) this.Map.destoryBlock(0, 0, targets, hash);
-            });
+            for (const target of blocks) {
+                console.log({ blocks, target })
+                await this.Map.destoryBlock(0, 0, target, hash);
+            }
             console.log(`<- ${hash}`);
             return true;
         }

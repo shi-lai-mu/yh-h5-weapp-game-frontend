@@ -14,7 +14,6 @@ import { screenFringe } from '../lib/tool';
 import State from '../utils/state';
 import axios from '../utils/axiosUtils';
 import socket from '../lib/socketIO';
-
 // socket初始化
 socket.init();
 // 是否为第一次打开

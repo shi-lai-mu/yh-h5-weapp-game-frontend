@@ -1695,7 +1695,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "\n    我已经阅读并同意《服务协议》和《隐私协议》\n    ",
     "_N$string": "\n    我已经阅读并同意《服务协议》和《隐私协议》\n    ",
     "_fontSize": 35,
@@ -1789,7 +1790,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "抵制不良游戏   拒绝盗版游戏   注意自我保护   谨防受骗上当   适度游戏益脑   沉迷游戏伤身   合理安排时间   享受健康生活",
     "_N$string": "抵制不良游戏   拒绝盗版游戏   注意自我保护   谨防受骗上当   适度游戏益脑   沉迷游戏伤身   合理安排时间   享受健康生活",
     "_fontSize": 30,
@@ -1883,7 +1885,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "文网游备字（2020）XXXXX-xx号   批准文号：xxxxxx号   出版物号：xxxxxxxxxxxx   出版单位：杭州游惠有限公司",
     "_N$string": "文网游备字（2020）XXXXX-xx号   批准文号：xxxxxx号   出版物号：xxxxxxxxxxxx   出版单位：杭州游惠有限公司",
     "_fontSize": 30,
@@ -2789,7 +2792,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 40,
@@ -2926,7 +2930,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 40,
@@ -3098,7 +3103,6 @@
       "__id__": 50
     },
     "_enabled": true,
-    "_useOriginalSize": false,
     "_string": "",
     "returnType": 0,
     "maxLength": 20,
@@ -3511,7 +3515,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 40,
@@ -3648,7 +3653,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 40,
@@ -3820,7 +3826,6 @@
       "__id__": 70
     },
     "_enabled": true,
-    "_useOriginalSize": false,
     "_string": "",
     "returnType": 4,
     "maxLength": 20,
@@ -4307,7 +4312,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
     "_fontSize": 30,
@@ -4657,7 +4663,7 @@
         1,
         0.5,
         0.5,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -4686,7 +4692,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "忘记密码?",
     "_N$string": "忘记密码?",
     "_fontSize": 35,
@@ -4969,7 +4976,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "修复",
     "_N$string": "修复",
     "_fontSize": 25,
@@ -5279,7 +5287,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "通知",
     "_N$string": "通知",
     "_fontSize": 25,
@@ -5591,7 +5600,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "反馈",
     "_N$string": "反馈",
     "_fontSize": 25,
@@ -5888,7 +5898,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "关于",
     "_N$string": "关于",
     "_fontSize": 25,
@@ -6174,6 +6185,7 @@
     "_volume": 1,
     "_mute": false,
     "_loop": true,
+    "_firstlyEnabled": true,
     "playOnLoad": true,
     "preload": false,
     "_id": "3b7igpq/NNgaSLLHmrc0nj"

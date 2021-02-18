@@ -2,6 +2,7 @@
 const {ccclass} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
+import { testingRotate } from '../../utils/tool';
 
 @ccclass
 export default class WxLogin extends cc.Component {
@@ -58,6 +59,9 @@ export default class WxLogin extends cc.Component {
             }
           }
         });
+      } else {
+        testingRotate();
+        cc.view.setResizeCallback(testingRotate)
       }
     }
 

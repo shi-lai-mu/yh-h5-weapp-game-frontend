@@ -13,6 +13,15 @@ import axios from '../../utils/axiosUtils';
 import { luanchOptions, onShow, offShow } from '../../lib/tool';
 import State from '../../utils/state';
 
+cc.view.setResizeCallback((e) => {
+  const { width, height } = cc.winSize;
+  console.log()
+  if (width < height) {
+    console.log(cc.macro.ORIENTATION_LANDSCAPE)
+    cc.view.setOrientation(cc.macro.ORIENTATION_PORTRAIT)
+  }
+})
+
 @ccclass
 export default class HomeGames extends cc.Component {
     // 创建房间资源
@@ -36,6 +45,7 @@ export default class HomeGames extends cc.Component {
         }
         // 加入房间检测
         this.joinUserRoom();
+        
     }
 
 
@@ -134,11 +144,14 @@ export default class HomeGames extends cc.Component {
             } else {
                 cc.loader.loadRes('prefab/popup', cc.Prefab, (_err, prefab) => {
                     if (prefab) {
-                        const popup = cc.instantiate(prefab);
-                        cc.director.getScene().addChild(popup);
-                        const scriptPopup = popup.getComponent('popup');
-                        scriptPopup.init('加入房间失败!\n' + msg);
-                        scriptPopup.setEvent('close', () => {});
+                      const popup = cc.instantiate(prefab);
+                      cc.director.getScene().addChild(popup);
+                      const scriptPopup = popup.getComponent('popup');
+                      if (msg === '房间不存在!') {
+                        msg = '没有可用的房间!';
+                      }
+                      scriptPopup.init('加入房间失败!\n' + msg);
+                      scriptPopup.setEvent('close', () => {});
                     }
                 });
             }

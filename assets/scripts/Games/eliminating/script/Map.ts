@@ -11,11 +11,11 @@ let deepX = {};
 
 let clearMapEvent: any;
 
-export default 
-/**
- * 地图生成器
- */
-class MapCreate {
+export default
+    /**
+     * 地图生成器
+     */
+    class MapCreate {
     /**
      * 地图数据
      */
@@ -63,6 +63,11 @@ class MapCreate {
      */
     fallBlocks: EliminatingBlock[][] = [];
 
+    /**
+     * 任务列队
+     */
+    tasks = [];
+
 
     /**
      * 地图生成器
@@ -92,7 +97,7 @@ class MapCreate {
         // 重复方块筛除
         let checkQuery;
         while (checkQuery = this.mapCheckLine()) {
-          this.mapEliminateLine(checkQuery.y, checkQuery.x);
+            this.mapEliminateLine(checkQuery.y, checkQuery.x);
         }
         checkQuery = null;
         console.log('地图中是否有相连：' + this.mapCheckLine());
@@ -137,12 +142,11 @@ class MapCreate {
     setBlock(y: number, x: number, blockType: number) {
         if (!this._map[y] || this._map[y][x] === undefined) return console.error('setBlock Set Error: ', this._map, y, x);
         this._map[y][x] = blockType + 1;
-        // console.log(this._mapScript[y][x].script);
         const currentScript = this._mapScript[y][x].script;
         if (currentScript) {
             currentScript.type = blockType + 1;
+			currentScript.setFrame(currentScript.setFrameType);
         }
-        // console.log(' => ' + this._map[y][x], y, x);
     }
 
 
@@ -158,7 +162,7 @@ class MapCreate {
                 return true;
             }
         });
-        
+
         return isLine;
     }
 
@@ -172,39 +176,37 @@ class MapCreate {
         const { _map } = this;
         // 指定位置消除
         if (y !== undefined && x !== undefined) {
-          return this.setBlock(y, x, Service.randomNumber(Service.MAX, Service.MIN, _map[y][x]) - 1);
+            return this.setBlock(y, x, Service.randomNumber(Service.MAX, Service.MIN, _map[y][x]) - 1);
         }
 
         // 全局扫描消除
         this.earch((y, x) => {
-              const checkQuery = this.checkLine(y, x);
+            const checkQuery = this.checkLine(y, x);
             if (checkQuery.type !== 0) {
                 this.setBlock(y, x, Service.randomNumber(Service.MAX, Service.MIN, checkQuery.index) - 1);
             }
         });
     }
 
-    
+
     /**
      * 互换方块
      * @param Point1 方块1
      * @param Point2 方块2
      */
-    exchangeBlock(Point1: Block, Point2: Block) {
+    async exchangeBlock(Point1: Block, Point2: Block) {
         const move: any = {
             x: Point1.x - Point2.x,
             y: Point1.y - Point2.y,
         };
-        this.moveAnimation(Point1, move);
+        this.moveAnimation(Point1, move, false, .3);
         // 移动方向的方块反向移动
-        this.moveAnimation(Point2, move, true);
+        this.moveAnimation(Point2, move, true, .3);
         // 反向互换方块脚本
         const Point1Script = Point1.script;
         Point1.script = Point2.script;
         Point2.script = Point1Script;
         // 更新地图数据
-        // console.log('Point2', Point1.script.type, Point2.script.type);
-        
         this.setBlock(Point1.key.y, Point1.key.x, Point1.script.type);
         this.setBlock(Point2.key.y, Point2.key.x, Point2.script.type);
     }
@@ -217,7 +219,7 @@ class MapCreate {
      * @param reverse     是否逆向
      * @param noteMove    强制移动
      */
-    moveAnimation(
+    async moveAnimation(
         currentNode: Block,
         moveInfo: EliminatingInterface.Point,
         reverse: boolean = false,
@@ -225,7 +227,7 @@ class MapCreate {
         noteMove: boolean = false,
     ) {
         if (currentNode.script.type === -1 && !noteMove) return false;
-        currentNode.script.move({
+        await currentNode.script.move({
             x: moveInfo.x * (reverse ? -1 : 1),
             y: moveInfo.y * (reverse ? -1 : 1),
         }, duration);
@@ -240,76 +242,60 @@ class MapCreate {
      * @param hash   HASH
      * @param down   是否进行下降
      */
-    destoryBlock(y: number, x: number, block?: Block, hash?: string, down: boolean = true) {
-        console.log(` - ${hash}`);
+    async destoryBlock(y: number, x: number, block?: Block, hash?: string, down: boolean = true) {
         let cuurent = block || (this._mapScript[y] ? this._mapScript[y][x] : false);
         if (cuurent) {
-            // console.log(cuurent);
-
             // 异常Block Array处理
             if (cuurent instanceof Array) {
-                console.log(`  new ->${hash}: `);
+                console.error(`  new ->${hash}: `);
                 return cuurent.forEach((block: Block) => this.destoryBlock(block.key.y, block.key.x, block, hash));
             }
 
             // 正常Block处理
             const { node } = cuurent.script.icon;
-            node.runAction(
-                cc.sequence(
-                    cc.scaleTo(.4 + (this.destoryCount / 100), 0).easing(cc.easeBounceOut()),
-                    cc.callFunc(() => {
-                        this.destoryCount--;
-                        this.setBlock(cuurent.key.y, cuurent.key.x, -1);
-                        this.fallCreateCheck(cuurent, hash);
-                        this.destoryFall(block.key.y, block.key.x, hash, down);
-                    }),
-                ),
-            );
+
+            await new Promise(res => {
+                node.runAction(
+                    cc.sequence(
+                        cc.scaleTo(.05, 0).easing(cc.easeBounceOut()),
+                        cc.callFunc(res),
+                    ),
+                );
+            })
+            this.destoryCount--;
+            this.setBlock(cuurent.key.y, cuurent.key.x, -1);
+            await this.fallCreateCheck(cuurent, hash);
+            // await this.destoryFall();
             this.destoryCount++;
         }
-        console.log(` - ${hash} end`);
     }
 
-    
+
     /**
-     * 下落方块创建检测
+     * 上升方块创建检测
      * @param y 二维数组y
      * @param x 二维数组x
      * @param hash   HASH
      */
-    fallCreateCheck(cuurentBlock: Block, hash?: string) {
-        // const { _map, _mapScript } = this;
-        // console.log(_map[y][x],y,  x, _map[y][x] === 0);
+    async fallCreateCheck(cuurentBlock: Block, hash?: string) {
         // 增加掉落方块
         const { x, y } = cuurentBlock.key;
         const { deepHash } = this;
-        const prevIndex = this.fallBlocks[x].push(cuurentBlock.script);
         const { node } = cuurentBlock.script.icon;
+        const prevIndex = this.fallBlocks[x].push(cuurentBlock.script);
 
         if (hash) {
             if (!deepHash[hash]) deepHash[hash] = {};
             if (deepHash[hash][x] === undefined) deepHash[hash][x] = 0;
             deepHash[hash][x]++;
-            console.log(`  >>> ${hash} [上升] append `, deepHash[hash]);
         }
         let hashNum = hash ? deepHash[hash][x] : 0;
-        console.log(` >> ${hash} [顶部上升]`, (y + (hash ? hashNum : prevIndex)) * -90, cuurentBlock.key);
         node.scale = .7;
-        // console.log((y + (hashNum || prevIndex)) * -90, hashNum, y);
 
-        this.moveAnimation(cuurentBlock, {
+        await this.moveAnimation(cuurentBlock, {
             x: 0,
             y: (y + (hash ? hashNum : prevIndex)) * -90,
         }, false, 0, true);
-        
-        // node.y = 0;
-        
-        // if (_map[y][x] === 0) {
-        //     // const blockType = 1;
-        //     // _mapScript[y][x] = new Block(0, x, blockType, _mapScript[y][x].map, this.ccc, _mapScript);
-        //     // _map[y][x] = blockType;
-        //     // console.log('new Y', _map[y][x], x);
-        // }
     }
 
 
@@ -318,123 +304,68 @@ class MapCreate {
      * @param y 二维数组y
      * @param x 二维数组x
      * @param hash   HASH
+     * @param down   是否进行下降
      */
-    destoryFall(y: number, x: number, hash?: string) {
-        const { _map, fallEvent, _mapScript } = this;
+    async destoryFall() {
+		const { _map, _mapScript, fallBlocks } = this;
 
-        // 深度纪录更新
-        if (!deepX[hash]) deepX[hash] = {};
-        if (deepX[hash][x] === undefined) deepX[hash][x] = y;
-        if (deepX[hash][x] && deepX[hash][x] < y) {
-            deepX[hash][x] = y;
-        }
+		for (const x in fallBlocks) {
+			const xBlocks = fallBlocks[x];
+			if (!xBlocks.length) continue;
 
-        // 顶部为空时创建新方块检测
-        fallEvent && clearTimeout(fallEvent);
-        this.fallEvent = setTimeout(() => {
+			let y = _map.length;
+			let start = -1;
 
-            // 随机方块
-            this.fallBlocks.forEach(x => x.forEach(y => y.setFrame()));
+			while (y >= 0) {
+				if (_map[y]) {
+					const lineType = _map[y][x];
+					// 从下往上推算出起点0
+					if (lineType === 0 && start === -1) {
+						start = y;
+					}
+					// 整体下落计算 终点
+					if ((lineType !== 0 || (y === 0 && lineType === 0)) && start != -1) {
+						const downList = [];
+						let end = y;
 
-            // 下落
-            Object.keys(deepX[hash]).forEach(x => {
-                let fallCount = 0;
-                let y = deepX[hash][x];
-                while (y) {
-                    const current = _map[--y][x];
-                    if (current) {
-                        const currentDeepY = deepX[hash][x] - fallCount;
-                        this.exchangeBlock(_mapScript[currentDeepY][x], _mapScript[y][x]);
-                        fallCount++;
-                    }
-                }
-            });
-            
-            let deep = {};      // 局部深度清空
-            this.fallEvent = 0; // 事件清空
-            // deepX = {};         // 深度清空
-            
-            // 新的下落处理
-            const points: [number, number][] = [];
-            console.log(_map);
-            
-            for (let yIndex = _map.length - 1; yIndex >= 0; yIndex--) {
-                const y = _map[yIndex];
-                console.log(y);
-                
-                y.forEach((x, xIndex) => {
-                    // 检测如果为空
-                    if (x === 0) {
-                        if (!deep[xIndex]) deep[xIndex] = 0;
-                        const target = this.fallBlocks[xIndex][yIndex];
-                        if (target) {
-                            const deepIndex = (deep[xIndex] + 1) + yIndex;
-                            const y = deepIndex - 1 - yIndex;
-                            // console.log(xIndex, yIndex, deepIndex, target, y, this.fallBlocks);
-                            console.log('=============> ' + deepIndex);
-                            
-                            target.move({
-                                x: 0,
-                                y: (hash ? this.deepHash[hash][xIndex] : deepIndex) * 90,
-                            }, .5);
-                            console.log(` >> ${hash} [顶部下落]`, (hash ? this.deepHash[hash][xIndex] : deepIndex) * 90, this.deepHash[hash], this.deepHash[hash][xIndex], deepIndex, xIndex, this.deepHash);
-                            // console.log(deepIndex * 90);
-                            _mapScript[y][xIndex].script = target;
-                            points.push([ y, xIndex ]);
-                            deep[xIndex]++;
-                        }
-                    }
-                    // 更新下落后的方块真实数值
-                    // const script = _mapScript[yIndex][xIndex].script;
-                    // this.setBlock(yIndex, xIndex, script.setFrameType);
-                    // script.setFrame(script.setFrameType);
-                });
-            }
-            // console.log(points);
-            
-            points.forEach(point => {
-                const [ yIndex, xIndex ] = point;
-                // 更新下落后的方块真实数值
-                const script = _mapScript[yIndex][xIndex].script;
-                this.setBlock(yIndex, xIndex, script.setFrameType);
-                script.setFrame(script.setFrameType);
-                // script.icon.node.scale = .7;
-            });
+						// 消失方块上方的所有方块和不可见区域方块整体向下异步移动
+						if (y > 0 || (y === 0 && lineType !== 0)) {
+							while (y >= 0) {
+								if (_mapScript[y] && _mapScript[y][x]) {
+									downList.push(_mapScript[y][x].script);
+									y--;
+								}
+							}
+						} else {
+							end--;
+						}
+						// 得到不可见区域中的方块
+						downList.push(...fallBlocks[x].map(block => {
+							block.setFrame(Service.randomNumber(Service.MAX, Service.MIN, block.setFrameType) - 1);
+							return block;
+						}));
 
-            // 清空下落方块
-            this.fallBlocks = this.fallBlocks.map(() => []);
-
-            clearTimeout(clearMapEvent);
-            clearMapEvent = setTimeout(() => {
-                console.log('clear map ...........');
-                const asynData = {};
-                const blocks = [];
-                this.earch((y, x) => {
-                    const checkQuery = this.checkLine(y, x);
-                    if (checkQuery.destoryBlock.length) {
-                        blocks.push(...checkQuery.destoryBlock);
-                        return true;
-                    }
-                });
-                console.log(blocks);
-                const hash = Math.random().toString(16).substr(-10);
-                blocks
-                    .filter(block => {
-                        if (block && !asynData[block.index]) {
-                            return asynData[block.index] = true;
-                        }
-                    })
-                    .forEach(
-                        targets => this.destoryBlock(0, 0, targets, hash, false),
-                    )
-                ;
-            }, 600);
-            window._map = _map;
-            // end
-        }, 10);
+						fallBlocks[x] = [];
+						const moveDown = (start - end) || .5;
+						for (const key in downList) {
+							const target = downList[key];
+							target.move({
+								x: 0,
+								y: moveDown * 90
+							}, .1 * moveDown);
+							let moveY = start - Number(key);
+							if (moveY < 0) moveY = 0;
+							_mapScript[moveY][x].script = target;
+							this.setBlock(moveY, Number(x), target.setFrameType);
+						}
+					}
+				}
+				y--;
+			}
+		}
     }
-    
-    
+
+
     /**
      * 检测方块相连
      * @param y          目标x
@@ -447,14 +378,14 @@ class MapCreate {
         let xTarget: Block[] = [];
         let yTarget: Block[] = [];
         // 获取目标方块
-        
+
         const index = _map[y] ? _map[y][x] : false;
         const query = {
-          type: 0,
-          xTarget,
-          yTarget,
-          index: index || -1,
-          destoryBlock: [],
+            type: 0,
+            xTarget,
+            yTarget,
+            index: index || -1,
+            destoryBlock: [],
         };
 
         // 下标为空的情况下跳出
@@ -463,9 +394,6 @@ class MapCreate {
         // x轴三连检测
         for (let pX = x - 2; pX <= x + 2; pX++) {
             const chackBlock = _map[y][pX];
-            // if (chackBlock) {
-            //     console.log(chackBlock, index, y, pX);
-            // }
             if (chackBlock && chackBlock === index) {
                 xTarget.push(_mapScript[y][pX]);
             } else if (xTarget.length < 3) {
@@ -474,14 +402,11 @@ class MapCreate {
                 break;
             }
         }
-        
-        
+
+
         // y轴三连检测
         for (let pY = y - 2; pY <= y + 2; pY++) {
             const chackBlock = _map[pY] ? _map[pY][x] : false;
-            // if (chackBlock) {
-            //     console.log(chackBlock, index, pY, x);
-            // }
             if (chackBlock && chackBlock === index) {
                 yTarget.push(_mapScript[pY][x]);
             } else if (yTarget.length < 3) {
@@ -490,7 +415,7 @@ class MapCreate {
                 break;
             }
         }
-        
+
         if (xTarget.length === 5 || yTarget.length === 5) {         // 横或竖5连判断
             // console.log('彩色鸡');
             // query.type = 1;
@@ -557,7 +482,7 @@ class MapCreate {
         for (let y = 0, yLen = mapData.length - 1; y <= yLen; y++) {
             const targetY = mapData[y];
             for (let x = 0, xLen = targetY.length - 1; x <= xLen; x++) {
-                if(callback(y, x, mapData)) break;
+                if (callback(y, x, mapData)) break;
             }
         }
     }
