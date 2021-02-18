@@ -4,12 +4,6 @@ import EliminatingInterface from '../../../interface/game/eliminating';
 import EliminatingBlock from './EliminatingBlock';
 // TODO: 掉落后顺序可能错乱
 // TODO: 掉落时如果出现三连等现象可能出现方块消失
-/**
- * 下落深度纪录
- */
-let deepX = {};
-
-let clearMapEvent: any;
 
 export default
     /**
@@ -153,12 +147,12 @@ export default
     /**
      * 地图已相连检测
      */
-    mapCheckLine(): false | { y: number; x: number; } {
-        let isLine: false | { y: number; x: number; } = false;
+    mapCheckLine() {
+        let isLine: unknown = false;
         this.earch((y, x) => {
             const checkQuery = this.checkLine(y, x);
             if (checkQuery.type !== 0) {
-                isLine = { y, x };
+				isLine = { y, x, destoryBlock: checkQuery.destoryBlock };
                 return true;
             }
         });
@@ -361,11 +355,39 @@ export default
 							if (moveY < 0) moveY = 0;
 							_mapScript[moveY][x].script = target;
 							this.setBlock(moveY, Number(x), target.setFrameType);
+
+							// 方案一：相连检测
+							// const checkQuery = this.checkLine(moveY, Number(x));
+							// if (checkQuery.destoryBlock.length) {
+							// 	for (const block of checkQuery.destoryBlock) {
+							// 		await this.destoryBlock(0, 0, block);
+							// 	}
+							// 	await this.destoryFall();
+							// }
 						}
 					}
 				}
 				y--;
 			}
+		}
+
+
+		// 方案二：全图相连检测
+		const destoryBlock: any = await new Promise((res) => {
+			this.earch((y, x) => {
+				const checkQuery = this.checkLine(y, x);
+				if (checkQuery.destoryBlock.length) {
+					res(checkQuery.destoryBlock);
+					return true;
+				}
+			});
+			res();
+		});
+		if (destoryBlock) {
+			for (const block of destoryBlock) {
+				await this.destoryBlock(0, 0, block);
+			}
+			await this.destoryFall();
 		}
     }
 

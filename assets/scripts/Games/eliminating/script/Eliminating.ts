@@ -200,7 +200,7 @@ export default class Eliminating extends cc.Component {
      */
     async destroyBlocks(blocks: any[]) {
         if (blocks.length) {
-            const hash = Math.random().toString(16).substr(-10);
+            // const hash = Math.random().toString(16).substr(-10);
 			// 顺序销毁
             // console.warn(`-> ${hash} : eliminateCheck`);
             // for (const target of blocks) {
@@ -209,7 +209,7 @@ export default class Eliminating extends cc.Component {
             // }
 			// console.log(`<- ${hash}`);
 			// 同步销毁
-			await Promise.all(blocks.map(block => this.Map.destoryBlock(0, 0, block, hash)))
+			await Promise.all(blocks.map(block => this.Map.destoryBlock(0, 0, block)));
             return true;
         }
         return false;
