@@ -198,10 +198,14 @@ export default
         const move: any = {
             x: Point1.x - Point2.x,
             y: Point1.y - Point2.y,
-        };
-        this.moveAnimation(Point1, move, false, .3);
+		};
+
         // 移动方向的方块反向移动
-        this.moveAnimation(Point2, move, true, .3);
+		await Promise.all([
+			this.moveAnimation(Point1, move, false, .3),
+			this.moveAnimation(Point2, move, true, .3),
+		]);
+        
         // 反向互换方块脚本
         const Point1Script = Point1.script;
         Point1.script = Point2.script;

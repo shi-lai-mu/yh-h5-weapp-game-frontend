@@ -64,6 +64,7 @@ export default class Eliminating extends cc.Component {
      * 触摸开始
      */
     TOUCH_START(event) {
+        if (this.exchanging) return false;
         const { touch } = this;
         const { target } = event;
         let { x, y } = event.touch._point;
@@ -76,8 +77,9 @@ export default class Eliminating extends cc.Component {
     /**
      * 触摸结束
      */
-    TOUCH_END(event) {
+    async TOUCH_END(event) {
         if (this.exchanging) return false;
+
         const { touch } = this;
         const { target } = event;
         let { x, y } = event.touch._point;
@@ -107,34 +109,35 @@ export default class Eliminating extends cc.Component {
                 left: move.x > 0,
             }
         );
+
         // 如果允许移动
         if (targetBlock) {
             const nextBlock = targetBlock.index.split('-');
             const [nextY, nextX] = nextBlock;
-            const prev = this.Map.mapScript[prevY][prevX];
-            // console.log(targetBlock, prev.script.type, targetBlock.script.type);
-            this.Map.exchangeBlock(prev, targetBlock);
-            this.exchanging = true;
+			const prev = this.Map.mapScript[prevY][prevX];
+			this.exchanging = true;
+
+            await this.Map.exchangeBlock(prev, targetBlock);
+
             // 三连消除检测
-            setTimeout(async () => {
-                const p1Query = this.eliminateCheck(Number(nextY), Number(nextX));
-                const p2Query = this.eliminateCheck(Number(prevY), Number(prevX));
-                if (!p1Query && !p2Query) {
-                    this.Map.exchangeBlock(targetBlock, prev);
-                } else {
-                    const asynData = {};
-                    const destroyBlocks = [...(p1Query.destoryBlock || []), ...(p2Query.destoryBlock || [])]
-                        .filter(item => {
-                            if (item && !asynData[item.index]) {
-                                return asynData[item.index] = true;
-                            }
-                        })
-                    ;
-                    await this.destroyBlocks(destroyBlocks);
-					await this.Map.destoryFall();
-                }
-                this.exchanging = false;
-            }, 500);
+			const p1Query = this.eliminateCheck(Number(nextY), Number(nextX));
+			const p2Query = this.eliminateCheck(Number(prevY), Number(prevX));
+			if (!p1Query && !p2Query) {
+				await this.Map.exchangeBlock(targetBlock, prev);
+			} else {
+				const asynData = {};
+				const destroyBlocks = [...(p1Query.destoryBlock || []), ...(p2Query.destoryBlock || [])]
+					.filter(item => {
+						if (item && !asynData[item.index]) {
+							return asynData[item.index] = true;
+						}
+					})
+				;
+				await this.destroyBlocks(destroyBlocks);
+				await this.Map.destoryFall();
+			}
+
+			this.exchanging = false;
         }
     }
 
@@ -198,12 +201,15 @@ export default class Eliminating extends cc.Component {
     async destroyBlocks(blocks: any[]) {
         if (blocks.length) {
             const hash = Math.random().toString(16).substr(-10);
-            console.warn(`-> ${hash} : eliminateCheck`);
-            for (const target of blocks) {
-                console.log({ blocks, target })
-                await this.Map.destoryBlock(0, 0, target, hash);
-            }
-            console.log(`<- ${hash}`);
+			// 顺序销毁
+            // console.warn(`-> ${hash} : eliminateCheck`);
+            // for (const target of blocks) {
+            //     console.log({ blocks, target })
+            //     await this.Map.destoryBlock(0, 0, target, hash);
+            // }
+			// console.log(`<- ${hash}`);
+			// 同步销毁
+			await Promise.all(blocks.map(block => this.Map.destoryBlock(0, 0, block, hash)))
             return true;
         }
         return false;
