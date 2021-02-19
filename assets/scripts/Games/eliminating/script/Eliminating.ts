@@ -10,6 +10,7 @@ import Service from './Service';
 import Map from './Map';
 import EliminatingInterface from '../../../interface/game/eliminating';
 import Block from './Block';
+import State from '../../../utils/state';
 const { ccclass, property } = cc._decorator;
 /**
  * 消消乐游戏场景类
@@ -51,6 +52,8 @@ export default class Eliminating extends cc.Component {
             mapPrefab: this.mapPrefab,
             blockBox: this.blockBox,
         });
+        
+        State.tips('消消乐功能正在开发和完善!', 5, false, 2)
 
         // MapClass.data.forEach((yItem, y) => {
         //     yItem.forEach((xItem, x) => this.createMapScript(++index, x, y, xItem));

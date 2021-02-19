@@ -197,7 +197,7 @@ export default class HomeGames extends cc.Component {
                 node.x = MessageBoxWidth;
                 this.messageId++;
             } else {
-                node.x -= 1;
+                node.x -= .5;
             }
         } else {
             this.messageId = 0;

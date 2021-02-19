@@ -43,7 +43,7 @@ export default class HomeBusiness extends cc.Component {
             );
             this.sideBox.runAction(
                 cc.sequence(
-                    cc.moveTo(duration, sideState ? 60 : 180, 0).easing(cc.easeBackIn()),
+                    cc.moveTo(duration / 2, sideState ? 60 : 180, 0).easing(cc.easeBackIn()),
                     cc.callFunc(() => {
                         this.sideState = !sideState;
                         this.sideMoveState = false;
