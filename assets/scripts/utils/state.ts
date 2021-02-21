@@ -1,4 +1,7 @@
 // Learn TypeScript:
+cc.assetManager.loadBundle('lib', (err, bundle) => {
+    // bundle.load('lib');
+});
 /**
  * 缓存数据
  * 负责数据缓存npm install --save socket.io-wxapp-client
@@ -122,7 +125,7 @@ const State: Utils.State = {
      */
     tips(content: string, timeout: number = 2, effect: boolean = false, icon = -1) {
         return new Promise((resolve, reject) => {
-            cc.loader.loadRes('prefab/Tips', cc.Prefab, (_err, prefab) => {
+            cc.loader.loadRes('prefab/tips', cc.Prefab, (_err, prefab) => {
                 if (prefab) {
                     const popup = cc.instantiate(prefab);
                     cc.director.getScene().addChild(popup);

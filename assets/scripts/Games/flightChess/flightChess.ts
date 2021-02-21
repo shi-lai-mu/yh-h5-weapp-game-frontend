@@ -14,7 +14,7 @@ import { FlightPlayersData } from '../../interface/game/flightChessInterface';
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
 import { UserData } from '../../interface/game/fourCard';
-import { loadImg, setAutoRecursively } from '../../lib/tool';
+import { loadImg, setAutoRecursively } from '../../../scripts/lib/tool';
 
 const FlightPlayer = cc.Class({
     name: 'FlightPlayer',
@@ -602,7 +602,7 @@ export default class FlightChess extends cc.Component {
      * 暂停游戏
      */
     stopGames() {
-        cc.loader.loadRes('prefab/subpack/stopGames', cc.Prefab, (_err, prefab) => {
+        cc.loader.loadRes('prefab/stopGames', cc.Prefab, (_err, prefab) => {
             if (prefab) {
                 const popup = cc.instantiate(prefab);
                 cc.director.getScene().addChild(popup);

@@ -30,13 +30,13 @@
  *     this.$io.gameIM.emit()
  *     this.$io.gameIM.on() 等 Socket 方法
  */
-// const io = require('../lib/socket.io.js');
-import * as io from './asocket.ioLib/asocket.io';
+const io = require('./asocket.ioLib/asocket.io.js');
+// import * as io from './asocket.ioLib/asocket.io.js';
 // import State from './state';
-import State from '../utils/state';
-import defaultConfig from '../config/default.config';
-import axios from '../utils/axiosUtils';
-import { Utils } from '../interface/index';
+import State from '../../scripts/utils/state';
+import defaultConfig from '../../scripts/config/default.config';
+import axios from '../../scripts/utils/axiosUtils';
+import { Utils } from '../../scripts/interface/index';
 
 // IO配置文件引入
 const IoConfig = defaultConfig.io;

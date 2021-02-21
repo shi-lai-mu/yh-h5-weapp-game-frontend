@@ -3,7 +3,7 @@
   "uuid": "47c8091c-dda5-4a6e-bf59-c29bd9231d5c",
   "isBundle": true,
   "bundleName": "",
-  "priority": 5,
+  "priority": "1",
   "compressionType": {
     "wechatgame": "subpackage",
     "baidugame": "subpackage",

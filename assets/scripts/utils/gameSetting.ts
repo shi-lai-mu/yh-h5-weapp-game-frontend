@@ -34,7 +34,7 @@ const _CONFIG_ = {
   fps: -1,
 };
 const config = Object.keys(storage).length ? storage : _CONFIG_;
-cc.game.setFrameRate(config.fps);
+// cc.game.setFrameRate(60);
 export default new class System {
 
   /**

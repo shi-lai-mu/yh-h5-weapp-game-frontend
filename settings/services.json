@@ -25,6 +25,14 @@
 						"store_id_platform": "",
 						"plugin_version": "1.3.7_2.2.1"
 					}
+				},
+				{
+					"service_id": "304",
+					"enable": false
+				},
+				{
+					"service_id": "278",
+					"enable": false
 				}
 			]
 		}

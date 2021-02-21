@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
-import { loadImg, setAutoRecursively } from '../../lib/tool';
+import { loadImg, setAutoRecursively } from '../../../scripts/lib/tool';
 import { CardList, FourCardsPlayers, SendCardData, UserData } from '../../interface/game/fourCard';
 /**
  * 扑克牌
@@ -854,7 +854,7 @@ export default class FourCardsGame extends cc.Component {
      * 暂停游戏
      */
     stopGames() {
-        cc.loader.loadRes('prefab/subpack/stopGames', cc.Prefab, (err, prefab) => {
+        cc.loader.loadRes('prefab/stopGames', cc.Prefab, (err, prefab) => {
             if (prefab) {
                 const popup = cc.instantiate(prefab);
                 cc.director.getScene().addChild(popup);

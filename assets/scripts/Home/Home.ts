@@ -9,11 +9,12 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { setAutoRecursively } from '../lib/tool';
-const {ccclass, property} = cc._decorator;
 import { screenFringe } from '../lib/tool';
 import State from '../utils/state';
 import axios from '../utils/axiosUtils';
 import socket from '../lib/socketIO';
+
+const {ccclass, property} = cc._decorator;
 // socket初始化
 socket.init();
 // 是否为第一次打开
@@ -54,7 +55,7 @@ export default class Home extends cc.Component {
         axios.api('room_exit').then(() => {});
 
         // 如果非微信小游戏则不进行填充
-        if (!State.IS_WECHAT) {
+        if (!CC_WECHATGAME) {
             this.rightTopBar.getComponent(cc.Widget).right = 0;
         }
     }
@@ -85,7 +86,7 @@ export default class Home extends cc.Component {
      * @param gameName - 游戏名
      */
     openGame(_event, gameName: string) {
-        cc.loader.loadRes('prefab/GroupLoading', (_err, prefab) => {
+        cc.loader.loadRes('prefab/groupLoading', (_err, prefab) => {
             const instantiate = cc.instantiate(prefab);
             cc.director.getScene().addChild(instantiate);
             cc.director.preloadScene(gameName, (_err) => {

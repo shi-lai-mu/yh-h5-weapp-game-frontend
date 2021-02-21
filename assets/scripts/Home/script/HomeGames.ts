@@ -40,7 +40,7 @@ export default class HomeGames extends cc.Component {
 
     start() {
         axios.api('get_home_message').then(messageList => this.messageList = messageList);
-        if (State.IS_WECHAT) {
+        if (CC_WECHATGAME) {
             onShow(this.wxShow, this);
         }
         // 加入房间检测
@@ -53,7 +53,7 @@ export default class HomeGames extends cc.Component {
      * 销毁时
      */
     onDestroy() {
-        if (State.IS_WECHAT) {
+        if (CC_WECHATGAME) {
             offShow(this.wxShow, this);
         }
     }
@@ -95,7 +95,7 @@ export default class HomeGames extends cc.Component {
      */
     joinRoom() {
         const that = this;
-        cc.loader.loadRes('prefab/subpack/keyboard', cc.Prefab, (err, prefab) => {
+        cc.loader.loadRes('prefab/keyboard', cc.Prefab, (err, prefab) => {
             if (prefab) {
                 const joinRoomPopup = cc.instantiate(prefab);
                 cc.director.getScene().addChild(joinRoomPopup);

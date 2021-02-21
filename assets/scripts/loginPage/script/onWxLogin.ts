@@ -2,7 +2,7 @@
 const {ccclass} = cc._decorator;
 import axios from '../../utils/axiosUtils';
 import State from '../../utils/state';
-import { testingRotate } from '../../utils/tool';
+import { testingRotate } from '../../../scripts/lib/tool';
 
 @ccclass
 export default class WxLogin extends cc.Component {
@@ -16,7 +16,7 @@ export default class WxLogin extends cc.Component {
       const y = -161.41;
       const that = this;
 
-      if (State.IS_WECHAT) {
+      if (CC_WECHATGAME) {
         let sysInfo = window.wx.getSystemInfoSync();
         //获取微信界面大小
         let screenWidth = sysInfo.screenWidth;
@@ -72,7 +72,7 @@ export default class WxLogin extends cc.Component {
     onClickLoginButton() {
       if (this.userInfo) {
         this.onWxLogin(this.userInfo);
-      } else if (!State.IS_WECHAT) {
+      } else if (!CC_WECHATGAME) {
         this.node.getComponent('loginPage').popupMiniContent('此功能只允许在\n微信小游戏或微信中使用!', 3000);
       }
     }

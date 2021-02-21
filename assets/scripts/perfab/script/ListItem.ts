@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import { loadImg } from '../../lib/tool';
+import { loadImg } from '../../../scripts/lib/tool';
 
 @ccclass
 export default class ListItem extends cc.Component {

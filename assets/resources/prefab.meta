@@ -2,11 +2,19 @@
   "ver": "1.1.2",
   "uuid": "51ab963a-0f0f-405d-b2ed-de80bcf1b09d",
   "isBundle": false,
-  "bundleName": "",
+  "bundleName": "resPrefabSub",
   "priority": 1,
-  "compressionType": {},
-  "optimizeHotUpdate": {},
-  "inlineSpriteFrames": {},
-  "isRemoteBundle": {},
+  "compressionType": {
+    "wechatgame": "subpackage"
+  },
+  "optimizeHotUpdate": {
+    "wechatgame": false
+  },
+  "inlineSpriteFrames": {
+    "wechatgame": false
+  },
+  "isRemoteBundle": {
+    "wechatgame": false
+  },
   "subMetas": {}
 }

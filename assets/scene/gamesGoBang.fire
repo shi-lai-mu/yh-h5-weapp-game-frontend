@@ -63,7 +63,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Canvas",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
@@ -515,7 +515,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "000000",
     "_N$string": "000000",
     "_fontSize": 40,
@@ -770,7 +771,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "等待加入...",
     "_N$string": "等待加入...",
     "_fontSize": 20,
@@ -1076,7 +1078,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "--:--",
     "_N$string": "--:--",
     "_fontSize": 30,
@@ -1270,7 +1273,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "-",
     "_N$string": "-",
     "_fontSize": 30,
@@ -1693,7 +1697,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "等待加入...",
     "_N$string": "等待加入...",
     "_fontSize": 20,
@@ -1999,7 +2004,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "--:--",
     "_N$string": "--:--",
     "_fontSize": 30,
@@ -2193,7 +2199,8 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_useOriginalSize": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_string": "-",
     "_N$string": "-",
     "_fontSize": 30,
@@ -2643,7 +2650,7 @@
         1,
         0.742,
         0.742,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -2902,7 +2909,6 @@
     "_parent": {
       "__id__": 2
     },
-    "_id": "d0xrWUqwZN/7vHEHGOfrch",
     "_prefab": {
       "__id__": 65
     },
@@ -2929,7 +2935,8 @@
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_id": "d0xrWUqwZN/7vHEHGOfrch"
   },
   {
     "__type__": "cc.PrefabInfo",

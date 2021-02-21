@@ -1,10 +1,3 @@
-import State from "../../scripts/utils/state";
-// import axios from '../utils/axiosUtils';
-
-/**
- * 工具类
- */
-export const url = State.OSS_BASE;
 
 /**
  *  格式化日期
@@ -42,35 +35,6 @@ export function dateFrom(fmt: string = 'yyyy-MM-dd HH:mm:ss', form?: number) {
         }
     }
     return fmt;
-}
-
-
-/**
- * 加载图片
- * @param url       - 图片url
- * @param callback  - 回调函数
- * @param type      - 图片类型
- * @param urlParams - 携带参数
- * @param imgType   - 图片后缀
- */
-const urlBase = {
-    avatar: State.OSS_BASE + '/avatar/',
-};
-export function loadImg(url, callback, type?: 'avatar', urlParams?: any, imgType: 'png' | false = 'png') {
-
-    if (type === 'avatar' && !/\/\//.test(url)) {
-        url = ![ -1, '0' ].indexOf(url) ? (urlParams || 'default') : 'default';
-    }
-
-    if (!/\/\//.test(url)) {
-        type && (url = urlBase[type] + url);
-        if (imgType) url += `.${imgType}`;
-    }
-    // console.log(url);
-    cc.loader.load(url, (_error, texture) => {
-        _error && console.error(_error);
-        callback(new cc.SpriteFrame(texture));
-    });
 }
 
 
@@ -176,35 +140,6 @@ export const uploadFile = (ossOption, fileName, unit?: string) => {
 export const setAutoRecursively = (Recursively: string[], Auto: boolean = true) => {
     Recursively.forEach(val => cc.loader.setAutoReleaseRecursively(val, Auto));
 }
-
-
-/**
- * 获取启动时的参数
- */
-export const luanchOptions = (() => {
-    let shareOption = {
-      title: '玩休闲游戏，赢优惠券，一起来玩~~',
-      imageUrl: State.OSS_BASE + '/H5Game/share/main.png',
-    };
-    let options;
-    if (CC_WECHATGAME) {
-        options = wx.getLaunchOptionsSync().query;
-        wx.showShareMenu({
-            withShareTicket: true,
-        });
-        wx.onShareAppMessage(() => shareOption);
-    }
-    return {
-        /**
-         * 分享参数
-         */
-        query: options || {},
-        /**
-         * 设置分享参数
-         */
-        setShareOption: (option: typeof shareOption) => shareOption = option,
-    };
-})();
 
 
 /**

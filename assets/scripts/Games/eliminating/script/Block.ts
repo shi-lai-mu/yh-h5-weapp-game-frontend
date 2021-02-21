@@ -1,6 +1,6 @@
 import EliminatingBlock from './EliminatingBlock';
 import EliminatingInterface from '../../../interface/game/eliminating';
-import { luanchOptions } from '../../../lib/tool';
+import { luanchOptions } from '../../../../scripts/lib/tool';
 
 export default
 /**

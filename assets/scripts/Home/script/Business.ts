@@ -7,7 +7,7 @@
 
 const {ccclass, property} = cc._decorator;
 // 第一次切换
-let onlyToggle = true;
+// let onlyToggle = true;
 
 /**
  * 首页左侧商家脚本

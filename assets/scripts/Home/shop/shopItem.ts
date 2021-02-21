@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import { url, loadImg } from '../../lib/tool';
+import { url, loadImg } from '../../../scripts/lib/tool';
 import { ShopItem } from '../../interface/shop';
 import parentClass from './Shop';
 

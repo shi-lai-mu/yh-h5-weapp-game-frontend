@@ -11,7 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import State from '../../utils/state';
 import axios from '../../utils/axiosUtils';
-import { setAutoRecursively, loadImg } from '../../lib/tool';
+import { setAutoRecursively, loadImg } from '../../../scripts/lib/tool';
 
 /**
  * 玩家数据
@@ -116,7 +116,7 @@ export default class GoBangMainService extends cc.Component {
      * 暂停游戏
      */
     stopGames() {
-        cc.loader.loadRes('prefab/subpack/stopGames', cc.Prefab, (err, prefab) => {
+        cc.loader.loadRes('prefab/stopGames', cc.Prefab, (err, prefab) => {
             if (prefab) {
                 const popup = cc.instantiate(prefab);
                 cc.director.getScene().addChild(popup);

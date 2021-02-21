@@ -21,15 +21,25 @@
   "zipCompressJs": true,
   "fb-instant-games": {},
   "android": {
+    "REMOTE_SERVER_ROOT": "",
     "packageName": ""
   },
   "ios": {
+    "REMOTE_SERVER_ROOT": "",
+    "ios_enable_jit": true,
     "packageName": ""
   },
   "mac": {
-    "packageName": ""
+    "REMOTE_SERVER_ROOT": "",
+    "height": 720,
+    "packageName": "",
+    "width": 1280
   },
-  "win32": {},
+  "win32": {
+    "REMOTE_SERVER_ROOT": "",
+    "height": 720,
+    "width": 1280
+  },
   "android-instant": {
     "REMOTE_SERVER_ROOT": "http://192.168.2.20:7456/preview-android-instant/",
     "host": "",
@@ -40,5 +50,12 @@
     "skipRecord": false
   },
   "appBundle": false,
-  "includeAnySDK": null
+  "includeAnySDK": null,
+  "mainCompressionType": "subpackage",
+  "mainIsRemote": false,
+  "nativeMd5Cache": true,
+  "agreements": {
+    "20200904180716": false,
+    "20200904180755": false
+  }
 }
